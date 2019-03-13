@@ -162,6 +162,10 @@ Prefab:
       propertyPath: waypointParent
       value: 
       objectReference: {fileID: 1239713287}
+    - target: {fileID: 4331368851663924, guid: 3bf969863ce4d454fb00ed2476ed4236, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 5.3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3bf969863ce4d454fb00ed2476ed4236, type: 2}
   m_IsPrefabAsset: 0
