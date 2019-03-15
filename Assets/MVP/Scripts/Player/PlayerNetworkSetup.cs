@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
+[RequireComponent(typeof(Player))]
 public class PlayerNetworkSetup : NetworkBehaviour {
     [SerializeField]
     Behaviour[] componenetsToDisable;
@@ -19,13 +20,15 @@ public class PlayerNetworkSetup : NetworkBehaviour {
             sceneCam = GameObject.FindGameObjectWithTag("SceneCam");
             sceneCam.SetActive(false);
         }
-        RegisterPlayer();
     }
 
-    void RegisterPlayer()
+    public override void OnStartClient()
     {
-        string _ID = "Player " + GetComponent<NetworkIdentity>().netId;
-        transform.name = _ID;
+        base.OnStartClient();
+
+        string netID = GetComponent<NetworkIdentity>().netId.ToString();
+        Player player = GetComponent<Player>();
+        GameManager.RegisterPlayer(netID,player);        
     }
 
     void DisableComponents()
@@ -50,5 +53,15 @@ public class PlayerNetworkSetup : NetworkBehaviour {
 		{
 			sceneCam.gameObject.SetActive(true);
 		}
+
+        GameManager.UnRegisterPlayer(transform.name);
 	}
+
+    [Command]
+    public void CmdPlayerShot(string _playerID, int _damage)
+    {
+        Debug.Log(_playerID + " was hit by ");
+        Player _player = GameManager.GetPlayer(_playerID);
+        _player.TakeDamage(_damage);
+    }
 }

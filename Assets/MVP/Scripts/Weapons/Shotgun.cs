@@ -7,29 +7,19 @@ using UnityEngine.Networking;
 public class Shotgun : Weapon
 {
     public int pellets = 6;
+    public int damage = 2;
     public float reloadSpeed;
+    PlayerNetworkSetup playerNetworkSetup;
+
+    void Start()
+    {
+        playerNetworkSetup = GetComponentInParent<PlayerNetworkSetup>();
+    }
 
     public override void Attack()
     {
-        // old code
-
-        //for (int i = 0; i < pellets; i++)
-        //{
-        //    Vector3 direction = transform.forward;
-        //    Vector3 spread = Vector3.zero;
-
-        //    spread += transform.up * Random.Range(-accuracy, accuracy);
-        //    spread += transform.right * Random.Range(-accuracy, accuracy);
-
-        //    GameObject clone = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
-        //    Projectile newBullet = clone.GetComponent<Projectile>();
-
-        //    newBullet.Fire(direction + spread);
-        //}
-
         for (int i = 0; i < pellets; i++)
         {
-            Vector3 direction = transform.forward;
             Vector3 spread = Vector3.zero;
 
             spread += transform.up * Random.Range(-accuracy, accuracy);
@@ -46,17 +36,14 @@ public class Shotgun : Weapon
         RaycastHit hit;
         if (Physics.Raycast(_ray, out hit))
         {
+            // For reference to see where bullets hit;
             GameObject bullet = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube), hit.point, Quaternion.identity);
             bullet.transform.localScale = new Vector3(.15f, .15f, .15f);
 
             if (hit.collider.tag == "Player")
             {
                 // Server Command Method in Weapon Base Class
-                test(hit.collider.name,
-                    this.name);
-                //CmdPlayerShot(
-                //    hit.collider.name, 
-                //    this.name);
+                playerNetworkSetup.CmdPlayerShot(hit.collider.name, damage);
             }
         }
     }

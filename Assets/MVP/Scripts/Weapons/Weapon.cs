@@ -45,7 +45,6 @@ namespace GameSystems
         //    }
         //}
         #endregion
-        public int damage = 100;
         public int ammo = 30;
         public float accuracy = 1f;
         public float range = 10f;
@@ -57,6 +56,9 @@ namespace GameSystems
         Quaternion hitRotation;
 
         protected int currentAmmo = 0;
+        PlayerNetworkSetup playerNetworkSetup;
+
+     
 
         public abstract void Attack();
 
@@ -73,19 +75,6 @@ namespace GameSystems
                 hitRotation = hit.transform.rotation;
             }
             return hitRotation;
-        }
-
-        public void test(string hitBy, string ID)
-        {
-            CmdPlayerShot(
-                    hitBy,
-                    ID);
-        }
-
-        [Command]
-        public void CmdPlayerShot(string hitBy, string ID)
-        {
-            Debug.Log(ID + " was hit by " + hitBy);
         }
 
         public virtual void Reload()
