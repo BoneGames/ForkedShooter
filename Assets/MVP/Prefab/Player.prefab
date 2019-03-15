@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4609773386144412}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ShootPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35,7 +35,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4047504366999534}
   - component: {fileID: 114735314890642704}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Pistol
   m_TagString: Weapon
   m_Icon: {fileID: 0}
@@ -51,7 +51,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4955814703352036}
   - component: {fileID: 212189438292487926}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -67,7 +67,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4397459742901986}
   - component: {fileID: 114942240043760836}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shotgun
   m_TagString: Weapon
   m_Icon: {fileID: 0}
@@ -83,7 +83,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4352421932826896}
   - component: {fileID: 212459240723982332}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: _BASEAR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4230649638700236}
   - component: {fileID: 114604388079675206}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Rocket
   m_TagString: Weapon
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 114794761632324314}
   - component: {fileID: 114258351077378372}
   - component: {fileID: 114004403630987796}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -140,7 +140,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4467894493909678}
   - component: {fileID: 212416514430263912}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: _BASEAR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,7 +156,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4604967468870648}
   - component: {fileID: 212041752188554666}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: _BASEAR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -171,7 +171,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4424845050342896}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ShootPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -189,7 +189,7 @@ GameObject:
   - component: {fileID: 20153178307570154}
   - component: {fileID: 81431222744747272}
   - component: {fileID: 114823960334946086}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: FPSCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -205,7 +205,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4989895084437678}
   - component: {fileID: 212052409150005516}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,7 +221,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4589485809724216}
   - component: {fileID: 212871835143852914}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -236,7 +236,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4021748843057564}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ShootPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -574,6 +574,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 114841520311025702}
   weaponIndex: 0
+  mask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &114258351077378372
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -685,6 +688,8 @@ MonoBehaviour:
   - {fileID: 114841520311025702}
   - {fileID: 20153178307570154}
   - {fileID: 81431222744747272}
+  - {fileID: 114823960334946086}
+  remoteLayername: RemotePlayer
 --- !u!114 &114823960334946086
 MonoBehaviour:
   m_ObjectHideFlags: 1

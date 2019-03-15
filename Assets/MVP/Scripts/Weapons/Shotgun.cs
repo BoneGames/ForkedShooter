@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GameSystems;
+using UnityEngine.Networking;
 
 public class Shotgun : Weapon
 {
@@ -10,6 +11,22 @@ public class Shotgun : Weapon
 
     public override void Attack()
     {
+        // old code
+
+        //for (int i = 0; i < pellets; i++)
+        //{
+        //    Vector3 direction = transform.forward;
+        //    Vector3 spread = Vector3.zero;
+
+        //    spread += transform.up * Random.Range(-accuracy, accuracy);
+        //    spread += transform.right * Random.Range(-accuracy, accuracy);
+
+        //    GameObject clone = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
+        //    Projectile newBullet = clone.GetComponent<Projectile>();
+
+        //    newBullet.Fire(direction + spread);
+        //}
+
         for (int i = 0; i < pellets; i++)
         {
             Vector3 direction = transform.forward;
@@ -18,11 +35,30 @@ public class Shotgun : Weapon
             spread += transform.up * Random.Range(-accuracy, accuracy);
             spread += transform.right * Random.Range(-accuracy, accuracy);
 
-            GameObject clone = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
-            Projectile newBullet = clone.GetComponent<Projectile>();
+            Ray spreadRay = new Ray(transform.position, transform.forward + spread);
+            RaycastBullet(spreadRay);
+        }
+    }
 
-            newBullet.Fire(direction + spread);
-        }   
+    [Client]
+    void RaycastBullet(Ray _ray)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(_ray, out hit))
+        {
+            GameObject bullet = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube), hit.point, Quaternion.identity);
+            bullet.transform.localScale = new Vector3(.15f, .15f, .15f);
+
+            if (hit.collider.tag == "Player")
+            {
+                // Server Command Method in Weapon Base Class
+                test(hit.collider.name,
+                    this.name);
+                //CmdPlayerShot(
+                //    hit.collider.name, 
+                //    this.name);
+            }
+        }
     }
 
     public override void Reload()

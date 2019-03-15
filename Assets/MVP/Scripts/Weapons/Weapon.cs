@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 /* Task 1:  Draw.io projectile system
  *          Needs the following structure: 
@@ -19,7 +20,7 @@ using UnityEngine;
 
 namespace GameSystems
 {
-    public abstract class Weapon : MonoBehaviour
+    public abstract class Weapon : NetworkBehaviour
     {
         #region OldCode
         //public GameObject bullet;
@@ -72,6 +73,19 @@ namespace GameSystems
                 hitRotation = hit.transform.rotation;
             }
             return hitRotation;
+        }
+
+        public void test(string hitBy, string ID)
+        {
+            CmdPlayerShot(
+                    hitBy,
+                    ID);
+        }
+
+        [Command]
+        public void CmdPlayerShot(string hitBy, string ID)
+        {
+            Debug.Log(ID + " was hit by " + hitBy);
         }
 
         public virtual void Reload()

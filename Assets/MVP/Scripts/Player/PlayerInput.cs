@@ -7,6 +7,9 @@ public class PlayerInput : MonoBehaviour
     public RigidCharacterMovement player;
     public int weaponIndex = 0;
 
+    [SerializeField]
+    private LayerMask mask;
+
     // Use this for initialization
     void Start()
     {
