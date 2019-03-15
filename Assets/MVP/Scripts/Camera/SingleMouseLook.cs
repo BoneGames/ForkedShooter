@@ -29,14 +29,18 @@ public class SingleMouseLook : MonoBehaviour
         {
             this.GetComponent<Rigidbody>().freezeRotation = true;
         }
-        player = GameObject.FindGameObjectWithTag("Player");
-        fpsCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        player = this.transform.parent.gameObject;
+        fpsCamera = this.gameObject;
     }
 
     #endregion
     #region Update  
     void Update()
     {
+        // if(!isLocalPlayer)
+        // {
+        //     return;
+        // }
         player.transform.Rotate(0, Input.GetAxis("Mouse X") * xSensitivity * Time.deltaTime, 0);
 
         rotationY += Input.GetAxis("Mouse Y") * ySensitivity * Time.deltaTime;

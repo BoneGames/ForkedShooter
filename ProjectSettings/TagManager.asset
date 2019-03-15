@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Weapon
   - Yay
+  - SceneCam
   layers:
   - Default
   - TransparentFX
