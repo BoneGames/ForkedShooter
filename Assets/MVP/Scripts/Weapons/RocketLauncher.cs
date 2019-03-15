@@ -5,7 +5,6 @@ using GameSystems;
 
 public class RocketLauncher : Weapon
 {
-
     public float spread;
     public int magSize;
 

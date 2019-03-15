@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -967,15 +967,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpeed: 5
   jumpHeight: 10
+  crouchMultiplier: 0.5
+  sprintMultiplier: 2
+  isCrouching: 0
+  isSprinting: 0
   rigid: {fileID: 965589768}
   rayDistance: 1.03
+  myCamera: {fileID: 1435389535}
   weapons:
   - {fileID: 1760961345}
   - {fileID: 325890146}
   - {fileID: 1367003337}
   currentWeapon: {fileID: 0}
   rotateToMainCamera: 1
-  weaponRotationThing: 0
 --- !u!136 &965589770
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1057,6 +1061,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 965589769}
+  sprintKey: 304
+  crouchKey: 306
+  jumpKey: 32
+  shootKey: 323
+  aimKey: 324
   weaponIndex: 0
 --- !u!1 &1207623133
 GameObject:
@@ -5899,7 +5908,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1435389535}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.444, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 763779905}
@@ -6179,14 +6188,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33899d4fe1079444cb6221f0d0697227, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookObjects: []
-  objectHolder: {fileID: 0}
-  smooth: 1
-  damping: 6
-  screenWidth: 0
-  screenHeight: 0
-  objectIndex: 0
-  objectMax: 0
 --- !u!114 &1761469840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6198,21 +6199,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb2c4b7f93e0d9c44b5762591a563937, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  hideCursor: 1
-  offset: {x: 0, y: 1, z: -2}
-  xSpeed: 120
-  ySpeed: 120
-  yMin: -20
-  yMax: 80
-  distanceMin: 0.5
-  distanceMax: 15
-  cameraCollision: 1
-  cameraRadius: 0.3
-  ignoreLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  rayDistance: 1000
 --- !u!81 &1761469841
 AudioListener:
   m_ObjectHideFlags: 0
