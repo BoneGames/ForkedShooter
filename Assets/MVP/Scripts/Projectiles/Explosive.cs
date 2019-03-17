@@ -9,9 +9,9 @@ public class Explosive : Projectile
 
     public GameObject explosionEffect;
 
-    public override void Fire(Vector3 direction)
+    public override void Fire()
     {
-        base.Fire(direction);
+        base.Fire();
         //rigid.useGravity = true;
     }
 

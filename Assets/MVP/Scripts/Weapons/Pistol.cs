@@ -24,13 +24,13 @@ public class Pistol : Weapon
     #endregion
     public float spread;
     public int magSize;
-    public int damage = 5;
     PlayerNetworkSetup playerNetworkSetup;
 
     void Start()
     {
         playerNetworkSetup = GetComponentInParent<PlayerNetworkSetup>();
     }
+   
 
     [Client]
     public override void Attack()

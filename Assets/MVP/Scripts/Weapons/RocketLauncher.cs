@@ -9,16 +9,14 @@ public class RocketLauncher : Weapon
 
     public float spread;
     public int magSize;
+    public PlayerNetworkSetup playerNetworkSetup;
+    public float x,y,z;
 
-    [Client]
+    
     public override void Attack()
     {
-        Quaternion hitRotation = GetTargetNormal();
-
-        GameObject clone = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
-        Projectile newBullet = clone.GetComponent<Projectile>();
-
-        newBullet.hitRotation = hitRotation;
-        newBullet.Fire(transform.forward);
+        //Quaternion _hitRotation = playerNetworkSetup.GetTargetNormal();
+        Quaternion rotation = spawnPoint.rotation * Quaternion.Euler(x,y,z);
+        playerNetworkSetup.CmdSpawnRocket(spawnPoint.position, rotation, damage);
     }
 }

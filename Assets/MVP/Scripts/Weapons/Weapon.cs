@@ -20,6 +20,8 @@ using UnityEngine.Networking;
 
 namespace GameSystems
 {
+    // took off "abstract class" in order to add to player prefab so that the networked object 
+    // was in the scene and attached to a network ID (necesary for certain functions online)
     public abstract class Weapon : NetworkBehaviour
     {
         #region OldCode
@@ -46,36 +48,35 @@ namespace GameSystems
         //}
         #endregion
         public int ammo = 30;
+        public int damage;
         public float accuracy = 1f;
         public float range = 10f;
         public float rateOfFire = 5f;
-        public GameObject projectile;
         public Transform spawnPoint;
 
-        public Vector3 hitPoint;
         Quaternion hitRotation;
 
         protected int currentAmmo = 0;
-        PlayerNetworkSetup playerNetworkSetup;
-
      
 
         public abstract void Attack();
+        
 
-        public Quaternion GetTargetNormal()
-        {
-            RaycastHit hit;
-            //Ray ray = Camera.main.ScreenPointToRay(Screen);
-            Vector3 screenCentre = new Vector3(Screen.width / 2, Screen.height / 2, 0);
-            Ray ray = Camera.main.ScreenPointToRay(screenCentre);
+  
+        // public Quaternion GetTargetNormal()
+        // {
+        //     RaycastHit hit;
+        //     //Ray ray = Camera.main.ScreenPointToRay(Screen);
+        //     Vector3 screenCentre = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+        //     Ray ray = Camera.main.ScreenPointToRay(screenCentre);
 
-            if (Physics.Raycast(ray, out hit))
-            {
-                hitPoint = hit.point;
-                hitRotation = hit.transform.rotation;
-            }
-            return hitRotation;
-        }
+        //     if (Physics.Raycast(ray, out hit))
+        //     {
+        //         hitPoint = hit.point;
+        //         hitRotation = hit.transform.rotation;
+        //     }
+        //     return hitRotation;
+        // }
 
         public virtual void Reload()
         {

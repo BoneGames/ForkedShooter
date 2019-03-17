@@ -41,7 +41,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1118435159914766
 GameObject:
   m_ObjectHideFlags: 1
@@ -66,7 +66,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4397459742901986}
-  - component: {fileID: 114942240043760836}
+  - component: {fileID: 114240077718066876}
+  - component: {fileID: 114359536934324116}
   m_Layer: 10
   m_Name: Shotgun
   m_TagString: Weapon
@@ -250,13 +251,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1875154753520738}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.239, y: 0.0472, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4589485809724216}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!4 &4047504366999534
 Transform:
   m_ObjectHideFlags: 1
@@ -573,6 +574,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e14f3479cb09c4604986ed6652741f46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
 --- !u!114 &114161773778910812
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -584,11 +587,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55f22cf74fbead34998fb7b7da4e4be9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 114841520311025702}
+  playerActions: {fileID: 0}
   weaponIndex: 0
   mask:
     serializedVersion: 2
     m_Bits: 0
+--- !u!114 &114240077718066876
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1127407666975894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 185
+    i1: 255
+    i2: 81
+    i3: 139
+    i4: 46
+    i5: 133
+    i6: 132
+    i7: 182
+    i8: 218
+    i9: 60
+    i10: 54
+    i11: 181
+    i12: 151
+    i13: 174
+    i14: 115
+    i15: 76
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114258351077378372
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -610,6 +645,25 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!114 &114359536934324116
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1127407666975894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3571cf99d675fdf48a42c54857643572, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammo: 30
+  damage: 3
+  accuracy: 0.4
+  range: 10
+  rateOfFire: 5
+  spawnPoint: {fileID: 0}
+  pellets: 6
+  reloadSpeed: 0
 --- !u!114 &114517875307877252
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -653,16 +707,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aebbb02c9d6acc45ad908fac94e8c7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 100
   ammo: 30
+  damage: 40
   accuracy: 1
   range: 10
   rateOfFire: 5
-  projectile: {fileID: 1937224646689520, guid: 5fa12ad5397e71545ba892dea7fc93db, type: 2}
   spawnPoint: {fileID: 4021748843057564}
-  hitPoint: {x: 0, y: 0, z: 0}
   spread: 0
   magSize: 0
+  playerNetworkSetup: {fileID: 114794761632324314}
+  x: 0
+  y: 0
+  z: 0
 --- !u!114 &114735314890642704
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -674,14 +730,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd818e8a970569f4797494f83d475696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 100
   ammo: 30
+  damage: 8
   accuracy: 1
   range: 10
   rateOfFire: 5
-  projectile: {fileID: 1874544804970178, guid: f5fad20bfebd88d46abe3e602f14fdaf, type: 2}
   spawnPoint: {fileID: 4424845050342896}
-  hitPoint: {x: 0, y: 0, z: 0}
   spread: 0
   magSize: 0
 --- !u!114 &114794761632324314
@@ -701,7 +755,8 @@ MonoBehaviour:
   - {fileID: 20153178307570154}
   - {fileID: 81431222744747272}
   - {fileID: 114823960334946086}
-  remoteLayername: RemotePlayer
+  _projectile: {fileID: 1937224646689520, guid: 5fa12ad5397e71545ba892dea7fc93db,
+    type: 2}
 --- !u!114 &114823960334946086
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -736,31 +791,10 @@ MonoBehaviour:
   weapons:
   - {fileID: 114735314890642704}
   - {fileID: 114604388079675206}
-  - {fileID: 114942240043760836}
+  - {fileID: 114359536934324116}
   currentWeapon: {fileID: 0}
   rotateToMainCamera: 1
   weaponRotationThing: 0
---- !u!114 &114942240043760836
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1127407666975894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3571cf99d675fdf48a42c54857643572, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 100
-  ammo: 30
-  accuracy: 0.2
-  range: 10
-  rateOfFire: 5
-  projectile: {fileID: 1937224646689520, guid: df80fdd01a59531438707b06037913e1, type: 2}
-  spawnPoint: {fileID: 4609773386144412}
-  hitPoint: {x: 0, y: 0, z: 0}
-  pellets: 6
-  reloadSpeed: 0
 --- !u!136 &136430793587975014
 CapsuleCollider:
   m_ObjectHideFlags: 1

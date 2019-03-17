@@ -17,9 +17,9 @@ public class Incendiary : Projectile
 
     }
 
-    public override void Fire(Vector3 direction)
+    public override void Fire()
     {
-        base.Fire(direction);
+        base.Fire();
     }
 
     //public IEnumerator Burn(Enemy enemy)

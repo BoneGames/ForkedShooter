@@ -3,11 +3,11 @@ using UnityEngine.Networking;
 
 [RequireComponent(typeof(Player))]
 public class PlayerNetworkSetup : NetworkBehaviour {
-    [SerializeField]
-    Behaviour[] componenetsToDisable;
-    [SerializeField]
-    string remoteLayername = "RemotePlayer";
-    GameObject sceneCam;
+    
+    public Behaviour[] componenetsToDisable;//
+    string remoteLayerName = "RemotePlayer";
+    GameObject sceneCam;  
+    public GameObject _projectile;
 
     void Start()
     {
@@ -20,6 +20,22 @@ public class PlayerNetworkSetup : NetworkBehaviour {
             sceneCam = GameObject.FindGameObjectWithTag("SceneCam");
             sceneCam.SetActive(false);
         }
+    }
+
+    [Command]
+    public void CmdSpawnRocket(Vector3 _spawnPoint, Quaternion _rotation, int _damage)
+    {
+        Debug.Log("Cmd rot: " + _rotation);
+        GameObject clone = Instantiate(_projectile, _spawnPoint, _rotation);
+        clone.GetComponent<Projectile>().damage = _damage;
+        NetworkServer.Spawn(clone);
+
+        //Projectile newBullet = clone.GetComponent<Projectile>();
+
+        //newBullet.hitRotation = _hitRotation;
+
+        // should this line not just be put on the projectile itself?
+        //newBullet.Fire();
     }
 
     public override void OnStartClient()
@@ -44,7 +60,7 @@ public class PlayerNetworkSetup : NetworkBehaviour {
 
     void AssignRemoteLayer()
     {
-        gameObject.layer = LayerMask.NameToLayer(remoteLayername);
+        gameObject.layer = LayerMask.NameToLayer(remoteLayerName);
     }
 
 	void OnDisable()

@@ -11,8 +11,8 @@ public class Normal : Projectile
             Physics.IgnoreCollision(this.GetComponent<Collider>(), col.gameObject.GetComponent<Collider>());
         }
     }
-    public override void Fire(Vector3 direction)
+    public override void Fire()
     {
-        base.Fire(direction);
+        base.Fire();
     }
 }

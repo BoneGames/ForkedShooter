@@ -25,6 +25,8 @@ GameObject:
   - component: {fileID: 54316705334612340}
   - component: {fileID: 114050756313496988}
   - component: {fileID: 114951833798483910}
+  - component: {fileID: 114021252100018690}
+  - component: {fileID: 114912254431370392}
   m_Layer: 0
   m_Name: Explosive
   m_TagString: Weapon
@@ -102,6 +104,38 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &114021252100018690
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1937224646689520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 95
+    i1: 161
+    i2: 42
+    i3: 213
+    i4: 57
+    i5: 126
+    i6: 113
+    i7: 84
+    i8: 91
+    i9: 168
+    i10: 146
+    i11: 222
+    i12: 167
+    i13: 252
+    i14: 147
+    i15: 219
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114050756313496988
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -115,14 +149,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 20
   range: 0
+  damage: 5
   element: 0
   scale: {x: 0, y: 0, z: 0}
   rigid: {fileID: 54316705334612340}
+  pns: {fileID: 0}
   impact: {fileID: 1035747932722630, guid: 337146cc44fdd6f459eeb0b9f26ed0cb, type: 2}
+  hitRotation: {x: 0, y: 0, z: 0, w: 0}
   explosionRadius: 0
   explosionDelay: 0
   explosionEffect: {fileID: 1035747932722630, guid: 337146cc44fdd6f459eeb0b9f26ed0cb,
     type: 2}
+--- !u!114 &114912254431370392
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1937224646689520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.0625
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 0.8
 --- !u!114 &114951833798483910
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -134,6 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 689a9ec6344bd5744b3e13586e5b4a21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyDelay: 3
 --- !u!135 &135966765423459988
 SphereCollider:
   m_ObjectHideFlags: 1

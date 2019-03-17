@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    public RigidCharacterMovement player;
+    public RigidCharacterMovement playerActions;
     public int weaponIndex = 0;
 
     [SerializeField]
@@ -13,8 +13,8 @@ public class PlayerInput : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        player = GetComponent<RigidCharacterMovement>();
-        player.SelectWeapon(weaponIndex);
+        playerActions = GetComponent<RigidCharacterMovement>();
+        playerActions.SelectWeapon(weaponIndex);
     }
 
     // Update is called once per frame
@@ -22,22 +22,22 @@ public class PlayerInput : MonoBehaviour
     {
         float inputH = Input.GetAxis("Horizontal");
         float inputV = Input.GetAxis("Vertical");
-        player.Move(inputH, inputV);
+        playerActions.Move(inputH, inputV);
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            player.Jump();
+            playerActions.Jump();
         }
 
         if (Input.GetButtonDown("Fire1"))
         {
-            player.Attack();
+            playerActions.Attack();
         }
 
-        weaponSwitch();
+        WeaponSwitch();
     }
 
-    void weaponSwitch()
+    void WeaponSwitch()
     {
         var currentIndex = weaponIndex;
 
@@ -45,14 +45,14 @@ public class PlayerInput : MonoBehaviour
         {
             weaponIndex -= 1;
         }
-        else if (Input.GetAxis("Mouse ScrollWheel") < 0f && weaponIndex < player.weapons.Length - 1) // backwards
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0f && weaponIndex < playerActions.weapons.Length - 1) // backwards
         {
             weaponIndex += 1;
         }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            player.Interact();
+            playerActions.Interact();
         }
 
         //if (Input.GetKeyDown(KeyCode.Q) && weaponIndex > 0)
@@ -71,7 +71,7 @@ public class PlayerInput : MonoBehaviour
         else
         {
             weaponIndex = currentIndex;
-            player.SelectWeapon(weaponIndex);
+            playerActions.SelectWeapon(weaponIndex);
         }
     }
 }

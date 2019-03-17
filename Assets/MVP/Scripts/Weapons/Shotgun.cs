@@ -7,7 +7,6 @@ using UnityEngine.Networking;
 public class Shotgun : Weapon
 {
     public int pellets = 6;
-    public int damage = 2;
     public float reloadSpeed;
     PlayerNetworkSetup playerNetworkSetup;
 
@@ -15,6 +14,7 @@ public class Shotgun : Weapon
     {
         playerNetworkSetup = GetComponentInParent<PlayerNetworkSetup>();
     }
+
 
     public override void Attack()
     {
@@ -24,8 +24,9 @@ public class Shotgun : Weapon
 
             spread += transform.up * Random.Range(-accuracy, accuracy);
             spread += transform.right * Random.Range(-accuracy, accuracy);
+            Debug.Log(spread);
 
-            Ray spreadRay = new Ray(transform.position, transform.forward + spread);
+            Ray spreadRay = new Ray(spawnPoint.position, transform.forward + spread);
             RaycastBullet(spreadRay);
         }
     }
@@ -37,7 +38,9 @@ public class Shotgun : Weapon
         if (Physics.Raycast(_ray, out hit))
         {
             // For reference to see where bullets hit;
+            Vector3 midpoint = Camera.main.ScreenToWorldPoint
             GameObject bullet = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube), hit.point, Quaternion.identity);
+            bullet.GetComponent<Renderer>().material.color = Color.red;
             bullet.transform.localScale = new Vector3(.15f, .15f, .15f);
 
             if (hit.collider.tag == "Player")
