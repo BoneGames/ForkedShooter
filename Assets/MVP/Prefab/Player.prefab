@@ -658,10 +658,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ammo: 30
   damage: 3
-  accuracy: 0.4
+  accuracy: 0.3
   range: 10
   rateOfFire: 5
-  spawnPoint: {fileID: 0}
+  spawnPoint: {fileID: 4609773386144412}
   pellets: 6
   reloadSpeed: 0
 --- !u!114 &114517875307877252
@@ -716,9 +716,6 @@ MonoBehaviour:
   spread: 0
   magSize: 0
   playerNetworkSetup: {fileID: 114794761632324314}
-  x: 0
-  y: 0
-  z: 0
 --- !u!114 &114735314890642704
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -795,6 +792,7 @@ MonoBehaviour:
   currentWeapon: {fileID: 0}
   rotateToMainCamera: 1
   weaponRotationThing: 0
+  playerNetworkSetup: {fileID: 0}
 --- !u!136 &136430793587975014
 CapsuleCollider:
   m_ObjectHideFlags: 1

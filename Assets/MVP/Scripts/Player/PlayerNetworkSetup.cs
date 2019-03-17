@@ -22,6 +22,7 @@ public class PlayerNetworkSetup : NetworkBehaviour {
         }
     }
 
+
     [Command]
     public void CmdSpawnRocket(Vector3 _spawnPoint, Quaternion _rotation, int _damage)
     {

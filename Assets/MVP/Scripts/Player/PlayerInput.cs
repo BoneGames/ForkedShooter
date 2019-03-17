@@ -52,7 +52,7 @@ public class PlayerInput : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            playerActions.Interact();
+            playerActions.CmdInteract();
         }
 
         //if (Input.GetKeyDown(KeyCode.Q) && weaponIndex > 0)
