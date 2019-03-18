@@ -46,7 +46,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Chasis
+    path: Model/Chasis
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -71,7 +71,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Chasis/anims_SearchLight/rotY_SearchLight
+    path: Model/Chasis/anims_SearchLight/rotY_SearchLight
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -105,7 +105,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Chasis/anims_SearchLight/rotY_SearchLight/rotZ_SearchLight
+    path: Model/Chasis/anims_SearchLight/rotY_SearchLight/rotZ_SearchLight
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -130,7 +130,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Chasis/anims_SearchLight/rotY_SearchLight/rotZ_SearchLight/rotX_SearchLight
+    path: Model/Chasis/anims_SearchLight/rotY_SearchLight/rotZ_SearchLight/rotX_SearchLight
   m_PositionCurves: []
   m_ScaleCurves: []
   m_FloatCurves: []
@@ -143,28 +143,28 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 961696746
+      path: 4008475814
       attribute: 4
       script: {fileID: 0}
       typeID: 4
       customType: 4
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 1407762127
+      path: 3064977966
       attribute: 4
       script: {fileID: 0}
       typeID: 4
       customType: 4
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 461777387
+      path: 3743978549
       attribute: 4
       script: {fileID: 0}
       typeID: 4
       customType: 4
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 4103176703
+      path: 2379836827
       attribute: 4
       script: {fileID: 0}
       typeID: 4
@@ -226,7 +226,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Chasis
+    path: Model/Chasis
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -254,7 +254,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Chasis/anims_SearchLight/rotY_SearchLight
+    path: Model/Chasis/anims_SearchLight/rotY_SearchLight
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -291,7 +291,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Chasis/anims_SearchLight/rotY_SearchLight/rotZ_SearchLight
+    path: Model/Chasis/anims_SearchLight/rotY_SearchLight/rotZ_SearchLight
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -319,7 +319,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Chasis/anims_SearchLight/rotY_SearchLight/rotZ_SearchLight/rotX_SearchLight
+    path: Model/Chasis/anims_SearchLight/rotY_SearchLight/rotZ_SearchLight/rotX_SearchLight
     classID: 4
     script: {fileID: 0}
   m_EulerEditorCurves: []

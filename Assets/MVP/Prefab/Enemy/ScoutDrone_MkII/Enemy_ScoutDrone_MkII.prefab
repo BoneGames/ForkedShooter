@@ -181,6 +181,7 @@ GameObject:
   - component: {fileID: 135569615184256982}
   - component: {fileID: 114367580283785598}
   - component: {fileID: 195674712257058426}
+  - component: {fileID: 95943710101828514}
   m_Layer: 0
   m_Name: Enemy_ScoutDrone_MkII
   m_TagString: Enemy
@@ -427,7 +428,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4331368851663924}
-  - component: {fileID: 95959484539753706}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -598,7 +598,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1878211565179516}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 12, z: 0}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4808396540421988}
@@ -1532,13 +1532,13 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1090885386439636}
   m_Mesh: {fileID: 4300000, guid: 920fe7796c2854644adb9e438096e563, type: 3}
---- !u!95 &95959484539753706
+--- !u!95 &95943710101828514
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1878211565179516}
+  m_GameObject: {fileID: 1330061183068278}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 03c3a72218540fd4caff1393dd567ae7, type: 2}
@@ -1609,9 +1609,9 @@ MonoBehaviour:
   colorSeek: {r: 0.8039216, g: 0, b: 0, a: 1}
   currentState: 0
   moveSpeed:
-  - 4
-  - 4
-  - 4
+  - 2
+  - 2
+  - 2
   pauseDuration:
   - 4
   - 8
@@ -1621,7 +1621,7 @@ MonoBehaviour:
   - 0
   - 0
   stoppingDistance: 1
-  anim: {fileID: 95959484539753706}
+  anim: {fileID: 95943710101828514}
 --- !u!114 &114383582587980458
 MonoBehaviour:
   m_ObjectHideFlags: 1
