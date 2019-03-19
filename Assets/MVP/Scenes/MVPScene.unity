@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -635,6 +635,7 @@ Transform:
   m_Children:
   - {fileID: 353645952}
   - {fileID: 1373545016}
+  - {fileID: 953630162}
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -723,6 +724,34 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 577267322}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &582819221
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 582819222}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &582819222
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 582819221}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 953630162}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &718731475
 GameObject:
   m_ObjectHideFlags: 0
@@ -976,6 +1005,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &953630161
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 953630162}
+  m_Layer: 0
+  m_Name: Enemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &953630162
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 953630161}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 582819222}
+  m_Father: {fileID: 553365906}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &958737948
 GameObject:
@@ -6017,7 +6075,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1373545016}
   - component: {fileID: 1373545017}
-  - component: {fileID: 1373545018}
+  - component: {fileID: 1373545019}
   m_Layer: 0
   m_Name: DoorTrigger
   m_TagString: Untagged
@@ -6050,7 +6108,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 17.569746, y: 10, z: 16.945534}
   m_Center: {x: 0.37632465, y: 0, z: 3.4727669}
---- !u!114 &1373545018
+--- !u!114 &1373545019
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6058,14 +6116,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1373545015}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 268650328780dc24a92f53cda960e182, type: 3}
+  m_Script: {fileID: 11500000, guid: a54d54020028cea41b3600374c2240e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorDown: {x: 0, y: -8, z: 50}
-  doorUp: {x: 0, y: 1, z: 50}
-  door: {fileID: 353645951}
-  doorSpeed: 0
   anim: {fileID: 353645953}
+  enemy: {fileID: 953630161}
 --- !u!1 &1435389535
 GameObject:
   m_ObjectHideFlags: 0
