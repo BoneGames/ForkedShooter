@@ -41,16 +41,16 @@ public class PlayerInput : MonoBehaviour
 
         if (Input.GetKeyDown(crouchKey))
         {
-            player.Crouch();
+            playerActions.Crouch();
         }
 
         if (Input.GetKey(sprintKey))
         {
-            player.isSprinting = true;
+            playerActions.isSprinting = true;
         }
         if (Input.GetKeyUp(sprintKey))
         {
-            player.isSprinting = false;
+            playerActions.isSprinting = false;
         }
 
         if (Input.GetKeyDown(shootKey))
