@@ -587,6 +587,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55f22cf74fbead34998fb7b7da4e4be9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprintKey: 304
+  crouchKey: 306
+  jumpKey: 32
+  shootKey: 323
+  aimKey: 324
   playerActions: {fileID: 0}
   weaponIndex: 0
   mask:
@@ -765,8 +770,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47af9464c3f9191459b74603518d498b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xSensitivity: 10
-  ySensitivity: 10
+  xSensitivity: 50
+  ySensitivity: 50
   minY: -60
   maxY: 60
   cursorVisible: 1
@@ -783,15 +788,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpeed: 5
   jumpHeight: 10
+  crouchMultiplier: 0.8
+  sprintMultiplier: 1.5
+  isCrouching: 0
+  isSprinting: 0
   rigid: {fileID: 54915646514289012}
   rayDistance: 1.03
+  myCamera: {fileID: 1799651582016356}
   weapons:
   - {fileID: 114735314890642704}
   - {fileID: 114604388079675206}
   - {fileID: 114359536934324116}
   currentWeapon: {fileID: 0}
   rotateToMainCamera: 1
-  weaponRotationThing: 0
   playerNetworkSetup: {fileID: 0}
 --- !u!136 &136430793587975014
 CapsuleCollider:
