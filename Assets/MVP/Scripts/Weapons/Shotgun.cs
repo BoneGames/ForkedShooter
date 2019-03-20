@@ -2,27 +2,50 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GameSystems;
+using UnityEngine.Networking;
 
 public class Shotgun : Weapon
 {
     public int pellets = 6;
     public float reloadSpeed;
+    PlayerNetworkSetup playerNetworkSetup;
+
+    void Start()
+    {
+        playerNetworkSetup = GetComponentInParent<PlayerNetworkSetup>();
+    }
+
 
     public override void Attack()
     {
         for (int i = 0; i < pellets; i++)
         {
-            Vector3 direction = transform.forward;
             Vector3 spread = Vector3.zero;
 
             spread += transform.up * Random.Range(-accuracy, accuracy);
             spread += transform.right * Random.Range(-accuracy, accuracy);
+            Ray spreadRay = new Ray(Camera.main.transform.position, Camera.main.transform.forward + spread);
+            RaycastBullet(spreadRay);
+        }
+    }
 
-            GameObject clone = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
-            Projectile newBullet = clone.GetComponent<Projectile>();
+    [Client]
+    void RaycastBullet(Ray _ray)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(_ray, out hit))
+        {
+            // For reference to see where bullets hit;
+            GameObject bullet = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube), hit.point, Quaternion.identity);
+            bullet.GetComponent<Renderer>().material.color = Color.red;
+            bullet.transform.localScale = new Vector3(.15f, .15f, .15f);
 
-            newBullet.Fire(direction + spread);
-        }   
+            if (hit.collider.tag == "Player")
+            {
+                // Server Command Method in Weapon Base Class
+                playerNetworkSetup.CmdPlayerShot(hit.collider.name, damage);
+            }
+        }
     }
 
     public override void Reload()

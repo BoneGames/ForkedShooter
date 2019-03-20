@@ -9,30 +9,29 @@ public abstract class Projectile : MonoBehaviour
     public Element element;
     public Vector3 scale;
     public Rigidbody rigid;
+    public PlayerNetworkSetup pns;
+    public int damage;
 
     public GameObject impact;
     public Quaternion hitRotation;
 
-    // Use this for initialization
     void Start()
     {
-
+        rigid.AddForce(transform.forward * speed, ForceMode.Impulse);
     }
 
-    // Update is called once per frame
-    void Update()
+    public virtual void Fire()
     {
-
-    }
-
-    public virtual void Fire(Vector3 direction)
-    {
-        rigid.AddForce(direction * speed, ForceMode.Impulse);
+        rigid.AddForce(transform.forward * speed, ForceMode.Impulse);
     }
 
     public virtual void OnCollisionEnter(Collision collision)
     {
-        
+        if(collision.transform.tag == "Player")
+        {
+            string playerID = collision.transform.name;
+            collision.transform.GetComponent<PlayerNetworkSetup>().CmdPlayerShot(playerID, damage);
+        }
     }
 
     public virtual void OnHit()

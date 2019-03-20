@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    public RigidCharacterMovement player;
-
     [Header("Motion Keys")]
     public KeyCode sprintKey = KeyCode.LeftShift;
     public KeyCode crouchKey = KeyCode.LeftControl;
@@ -15,13 +13,18 @@ public class PlayerInput : MonoBehaviour
     public KeyCode shootKey = KeyCode.Mouse0;
     public KeyCode aimKey = KeyCode.Mouse1;
 
+    public RigidCharacterMovement playerActions;
+
     public int weaponIndex = 0;
+
+    [SerializeField]
+    private LayerMask mask;
 
     // Use this for initialization
     void Start()
     {
-        player = GameObject.Find("Player").GetComponent<RigidCharacterMovement>();
-        player.SelectWeapon(weaponIndex);
+        playerActions = GetComponent<RigidCharacterMovement>();
+        playerActions.SelectWeapon(weaponIndex);
     }
 
     // Update is called once per frame
@@ -29,11 +32,11 @@ public class PlayerInput : MonoBehaviour
     {
         float inputH = Input.GetAxis("Horizontal");
         float inputV = Input.GetAxis("Vertical");
-        player.Move(inputH, inputV);
+        playerActions.Move(inputH, inputV);
 
         if (Input.GetKeyDown(jumpKey))
         {
-            player.Jump();
+            playerActions.Jump();
         }
 
         if (Input.GetKeyDown(crouchKey))
@@ -52,13 +55,13 @@ public class PlayerInput : MonoBehaviour
 
         if (Input.GetKeyDown(shootKey))
         {
-            player.Attack();
+            playerActions.Attack();
         }
 
-        weaponSwitch();
+        WeaponSwitch();
     }
 
-    void weaponSwitch()
+    void WeaponSwitch()
     {
         var currentIndex = weaponIndex;
 
@@ -66,14 +69,14 @@ public class PlayerInput : MonoBehaviour
         {
             weaponIndex -= 1;
         }
-        else if (Input.GetAxis("Mouse ScrollWheel") < 0f && weaponIndex < player.weapons.Length - 1) // backwards
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0f && weaponIndex < playerActions.weapons.Length - 1) // backwards
         {
             weaponIndex += 1;
         }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            player.Interact();
+            playerActions.CmdInteract();
         }
 
         //if (Input.GetKeyDown(KeyCode.Q) && weaponIndex > 0)
@@ -92,7 +95,7 @@ public class PlayerInput : MonoBehaviour
         else
         {
             weaponIndex = currentIndex;
-            player.SelectWeapon(weaponIndex);
+            playerActions.SelectWeapon(weaponIndex);
         }
     }
 }

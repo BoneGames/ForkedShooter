@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using GameSystems;
 using Interactions;
 
-public class RigidCharacterMovement : MonoBehaviour
+public class RigidCharacterMovement : NetworkBehaviour
 {
     [Header("Player Stats")]
     public float playerSpeed = 5f;
@@ -33,9 +34,10 @@ public class RigidCharacterMovement : MonoBehaviour
     private Vector3 moveDirection;
 
     private Interactable interactObject;
+    public PlayerNetworkSetup playerNetworkSetup;
 
     //private bool isGrounded = true;
-    // Use this for initialization
+
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
@@ -54,7 +56,6 @@ public class RigidCharacterMovement : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         Vector3 camEuler = Camera.main.transform.eulerAngles;
@@ -154,22 +155,49 @@ public class RigidCharacterMovement : MonoBehaviour
             return;
         }
 
+        CmdEquipWeaponLocal(index);
+    }
+
+    [Command]
+    void CmdEquipWeaponLocal(int _index)
+    {
         DisableAllWeapons();
 
-        currentWeapon = weapons[index];
-        currentWeapon.gameObject.SetActive(true);
+        this.currentWeapon = weapons[_index];
+        this.currentWeapon.gameObject.SetActive(true);
+
+        RpcEquipWeaponGlobal(_index);
     }
+
+    [ClientRpc]
+    void RpcEquipWeaponGlobal(int _index)
+    {
+        DisableAllWeapons();
+
+        this.currentWeapon = weapons[_index];
+        this.currentWeapon.gameObject.SetActive(true);
+    }
+
 
     private bool inBounds(int index, Weapon[] array)
     {
         return (index >= 0) && (index < array.Length);
     }
 
-    public void Interact()
+    [Command]
+    public void CmdInteract()
     {
         if (interactObject)
         {
+            Debug.Log("Cmd Door Opened by: " + this.gameObject.name );
             interactObject.Interact();
+            RpcInteract();
         }
+    }
+    [ClientRpc]
+    public void RpcInteract()
+    {
+        Debug.Log("Rpc Door Opened by: " + this.gameObject.name );
+        interactObject.Interact();
     }
 }
