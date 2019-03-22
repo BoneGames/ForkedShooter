@@ -24,19 +24,41 @@ public class Pistol : Weapon
     public float spread;
     public int magSize;
 
+    public int currentMag;
+    public int tempMag;
+
     public override void Attack()
     {
-        if (currentAmmo >= 0)
+        if (currentMag > 0)
         {
             GameObject clone = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
             Bullet newBullet = clone.GetComponent<Bullet>();
 
             newBullet.Fire(transform.forward);
-            currentAmmo--;
+            currentMag--;
         }
-        else
+        if(currentMag <= 0 )
         {
             Reload();
+        }
+    }
+
+    public override void Reload()
+    {
+        if (currentAmmo > 0)
+        {
+            if (currentAmmo >= magSize)
+            {
+                currentAmmo -= magSize - currentMag;
+
+                currentMag = magSize;
+            }
+            if (currentAmmo < magSize)
+            {
+                tempMag = currentAmmo;
+                currentMag = tempMag;
+                currentAmmo -= tempMag;
+            }
         }
     }
 
