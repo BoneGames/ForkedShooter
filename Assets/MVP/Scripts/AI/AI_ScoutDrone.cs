@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AI_ScoutDrone : Enemy
+public class AI_ScoutDrone : MonoBehaviour
 {
     #region VARIABLES
     // Declaration
@@ -205,26 +205,29 @@ public class AI_ScoutDrone : Enemy
         #region If Target is Seen...
         if (fov.visibleTargets.Count > 0)
         {
-            // Current animation (Seek) and SearchLight Color.
-            anim.SetBool("hasTarget", true);
-            anim.SetBool("isAlert", true);
-            searchLight.color = colorSeek;
-
-            holdStateTimer[1] = pauseDuration[1];
-
-            #region Track Player Position
-            // Direction of target (player) from the body position.
-            Vector3 targetDir = target.position - body.position;
-
-            // float step = moveSpeed[1] * Time.deltaTime;
-
-            // Rotate front face of ScoutDrone towards targetDir.
-            //Vector3 newTarDir = Vector3.RotateTowards(body.position, targetDir, step, 0.0f);
-            
-            if (targetDir.magnitude > 0)
+            if (target)
             {
-                body.transform.rotation = Quaternion.LookRotation(targetDir.normalized, Vector3.up);
-                //body.transform.rotation *= Quaternion.Euler(0, 0, 0);
+                // Current animation (Seek) and SearchLight Color.
+                anim.SetBool("hasTarget", true);
+                anim.SetBool("isAlert", true);
+                searchLight.color = colorSeek;
+
+                holdStateTimer[1] = pauseDuration[1];
+
+                #region Track Player Position
+                // Direction of target (player) from the body position.
+                Vector3 targetDir = target.position - body.position;
+
+                // float step = moveSpeed[1] * Time.deltaTime;
+
+                // Rotate front face of ScoutDrone towards targetDir.
+                //Vector3 newTarDir = Vector3.RotateTowards(body.position, targetDir, step, 0.0f);
+
+                if (targetDir.magnitude > 0)
+                {
+                    body.transform.rotation = Quaternion.LookRotation(targetDir.normalized, Vector3.up);
+                    //body.transform.rotation *= Quaternion.Euler(0, 0, 0);
+                }
             }
             #endregion
 

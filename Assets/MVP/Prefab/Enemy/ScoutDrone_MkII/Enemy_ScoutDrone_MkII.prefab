@@ -180,6 +180,7 @@ GameObject:
   - component: {fileID: 4015115866975580}
   - component: {fileID: 135569615184256982}
   - component: {fileID: 114367580283785598}
+  - component: {fileID: 114475317643442602}
   - component: {fileID: 195674712257058426}
   - component: {fileID: 95943710101828514}
   m_Layer: 0
@@ -332,6 +333,21 @@ GameObject:
   - component: {fileID: 23132703486766706}
   m_Layer: 0
   m_Name: Obj_Rotor_Blade001
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1762624994723422
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4070660762297068}
+  m_Layer: 0
+  m_Name: GUN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -497,6 +513,19 @@ Transform:
   - {fileID: 4442178695110252}
   m_Father: {fileID: 4291189061229114}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4070660762297068
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1762624994723422}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.000000074506, z: 0.242}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4707794632611830}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4102696049272328
 Transform:
@@ -714,6 +743,7 @@ Transform:
   - {fileID: 4145428664842096}
   - {fileID: 4309709531414714}
   - {fileID: 4579066399728000}
+  - {fileID: 4070660762297068}
   m_Father: {fileID: 4669022983398600}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -1598,15 +1628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a37c325277d297d44a11d8f129b52cb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 195674712257058426}
-  body: {fileID: 4707794632611830}
-  target: {fileID: 0}
-  waypointParent: {fileID: 0}
-  fov: {fileID: 114383582587980458}
-  searchLight: {fileID: 0}
-  colorPatrol: {r: 1, g: 1, b: 1, a: 1}
-  colorSearch: {r: 0.8039216, g: 0.4019608, b: 0, a: 1}
-  colorSeek: {r: 0.8039216, g: 0, b: 0, a: 1}
+  health: 100
   currentState: 0
   moveSpeed:
   - 2
@@ -1622,6 +1644,15 @@ MonoBehaviour:
   - 0
   stoppingDistance: 1
   anim: {fileID: 95943710101828514}
+  agent: {fileID: 195674712257058426}
+  body: {fileID: 4707794632611830}
+  target: {fileID: 0}
+  waypointParent: {fileID: 0}
+  fov: {fileID: 114383582587980458}
+  searchLight: {fileID: 0}
+  colorPatrol: {r: 1, g: 1, b: 1, a: 1}
+  colorSearch: {r: 0.8039216, g: 0.4019608, b: 0, a: 1}
+  colorSeek: {r: 0.8039216, g: 0, b: 0, a: 1}
 --- !u!114 &114383582587980458
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1646,6 +1677,26 @@ MonoBehaviour:
   meshResolution: 3
   edgeResolveIterations: 4
   edgeDstThreshold: 0.5
+--- !u!114 &114475317643442602
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1330061183068278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d226a0cd5dd188542a7ffa0f36407276, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 100
+  ammo: 30
+  accuracy: 1
+  range: 10
+  rateOfFire: 5
+  projectile: {fileID: 1874544804970178, guid: f5fad20bfebd88d46abe3e602f14fdaf, type: 2}
+  spawnPoint: {fileID: 4070660762297068}
+  hitPoint: {x: 0, y: 0, z: 0}
+  contact: {fileID: 114367580283785598}
 --- !u!135 &135569615184256982
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -1657,7 +1708,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.53
-  m_Center: {x: 0, y: 12, z: -0.05}
+  m_Center: {x: 0, y: 3, z: -0.05}
 --- !u!195 &195674712257058426
 NavMeshAgent:
   m_ObjectHideFlags: 1

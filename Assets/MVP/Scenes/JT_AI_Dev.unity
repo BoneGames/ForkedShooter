@@ -564,6 +564,7 @@ Transform:
   m_Children:
   - {fileID: 1568801670}
   - {fileID: 2069657523}
+  - {fileID: 1986856460}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -729,6 +730,7 @@ GameObject:
   m_Component:
   - component: {fileID: 353289030}
   - component: {fileID: 543244027}
+  - component: {fileID: 543244029}
   - component: {fileID: 543244026}
   - component: {fileID: 543244028}
   - component: {fileID: 543244025}
@@ -793,7 +795,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a37c325277d297d44a11d8f129b52cb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
   currentState: 0
   moveSpeed:
   - 2
@@ -834,7 +835,8 @@ SphereCollider:
 --- !u!114 &543244028
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 114475317643442602, guid: 3bf969863ce4d454fb00ed2476ed4236,
+    type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 543244023}
   m_Enabled: 1
@@ -851,6 +853,19 @@ MonoBehaviour:
   spawnPoint: {fileID: 1479969975}
   hitPoint: {x: 0, y: 0, z: 0}
   contact: {fileID: 543244026}
+--- !u!114 &543244029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 543244023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96551fefb8389fd4195e57e0647dcda8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
 --- !u!1 &613779840
 GameObject:
   m_ObjectHideFlags: 0
@@ -2350,7 +2365,8 @@ Transform:
 --- !u!1 &1479969974
 GameObject:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 1762624994723422, guid: 3bf969863ce4d454fb00ed2476ed4236,
+    type: 2}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 6
   m_Component:
@@ -2365,7 +2381,8 @@ GameObject:
 --- !u!4 &1479969975
 Transform:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 4070660762297068, guid: 3bf969863ce4d454fb00ed2476ed4236,
+    type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1479969974}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -2763,6 +2780,34 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1818551391}
   m_Mesh: {fileID: 4300024, guid: 920fe7796c2854644adb9e438096e563, type: 3}
+--- !u!1 &1986856459
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1986856460}
+  m_Layer: 0
+  m_Name: Invul_Totem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1986856460
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1986856459}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 385775393}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2069657522
 GameObject:
   m_ObjectHideFlags: 0

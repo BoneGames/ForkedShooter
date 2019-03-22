@@ -30,6 +30,7 @@ public class AI_WeaponTEST : Weapon
             Bullet newBullet = clone.GetComponent<Bullet>();
 
             newBullet.Fire(spawnPoint.transform.forward);
+            newBullet.sourceAgent = this.gameObject;
             print("Firing.");
         }
         // Otherwise stop firing.

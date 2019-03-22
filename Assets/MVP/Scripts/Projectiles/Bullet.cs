@@ -8,6 +8,8 @@ public class Bullet : MonoBehaviour
     public float speed = 5f;
     public Rigidbody rigid;
 
+    public GameObject sourceAgent;
+
     public void Fire(Vector3 direction)
     {
         rigid.AddForce(direction * speed, ForceMode.Impulse);
@@ -15,11 +17,21 @@ public class Bullet : MonoBehaviour
 
     public void OnCollisionEnter(Collision other)
     {
-        Enemy enemy = other.transform.GetComponent<Enemy>();
-        if (enemy)
+        if (other.gameObject != sourceAgent)
         {
-            enemy.ChangeHealth(damage);
+            if (other.transform.GetComponent<Health>())
+            {
+                Health target = other.transform.GetComponent<Health>();
+                target.ChangeHealth(damage);
+            }
+            
             Destroy(gameObject);
         }
+    }
+
+    public enum SourceAgent
+    {
+        Player,
+        Enemy1
     }
 }
