@@ -16,12 +16,15 @@ public class RigidCharacterMovement : MonoBehaviour
     public bool isCrouching = false;
     public bool isSprinting = false;
     private bool isJumping = false;
+    public bool isDead = false;
+    public Transform lastCheckpoint;
 
     [Header("Important Stuff")]
     public Rigidbody rigid;
     public float rayDistance = 1f;
     public GameObject myCamera;
     public Transform myHand;
+    public Health myHealth;
 
     public Weapon[] weapons;
 
@@ -40,12 +43,26 @@ public class RigidCharacterMovement : MonoBehaviour
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
+        myHealth = GetComponent<PlayerHealth>();
     }
 
     void OnTriggerEnter(Collider other)
     {
         interactObject = other.GetComponent<Interactable>();
-        print("Should be able to open");
+
+        if (interactObject)
+        {
+            print("Should be able to open");
+        }
+
+        if (other.tag == "OOB")
+        {
+            Respawn();
+        }
+        if (other.tag == "CheckPoint")
+        {
+            lastCheckpoint = other.gameObject.transform;
+        }
     }
 
     void OnTriggerExit(Collider other)
@@ -93,6 +110,7 @@ public class RigidCharacterMovement : MonoBehaviour
         }
     }
 
+    #region Weapons
     public void Attack()
     {
         currentWeapon.Attack();
@@ -101,11 +119,10 @@ public class RigidCharacterMovement : MonoBehaviour
     {
         currentWeapon.Reload();
     }
-
     public void Aim(bool isAiming)
     {
         myHand.localPosition = isAiming ? new Vector3(0, myHand.localPosition.y + .05f, myHand.localPosition.z) : myHand.localPosition = new Vector3(0.5f, myHand.localPosition.y - .05f, myHand.localPosition.z);
-        
+
         //if (isAiming)
         //{
         //    myHand.localPosition = new Vector3(0, myHand.localPosition.y, myHand.localPosition.z);
@@ -116,6 +133,32 @@ public class RigidCharacterMovement : MonoBehaviour
         //}
     }
 
+    public void DisableAllWeapons()
+    {
+        foreach (var weapon in weapons)
+        {
+            weapon.gameObject.SetActive(false);
+        }
+    }
+    public void SelectWeapon(int index)
+    {
+        if (!inBounds(index, weapons))
+        {
+            return;
+        }
+
+        DisableAllWeapons();
+
+        currentWeapon = weapons[index];
+        currentWeapon.gameObject.SetActive(true);
+    }
+    private bool inBounds(int index, Weapon[] array)
+    {
+        return (index >= 0) && (index < array.Length);
+    }
+    #endregion
+
+    #region Motion
     public void Move(float inputH, float inputV)
     {
         moveDirection = new Vector3(inputH, 0f, inputV);
@@ -150,40 +193,9 @@ public class RigidCharacterMovement : MonoBehaviour
         }
         return false;
     }
+    #endregion
 
-    private void OnDrawGizmos()
-    {
-        Ray groundRay = new Ray(transform.position, Vector3.down);
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(groundRay.origin, groundRay.origin + groundRay.direction * rayDistance);
-    }
-
-    public void DisableAllWeapons()
-    {
-        foreach (var weapon in weapons)
-        {
-            weapon.gameObject.SetActive(false);
-        }
-    }
-
-    public void SelectWeapon(int index)
-    {
-        if (!inBounds(index, weapons))
-        {
-            return;
-        }
-
-        DisableAllWeapons();
-
-        currentWeapon = weapons[index];
-        currentWeapon.gameObject.SetActive(true);
-    }
-
-    private bool inBounds(int index, Weapon[] array)
-    {
-        return (index >= 0) && (index < array.Length);
-    }
-
+    #region Actions
     public void Interact()
     {
         if (interactObject)
@@ -191,4 +203,14 @@ public class RigidCharacterMovement : MonoBehaviour
             interactObject.Interact();
         }
     }
+
+    public void Respawn()
+    {
+        isDead = false;
+
+        transform.position = lastCheckpoint.position;
+
+        myHealth.currentHealth = myHealth.maxHealth;
+    }
+    #endregion
 }
