@@ -599,6 +599,7 @@ MonoBehaviour:
   - {fileID: 114969158594884326}
   - {fileID: 114726533911703194}
   - {fileID: 114227275478083670}
+  health: 100
 --- !u!114 &114217385584194936
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -620,6 +621,7 @@ MonoBehaviour:
   ownershipTransfer: 0
   ObservedComponents:
   - {fileID: 114253600731314580}
+  - {fileID: 114157499284252850}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1

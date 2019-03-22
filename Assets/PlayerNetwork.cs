@@ -8,6 +8,8 @@ public class PlayerNetwork : MonoBehaviour {
 	[SerializeField] private MonoBehaviour[] playerControlScripts;
 	private PhotonView photonView;
 
+    public int health = 100;
+
 	private void Start()
 	{
 		photonView = GetComponent<PhotonView>();
@@ -27,4 +29,18 @@ public class PlayerNetwork : MonoBehaviour {
 			}
 		}
 	}
+
+    private void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        //Send health data to network
+        if(stream.isWriting)
+        {
+            stream.SendNext(health);
+        }
+        // recieve health data from network (other player)
+        else if(stream.isReading)
+        {
+            health = (int)stream.ReceiveNext();
+        }
+    }
 }
