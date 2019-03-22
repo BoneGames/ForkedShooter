@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AI_ScoutDrone : MonoBehaviour
+public class AI_ScoutDrone : Enemy
 {
     #region VARIABLES
     // Declaration
@@ -13,29 +13,14 @@ public class AI_ScoutDrone : MonoBehaviour
         Seek = 1,
         Investigate = 2
     }
-
-    [Header("Components")]
-    public NavMeshAgent agent; // Unity component reference
-    public Transform body; // Transform of drone chasis/body position.
-    public Transform target; // Reference assigned target's Transform data (position/rotation/scale).
-    public Transform waypointParent; // Reference one waypoint Parent (used to get children in array).
-    public AI_FoV_Detection fov; // Reference FieldOfView Script (used for line of sight player detection).
-
-    [Header("SearchLight")]
-    public Light searchLight; // Reference Light (child 'SearchLight').
-    // Colours! Switching searchlight colour during different states (names are self explanatory).
-    public Color colorPatrol = Color.white;
-    public Color colorSearch = new Color(0.8039216f - 0 / 100, 0.4019608f - 0 / 100, 0);
-    public Color colorSeek = new Color(0.8039216f - 0 / 100, 0, 0);
-
+    
     [Header("Behaviours")]
     public State currentState = State.Patrol; // The default/start state set to Patrol.
-
+    
     [AI_ScoutDrone_(new string[] { "Speed Patrol", "Speed Seek", "Speed Investigate" })]
     public float[] moveSpeed = new float[3]; // Movement speeds for different states (up to you).
     [AI_ScoutDrone_(new string[] { "Pause Patrol", "Pause Seek", "Pause Investigate" })]
     public float[] pauseDuration = new float[3]; // Time to wait before doing next thing.
-    [SerializeField] // Makes private access types work like public access types (good for debug, in a way).
     [AI_ScoutDrone_(new string[] { "Timer Patrol", "Timer Seek", "Timer Investigate" })]
     public float[] holdStateTimer = new float[3]; // Used to count how much time has passed since...
 
@@ -45,10 +30,24 @@ public class AI_ScoutDrone : MonoBehaviour
     [Header("Animations")]
     public Animator anim;
 
+    [Header("Components")]
+    public NavMeshAgent agent; // Unity component reference
+    public Transform body; // Transform of drone chasis/body position.
+    public Transform target; // Reference assigned target's Transform data (position/rotation/scale).
+    public Transform waypointParent; // Reference one waypoint Parent (used to get children in array).
+    public AI_FoV_Detection fov; // Reference FieldOfView Script (used for line of sight player detection).
+
     // Creates a collection of Transforms
     private Transform[] waypoints; // Transform of (child) waypoints in array.
     private int currentIndex = 1; // Counts sequential waypoints of array index.
     private Quaternion startRotation;
+    
+    [Header("SearchLight")]
+    public Light searchLight; // Reference Light (child 'SearchLight').
+    // Colours! Switching searchlight colour during different states (names are self explanatory).
+    public Color colorPatrol = Color.white;
+    public Color colorSearch = new Color(0.8039216f - 0 / 100, 0.4019608f - 0 / 100, 0);
+    public Color colorSeek = new Color(0.8039216f - 0 / 100, 0, 0);
     #endregion VARIABLES
 
     #region STATES
