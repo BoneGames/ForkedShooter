@@ -14,6 +14,7 @@ public class PlayerInput : MonoBehaviour
     [Header("Gun Keys")]
     public KeyCode shootKey = KeyCode.Mouse0;
     public KeyCode aimKey = KeyCode.Mouse1;
+    public KeyCode reloadKey = KeyCode.R;
 
     public int weaponIndex = 0;
 
@@ -54,6 +55,19 @@ public class PlayerInput : MonoBehaviour
         {
             player.Attack();
         }
+        if (Input.GetKeyDown(aimKey))
+        {
+            player.Aim(true);
+        }
+        if (Input.GetKeyUp(aimKey))
+        {
+            player.Aim(false);
+        }
+        if (Input.GetKeyDown(reloadKey))
+        {
+            player.Reload();
+        }
+
 
         weaponSwitch();
     }
