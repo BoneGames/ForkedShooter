@@ -9,16 +9,20 @@ public class DoorTrigger : MonoBehaviour
 
     [Header("Variables")]
     public GameObject enemy;
+    public Transform enemyParent;
+    public bool enemySpawned = false;
+    public bool roomCleared = false;
+    public Transform spawnPoint;
 
-    void Start()
-    {
-        
-    }
+    public Transform waypointParent;
+
     void Update()
     {
-        if(enemy.transform.childCount <= 0)
+        if(enemyParent.transform.childCount <= 0 && enemySpawned == true && roomCleared == false)
         {
+            roomCleared = true;
             anim.SetBool("Exit", true);
+            print("Fuck");
         }
     }
 
@@ -26,12 +30,30 @@ public class DoorTrigger : MonoBehaviour
     //When player enters triggerbox
     void OnTriggerEnter(Collider other)
     {
-        //Only trigger is tag is player
-        if (other.gameObject.CompareTag("Player"))
+        if (enemySpawned == false)
         {
-            Debug.Log("Collision detected");
-            //Set the trigger for the animator
-            anim.SetTrigger("Enter");
+            //Only trigger is tag is player
+            if (other.gameObject.CompareTag("Player"))
+            {
+                Debug.Log("Collision detected");
+                //Set the trigger for the animator
+                anim.SetTrigger("Enter");
+
+                SpawnEnemies(2);
+
+            }
         }
+    }
+
+    void SpawnEnemies(int amount)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            GameObject clone = Instantiate(enemy, spawnPoint.position, spawnPoint.rotation);
+            clone.transform.parent = enemyParent;
+            clone.GetComponent<AI_ScoutDrone>().waypointParent = waypointParent;
+        }
+        enemySpawned = true;
+        
     }
 }

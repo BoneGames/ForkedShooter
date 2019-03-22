@@ -33,6 +33,7 @@ public class Pistol : Weapon
         {
             GameObject clone = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
             Bullet newBullet = clone.GetComponent<Bullet>();
+            newBullet.damage = damage;
 
             newBullet.Fire(transform.forward);
             currentMag--;

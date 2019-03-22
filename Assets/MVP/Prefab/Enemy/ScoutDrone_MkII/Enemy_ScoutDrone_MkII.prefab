@@ -1598,15 +1598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a37c325277d297d44a11d8f129b52cb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 195674712257058426}
-  body: {fileID: 4707794632611830}
-  target: {fileID: 0}
-  waypointParent: {fileID: 0}
-  fov: {fileID: 114383582587980458}
-  searchLight: {fileID: 0}
-  colorPatrol: {r: 1, g: 1, b: 1, a: 1}
-  colorSearch: {r: 0.8039216, g: 0.4019608, b: 0, a: 1}
-  colorSeek: {r: 0.8039216, g: 0, b: 0, a: 1}
+  health: 100
   currentState: 0
   moveSpeed:
   - 2
@@ -1622,6 +1614,15 @@ MonoBehaviour:
   - 0
   stoppingDistance: 1
   anim: {fileID: 95943710101828514}
+  agent: {fileID: 195674712257058426}
+  body: {fileID: 4707794632611830}
+  target: {fileID: 0}
+  waypointParent: {fileID: 0}
+  fov: {fileID: 114383582587980458}
+  searchLight: {fileID: 0}
+  colorPatrol: {r: 1, g: 1, b: 1, a: 1}
+  colorSearch: {r: 0.8039216, g: 0.4019608, b: 0, a: 1}
+  colorSeek: {r: 0.8039216, g: 0, b: 0, a: 1}
 --- !u!114 &114383582587980458
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1657,7 +1658,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.53
-  m_Center: {x: 0, y: 12, z: -0.05}
+  m_Center: {x: 0, y: 3, z: -0.05}
 --- !u!195 &195674712257058426
 NavMeshAgent:
   m_ObjectHideFlags: 1
