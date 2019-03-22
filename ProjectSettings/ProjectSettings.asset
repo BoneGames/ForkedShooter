@@ -649,9 +649,9 @@ PlayerSettings:
     UNet: 1
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
-  cloudProjectId: fc908399-38fd-4895-a189-146321a58b35
-  projectName: GameSystems
-  organizationId: flarij
+  cloudProjectId: a6ec5556-441b-484b-84e5-9afe69da4043
+  projectName: ShooterProject (1)
+  organizationId: bee_bone
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

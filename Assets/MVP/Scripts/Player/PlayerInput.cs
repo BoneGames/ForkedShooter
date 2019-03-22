@@ -10,7 +10,7 @@ public class PlayerInput : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        player = GameObject.Find("Player").GetComponent<RigidCharacterMovement>();
+        player = GetComponent<RigidCharacterMovement>();
         player.SelectWeapon(weaponIndex);
     }
 

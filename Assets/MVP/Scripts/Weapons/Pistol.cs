@@ -26,10 +26,18 @@ public class Pistol : Weapon
 
     public override void Attack()
     {
-        GameObject clone = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
-        Bullet newBullet = clone.GetComponent<Bullet>();
-
-        newBullet.Fire(transform.forward);
+        RaycastHit hit;
+        Ray ray = new Ray(transform.position, transform.forward);
+        if (Physics.Raycast(ray, out hit))
+        {
+            // For reference to see where bullets hit;
+            GameObject bullet = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube), hit.point, Quaternion.identity);
+            bullet.transform.localScale = new Vector3(.15f, .15f, .15f);
+            if (hit.collider.CompareTag("Player"))
+            {
+                hit.transform.GetComponent<PhotonView>().RPC("ChangeHealth", PhotonTargets.All, damage);
+            }
+        }
     }
 
 }
