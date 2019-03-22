@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311554, g: 0.38073874, b: 0.3587339, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311575, g: 0.38073805, b: 0.3587338, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -793,15 +793,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a37c325277d297d44a11d8f129b52cb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 543244025}
-  body: {fileID: 2131257548}
-  target: {fileID: 1653427402}
-  waypointParent: {fileID: 1239713287}
-  fov: {fileID: 2131257549}
-  searchLight: {fileID: 0}
-  colorPatrol: {r: 1, g: 1, b: 1, a: 1}
-  colorSearch: {r: 0.8039216, g: 0.4019608, b: 0, a: 1}
-  colorSeek: {r: 0.8039216, g: 0, b: 0, a: 1}
+  health: 100
   currentState: 0
   moveSpeed:
   - 2
@@ -817,6 +809,15 @@ MonoBehaviour:
   - 0
   stoppingDistance: 1
   anim: {fileID: 543244024}
+  agent: {fileID: 543244025}
+  body: {fileID: 2131257548}
+  target: {fileID: 1653427402}
+  waypointParent: {fileID: 1239713287}
+  fov: {fileID: 2131257549}
+  searchLight: {fileID: 0}
+  colorPatrol: {r: 1, g: 1, b: 1, a: 1}
+  colorSearch: {r: 0.8039216, g: 0.4019608, b: 0, a: 1}
+  colorSeek: {r: 0.8039216, g: 0, b: 0, a: 1}
 --- !u!135 &543244027
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -829,7 +830,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.53
-  m_Center: {x: 0, y: 12, z: -0.05}
+  m_Center: {x: 0, y: 3, z: -0.05}
 --- !u!114 &543244028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2509,6 +2510,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1653427398}
+  sprintKey: 304
+  crouchKey: 306
+  jumpKey: 32
+  shootKey: 323
+  aimKey: 324
   weaponIndex: 0
 --- !u!114 &1653427398
 MonoBehaviour:
@@ -2523,15 +2529,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpeed: 5
   jumpHeight: 10
+  crouchMultiplier: 0.8
+  sprintMultiplier: 1.5
+  isCrouching: 0
+  isSprinting: 0
   rigid: {fileID: 1653427396}
   rayDistance: 1.03
+  myCamera: {fileID: 0}
   weapons:
   - {fileID: 104519214}
   - {fileID: 28032607}
   - {fileID: 1124877418}
   currentWeapon: {fileID: 0}
   rotateToMainCamera: 1
-  weaponRotationThing: 0
 --- !u!136 &1653427399
 CapsuleCollider:
   m_ObjectHideFlags: 0

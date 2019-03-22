@@ -13,13 +13,13 @@ public class Bullet : MonoBehaviour
         rigid.AddForce(direction * speed, ForceMode.Impulse);
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    Enemy enemy = other.GetComponent<Enemy>();
-    //    if (enemy)
-    //    {
-    //        enemy.DealDamage(damage);
-    //        Destroy(gameObject);
-    //    }
-    //}
+    public void OnCollisionEnter(Collision other)
+    {
+        Enemy enemy = other.transform.GetComponent<Enemy>();
+        if (enemy)
+        {
+            enemy.ChangeHealth(damage);
+            Destroy(gameObject);
+        }
+    }
 }
