@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Enemy : Health
+public class EnemyHealth : Health
 {
     // Takes damage from various bullet/projectile scripts and runs 'CheckDie()'.
     public override void ChangeHealth(int value)
