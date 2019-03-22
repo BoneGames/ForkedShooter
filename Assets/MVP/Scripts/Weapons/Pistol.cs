@@ -26,10 +26,18 @@ public class Pistol : Weapon
 
     public override void Attack()
     {
-        GameObject clone = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
-        Bullet newBullet = clone.GetComponent<Bullet>();
+        if (currentAmmo >= 0)
+        {
+            GameObject clone = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
+            Bullet newBullet = clone.GetComponent<Bullet>();
 
-        newBullet.Fire(transform.forward);
+            newBullet.Fire(transform.forward);
+            currentAmmo--;
+        }
+        else
+        {
+            Reload();
+        }
     }
 
 }

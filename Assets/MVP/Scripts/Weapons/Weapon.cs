@@ -55,7 +55,7 @@ namespace GameSystems
         public Vector3 hitPoint;
         Quaternion hitRotation;
 
-        protected int currentAmmo = 0;
+        public int currentAmmo = 0;
 
         public abstract void Attack();
 
