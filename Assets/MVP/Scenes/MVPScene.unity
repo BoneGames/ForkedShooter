@@ -1202,15 +1202,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpeed: 5
   jumpHeight: 10
+  crouchMultiplier: 0.5
+  sprintMultiplier: 2
+  isCrouching: 0
+  isSprinting: 0
   rigid: {fileID: 965589768}
   rayDistance: 1.03
+  myCamera: {fileID: 1435389535}
   weapons:
   - {fileID: 1760961345}
   - {fileID: 325890146}
   - {fileID: 1367003337}
   currentWeapon: {fileID: 0}
   rotateToMainCamera: 1
-  weaponRotationThing: 0
 --- !u!136 &965589770
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1292,6 +1296,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 965589769}
+  sprintKey: 304
+  crouchKey: 306
+  jumpKey: 32
+  shootKey: 323
+  aimKey: 324
   weaponIndex: 0
 --- !u!1 &1207623133
 GameObject:
@@ -6194,7 +6203,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1435389535}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.444, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 763779905}
