@@ -21,6 +21,7 @@ public class RigidCharacterMovement : MonoBehaviour
     public Rigidbody rigid;
     public float rayDistance = 1f;
     public GameObject myCamera;
+    public Transform myHand;
 
     public Weapon[] weapons;
 
@@ -95,6 +96,24 @@ public class RigidCharacterMovement : MonoBehaviour
     public void Attack()
     {
         currentWeapon.Attack();
+    }
+    public void Reload()
+    {
+        currentWeapon.Reload();
+    }
+
+    public void Aim(bool isAiming)
+    {
+        myHand.localPosition = isAiming ? new Vector3(0, myHand.localPosition.y + .05f, myHand.localPosition.z) : myHand.localPosition = new Vector3(0.5f, myHand.localPosition.y - .05f, myHand.localPosition.z);
+        
+        //if (isAiming)
+        //{
+        //    myHand.localPosition = new Vector3(0, myHand.localPosition.y, myHand.localPosition.z);
+        //}
+        //else
+        //{
+        //    myHand.localPosition = new Vector3(0, myHand.localPosition.y, myHand.localPosition.z);
+        //}
     }
 
     public void Move(float inputH, float inputV)
