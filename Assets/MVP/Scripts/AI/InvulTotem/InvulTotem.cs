@@ -2,47 +2,56 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SphereCollider))]
 public class InvulTotem : MonoBehaviour
 {
     #region Variables
     public float radius = 10f;
-    public List<Collider> invulnerable = new List<Collider>();
     public SphereCollider col;
+    public Transform drawAoE;
     #endregion
 
+    #region Functions 'n' Methods
     // Start is called just before any of the Update methods is called the first time
     void Start()
     {
         col = gameObject.GetComponent<SphereCollider>();
         col.isTrigger = true;
         col.radius = radius;
+
+        drawAoE = transform.Find("AoE").GetComponent<Transform>();
+        drawAoE.localScale = new Vector3(radius * 2f, radius * 2f, radius * 2f);
     }
 
-    void MakeInvulnerable()
+    // This function is called when the MonoBehaviour will be destroyed
+    void OnDestroy()
     {
-        if (invulnerable.Count > 0)
+        EnemyHealth god = GetComponent<EnemyHealth>();
+    }
+
+
+    #region OnTriggers...
+    // OnTriggerEnter is called when the Collider other enters the trigger
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Enemy")
         {
+            EnemyHealth god = other.GetComponent<EnemyHealth>();
+            god.isGod = true;
             print("isGod");
         }
     }
 
-    // OnTriggerStay is called once per frame for every Collider other that is touching the trigger
-    void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.tag == "Enemy")
-        {
-            invulnerable.Add(other);
-            MakeInvulnerable();
-        }
-    }
-    
     // OnTriggerExit is called when the Collider other has stopped touching the trigger
     void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "Enemy")
         {
-            invulnerable.Remove(other);
+            EnemyHealth god = other.GetComponent<EnemyHealth>();
+            god.isGod = false;
             print("!isGod");
         }
-    }
+    } 
+    #endregion
+    #endregion
 }
