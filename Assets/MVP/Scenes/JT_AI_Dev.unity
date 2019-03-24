@@ -240,7 +240,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 179249480}
-  - component: {fileID: 179249483}
   - component: {fileID: 179249481}
   - component: {fileID: 179249482}
   - component: {fileID: 179249484}
@@ -277,9 +276,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bd1772a1054c3f4186c62d35044063c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 200
+  currentHealth: 0
   radius: 10
-  col: {fileID: 0}
-  drawAoE: {fileID: 0}
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 0
+  visibleEnemies: []
 --- !u!135 &179249482
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -292,20 +295,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 10
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &179249483
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 179249479}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6725446be083011448a92a108c98a8e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 200
-  currentHealth: 0
-  isGod: 0
 --- !u!65 &179249484
 BoxCollider:
   m_ObjectHideFlags: 0

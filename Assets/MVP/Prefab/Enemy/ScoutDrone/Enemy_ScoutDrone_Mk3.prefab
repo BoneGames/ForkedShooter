@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 195558518581967682}
   - component: {fileID: 95049339517146008}
   - component: {fileID: 54902989782543628}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Enemy_ScoutDrone_Mk3
   m_TagString: Enemy
   m_Icon: {fileID: 0}
