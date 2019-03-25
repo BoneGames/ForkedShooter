@@ -446,7 +446,7 @@ Prefab:
     - target: {fileID: 114272049808185796, guid: 743310d68bad76e438b5ca22c733650d,
         type: 2}
       propertyPath: stoppingDistance.Array.data[3]
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114272049808185796, guid: 743310d68bad76e438b5ca22c733650d,
         type: 2}
@@ -456,7 +456,12 @@ Prefab:
     - target: {fileID: 114272049808185796, guid: 743310d68bad76e438b5ca22c733650d,
         type: 2}
       propertyPath: stoppingDistance.Array.data[2]
-      value: 7
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114272049808185796, guid: 743310d68bad76e438b5ca22c733650d,
+        type: 2}
+      propertyPath: stoppingDistance.Array.data[0]
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 743310d68bad76e438b5ca22c733650d, type: 2}
