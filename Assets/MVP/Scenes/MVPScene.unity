@@ -800,7 +800,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connectText: {fileID: 1813950965}
-  player: {fileID: 1091626204723154, guid: aa640b8bc00ae4f9f83bfada2f7dace0, type: 2}
+  player: {fileID: 1091626204723154, guid: 8ba2a87d1051949f090ed0428bbb9fe1, type: 2}
   lobbyCamera: {fileID: 1492242911}
   spawnPoint: {fileID: 1105408295}
 --- !u!4 &848931310

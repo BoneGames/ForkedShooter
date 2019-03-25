@@ -4,7 +4,7 @@ using UnityEngine;
 using GameSystems;
 using Interactions;
 
-public class RigidCharacterMovement : MonoBehaviour
+public class RigidCharacterMovement : Photon.MonoBehaviour
 {
     public float playerSpeed = 5f;
     public float jumpHeight = 10f;
@@ -12,6 +12,7 @@ public class RigidCharacterMovement : MonoBehaviour
     public float rayDistance = 1f;
 
     public Weapon[] weapons;
+    public bool[] WeaponsBools = new bool[3];
 
     public Weapon currentWeapon;
 
@@ -21,6 +22,7 @@ public class RigidCharacterMovement : MonoBehaviour
 
     private Vector3 moveDirection;
     private bool isJumping = false;
+    PhotonView pView;  
 
     private Interactable interactObject;
 
@@ -29,6 +31,7 @@ public class RigidCharacterMovement : MonoBehaviour
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
+        pView = GetComponent<PhotonView>();
         //currentWeapon = weapons[0].GetComponent<Weapon>();
         //currentWeapon.gameObject.SetActive(true);
         //shootPoint = weapons[0].transform.GetChild(0).GetComponent<Transform>();
@@ -50,6 +53,11 @@ public class RigidCharacterMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!pView.isMine)
+        {
+            return;
+        }
+       // currentWeapon.SwayWeapon();
         #region oldCode
         //if (Input.GetKey(KeyCode.W))
         //{
@@ -110,7 +118,7 @@ public class RigidCharacterMovement : MonoBehaviour
 
     public void Attack()
     {
-        currentWeapon.Attack();
+        currentWeapon.GetComponent<Weapon>().Attack();
     }
 
     public void Move(float inputH, float inputV)
@@ -142,6 +150,31 @@ public class RigidCharacterMovement : MonoBehaviour
         Gizmos.DrawLine(groundRay.origin, groundRay.origin + groundRay.direction * rayDistance);
     }
 
+    [PunRPC]
+    public void SelectWeapon()
+    {
+        Debug.Log(this.name + ": WeaponRPC called");
+        DisableAllWeapons();
+        for(int weapon = 0; weapon < weapons.Length; weapon++)
+        {
+            weapons[weapon].gameObject.SetActive(WeaponsBools[weapon]);
+            if(weapons[weapon].isActiveAndEnabled)
+            {
+                currentWeapon = weapons[weapon];
+            }
+        }
+        
+        // if (!inBounds(index, weapons))
+        // {
+        //     return;
+        // }
+
+        
+
+       // currentWeapon = weapons[index];
+        //currentWeapon.gameObject.SetActive(true);
+    }
+
     public void DisableAllWeapons()
     {
         foreach (var weapon in weapons)
@@ -149,25 +182,29 @@ public class RigidCharacterMovement : MonoBehaviour
             weapon.gameObject.SetActive(false);
         }
     }
+    
 
-    public void SelectWeapon(int index)
+   
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        if (!inBounds(index, weapons))
+        Debug.Log(this.name + ": OSV Called");
+        if(stream.isReading)
         {
-            return;
+            WeaponsBools = (bool[])stream.ReceiveNext();
         }
-
-        DisableAllWeapons();
-
-        currentWeapon = weapons[index];
-        currentWeapon.gameObject.SetActive(true);
-
+        if(stream.isWriting)
+        {
+            stream.SendNext(WeaponsBools);
+        }
     }
 
-    private bool inBounds(int index, Weapon[] array)
-    {
-        return (index >= 0) && (index < array.Length);
-    }
+   
+
+    //private bool inBounds(int index, Weapon[] array)
+    // private bool inBounds(int index, Weapon[] array)
+    // {
+    //     return (index >= 0) && (index < array.Length);
+    // }
 
     public void Interact()
     {

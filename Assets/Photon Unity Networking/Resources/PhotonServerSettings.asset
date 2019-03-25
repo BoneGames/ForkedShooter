@@ -43,4 +43,8 @@ MonoBehaviour:
   - RequestForPickupTimes
   - TaggedPlayer
   - ChangeHealth
+  - AssignNewWeapon
+  - DisableAllWeapons
+  - Initialise
+  - SelectWeapon
   DisableAutoOpenWizard: 1

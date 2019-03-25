@@ -24,6 +24,13 @@ public class Pistol : Weapon
     public float spread;
     public int magSize;
 
+
+    void OnDrawGizmos()
+    {
+        Debug.DrawRay(transform.position, transform.forward * 10,Color.red);
+    }
+
+
     public override void Attack()
     {
         RaycastHit hit;
@@ -32,6 +39,7 @@ public class Pistol : Weapon
         {
             // For reference to see where bullets hit;
             GameObject bullet = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube), hit.point, Quaternion.identity);
+            bullet.GetComponent<Renderer>().material.color = Color.red;
             bullet.transform.localScale = new Vector3(.15f, .15f, .15f);
             if (hit.collider.CompareTag("Player"))
             {

@@ -19,7 +19,7 @@ public class PhotonHealthMoniter : MonoBehaviour {
 		if(players.Count > 1)
 		{
 			player1.text = players[0].name + ": " + players[0].GetComponent<PlayerNetwork>().health.ToString() + " health";
-			player2.text = players[0].name + ": " + players[1].GetComponent<PlayerNetwork>().health.ToString() + " health";
+			player2.text = players[1].name + ": " + players[1].GetComponent<PlayerNetwork>().health.ToString() + " health";
 		}
 		
 	}

@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class PlayerNetwork : MonoBehaviour {
 
-	[SerializeField] private GameObject playerCam;
+	[SerializeField] private Camera playerCam;
 	[SerializeField] private MonoBehaviour[] playerControlScripts;
+
 	private PhotonView photonView;
     public int health = 100;
+
 	string ID;
 
 	private void Start()
@@ -15,7 +17,8 @@ public class PlayerNetwork : MonoBehaviour {
 		FindObjectOfType<PhotonHealthMoniter>().Register(gameObject);
 		photonView = GetComponent<PhotonView>();
 		Initialise();
-		ID = GetComponent<PhotonView>().viewID.ToString();
+		ID = GetComponent<PhotonView>().viewID.ToString().Substring(0,1);
+		this.name = "Player" + ID;
 	}
 
 	private void Update()
@@ -36,13 +39,14 @@ public class PlayerNetwork : MonoBehaviour {
 	{
 		health -= Damage; 
 	}
+	
 
 	private void Initialise()
 	{
 		if(!photonView.isMine)
 		{
 			// disable other player's FP cam
-			playerCam.SetActive(false);
+			playerCam.enabled = false;
 			// disable other player's control scripts
 			foreach(MonoBehaviour m in playerControlScripts)
 			{
@@ -57,6 +61,7 @@ public class PlayerNetwork : MonoBehaviour {
         if(stream.isWriting)
         {
             stream.SendNext(health);
+			//stream.SendNext()
         }
         // recieve health data from network (other player)
         else if(stream.isReading)

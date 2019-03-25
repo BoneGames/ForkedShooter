@@ -8,8 +8,11 @@ public class Shotgun : Weapon
     public int pellets = 6;
     public float reloadSpeed;
 
+
+
     public override void Attack()
     {
+        
         for (int i = 0; i < pellets; i++)
         {
             Vector3 spread = Vector3.zero;

@@ -594,7 +594,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ee5b61036d2b4cb89d0b5c9850248c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCam: {fileID: 1302257421648736}
+  playerCam: {fileID: 20367371390692426}
   playerControlScripts:
   - {fileID: 114969158594884326}
   - {fileID: 114726533911703194}
@@ -622,6 +622,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 114253600731314580}
   - {fileID: 114157499284252850}
+  - {fileID: 4319177108396794}
+  - {fileID: 114969158594884326}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -705,7 +707,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    ExtrapolateOption: 0
+    ExtrapolateOption: 3
     ExtrapolateSpeed: 1
     ExtrapolateIncludingRoundTripTime: 1
     ExtrapolateNumberOfStoredPositions: 1
@@ -773,6 +775,7 @@ MonoBehaviour:
   - {fileID: 114119683951193636}
   - {fileID: 114803585727709314}
   - {fileID: 114054781541176170}
+  WeaponsBools: 010000
   currentWeapon: {fileID: 0}
   rotateToMainCamera: 1
   weaponRotationThing: 0

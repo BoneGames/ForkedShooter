@@ -51,14 +51,21 @@ namespace GameSystems
         public float rateOfFire = 5f;
         public GameObject projectile;
         public Transform spawnPoint;
+        // public Vector3 startPos;
+        // public float swayAmount;
+        // public float swaySmoothing;
 
         public Vector3 hitPoint;
         Quaternion hitRotation;
+
 
         protected int currentAmmo = 0;
 
         public abstract void Attack();
 
+       
+
+         
         public Quaternion GetTargetNormal()
         {
             RaycastHit hit;
@@ -73,6 +80,7 @@ namespace GameSystems
             }
             return hitRotation;
         }
+       
 
         public virtual void Reload()
         {

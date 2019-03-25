@@ -9,7 +9,8 @@ public abstract class Projectile : MonoBehaviour
     public Element element;
     public Vector3 scale;
     public Rigidbody rigid;
-
+    public int damage;
+    public string firedBy;
     public GameObject impact;
     public Quaternion hitRotation;
 

@@ -11,8 +11,11 @@ public class PlayerInput : MonoBehaviour
     void Start()
     {
         player = GetComponent<RigidCharacterMovement>();
-        player.SelectWeapon(weaponIndex);
+
+        player.SelectWeapon();
     }
+
+    
 
     // Update is called once per frame
     void Update()
@@ -31,21 +34,33 @@ public class PlayerInput : MonoBehaviour
             player.Attack();
         }
 
-        weaponSwitch();
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f && weaponIndex > 0) // forward
+        {
+            weaponIndex -= 1;
+            weaponSwitch();
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0f && weaponIndex < player.weapons.Length - 1) // backwards
+        {
+            weaponIndex += 1;
+            weaponSwitch();
+        }
+
+
+        // weaponSwitch();
     }
 
     void weaponSwitch()
     {
         var currentIndex = weaponIndex;
 
-        if (Input.GetAxis("Mouse ScrollWheel") > 0f && weaponIndex > 0) // forward
-        {
-            weaponIndex -= 1;
-        }
-        else if (Input.GetAxis("Mouse ScrollWheel") < 0f && weaponIndex < player.weapons.Length - 1) // backwards
-        {
-            weaponIndex += 1;
-        }
+        // if (Input.GetAxis("Mouse ScrollWheel") > 0f && weaponIndex > 0) // forward
+        // {
+        //     weaponIndex -= 1;
+        // }
+        // else if (Input.GetAxis("Mouse ScrollWheel") < 0f && weaponIndex < player.weapons.Length - 1) // backwards
+        // {
+        //     weaponIndex += 1;
+        // }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -65,10 +80,25 @@ public class PlayerInput : MonoBehaviour
         {
             return;
         }
+        
         else
         {
             weaponIndex = currentIndex;
-            player.SelectWeapon(weaponIndex);
+            //bool[] WeaponsBoolsCopy = new bool[3];
+			for(int bo = 0;bo < player.WeaponsBools.Length; bo++)
+			{
+				if(bo == weaponIndex)
+				{
+					player.WeaponsBools[bo] = true;
+				}
+				else
+				{
+					player.WeaponsBools[bo] = false;
+				}
+			}
+			//player.WeaponsBools = WeaponsBoolsCopy;
+            player.GetComponent<PhotonView>().RPC("SelectWeapon", PhotonTargets.All);
+            //player.WeaponsBools[weaponIndex] = true;
         }
     }
 }
