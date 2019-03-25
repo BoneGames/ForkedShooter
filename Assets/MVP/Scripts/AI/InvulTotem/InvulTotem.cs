@@ -62,7 +62,7 @@ public class InvulTotem : Health
         {
             EnemyHealth god = other.GetComponent<EnemyHealth>();
             god.isGod = true;
-            print("isGod");
+            //print("isGod");
         }
     }
 
@@ -73,7 +73,7 @@ public class InvulTotem : Health
         {
             EnemyHealth god = other.GetComponent<EnemyHealth>();
             god.isGod = false;
-            print("!isGod");
+            //print("!isGod");
         }
     }
     #endregion
@@ -90,7 +90,7 @@ public class InvulTotem : Health
         {
             EnemyHealth enemy = enemyInAOE[i].GetComponent<EnemyHealth>();
             enemy.isGod = false;
-            print("LOST isGod");
+            //print("LOST isGod");
         }
     } 
     #endregion

@@ -1674,14 +1674,13 @@ MonoBehaviour:
   - 4
   - 8
   - 8
-  holdStateTimer:
-  - 0
-  - 0
-  - 0
-  stoppingDistance: 1
+  stoppingDistance:
+  - 5
+  - 8
+  - 4
   anim: {fileID: 95049339517146008}
   agent: {fileID: 195558518581967682}
-  body: {fileID: 4772487962471540}
+  aim: {fileID: 4772487962471540}
   target: {fileID: 0}
   waypointParent: {fileID: 0}
   fov: {fileID: 114657561762035214}

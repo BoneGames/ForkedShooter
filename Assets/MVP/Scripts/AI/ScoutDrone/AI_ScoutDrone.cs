@@ -21,10 +21,11 @@ public class AI_ScoutDrone : MonoBehaviour
     public float[] moveSpeed = new float[3]; // Movement speeds for different states (up to you).
     [AI_ScoutDrone_(new string[] { "Pause Patrol", "Pause Seek", "Pause Investigate" })]
     public float[] pauseDuration = new float[3]; // Time to wait before doing next thing.
-    [AI_ScoutDrone_(new string[] { "Timer Patrol", "Timer Seek", "Timer Investigate" })]
-    public float[] holdStateTimer = new float[3]; // Used to count how much time has passed since...
+    // [AI_ScoutDrone_(new string[] { "Timer Patrol", "Timer Seek", "Timer Investigate" })]
+    private float[] holdStateTimer = new float[3]; // Used to count how much time has passed since...
 
-    public float stoppingDistance = 1f; // Enemy AI's required distance to clear/'pass' a waypoint.
+    [AI_ScoutDrone_(new string[] { "Waypoint", "Seek Target", "Range Target", "Retreat" })]
+    public float[] stoppingDistance = new float[4]; // Stopping distance for different conditions.
 
 
     [Header("Animations")]
@@ -32,7 +33,7 @@ public class AI_ScoutDrone : MonoBehaviour
 
     [Header("Components")]
     public NavMeshAgent agent; // Unity component reference
-    public Transform body; // Transform of drone chasis/body position.
+    public Transform aim; // Transform of drone chasis/body position.
     public Transform target; // Reference assigned target's Transform data (position/rotation/scale).
     public Transform waypointParent; // Reference one waypoint Parent (used to get children in array).
     public AI_FoV_Detection fov; // Reference FieldOfView Script (used for line of sight player detection).
@@ -69,7 +70,7 @@ public class AI_ScoutDrone : MonoBehaviour
         float distance = Vector3.Distance(transform.position, point.position);
 
         #region Hold (Wait) at Waypoint
-        if (distance < .5f)
+        if (distance < stoppingDistance[0])
         {
             holdStateTimer[0] -= Time.deltaTime;
             if (holdStateTimer[0] <= 0)
@@ -151,13 +152,14 @@ public class AI_ScoutDrone : MonoBehaviour
         // //transform.rotation = Quaternion.LookRotation(newDir);
         #endregion
     }
-
-
+    
     // The contained variables for the Seek state (what rules the enemy AI follows when in 'Seek').
     void Seek()
     {
         // Agent navigation speed.
         agent.speed = moveSpeed[1];
+
+        float seekDistance = Vector3.Distance(transform.position, target.position);
 
         #region If Target is Lost...
         if (fov.visibleTargets.Count < 1)
@@ -169,7 +171,7 @@ public class AI_ScoutDrone : MonoBehaviour
             searchLight.color = colorSearch;
 
             // Reset rotation of SearchLight
-            body.transform.localRotation = startRotation;
+            aim.transform.localRotation = startRotation;
 
             holdStateTimer[1] -= Time.deltaTime;
 
@@ -205,6 +207,10 @@ public class AI_ScoutDrone : MonoBehaviour
         #region If Target is Seen...
         if (fov.visibleTargets.Count > 0)
         {
+            target = fov.visibleTargets[0];
+
+            // Switch to relative animations and aim
+            #region Anims, Rotations (AIM GUN)
             if (target)
             {
                 // Current animation (Seek) and SearchLight Color.
@@ -214,24 +220,37 @@ public class AI_ScoutDrone : MonoBehaviour
 
                 holdStateTimer[1] = pauseDuration[1];
 
-                #region Track Player Position
-                // Direction of target (player) from the body position.
-                Vector3 targetDir = target.position - body.position;
-
-                // float step = moveSpeed[1] * Time.deltaTime;
-
-                // Rotate front face of ScoutDrone towards targetDir.
-                //Vector3 newTarDir = Vector3.RotateTowards(body.position, targetDir, step, 0.0f);
-
-                if (targetDir.magnitude > 0)
+                #region Aim at Player Position
+                // Direction of target (player) from the aim position.
+                Vector3 aimDir = target.position - aim.position;
+                
+                if (aimDir.magnitude > 0)
                 {
-                    body.transform.rotation = Quaternion.LookRotation(targetDir.normalized, Vector3.up);
-                    //body.transform.rotation *= Quaternion.Euler(0, 0, 0);
+                    aim.transform.rotation = Quaternion.LookRotation(aimDir.normalized, Vector3.up);
                 }
+                #endregion
             }
             #endregion
 
-            agent.SetDestination(target.position);
+            // Move to specified point under set conditions.
+            #region Agent Destinations
+            Vector3 targetDir = transform.position - target.position;
+            if (seekDistance > stoppingDistance[1])
+            {
+                agent.SetDestination(target.position);
+                print("Chase");
+            }
+            if (seekDistance >= stoppingDistance[2] - 0.5f && seekDistance <= stoppingDistance[2] + 0.5f)
+            {
+                agent.SetDestination(transform.position);
+                print("Hold");
+            }
+            if (seekDistance < stoppingDistance[3])
+            {
+                agent.SetDestination(targetDir.normalized * stoppingDistance[2]);
+                print("Retreat");
+            } 
+            #endregion
         }
         #endregion
 
@@ -241,7 +260,7 @@ public class AI_ScoutDrone : MonoBehaviour
 
         float distance = Vector3.Distance(transform.position, point.position);
 
-        if (distance < .5f)
+        if (distance < stoppingDistance[0])
         {
             holdStateTimer[0] -= Time.deltaTime;
             if (holdStateTimer[0] <= 0)
@@ -267,8 +286,7 @@ public class AI_ScoutDrone : MonoBehaviour
         //anim.SetBool("hasTarget", true);
         //anim.SetBool("isAlert", false);
         searchLight.color = colorSearch;
-
-        //transform.position = Vector3.MoveTowards(transform.position, position, 1f);
+        
         agent.SetDestination(position);
         currentState = State.Investigate;
     }
@@ -296,7 +314,7 @@ public class AI_ScoutDrone : MonoBehaviour
         // Get NavMeshAgent (failsafe).
         agent = GetComponent<NavMeshAgent>();
 
-        startRotation = body.transform.localRotation;
+        startRotation = aim.transform.localRotation;
     }
     #endregion Start
 
@@ -318,7 +336,7 @@ public class AI_ScoutDrone : MonoBehaviour
             case State.Investigate:
                 // Run this code while in investigate state
                 // If the agent gets close to the investigate position
-                if (agent.remainingDistance < stoppingDistance)
+                if (agent.remainingDistance < stoppingDistance[0])
                 {
                     // Current animation (Search).
                     anim.SetBool("hasTarget", false);

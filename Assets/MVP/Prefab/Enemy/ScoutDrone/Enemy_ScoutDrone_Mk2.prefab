@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 195674712257058426}
   - component: {fileID: 95943710101828514}
   - component: {fileID: 54624521605680440}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Enemy_ScoutDrone_Mk2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -1726,6 +1726,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
+  isGod: 0
 --- !u!135 &135569615184256982
 SphereCollider:
   m_ObjectHideFlags: 1
