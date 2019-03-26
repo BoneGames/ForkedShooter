@@ -8,6 +8,7 @@ public class AI_Weapon : Weapon
     #region Variable
     // Check in AI_ScoutDrone.cs for visibleTargets.
     public AI_ScoutDrone contact;
+    public float reloadTime;
     #endregion
 
     #region Functions 'n' Methods
@@ -33,31 +34,52 @@ public class AI_Weapon : Weapon
             newBullet.sourceAgent = this.gameObject;
             //print("Firing.");
             currentAmmo--;
-            //Debug.Log(currentAmmo);
+            Debug.Log(currentAmmo);
         }
-        
-        // Otherwise stop firing.
-        else
+
+        // If we run out of ammo, start reloading and stop shooting.
+        if (currentAmmo == 0)
         {
-            //print("Target lost.");
+            StartCoroutine("StartReload", reloadTime);
+            StopCoroutine("Shoot");
         }
     }
 
-    public void BurstFire()
+    // Where we run Attack() multiple times.
+    IEnumerator BurstFire()
     {
-
+        while (true)
+        {
+            Attack();
+            yield return new WaitForSeconds(0.1f);
+            Attack();
+            yield return new WaitForSeconds(0.1f);
+            Attack();
+            yield return new WaitForSeconds(0.1f);
+            StopCoroutine("BurstFire");
+        }
     }
 
-    // Where we run Attack.
+    // Where we run BurstFire().
     IEnumerator Shoot()
     {
         // While the Coroutine is running...
         while (true)
         {
-            Attack();
-            yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
+            StartCoroutine("BurstFire");
+            yield return new WaitForSeconds(Random.Range(0.5f, 1f));
         }
     }
-    
+    // Where we run Reload().
+    IEnumerator StartReload(float reloadTime)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(reloadTime);
+            Reload();
+            StartCoroutine("Shoot");
+            StopCoroutine("StartReload");
+        }
+    }
     #endregion
 }

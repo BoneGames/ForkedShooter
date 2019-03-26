@@ -1654,6 +1654,7 @@ MonoBehaviour:
   spawnPoint: {fileID: 4076797023168174}
   hitPoint: {x: 0, y: 0, z: 0}
   contact: {fileID: 0}
+  reloadTime: 4
 --- !u!114 &114272049808185796
 MonoBehaviour:
   m_ObjectHideFlags: 1
