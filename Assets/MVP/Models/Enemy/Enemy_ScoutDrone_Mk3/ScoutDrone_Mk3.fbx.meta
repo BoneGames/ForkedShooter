@@ -1,0 +1,176 @@
+fileFormatVersion: 2
+guid: 38b030bb5efb36c469b22fb551448035
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Obj_Chasis_Body
+    100002: Obj_Chasis_Bottom
+    100004: Obj_Eye001_Frame
+    100006: Obj_Eye001_Lens
+    100008: Obj_Eye002_Frame
+    100010: Obj_Eye002_Lens
+    100012: Obj_Eye003_Frame
+    100014: Obj_Eye003_Lens
+    100016: Obj_Rotor_Blade001
+    100018: Obj_Rotor_Blade002
+    100020: Obj_Rotor_Shaft
+    100022: Obj_SearchLight_Chasis
+    100024: Obj_SearchLight_Lens
+    100026: Obj_SearchLight_Mount
+    100028: Obj_SearchLight_rotateMount
+    100030: Obj_SearchLight_swivelMount
+    100032: //RootNode
+    400000: Obj_Chasis_Body
+    400002: Obj_Chasis_Bottom
+    400004: Obj_Eye001_Frame
+    400006: Obj_Eye001_Lens
+    400008: Obj_Eye002_Frame
+    400010: Obj_Eye002_Lens
+    400012: Obj_Eye003_Frame
+    400014: Obj_Eye003_Lens
+    400016: Obj_Rotor_Blade001
+    400018: Obj_Rotor_Blade002
+    400020: Obj_Rotor_Shaft
+    400022: Obj_SearchLight_Chasis
+    400024: Obj_SearchLight_Lens
+    400026: Obj_SearchLight_Mount
+    400028: Obj_SearchLight_rotateMount
+    400030: Obj_SearchLight_swivelMount
+    400032: //RootNode
+    2100000: StingrayPBS1
+    2300000: Obj_Chasis_Body
+    2300002: Obj_Chasis_Bottom
+    2300004: Obj_Eye001_Frame
+    2300006: Obj_Eye001_Lens
+    2300008: Obj_Eye002_Frame
+    2300010: Obj_Eye002_Lens
+    2300012: Obj_Eye003_Frame
+    2300014: Obj_Eye003_Lens
+    2300016: Obj_Rotor_Blade001
+    2300018: Obj_Rotor_Blade002
+    2300020: Obj_Rotor_Shaft
+    2300022: Obj_SearchLight_Chasis
+    2300024: Obj_SearchLight_Lens
+    2300026: Obj_SearchLight_Mount
+    2300028: Obj_SearchLight_rotateMount
+    2300030: Obj_SearchLight_swivelMount
+    3300000: Obj_Chasis_Body
+    3300002: Obj_Chasis_Bottom
+    3300004: Obj_Eye001_Frame
+    3300006: Obj_Eye001_Lens
+    3300008: Obj_Eye002_Frame
+    3300010: Obj_Eye002_Lens
+    3300012: Obj_Eye003_Frame
+    3300014: Obj_Eye003_Lens
+    3300016: Obj_Rotor_Blade001
+    3300018: Obj_Rotor_Blade002
+    3300020: Obj_Rotor_Shaft
+    3300022: Obj_SearchLight_Chasis
+    3300024: Obj_SearchLight_Lens
+    3300026: Obj_SearchLight_Mount
+    3300028: Obj_SearchLight_rotateMount
+    3300030: Obj_SearchLight_swivelMount
+    4300000: Obj_SearchLight_swivelMount
+    4300002: Obj_SearchLight_Chasis
+    4300004: Obj_SearchLight_Lens
+    4300006: Obj_SearchLight_Mount
+    4300008: Obj_SearchLight_rotateMount
+    4300010: Obj_Rotor_Blade001
+    4300012: Obj_Rotor_Blade002
+    4300014: Obj_Rotor_Shaft
+    4300016: Obj_Chasis_Bottom
+    4300018: Obj_Chasis_Body
+    4300020: Obj_Eye001_Lens
+    4300022: Obj_Eye001_Frame
+    4300024: Obj_Eye002_Lens
+    4300026: Obj_Eye002_Frame
+    4300028: Obj_Eye003_Lens
+    4300030: Obj_Eye003_Frame
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: StingrayPBS1
+    second: {fileID: 2100000, guid: 25b9dbdd551bba3448d34166c96aaa67, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1.75
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

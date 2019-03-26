@@ -24,9 +24,9 @@ public class Bullet : MonoBehaviour
                 Health target = other.transform.GetComponent<Health>();
                 target.ChangeHealth(damage);
             }
-            
-            Destroy(gameObject);
         }
+
+        Destroy(gameObject);
     }
 
     public enum SourceAgent
