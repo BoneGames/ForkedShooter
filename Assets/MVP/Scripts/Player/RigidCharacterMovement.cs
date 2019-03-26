@@ -6,10 +6,25 @@ using Interactions;
 
 public class RigidCharacterMovement : MonoBehaviour
 {
+    [Header("Player Stats")]
     public float playerSpeed = 5f;
     public float jumpHeight = 10f;
+    public float crouchMultiplier = .8f;
+    public float sprintMultiplier = 1.5f;
+
+    [Header("Player States")]
+    public bool isCrouching = false;
+    public bool isSprinting = false;
+    private bool isJumping = false;
+    public bool isDead = false;
+    public Transform lastCheckpoint;
+
+    [Header("Important Stuff")]
     public Rigidbody rigid;
     public float rayDistance = 1f;
+    public GameObject myCamera;
+    public Transform myHand;
+    public Health myHealth;
 
     public Weapon[] weapons;
 
@@ -17,10 +32,9 @@ public class RigidCharacterMovement : MonoBehaviour
 
     GameObject shootPoint;
     public bool rotateToMainCamera = false;
-    public bool weaponRotationThing = false;
+    bool weaponRotationThing = false;
 
     private Vector3 moveDirection;
-    private bool isJumping = false;
 
     private Interactable interactObject;
 
@@ -29,15 +43,26 @@ public class RigidCharacterMovement : MonoBehaviour
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
-        //currentWeapon = weapons[0].GetComponent<Weapon>();
-        //currentWeapon.gameObject.SetActive(true);
-        //shootPoint = weapons[0].transform.GetChild(0).GetComponent<Transform>();
+        myHealth = GetComponent<PlayerHealth>();
     }
 
     void OnTriggerEnter(Collider other)
     {
         interactObject = other.GetComponent<Interactable>();
-        print("Should be able to open");
+
+        if (interactObject)
+        {
+            print("Should be able to open");
+        }
+
+        if (other.tag == "OOB")
+        {
+            Respawn();
+        }
+        if (other.tag == "CheckPoint")
+        {
+            lastCheckpoint = other.gameObject.transform;
+        }
     }
 
     void OnTriggerExit(Collider other)
@@ -50,36 +75,19 @@ public class RigidCharacterMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        #region oldCode
-        //if (Input.GetKey(KeyCode.W))
-        //{
-        //    rigid.AddForce(Vector3.forward * playerSpeed);
-        //}
-        //if (Input.GetKey(KeyCode.S))
-        //{
-        //    rigid.AddForce(Vector3.back);
-        //}
-        //if (Input.GetKey(KeyCode.A))
-        //{
-        //    rigid.AddForce(Vector3.left * playerSpeed);
-        //}
-        //if (Input.GetKey(KeyCode.D))
-        //{
-        //    rigid.AddForce(Vector3.right * playerSpeed);
-        //}
-
-        //if (Input.GetKey(KeyCode.Space) && isGrounded == true)
-        //{
-        //    rigid.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
-        //    isGrounded = false;
-        //}
-        #endregion
-
         Vector3 camEuler = Camera.main.transform.eulerAngles;
 
         if (rotateToMainCamera)
         {
             moveDirection = Quaternion.AngleAxis(camEuler.y, Vector3.up) * moveDirection;
+            if (isSprinting && !isCrouching)
+            {
+                moveDirection *= sprintMultiplier;
+            }
+            if (isCrouching)
+            {
+                moveDirection *= crouchMultiplier;
+            }
         }
 
         Vector3 force = new Vector3(moveDirection.x, rigid.velocity.y, moveDirection.z);
@@ -100,19 +108,57 @@ public class RigidCharacterMovement : MonoBehaviour
             Quaternion weaponRotation = Quaternion.AngleAxis(camEuler.x, Vector3.right);
             currentWeapon.transform.localRotation = weaponRotation;
         }
-
-        //if(moveDirection.magnitude > 0)
-        //{
-        //    transform.rotation = Quaternion.LookRotation(moveDirection);
-        //}
-
     }
 
+    #region Weapons
     public void Attack()
     {
         currentWeapon.Attack();
     }
+    public void Reload()
+    {
+        currentWeapon.Reload();
+    }
+    public void Aim(bool isAiming)
+    {
+        myHand.localPosition = isAiming ? new Vector3(0, myHand.localPosition.y + .05f, myHand.localPosition.z) : myHand.localPosition = new Vector3(0.5f, myHand.localPosition.y - .05f, myHand.localPosition.z);
 
+        //if (isAiming)
+        //{
+        //    myHand.localPosition = new Vector3(0, myHand.localPosition.y, myHand.localPosition.z);
+        //}
+        //else
+        //{
+        //    myHand.localPosition = new Vector3(0, myHand.localPosition.y, myHand.localPosition.z);
+        //}
+    }
+
+    public void DisableAllWeapons()
+    {
+        foreach (var weapon in weapons)
+        {
+            weapon.gameObject.SetActive(false);
+        }
+    }
+    public void SelectWeapon(int index)
+    {
+        if (!inBounds(index, weapons))
+        {
+            return;
+        }
+
+        DisableAllWeapons();
+
+        currentWeapon = weapons[index];
+        currentWeapon.gameObject.SetActive(true);
+    }
+    private bool inBounds(int index, Weapon[] array)
+    {
+        return (index >= 0) && (index < array.Length);
+    }
+    #endregion
+
+    #region Motion
     public void Move(float inputH, float inputV)
     {
         moveDirection = new Vector3(inputH, 0f, inputV);
@@ -122,6 +168,19 @@ public class RigidCharacterMovement : MonoBehaviour
     public void Jump()
     {
         isJumping = true;
+    }
+
+    public void Crouch()
+    {
+        isCrouching = !isCrouching;
+        if (isCrouching)
+        {
+            myCamera.transform.localPosition = new Vector3(0, 0f, 0);
+        }
+        else
+        {
+            myCamera.transform.localPosition = new Vector3(0, 0.5f, 0);
+        }
     }
 
     bool IsGrounded()
@@ -134,41 +193,9 @@ public class RigidCharacterMovement : MonoBehaviour
         }
         return false;
     }
+    #endregion
 
-    private void OnDrawGizmos()
-    {
-        Ray groundRay = new Ray(transform.position, Vector3.down);
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(groundRay.origin, groundRay.origin + groundRay.direction * rayDistance);
-    }
-
-    public void DisableAllWeapons()
-    {
-        foreach (var weapon in weapons)
-        {
-            weapon.gameObject.SetActive(false);
-        }
-    }
-
-    public void SelectWeapon(int index)
-    {
-        if (!inBounds(index, weapons))
-        {
-            return;
-        }
-
-        DisableAllWeapons();
-
-        currentWeapon = weapons[index];
-        currentWeapon.gameObject.SetActive(true);
-
-    }
-
-    private bool inBounds(int index, Weapon[] array)
-    {
-        return (index >= 0) && (index < array.Length);
-    }
-
+    #region Actions
     public void Interact()
     {
         if (interactObject)
@@ -176,4 +203,14 @@ public class RigidCharacterMovement : MonoBehaviour
             interactObject.Interact();
         }
     }
+
+    public void Respawn()
+    {
+        isDead = false;
+
+        transform.position = lastCheckpoint.position;
+
+        myHealth.currentHealth = myHealth.maxHealth;
+    }
+    #endregion
 }

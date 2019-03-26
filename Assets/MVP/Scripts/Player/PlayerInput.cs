@@ -5,6 +5,17 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     public RigidCharacterMovement player;
+
+    [Header("Motion Keys")]
+    public KeyCode sprintKey = KeyCode.LeftShift;
+    public KeyCode crouchKey = KeyCode.LeftControl;
+    public KeyCode jumpKey = KeyCode.Space;
+
+    [Header("Gun Keys")]
+    public KeyCode shootKey = KeyCode.Mouse0;
+    public KeyCode aimKey = KeyCode.Mouse1;
+    public KeyCode reloadKey = KeyCode.R;
+
     public int weaponIndex = 0;
 
     // Use this for initialization
@@ -21,15 +32,42 @@ public class PlayerInput : MonoBehaviour
         float inputV = Input.GetAxis("Vertical");
         player.Move(inputH, inputV);
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(jumpKey))
         {
             player.Jump();
         }
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetKeyDown(crouchKey))
+        {
+            player.Crouch();
+        }
+
+        if (Input.GetKey(sprintKey))
+        {
+            player.isSprinting = true;
+        }
+        if (Input.GetKeyUp(sprintKey))
+        {
+            player.isSprinting = false;
+        }
+
+        if (Input.GetKeyDown(shootKey))
         {
             player.Attack();
         }
+        if (Input.GetKeyDown(aimKey))
+        {
+            player.Aim(true);
+        }
+        if (Input.GetKeyUp(aimKey))
+        {
+            player.Aim(false);
+        }
+        if (Input.GetKeyDown(reloadKey))
+        {
+            player.Reload();
+        }
+
 
         weaponSwitch();
     }
