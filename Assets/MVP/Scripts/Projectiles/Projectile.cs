@@ -6,9 +6,11 @@ public abstract class Projectile : MonoBehaviour
 {
     public float speed;
     public float range;
+    public int damage;
     public Element element;
     public Vector3 scale;
     public Rigidbody rigid;
+    public string firedBy;
 
     public GameObject impact;
     public Quaternion hitRotation;

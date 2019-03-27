@@ -4,14 +4,27 @@ using UnityEngine;
 
 public class PlayerHealth : Health
 {
+
+    PhotonView photonView;
+    string photonID;
+
+    void Start()
+    {  
+        photonView = GetComponent<PhotonView>();
+        photonID = photonView.viewID.ToString().Substring(0,1);
+		this.name = "Player_" + photonID;
+        FindObjectOfType<PhotonHealthMoniter>().Register(gameObject);
+    }
     private void Update()
     {
         CheckDie();
     }
 
     // Takes damage from various bullet/projectile scripts and runs 'CheckDie()'.
+    [PunRPC]
     public override void ChangeHealth(int value)
     {
+        Debug.Log(this.name + " health Method");
         currentHealth -= value;
         CheckDie();
     }
@@ -21,7 +34,22 @@ public class PlayerHealth : Health
     {
         if (currentHealth <= 0)
         {
-            this.gameObject.GetComponent<RigidCharacterMovement>().Respawn();
+            //this.gameObject.GetComponent<RigidCharacterMovement>().Respawn();
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        //Send health data to network
+        if(stream.isWriting)
+        {
+            stream.SendNext(currentHealth);
+			//stream.SendNext()
+        }
+        // recieve health data from network (other player)
+        else if(stream.isReading)
+        {
+            currentHealth = (int)stream.ReceiveNext();
         }
     }
 }

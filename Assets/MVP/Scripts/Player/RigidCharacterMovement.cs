@@ -35,15 +35,23 @@ public class RigidCharacterMovement : MonoBehaviour
     bool weaponRotationThing = false;
 
     private Vector3 moveDirection;
+    
 
     private Interactable interactObject;
 
+    [Header("Photon Networking")]
+    public PhotonView pView;
+
+        // PHOTON SYNC WEAPON IN_PROGRESS
+    public bool[] WeaponsBools = new bool[3];
+
     //private bool isGrounded = true;
-    // Use this for initialization
+
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
         myHealth = GetComponent<PlayerHealth>();
+        pView = GetComponent<PhotonView>();
     }
 
     void OnTriggerEnter(Collider other)
@@ -57,7 +65,7 @@ public class RigidCharacterMovement : MonoBehaviour
 
         if (other.tag == "OOB")
         {
-            Respawn();
+            //Respawn();
         }
         if (other.tag == "CheckPoint")
         {
@@ -72,7 +80,6 @@ public class RigidCharacterMovement : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         Vector3 camEuler = Camera.main.transform.eulerAngles;
@@ -109,6 +116,36 @@ public class RigidCharacterMovement : MonoBehaviour
             currentWeapon.transform.localRotation = weaponRotation;
         }
     }
+    #region Photon Weapon Sync
+        // PHOTON SYNC WEAPON IN_PROGRESS
+    [PunRPC]
+    public void SelectWeapon()
+    {
+        //Debug.Log(this.name + ": WeaponRPC called");
+        DisableAllWeapons();
+        for(int weapon = 0; weapon < weapons.Length; weapon++)
+        {
+            weapons[weapon].gameObject.SetActive(WeaponsBools[weapon]);
+            if(weapons[weapon].isActiveAndEnabled)
+            {
+                currentWeapon = weapons[weapon];
+            }
+        }
+    }
+        // PHOTON SYNC WEAPON IN_PROGRESS
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        //Debug.Log(this.name + ": OSV Called");
+        if(stream.isReading)
+        {
+            WeaponsBools = (bool[])stream.ReceiveNext();
+        }
+        if(stream.isWriting)
+        {
+            stream.SendNext(WeaponsBools);
+        }
+    }
+    #endregion
 
     #region Weapons
     public void Attack()
@@ -140,6 +177,7 @@ public class RigidCharacterMovement : MonoBehaviour
             weapon.gameObject.SetActive(false);
         }
     }
+
     public void SelectWeapon(int index)
     {
         if (!inBounds(index, weapons))
@@ -152,6 +190,7 @@ public class RigidCharacterMovement : MonoBehaviour
         currentWeapon = weapons[index];
         currentWeapon.gameObject.SetActive(true);
     }
+
     private bool inBounds(int index, Weapon[] array)
     {
         return (index >= 0) && (index < array.Length);
@@ -204,13 +243,13 @@ public class RigidCharacterMovement : MonoBehaviour
         }
     }
 
-    public void Respawn()
-    {
-        isDead = false;
+    // public void Respawn()
+    // {
+    //     isDead = false;
 
-        transform.position = lastCheckpoint.position;
+    //     transform.position = lastCheckpoint.position;
 
-        myHealth.currentHealth = myHealth.maxHealth;
-    }
+    //     myHealth.currentHealth = myHealth.maxHealth;
+    // }
     #endregion
 }

@@ -10,19 +10,34 @@ public class Shotgun : Weapon
 
     public override void Attack()
     {
+        
         for (int i = 0; i < pellets; i++)
         {
-            Vector3 direction = transform.forward;
             Vector3 spread = Vector3.zero;
 
             spread += transform.up * Random.Range(-accuracy, accuracy);
             spread += transform.right * Random.Range(-accuracy, accuracy);
 
-            GameObject clone = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
-            Projectile newBullet = clone.GetComponent<Projectile>();
-
-            newBullet.Fire(direction + spread);
+            Ray spreadRay = new Ray(spawnPoint.transform.position, spawnPoint.transform.forward + spread);
+            RaycastBullet(spreadRay);
         }   
+    }
+
+    void RaycastBullet(Ray bulletRay)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(bulletRay, out hit))
+        {
+            // For reference to see where bullets hit;
+            GameObject bullet = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube), hit.point, Quaternion.identity);
+            bullet.GetComponent<Renderer>().material.color = Color.red;
+            bullet.transform.localScale = new Vector3(.15f, .15f, .15f);
+
+            if (hit.collider.CompareTag("Player"))
+            {
+                hit.transform.GetComponent<PhotonView>().RPC("ChangeHealth", PhotonTargets.All, damage);
+            }
+        }
     }
 
     public override void Reload()
