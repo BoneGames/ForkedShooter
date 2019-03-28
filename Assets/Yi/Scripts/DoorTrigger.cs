@@ -16,6 +16,8 @@ public class DoorTrigger : MonoBehaviour
 
     public Transform waypointParent;
 
+    public int spawnEnemy = 2;
+
     void Update()
     {
         if(enemyParent.transform.childCount <= 0 && enemySpawned == true && roomCleared == false)
@@ -39,21 +41,24 @@ public class DoorTrigger : MonoBehaviour
                 //Set the trigger for the animator
                 anim.SetTrigger("Enter");
 
-                SpawnEnemies(2);
+                StartCoroutine(SpawnTimer());
 
             }
         }
     }
-
-    void SpawnEnemies(int amount)
+    IEnumerator SpawnTimer()
     {
-        for (int i = 0; i < amount; i++)
+
+        for (int i = 0; i < spawnEnemy; i++)
         {
             GameObject clone = Instantiate(enemy, spawnPoint.position, spawnPoint.rotation);
             clone.transform.parent = enemyParent;
             clone.GetComponent<AI_ScoutDrone>().waypointParent = waypointParent;
+            yield return new WaitForSeconds(1);
         }
         enemySpawned = true;
-        
+
     }
+
+ 
 }
