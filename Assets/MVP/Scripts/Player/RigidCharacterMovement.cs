@@ -119,16 +119,16 @@ public class RigidCharacterMovement : MonoBehaviour
     #region Photon Weapon Sync
         // PHOTON SYNC WEAPON IN_PROGRESS
     [PunRPC]
-    public void SelectWeapon()
+    public void SelectWeaponRPC()
     {
         //Debug.Log(this.name + ": WeaponRPC called");
         DisableAllWeapons();
-        for(int weapon = 0; weapon < weapons.Length; weapon++)
+        for(int weaponIndex = 0; weaponIndex < weapons.Length; weaponIndex++)
         {
-            weapons[weapon].gameObject.SetActive(WeaponsBools[weapon]);
-            if(weapons[weapon].isActiveAndEnabled)
+            weapons[weaponIndex].gameObject.SetActive(WeaponsBools[weaponIndex]);
+            if(weapons[weaponIndex].isActiveAndEnabled)
             {
-                currentWeapon = weapons[weapon];
+                currentWeapon = weapons[weaponIndex];
             }
         }
     }

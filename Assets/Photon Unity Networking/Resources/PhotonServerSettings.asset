@@ -44,4 +44,5 @@ MonoBehaviour:
   - TaggedPlayer
   - ChangeHealth
   - SelectWeapon
+  - SelectWeaponRPC
   DisableAutoOpenWizard: 1

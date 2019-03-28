@@ -22,9 +22,10 @@ public class PlayerInput : MonoBehaviour
     void Start()
     {
         player = GetComponent<RigidCharacterMovement>();
-        player.SelectWeapon(weaponIndex);
+        //player.SelectWeapon(weaponIndex);
         // PHOTON SYNC WEAPON IN-PROGRESS
         //player.SelectWeapon();
+        GetComponent<PhotonView>().RPC("SelectWeaponRPC", PhotonTargets.All);
     }
 
     // Update is called once per frame
@@ -108,21 +109,21 @@ public class PlayerInput : MonoBehaviour
         else
         {
             weaponIndex = currentIndex;
-            player.SelectWeapon(weaponIndex);
+            //player.SelectWeapon(weaponIndex);
 
                 // PHOTON SYNC WEAPON IN_PROGRESS
-            // for(int bo = 0;bo < player.WeaponsBools.Length; bo++)
-			// {
-			// 	if(bo == weaponIndex)
-			// 	{
-			// 		player.WeaponsBools[bo] = true;
-			// 	}
-			// 	else
-			// 	{
-			// 		player.WeaponsBools[bo] = false;
-			// 	}
-			// }
-            // player.GetComponent<PhotonView>().RPC("SelectWeapon", PhotonTargets.All);
+            for(int bo = 0;bo < player.WeaponsBools.Length; bo++)
+			{
+				if(bo == weaponIndex)
+				{
+					player.WeaponsBools[bo] = true;
+				}
+				else
+				{
+					player.WeaponsBools[bo] = false;
+				}
+			}
+            player.GetComponent<PhotonView>().RPC("SelectWeaponRPC", PhotonTargets.All);
         }
     }
 }
