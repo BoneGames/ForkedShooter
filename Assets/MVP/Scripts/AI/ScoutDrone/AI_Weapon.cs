@@ -17,7 +17,7 @@ public class AI_Weapon : Weapon
     {
         // Grab 'contact's component, give full ammo, and start Coroutine.
         contact = gameObject.GetComponent<AI_ScoutDrone>();
-        currentAmmo = ammo;
+        currentMag = currentAmmo;
         StartCoroutine("Shoot");
     }
 
@@ -25,7 +25,7 @@ public class AI_Weapon : Weapon
     public override void Attack()
     {
         // If there is a player in our line of sight, and we still have ammo to work with...
-        if (contact.fov.visibleTargets.Count > 0 && currentAmmo != 0)    
+        if (contact.fov.visibleTargets.Count > 0 && currentMag != 0)    
         {
             // Fire bullets at it.
             GameObject clone = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
@@ -34,12 +34,12 @@ public class AI_Weapon : Weapon
             newBullet.Fire(spawnPoint.transform.forward);
             newBullet.sourceAgent = this.gameObject;
             //print("Firing.");
-            currentAmmo--;
-            Debug.Log(currentAmmo);
+            currentMag--;
+            Debug.Log(currentMag);
         }
 
         // If we run out of ammo, start reloading and stop shooting.
-        if (currentAmmo == 0)
+        if (currentMag == 0)
         {
             StartCoroutine("StartReload", reloadTime);
             StopCoroutine("Shoot");

@@ -10,17 +10,29 @@ public class Shotgun : Weapon
 
     public override void Attack()
     {
-        
-        for (int i = 0; i < pellets; i++)
+        if (currentMag > 0)
         {
-            Vector3 spread = Vector3.zero;
+            for (int i = 0; i < pellets; i++)
+            {
+                Vector3 spread = Vector3.zero;
 
-            spread += transform.up * Random.Range(-accuracy, accuracy);
-            spread += transform.right * Random.Range(-accuracy, accuracy);
+                spread += transform.up * Random.Range(-accuracy, accuracy);
+                spread += transform.right * Random.Range(-accuracy, accuracy);
 
-            Ray spreadRay = new Ray(spawnPoint.transform.position, spawnPoint.transform.forward + spread);
-            RaycastBullet(spreadRay);
-        }   
+                Ray spreadRay = new Ray(spawnPoint.transform.position, spawnPoint.transform.forward + spread);
+                RaycastBullet(spreadRay);
+            }
+            currentMag--;
+        }
+        if (currentMag <= 0)
+        {
+            //Reload();
+        }
+    }
+
+    private void OnDisable()
+    {
+        print("Shotgun has been disabled!");
     }
 
     void RaycastBullet(Ray bulletRay)
@@ -29,9 +41,9 @@ public class Shotgun : Weapon
         if (Physics.Raycast(bulletRay, out hit))
         {
             // For reference to see where bullets hit;
-            GameObject bullet = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube), hit.point, Quaternion.identity);
-            bullet.GetComponent<Renderer>().material.color = Color.red;
-            bullet.transform.localScale = new Vector3(.15f, .15f, .15f);
+            //GameObject bullet = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube), hit.point, Quaternion.identity);
+            //bullet.GetComponent<Renderer>().material.color = Color.red;
+            //bullet.transform.localScale = new Vector3(.15f, .15f, .15f);
 
             if (hit.collider.CompareTag("Player"))
             {
@@ -42,35 +54,31 @@ public class Shotgun : Weapon
 
     public override void Reload()
     {
-        float timer = 3f;
-        while (currentAmmo < ammo)
-        {
-            timer -= Time.deltaTime;
-            if (timer <= 0)
-            {
-                currentAmmo += 1;
-                timer = 3f;
-            }
-        }
+        print("Reloading...");
+
+        StartCoroutine(GradualReload(reloadSpeed, 7));
     }
-    //public GameObject bullet;
-    //public Transform spawnPoint;
 
-    //// Use this for initialization
-    //void Start()
-    //{
+    IEnumerator GradualReload(float reloadSpeed, int seven)
+    {
+        while (currentMag < magSize)
+        {
+            currentMag++;
+            yield return new WaitForSeconds(reloadSpeed);
+        }
 
-    //}
+        //for (int i = currentMag; i < magSize; i++)
+        //{
+        //    print(string.Format("Current Mag is {0}, magSize is {1}, i is {2}", currentMag, magSize, i));
 
+        //    currentMag++;
+        //    yield return new WaitForSeconds(1);
+        //    print("1 second passed...");
 
-    //void Update()
-    //{
-    //    if (Input.GetMouseButtonDown(0))
-    //    {
-    //        GameObject clone = Instantiate(bullet, spawnPoint.position, spawnPoint.rotation);
-    //        Bullet newBullet = clone.GetComponent<Bullet>();
-
-    //        newBullet.Fire(transform.forward);
-    //    }
-    //}
+        //    if (currentMag < magSize)
+        //    {
+        //        StartCoroutine(GradualReload(reloadSpeed, 7));
+        //    }
+        //}
+    }
 }

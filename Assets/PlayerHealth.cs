@@ -11,9 +11,12 @@ public class PlayerHealth : Health
     void Start()
     {  
         photonView = GetComponent<PhotonView>();
-        photonID = photonView.viewID.ToString().Substring(0,1);
-		this.name = "Player_" + photonID;
-        FindObjectOfType<PhotonHealthMoniter>().Register(gameObject);
+        if (photonView)
+        {
+            photonID = photonView.viewID.ToString().Substring(0, 1);
+            this.name = "Player_" + photonID;
+            FindObjectOfType<PhotonHealthMoniter>().Register(gameObject);
+        }
     }
     private void Update()
     {

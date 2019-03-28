@@ -15,14 +15,12 @@ public class PlayerInput : MonoBehaviour
     public KeyCode shootKey = KeyCode.Mouse0;
     public KeyCode aimKey = KeyCode.Mouse1;
     public KeyCode reloadKey = KeyCode.R;
-
-    public int weaponIndex = 0;
-
+    
     // Use this for initialization
     void Start()
     {
         player = GetComponent<RigidCharacterMovement>();
-        player.SelectWeapon(weaponIndex);
+        player.SelectWeapon(0);
         // PHOTON SYNC WEAPON IN-PROGRESS
         //player.SelectWeapon();
     }
@@ -70,59 +68,32 @@ public class PlayerInput : MonoBehaviour
             player.Reload();
         }
 
-
-        weaponSwitch();
-    }
-
-    void weaponSwitch()
-    {
-        var currentIndex = weaponIndex;
-
-        if (Input.GetAxis("Mouse ScrollWheel") > 0f && weaponIndex > 0) // forward
-        {
-            weaponIndex -= 1;
-        }
-        else if (Input.GetAxis("Mouse ScrollWheel") < 0f && weaponIndex < player.weapons.Length - 1) // backwards
-        {
-            weaponIndex += 1;
-        }
-
         if (Input.GetKeyDown(KeyCode.E))
         {
             player.Interact();
         }
 
-        //if (Input.GetKeyDown(KeyCode.Q) && weaponIndex > 0)
-        //{
-        //    weaponIndex -= 1;
-        //}
-        //if (Input.GetKeyDown(KeyCode.E) && weaponIndex < player.weapons.Length -1)
-        //{
-        //    weaponIndex += 1;
-        //}
 
-        if (currentIndex != weaponIndex)
+        float inputScroll = Input.GetAxisRaw("Mouse ScrollWheel");
+        if (inputScroll != 0)
         {
-            return;
+            player.SelectWeapon((int)inputScroll);
         }
-        else
-        {
-            weaponIndex = currentIndex;
-            player.SelectWeapon(weaponIndex);
 
-                // PHOTON SYNC WEAPON IN_PROGRESS
-            // for(int bo = 0;bo < player.WeaponsBools.Length; bo++)
-			// {
-			// 	if(bo == weaponIndex)
-			// 	{
-			// 		player.WeaponsBools[bo] = true;
-			// 	}
-			// 	else
-			// 	{
-			// 		player.WeaponsBools[bo] = false;
-			// 	}
-			// }
-            // player.GetComponent<PhotonView>().RPC("SelectWeapon", PhotonTargets.All);
-        }
     }
+    
+    // PHOTON SYNC WEAPON IN_PROGRESS
+    // for(int bo = 0;bo < player.WeaponsBools.Length; bo++)
+    // {
+    // 	if(bo == weaponIndex)
+    // 	{
+    // 		player.WeaponsBools[bo] = true;
+    // 	}
+    // 	else
+    // 	{
+    // 		player.WeaponsBools[bo] = false;
+    // 	}
+    // }
+    // player.GetComponent<PhotonView>().RPC("SelectWeapon", PhotonTargets.All);
+
 }

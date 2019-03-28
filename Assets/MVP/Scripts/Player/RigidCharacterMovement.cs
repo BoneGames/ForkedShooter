@@ -33,6 +33,7 @@ public class RigidCharacterMovement : MonoBehaviour
     GameObject shootPoint;
     public bool rotateToMainCamera = false;
     bool weaponRotationThing = false;
+    private int currentWeaponIndex;
 
     private Vector3 moveDirection;
     
@@ -178,16 +179,27 @@ public class RigidCharacterMovement : MonoBehaviour
         }
     }
 
-    public void SelectWeapon(int index)
+    public void SelectWeapon(int direction)
     {
-        if (!inBounds(index, weapons))
+        //if (!inBounds(index, weapons))
+        //{
+        //    return;
+        //}
+
+        currentWeaponIndex += direction;
+        
+        if (currentWeaponIndex < 0)
         {
-            return;
+            currentWeaponIndex = weapons.Length - 1;
+        }
+        if(currentWeaponIndex >= weapons.Length)
+        {
+            currentWeaponIndex = 0;
         }
 
         DisableAllWeapons();
 
-        currentWeapon = weapons[index];
+        currentWeapon = weapons[currentWeaponIndex];
         currentWeapon.gameObject.SetActive(true);
     }
 
