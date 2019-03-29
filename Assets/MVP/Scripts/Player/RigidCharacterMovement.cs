@@ -255,13 +255,13 @@ public class RigidCharacterMovement : MonoBehaviour
         }
     }
 
-    // public void Respawn()
-    // {
-    //     isDead = false;
+    public void Respawn()
+    {
+        isDead = false;
 
-    //     transform.position = lastCheckpoint.position;
+        transform.position = lastCheckpoint.position;
 
-    //     myHealth.currentHealth = myHealth.maxHealth;
-    // }
+        myHealth.currentHealth = myHealth.maxHealth;
+    }
     #endregion
 }

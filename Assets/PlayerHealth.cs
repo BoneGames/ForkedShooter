@@ -29,6 +29,12 @@ public class PlayerHealth : Health
     {
         Debug.Log(this.name + " health Method");
         currentHealth -= value;
+
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+
         CheckDie();
     }
 
@@ -37,7 +43,7 @@ public class PlayerHealth : Health
     {
         if (currentHealth <= 0)
         {
-            //this.gameObject.GetComponent<RigidCharacterMovement>().Respawn();
+            this.gameObject.GetComponent<RigidCharacterMovement>().Respawn();
         }
     }
 
