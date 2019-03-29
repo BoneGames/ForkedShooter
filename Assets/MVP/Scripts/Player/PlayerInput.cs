@@ -15,7 +15,9 @@ public class PlayerInput : MonoBehaviour
     public KeyCode shootKey = KeyCode.Mouse0;
     public KeyCode aimKey = KeyCode.Mouse1;
     public KeyCode reloadKey = KeyCode.R;
-    
+    private int weaponIndex;
+    private int currentIndex;
+
     // Use this for initialization
     void Start()
     {
