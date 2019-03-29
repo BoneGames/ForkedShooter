@@ -14,6 +14,7 @@ public class HealthPickup : Pickup
             if (player.currentHealth < player.maxHealth)
             {
                 player.ChangeHealth(-healthAmount);
+                Destroy(gameObject);
             }
         }
     }
