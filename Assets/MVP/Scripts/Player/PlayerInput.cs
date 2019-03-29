@@ -27,7 +27,8 @@ public class PlayerInput : MonoBehaviour
         //player.SelectWeapon(weaponIndex);
         // PHOTON SYNC WEAPON IN-PROGRESS
         //player.SelectWeapon();
-        GetComponent<PhotonView>().RPC("SelectWeaponRPC", PhotonTargets.All);
+
+        //GetComponent<PhotonView>().RPC("SelectWeaponRPC", PhotonTargets.All);
     }
 
     // Update is called once per frame
@@ -78,18 +79,20 @@ public class PlayerInput : MonoBehaviour
             player.Interact();
         }
 
-
         float inputScroll = Input.GetAxisRaw("Mouse ScrollWheel");
+        
         if (inputScroll != 0)
-        {
+        {       
+            inputScroll = inputScroll < 0 ? -1 : 1;
+            Debug.Log(inputScroll);
             player.SelectWeapon((int)inputScroll);
         }
         else
         {
-            weaponIndex = currentIndex;
+            // weaponIndex = currentIndex;
             //player.SelectWeapon(weaponIndex);
 
-                // PHOTON SYNC WEAPON IN_PROGRESS
+                // PHOTON SYNC WEAPON IN_PROGRESSs
    //         for(int bo = 0;bo < player.WeaponsBools.Length; bo++)
 			//{
 			//	if(bo == weaponIndex)

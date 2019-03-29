@@ -33,7 +33,7 @@ public class RigidCharacterMovement : MonoBehaviour
     GameObject shootPoint;
     public bool rotateToMainCamera = false;
     bool weaponRotationThing = false;
-    private int currentWeaponIndex;
+    public int currentWeaponIndex;
 
     private Vector3 moveDirection;
     
@@ -43,7 +43,6 @@ public class RigidCharacterMovement : MonoBehaviour
     [Header("Photon Networking")]
     public PhotonView pView;
 
-        // PHOTON SYNC WEAPON IN_PROGRESS
     public bool[] WeaponsBools = new bool[3];
 
     //private bool isGrounded = true;
@@ -117,26 +116,47 @@ public class RigidCharacterMovement : MonoBehaviour
             currentWeapon.transform.localRotation = weaponRotation;
         }
     }
+
     #region Photon Weapon Sync
-        // PHOTON SYNC WEAPON IN_PROGRESS
     [PunRPC]
     public void SelectWeaponRPC()
     {
-        //Debug.Log(this.name + ": WeaponRPC called");
-        DisableAllWeapons();
-        for(int weaponIndex = 0; weaponIndex < weapons.Length; weaponIndex++)
-        {
-            weapons[weaponIndex].gameObject.SetActive(WeaponsBools[weaponIndex]);
-            if(weapons[weaponIndex].isActiveAndEnabled)
+        Debug.Log("RPC");
+        
+            Debug.Log("currentWeaponIndex: " + currentWeaponIndex);
+            foreach(Weapon weapon in weapons)
             {
-                currentWeapon = weapons[weaponIndex];
+                Debug.Log(weapon.name + " is " + weapon.isActiveAndEnabled);
+            }
+
+        float trueWeaponBoolIndex = 0;
+        for(int b = 0; b < WeaponsBools.Length; b++)
+        {
+            if(WeaponsBools[b])
+            {
+                trueWeaponBoolIndex = b;
+            }
+        }
+        
+        
+
+        if(currentWeaponIndex != trueWeaponBoolIndex)
+        {
+            Debug.Log("RPC1");           
+
+            for(int weaponIndex = 0; weaponIndex < weapons.Length; weaponIndex++)
+            {
+                weapons[weaponIndex].gameObject.SetActive(WeaponsBools[weaponIndex]);
+                if(weapons[weaponIndex].isActiveAndEnabled)
+                {
+                    currentWeapon = weapons[weaponIndex];
+                }
             }
         }
     }
-        // PHOTON SYNC WEAPON IN_PROGRESS
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        //Debug.Log(this.name + ": OSV Called");
         if(stream.isReading)
         {
             WeaponsBools = (bool[])stream.ReceiveNext();
@@ -178,14 +198,16 @@ public class RigidCharacterMovement : MonoBehaviour
             weapon.gameObject.SetActive(false);
         }
     }
+    public void DisableAllBools()
+    {
+        for(int boolIndex = 0; boolIndex < WeaponsBools.Length; boolIndex++)
+        {
+            WeaponsBools[boolIndex] = false;
+        }
+    }
 
     public void SelectWeapon(int direction)
     {
-        //if (!inBounds(index, weapons))
-        //{
-        //    return;
-        //}
-
         currentWeaponIndex += direction;
         
         if (currentWeaponIndex < 0)
@@ -198,9 +220,28 @@ public class RigidCharacterMovement : MonoBehaviour
         }
 
         DisableAllWeapons();
+        SetNetworkWeaponBools();
 
         currentWeapon = weapons[currentWeaponIndex];
+
         currentWeapon.gameObject.SetActive(true);
+
+        pView.RPC("SelectWeaponRPC", PhotonTargets.All);
+    }
+
+    void SetNetworkWeaponBools()
+    {
+        for(int boolIndex = 0; boolIndex < WeaponsBools.Length; boolIndex++)
+        {
+            if(boolIndex == currentWeaponIndex)
+            {
+                WeaponsBools[boolIndex] = true;
+            }
+            else
+            {
+                WeaponsBools[boolIndex] = false;
+            }
+        }
     }
 
     private bool inBounds(int index, Weapon[] array)

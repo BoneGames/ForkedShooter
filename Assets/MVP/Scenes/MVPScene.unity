@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -956,6 +956,7 @@ GameObject:
   - component: {fileID: 718731478}
   - component: {fileID: 718731477}
   - component: {fileID: 718731476}
+  - component: {fileID: 718731480}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1042,6 +1043,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &718731480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 718731475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1311c6f416da14efbb8e4b33b0d66410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  players: []
+  player1: {fileID: 2133458608}
+  player2: {fileID: 1586724966}
 --- !u!4 &763779905
 Transform:
   m_ObjectHideFlags: 0
@@ -1346,7 +1361,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &965589768
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1392,6 +1407,7 @@ MonoBehaviour:
   - {fileID: 1367003337}
   currentWeapon: {fileID: 0}
   rotateToMainCamera: 1
+  currentWeaponIndex: 0
   pView: {fileID: 0}
   WeaponsBools: 000000
 --- !u!136 &965589770
@@ -6395,7 +6411,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1413677914
 Transform:
   m_ObjectHideFlags: 0
