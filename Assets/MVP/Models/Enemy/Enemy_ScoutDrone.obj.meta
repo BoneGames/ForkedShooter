@@ -1,0 +1,186 @@
+fileFormatVersion: 2
+guid: 920fe7796c2854644adb9e438096e563
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Grp_Obj_Eye003_Grp_Obj_Eyes_Obj_Eye003_Frame
+    100004: Grp_Obj_Eyes_Grp_Obj_Eye001_Obj_Eye001_Lens
+    100006: Grp_Obj_Eyes_Grp_Obj_Eye002_Obj_Eye002_Lens
+    100008: Grp_Obj_Eyes_Obj_Eye001_Frame_Grp_Obj_Eye001
+    100010: Grp_Obj_Eyes_Obj_Eye002_Frame_Grp_Obj_Eye002
+    100012: Grp_Obj_RotorAssembly_Obj_Rotor_Blade002
+    100014: Grp_Obj_RotorAssembly_Obj_Rotor_Shaft
+    100016: Grp_Obj_SearchLight_rotX_Obj_SearchLight_Chasis
+    100018: Grp_Obj_SearchLight_rotX_Obj_SearchLight_Lens
+    100020: Obj_Chasis_Body
+    100022: Obj_Chasis_Bottom
+    100024: Obj_Eye003_Lens_Grp_Obj_Eye003_Grp_Obj_Eyes
+    100026: Obj_Rotor_Blade001_Grp_Obj_RotorAssembly
+    100028: Obj_SearchLight_Mount_Grp_Obj_SearchLight_rotX
+    100030: Obj_SearchLight_rotateMount
+    100032: Obj_SearchLight_swivelMount
+    400000: //RootNode
+    400002: Grp_Obj_Eye003_Grp_Obj_Eyes_Obj_Eye003_Frame
+    400004: Grp_Obj_Eyes_Grp_Obj_Eye001_Obj_Eye001_Lens
+    400006: Grp_Obj_Eyes_Grp_Obj_Eye002_Obj_Eye002_Lens
+    400008: Grp_Obj_Eyes_Obj_Eye001_Frame_Grp_Obj_Eye001
+    400010: Grp_Obj_Eyes_Obj_Eye002_Frame_Grp_Obj_Eye002
+    400012: Grp_Obj_RotorAssembly_Obj_Rotor_Blade002
+    400014: Grp_Obj_RotorAssembly_Obj_Rotor_Shaft
+    400016: Grp_Obj_SearchLight_rotX_Obj_SearchLight_Chasis
+    400018: Grp_Obj_SearchLight_rotX_Obj_SearchLight_Lens
+    400020: Obj_Chasis_Body
+    400022: Obj_Chasis_Bottom
+    400024: Obj_Eye003_Lens_Grp_Obj_Eye003_Grp_Obj_Eyes
+    400026: Obj_Rotor_Blade001_Grp_Obj_RotorAssembly
+    400028: Obj_SearchLight_Mount_Grp_Obj_SearchLight_rotX
+    400030: Obj_SearchLight_rotateMount
+    400032: Obj_SearchLight_swivelMount
+    2100000: Grp_Obj_Eye003_Grp_Obj_Eyes_Obj_Eye003_FrameMat
+    2100002: Grp_Obj_Eyes_Grp_Obj_Eye001_Obj_Eye001_LensMat
+    2100004: Grp_Obj_Eyes_Grp_Obj_Eye002_Obj_Eye002_LensMat
+    2100006: Grp_Obj_Eyes_Obj_Eye001_Frame_Grp_Obj_Eye001Mat
+    2100008: Grp_Obj_Eyes_Obj_Eye002_Frame_Grp_Obj_Eye002Mat
+    2100010: Grp_Obj_RotorAssembly_Obj_Rotor_Blade002Mat
+    2100012: Grp_Obj_RotorAssembly_Obj_Rotor_ShaftMat
+    2100014: Grp_Obj_SearchLight_rotX_Obj_SearchLight_ChasisMat
+    2100016: Grp_Obj_SearchLight_rotX_Obj_SearchLight_LensMat
+    2100018: Obj_Chasis_BodyMat
+    2100020: Obj_Chasis_BottomMat
+    2100022: Obj_Eye003_Lens_Grp_Obj_Eye003_Grp_Obj_EyesMat
+    2100024: Obj_Rotor_Blade001_Grp_Obj_RotorAssemblyMat
+    2100026: Obj_SearchLight_Mount_Grp_Obj_SearchLight_rotXMat
+    2100028: Obj_SearchLight_rotateMountMat
+    2100030: Obj_SearchLight_swivelMountMat
+    2300000: Grp_Obj_Eye003_Grp_Obj_Eyes_Obj_Eye003_Frame
+    2300002: Grp_Obj_Eyes_Grp_Obj_Eye001_Obj_Eye001_Lens
+    2300004: Grp_Obj_Eyes_Grp_Obj_Eye002_Obj_Eye002_Lens
+    2300006: Grp_Obj_Eyes_Obj_Eye001_Frame_Grp_Obj_Eye001
+    2300008: Grp_Obj_Eyes_Obj_Eye002_Frame_Grp_Obj_Eye002
+    2300010: Grp_Obj_RotorAssembly_Obj_Rotor_Blade002
+    2300012: Grp_Obj_RotorAssembly_Obj_Rotor_Shaft
+    2300014: Grp_Obj_SearchLight_rotX_Obj_SearchLight_Chasis
+    2300016: Grp_Obj_SearchLight_rotX_Obj_SearchLight_Lens
+    2300018: Obj_Chasis_Body
+    2300020: Obj_Chasis_Bottom
+    2300022: Obj_Eye003_Lens_Grp_Obj_Eye003_Grp_Obj_Eyes
+    2300024: Obj_Rotor_Blade001_Grp_Obj_RotorAssembly
+    2300026: Obj_SearchLight_Mount_Grp_Obj_SearchLight_rotX
+    2300028: Obj_SearchLight_rotateMount
+    2300030: Obj_SearchLight_swivelMount
+    3300000: Grp_Obj_Eye003_Grp_Obj_Eyes_Obj_Eye003_Frame
+    3300002: Grp_Obj_Eyes_Grp_Obj_Eye001_Obj_Eye001_Lens
+    3300004: Grp_Obj_Eyes_Grp_Obj_Eye002_Obj_Eye002_Lens
+    3300006: Grp_Obj_Eyes_Obj_Eye001_Frame_Grp_Obj_Eye001
+    3300008: Grp_Obj_Eyes_Obj_Eye002_Frame_Grp_Obj_Eye002
+    3300010: Grp_Obj_RotorAssembly_Obj_Rotor_Blade002
+    3300012: Grp_Obj_RotorAssembly_Obj_Rotor_Shaft
+    3300014: Grp_Obj_SearchLight_rotX_Obj_SearchLight_Chasis
+    3300016: Grp_Obj_SearchLight_rotX_Obj_SearchLight_Lens
+    3300018: Obj_Chasis_Body
+    3300020: Obj_Chasis_Bottom
+    3300022: Obj_Eye003_Lens_Grp_Obj_Eye003_Grp_Obj_Eyes
+    3300024: Obj_Rotor_Blade001_Grp_Obj_RotorAssembly
+    3300026: Obj_SearchLight_Mount_Grp_Obj_SearchLight_rotX
+    3300028: Obj_SearchLight_rotateMount
+    3300030: Obj_SearchLight_swivelMount
+    4300000: Grp_Obj_Eye003_Grp_Obj_Eyes_Obj_Eye003_Frame
+    4300002: Grp_Obj_Eyes_Grp_Obj_Eye001_Obj_Eye001_Lens
+    4300004: Grp_Obj_Eyes_Grp_Obj_Eye002_Obj_Eye002_Lens
+    4300006: Grp_Obj_Eyes_Obj_Eye001_Frame_Grp_Obj_Eye001
+    4300008: Grp_Obj_Eyes_Obj_Eye002_Frame_Grp_Obj_Eye002
+    4300010: Grp_Obj_RotorAssembly_Obj_Rotor_Blade002
+    4300012: Grp_Obj_RotorAssembly_Obj_Rotor_Shaft
+    4300014: Grp_Obj_SearchLight_rotX_Obj_SearchLight_Chasis
+    4300016: Grp_Obj_SearchLight_rotX_Obj_SearchLight_Lens
+    4300018: Obj_Chasis_Body
+    4300020: Obj_Chasis_Bottom
+    4300022: Obj_Eye003_Lens_Grp_Obj_Eye003_Grp_Obj_Eyes
+    4300024: Obj_Rotor_Blade001_Grp_Obj_RotorAssembly
+    4300026: Obj_SearchLight_Mount_Grp_Obj_SearchLight_rotX
+    4300028: Obj_SearchLight_rotateMount
+    4300030: Obj_SearchLight_swivelMount
+  externalObjects: {}
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
