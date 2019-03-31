@@ -4,82 +4,153 @@ using UnityEngine;
 using GameSystems;
 using Interactions;
 
-public class RigidCharacterMovement : MonoBehaviour
+// Note (Manny): To eliminate getting components, use PunBehaviour (I did it in PlayerInput as well)
+public class RigidCharacterMovement : Photon.PunBehaviour
 {
+    [Header("Player Stats")]
     public float playerSpeed = 5f;
     public float jumpHeight = 10f;
+    public float crouchMultiplier = .8f;
+    public float sprintMultiplier = 1.5f;
+
+    [Header("Player States")]
+    public bool isCrouching = false;
+    public bool isSprinting = false;
+    private bool isJumping = false;
+    public bool isDead = false;
+    public Transform lastCheckpoint;
+
+    [Header("Important Stuff")]
     public Rigidbody rigid;
     public float rayDistance = 1f;
-
+    public GameObject myCamera;
+    public Transform myHand;
+    public Health myHealth;
     public Weapon[] weapons;
-
     public Weapon currentWeapon;
-
-    GameObject shootPoint;
     public bool rotateToMainCamera = false;
-    public bool weaponRotationThing = false;
+    public int currentWeaponIndex;
 
+    private GameObject shootPoint;
+    private bool weaponRotationThing = false;
     private Vector3 moveDirection;
-    private bool isJumping = false;
-
     private Interactable interactObject;
 
-    //private bool isGrounded = true;
-    // Use this for initialization
+    #region Unity Events
+    void Awake()
+    {
+        // Note (Manny): Get into the habbit of getting components in Awake instead!
+        rigid = GetComponent<Rigidbody>();
+        myHealth = GetComponent<PlayerHealth>();
+    }
     void Start()
     {
-        rigid = GetComponent<Rigidbody>();
-        //currentWeapon = weapons[0].GetComponent<Weapon>();
-        //currentWeapon.gameObject.SetActive(true);
-        //shootPoint = weapons[0].transform.GetChild(0).GetComponent<Transform>();
+        // Note (Manny): Since it's an internal function, call it on start internally
+        SelectWeapon(currentWeaponIndex);
     }
-
     void OnTriggerEnter(Collider other)
     {
         interactObject = other.GetComponent<Interactable>();
-        print("Should be able to open");
-    }
 
+        if (interactObject)
+        {
+            print("Should be able to open");
+        }
+
+        if (other.tag == "OOB")
+        {
+            //Respawn();
+        }
+        if (other.tag == "CheckPoint")
+        {
+            lastCheckpoint = other.gameObject.transform;
+        }
+    }
     void OnTriggerExit(Collider other)
     {
         interactObject = null;
         print("Should not be able to open");
 
     }
-
-    // Update is called once per frame
     void Update()
     {
-        #region oldCode
-        //if (Input.GetKey(KeyCode.W))
-        //{
-        //    rigid.AddForce(Vector3.forward * playerSpeed);
-        //}
-        //if (Input.GetKey(KeyCode.S))
-        //{
-        //    rigid.AddForce(Vector3.back);
-        //}
-        //if (Input.GetKey(KeyCode.A))
-        //{
-        //    rigid.AddForce(Vector3.left * playerSpeed);
-        //}
-        //if (Input.GetKey(KeyCode.D))
-        //{
-        //    rigid.AddForce(Vector3.right * playerSpeed);
-        //}
+        // Only control this player if it owns it on the network
+        if (photonView.isMine)
+        {
+            PerformMotion();
+        }
+    }
+    #endregion
 
-        //if (Input.GetKey(KeyCode.Space) && isGrounded == true)
-        //{
-        //    rigid.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
-        //    isGrounded = false;
-        //}
-        #endregion
+    #region Photon
+    // Note (Manny): Created an RPC call that sets the weapon index only.
+    [PunRPC]
+    public void SelectWeaponRPC(int index)
+    {        
+        SelectWeapon(index);
 
+        // Note (Manny): Here's your old code
+        /*
+        Debug.Log("RPC");
+
+        Debug.Log("currentWeaponIndex: " + currentWeaponIndex);
+        foreach (Weapon weapon in weapons)
+        {
+            Debug.Log(weapon.name + " is " + weapon.isActiveAndEnabled);
+        }
+        
+        float trueWeaponBoolIndex = 0;
+        for (int b = 0; b < WeaponsBools.Length; b++)
+        {
+            if (WeaponsBools[b])
+            {
+                trueWeaponBoolIndex = b;
+            }
+        }
+
+        if (currentWeaponIndex != trueWeaponBoolIndex)
+        {
+            Debug.Log("RPC1");
+
+            for (int weaponIndex = 0; weaponIndex < weapons.Length; weaponIndex++)
+            {
+                weapons[weaponIndex].gameObject.SetActive(WeaponsBools[weaponIndex]);
+                if (weapons[weaponIndex].isActiveAndEnabled)
+                {
+                    currentWeapon = weapons[weaponIndex];
+                }
+            }
+        }
+        */
+    }
+    #endregion
+
+    #region Internal
+    private bool IsGrounded()
+    {
+        Ray groundRay = new Ray(transform.position, Vector3.down);
+        RaycastHit hit;
+        if (Physics.Raycast(groundRay, out hit, rayDistance))
+        {
+            return true;
+        }
+        return false;
+    }
+    private void PerformMotion()
+    {
         Vector3 camEuler = Camera.main.transform.eulerAngles;
 
         if (rotateToMainCamera)
         {
             moveDirection = Quaternion.AngleAxis(camEuler.y, Vector3.up) * moveDirection;
+            if (isSprinting && !isCrouching)
+            {
+                moveDirection *= sprintMultiplier;
+            }
+            if (isCrouching)
+            {
+                moveDirection *= crouchMultiplier;
+            }
         }
 
         Vector3 force = new Vector3(moveDirection.x, rigid.velocity.y, moveDirection.z);
@@ -91,7 +162,7 @@ public class RigidCharacterMovement : MonoBehaviour
         }
 
         rigid.velocity = force;
-
+        
         Quaternion playerRotation = Quaternion.AngleAxis(camEuler.y, Vector3.up);
         transform.rotation = playerRotation;
 
@@ -100,75 +171,51 @@ public class RigidCharacterMovement : MonoBehaviour
             Quaternion weaponRotation = Quaternion.AngleAxis(camEuler.x, Vector3.right);
             currentWeapon.transform.localRotation = weaponRotation;
         }
-
-        //if(moveDirection.magnitude > 0)
-        //{
-        //    transform.rotation = Quaternion.LookRotation(moveDirection);
-        //}
-
     }
-
-    public void Attack()
-    {
-        currentWeapon.Attack();
-    }
-
-    public void Move(float inputH, float inputV)
-    {
-        moveDirection = new Vector3(inputH, 0f, inputV);
-        moveDirection *= playerSpeed;
-    }
-
-    public void Jump()
-    {
-        isJumping = true;
-    }
-
-    bool IsGrounded()
-    {
-        Ray groundRay = new Ray(transform.position, Vector3.down);
-        RaycastHit hit;
-        if (Physics.Raycast(groundRay, out hit, rayDistance))
-        {
-            return true;
-        }
-        return false;
-    }
-
-    private void OnDrawGizmos()
-    {
-        Ray groundRay = new Ray(transform.position, Vector3.down);
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(groundRay.origin, groundRay.origin + groundRay.direction * rayDistance);
-    }
-
-    public void DisableAllWeapons()
+    private void DisableAllWeapons()
     {
         foreach (var weapon in weapons)
         {
             weapon.gameObject.SetActive(false);
         }
-    }
-
-    public void SelectWeapon(int index)
+    }    
+    private void SelectWeapon(int index)
     {
-        if (!inBounds(index, weapons))
-        {
-            return;
-        }
-
         DisableAllWeapons();
 
+        // Note (Manny): Use the incoming 'index' instead of the changed 'currentWeaponIndex' this time.
         currentWeapon = weapons[index];
         currentWeapon.gameObject.SetActive(true);
 
+        // Note (Manny): Update it here for observers
+        currentWeaponIndex = index;
     }
+    #endregion
 
-    private bool inBounds(int index, Weapon[] array)
+    #region External
+    // Controls
+    public void Move(float inputH, float inputV)
     {
-        return (index >= 0) && (index < array.Length);
+        moveDirection = new Vector3(inputH, 0f, inputV);
+        moveDirection *= playerSpeed;
     }
-
+    public void Jump()
+    {
+        isJumping = true;
+    }
+    public void Crouch()
+    {
+        isCrouching = !isCrouching;
+        if (isCrouching)
+        {
+            myCamera.transform.localPosition = new Vector3(0, 0f, 0);
+        }
+        else
+        {
+            myCamera.transform.localPosition = new Vector3(0, 0.5f, 0);
+        }
+    }
+    // Actions
     public void Interact()
     {
         if (interactObject)
@@ -176,4 +223,46 @@ public class RigidCharacterMovement : MonoBehaviour
             interactObject.Interact();
         }
     }
+    public void Respawn()
+    {
+        isDead = false;
+
+        // Note (Manny): This error was pissing me off lol
+        if (lastCheckpoint)
+            transform.position = lastCheckpoint.position;
+
+        myHealth.currentHealth = myHealth.maxHealth;
+    }
+    // Combat
+    public void Attack()
+    {
+        currentWeapon.Attack();
+    }
+    public void Reload()
+    {
+        currentWeapon.Reload();
+    }
+    public void Aim(bool isAiming)
+    {
+        myHand.localPosition = isAiming ? new Vector3(0, myHand.localPosition.y + .05f, myHand.localPosition.z) : myHand.localPosition = new Vector3(0.5f, myHand.localPosition.y - .05f, myHand.localPosition.z);
+    }
+    public void SwitchWeapon(int direction)
+    {
+        currentWeaponIndex += direction;
+
+        if (currentWeaponIndex < 0)
+        {
+            currentWeaponIndex = weapons.Length - 1;
+        }
+        if (currentWeaponIndex >= weapons.Length)
+        {
+            currentWeaponIndex = 0;
+        }
+
+        SelectWeapon(currentWeaponIndex);
+
+        // Note (Manny): Send the index to every client
+        photonView.RPC("SelectWeaponRPC", PhotonTargets.All, currentWeaponIndex);
+    }
+    #endregion
 }

@@ -18,8 +18,9 @@ public class Explosive : Projectile
     public override void OnCollisionEnter(Collision collision)
     {
         string tag = collision.collider.tag;
-        if (tag != "Player" || tag != "Weapon")
+        if(tag.Contains("Player") && collision.transform.name != firedBy)
         {
+            collision.transform.GetComponent<PhotonView>().RPC("ChangeHealth", PhotonTargets.All, damage);
             Explode();
             Effects();
         }
