@@ -27,7 +27,14 @@ public class PlayerInput : Photon.PunBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (photonView.isMine)
+        if (photonView != null)
+        {
+            if (photonView.isMine)
+            {
+                ProcessInputs();
+            }
+        }
+        else //we nust not have the Photon stuff in the scene, so we don't care about networking
         {
             ProcessInputs();
         }

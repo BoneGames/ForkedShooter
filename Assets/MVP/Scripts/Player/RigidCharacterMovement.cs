@@ -74,8 +74,15 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     }
     void Update()
     {
-        // Only control this player if it owns it on the network
-        if (photonView.isMine)
+        if (photonView != null)
+        {
+            // Only control this player if it owns it on the network
+            if (photonView.isMine)
+            {
+                PerformMotion();
+            }
+        }
+        else //we nust not have the Photon stuff in the scene, so we don't care about networking
         {
             PerformMotion();
         }
