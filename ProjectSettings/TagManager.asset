@@ -7,6 +7,8 @@ TagManager:
   - Weapon
   - Yay
   - Enemy
+  - OOB
+  - CheckPoint
   layers:
   - Default
   - TransparentFX
@@ -21,6 +23,7 @@ TagManager:
   - Enemy
   - 
   - 
+  - KillBox
   - 
   - 
   - 
