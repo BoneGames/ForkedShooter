@@ -20,9 +20,24 @@ public class Pistol : Weapon
                 //bullet.GetComponent<Renderer>().material.color = Color.red;
                 //bullet.transform.localScale = new Vector3(.15f, .15f, .15f);
 
-                if (hit.collider.CompareTag("Player"))
+                if (isOnline)
                 {
-                    hit.transform.GetComponent<PhotonView>().RPC("ChangeHealth", PhotonTargets.All, damage);
+                    if (hit.collider.CompareTag("Enemy"))
+                    {
+                        hit.transform.GetComponent<PhotonView>().RPC("ChangeHealth", PhotonTargets.All, damage);
+                    }
+                }
+                else
+                {
+                    print("I'm firing!");
+                    Debug.DrawRay(spawnPoint.position, spawnPoint.forward, Color.red);
+
+                    if (hit.collider.tag == "Enemy")
+                    {
+                        hit.transform.GetComponent<Health>().ChangeHealth(damage);
+                        print("I hit an enemy");
+                    }
+
                 }
             }
             currentMag--;

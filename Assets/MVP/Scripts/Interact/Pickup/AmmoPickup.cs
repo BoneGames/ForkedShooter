@@ -14,6 +14,8 @@ public class AmmoPickup : Pickup
             if (player.currentWeapon != null)
             {
                 player.currentWeapon.currentAmmo += ammoAmount;
+
+                Destroy(gameObject);
             }
         }
     }

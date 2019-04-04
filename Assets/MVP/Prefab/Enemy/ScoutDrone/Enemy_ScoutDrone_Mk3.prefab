@@ -1646,13 +1646,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 100
-  ammo: 30
+  maxAmmo: 30
   accuracy: 1
   range: 10
   rateOfFire: 5
   projectile: {fileID: 1874544804970178, guid: f5fad20bfebd88d46abe3e602f14fdaf, type: 2}
   spawnPoint: {fileID: 4076797023168174}
   hitPoint: {x: 0, y: 0, z: 0}
+  magSize: 0
+  currentAmmo: 0
+  currentMag: 0
+  tempMag: 0
+  isOnline: 0
   contact: {fileID: 0}
   reloadTime: 4
 --- !u!114 &114272049808185796
@@ -1703,6 +1708,9 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   isGod: 0
+  photonView: {fileID: 0}
+  ammoBox: {fileID: 1861980455999006, guid: 81097656c3f3f474695c95c52ee785d7, type: 2}
+  healthDrop: {fileID: 1770668066226042, guid: ef39cf02ff0e77243aef73b443f72843, type: 2}
 --- !u!114 &114657561762035214
 MonoBehaviour:
   m_ObjectHideFlags: 1
