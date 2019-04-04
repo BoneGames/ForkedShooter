@@ -244,6 +244,11 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     public void Attack()
     {
         currentWeapon.Attack();
+
+        if (photonView)
+        {
+            currentWeapon.isOnline = true;
+        }
     }
     public void Reload()
     {

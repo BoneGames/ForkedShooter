@@ -11,9 +11,17 @@ public class HealthPickup : Pickup
         if (other.tag == "Player")
         {
             PlayerHealth player = other.GetComponent<PlayerHealth>();
+
             if (player.currentHealth < player.maxHealth)
             {
                 player.ChangeHealth(-healthAmount);
+
+                if(player.currentHealth > player.maxHealth)
+                {
+                    player.currentHealth = player.maxHealth;
+                }
+
+                Destroy(gameObject);
             }
         }
     }

@@ -8,6 +8,10 @@ public class EnemyHealth : Health
     public bool isGod = false;
     public PhotonView photonView;
 
+    [Header("Enemy Drops")]
+    public GameObject ammoBox;
+    public GameObject healthDrop;
+
     void Awake()
     {  
         photonView = GetComponent<PhotonView>();
@@ -29,11 +33,34 @@ public class EnemyHealth : Health
     {
         if (currentHealth <= 0)
         {
+            DropItem();
+
             Destroy(gameObject);
         }
     }
 
-     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    void DropItem()
+    {
+        int dropRate = Random.Range(1, 5);
+        GameObject clone;
+
+        switch (dropRate)
+        {
+            case 1:
+            case 2:
+            case 3:
+                clone = Instantiate(ammoBox, new Vector3(transform.position.x, transform.position.y + 3, transform.position.z), transform.rotation);
+                break;
+            case 4:
+            case 5:
+                clone = Instantiate(healthDrop, new Vector3(transform.position.x, transform.position.y + 3, transform.position.z), transform.rotation);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         //Send health data to network
         if(stream.isWriting)

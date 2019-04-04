@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BT;
 
 namespace GameSystems
 {
@@ -22,6 +23,8 @@ namespace GameSystems
 
         public int currentMag;
         public int tempMag;
+
+        public bool isOnline;
 
         private void Start()
         {
@@ -48,7 +51,7 @@ namespace GameSystems
 
         public virtual void Reload()
         {
-            print("Reloading!");
+            print(BaneTools.ColorString(gameObject.name + " is reloading!", "red"));
             if (currentAmmo > 0)
             {
                 if (currentAmmo >= magSize)
