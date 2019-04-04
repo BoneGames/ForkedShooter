@@ -51,7 +51,7 @@ namespace GameSystems
 
         public virtual void Reload()
         {
-            print(BaneTools.ColorString(gameObject.name + " is reloading!", "red"));
+            print(BaneTools.ColorString(gameObject.name + " is reloading!", BaneTools.Color255(0,255,0)));
             if (currentAmmo > 0)
             {
                 if (currentAmmo >= magSize)
