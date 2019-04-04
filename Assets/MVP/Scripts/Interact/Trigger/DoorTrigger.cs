@@ -5,7 +5,8 @@ using UnityEngine;
 public class DoorTrigger : MonoBehaviour
 {
     [Header("Animation")]
-    public Animator anim;
+    public Animator doorFront;
+    public Animator doorBack;
 
     [Header("Variables")]
     public GameObject enemy;
@@ -23,7 +24,8 @@ public class DoorTrigger : MonoBehaviour
         if(enemyParent.transform.childCount <= 0 && enemySpawned == true && roomCleared == false)
         {
             roomCleared = true;
-            anim.SetBool("Exit", true);
+            doorFront.SetBool("Exit", true);
+            doorBack.SetBool("Exit", true);
             print("Fuck");
         }
     }
@@ -39,8 +41,8 @@ public class DoorTrigger : MonoBehaviour
             {
                 Debug.Log("Collision detected");
                 //Set the trigger for the animator
-                anim.SetTrigger("Enter");
-
+                doorFront.SetTrigger("Enter");
+                doorBack.SetTrigger("Enter");
                 StartCoroutine(SpawnTimer());
 
             }

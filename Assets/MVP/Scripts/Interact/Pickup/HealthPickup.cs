@@ -6,6 +6,11 @@ public class HealthPickup : Pickup
 {
     public int healthAmount;
 
+    public void Update()
+    {
+        Rotate();
+    }
+
     public override void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
@@ -24,5 +29,5 @@ public class HealthPickup : Pickup
                 Destroy(gameObject);
             }
         }
-    }
+    }   
 }
