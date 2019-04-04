@@ -24,7 +24,7 @@ public class AI_Weapon : Weapon
     public override void Attack()
     {
         // If there is a player in our line of sight, and we still have ammo to work with...
-        if (contact.fov.visibleTargets.Count > 0 && currentMag != 0)
+        if (isOnline && contact.fov.visibleTargets.Count > 0 && currentMag != 0)
         {
             // Fire bullets at it.
             GameObject clone = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
