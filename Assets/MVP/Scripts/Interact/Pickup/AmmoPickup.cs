@@ -11,13 +11,21 @@ public class AmmoPickup : Pickup
         if (other.tag == "Player")
         {
             RigidCharacterMovement player = other.GetComponent<RigidCharacterMovement>();
+
             if (player.currentWeapon != null)
             {
-                player.currentWeapon.currentAmmo += ammoAmount;
+                if (player.currentWeapon.currentAmmo < player.currentWeapon.maxAmmo)
+                {
+                    player.currentWeapon.currentAmmo += ammoAmount;
 
-                Destroy(gameObject);
+                    if (player.currentWeapon.currentAmmo >= player.currentWeapon.maxAmmo)
+                    {
+                        player.currentWeapon.currentAmmo = player.currentWeapon.maxAmmo;
+                    }
+
+                    Destroy(gameObject);
+                }
             }
         }
     }
-
 }
