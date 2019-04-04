@@ -29,16 +29,90 @@ public class BehaviourAI : MonoBehaviour
 
     [Header("Components")]
     public NavMeshAgent agent; // Unity component reference
-    public Transform aim; // Transform of drone chasis/body position.
+    public Transform aim; // Transform of aim position.
     public Transform target; // Reference assigned target's Transform data (position/rotation/scale).
     public Transform waypointParent; // Reference one waypoint Parent (used to get children in array).
     public AI_FoV_Detection fov; // Reference FieldOfView Script (used for line of sight player detection).
+
+    public float attackRange = 5f;
+    public LayerMask obstacleMask;
 
     // Creates a collection of Transforms
     private Transform[] waypoints; // Transform of (child) waypoints in array.
     private int currentIndex = 1; // Counts sequential waypoints of array index.
     private Quaternion startRotation;
     #endregion VARIABLES
+
+    private Vector3 foundPoint;
+    private Vector3 closestPoint;
+    private void OnDrawGizmos()
+    {
+        GetAvoidanceWaypoint();
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(target.position, fov.viewRadius);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(target.position, closestPoint);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(foundPoint, .5f);
+    }
+
+    // Returns closest collider to target
+    Collider ClosestObstacle(Vector3 position)
+    {
+        Collider[] hits = Physics.OverlapSphere(position, attackRange, obstacleMask);
+        // Set closest to null
+        Collider closest = null;
+        // Set minValue to max value
+        float minValue = float.MaxValue;
+        // Loop through all entities
+        foreach (var hit in hits)
+        {
+            // Set distance to entity distance
+            float distance = Vector3.Distance(position, hit.transform.position);
+            // If distance < minValue
+            if (distance < minValue)
+            {
+                // Set minValue to distance
+                minValue = distance;
+                // Set closest to entity
+                closest = hit;
+            }
+        }
+        // Return closest
+        return closest;
+    }
+
+    void GetAvoidanceWaypoint()
+    {
+        Collider closest = ClosestObstacle(transform.position);
+
+        Vector3 start = target.position;
+        Vector3 end = closest.transform.position;
+        Vector3 direction = end - start;
+        Vector3 point = closest.ClosestPoint(start + direction * 2f);
+
+        // FOUND IT! (Debugging)
+        closestPoint = end;
+        foundPoint = point;
+    }
+
+    void GetWayPoints()
+    {
+        if (target)
+        {
+            GetAvoidanceWaypoint();
+
+            //Vector3 coverDirectionFromPlayer = waypoints[0].position - target.position;
+            //Debug.Log("V magnitude: " + coverDirectionFromPlayer.magnitude);
+
+            //float playerToObstacleDist = Vector3.Distance(target.position, waypoints[0].position) + waypoints[0].gameObject.GetComponent<Collider>().bounds.size.x / 2;
+            //Debug.Log("distance " + playerToObstacleDist);
+        }
+        //Transform[] closePoints = new Transform[]
+    }
 
     #region STATES
     // The contained variables for the Patrol state (what rules the enemy AI follows when in 'Patrol').
@@ -133,12 +207,17 @@ public class BehaviourAI : MonoBehaviour
                 #region Aim at Player Position
                 // Direction of target (player) from the aim position.
                 Vector3 aimDir = target.position - aim.position;
+                Vector3 rotDir = target.position - transform.position;
                 
                 // If our aim is even slightly offset (not pointing directly at the target)...
                 if (aimDir.magnitude > 0)
                 {
                     // ... rotate our aim to point straight at the target.
                     aim.transform.rotation = Quaternion.LookRotation(aimDir.normalized, Vector3.up);
+                }
+                if (rotDir.magnitude > 0)
+                {
+                    transform.rotation = Quaternion.LookRotation(rotDir.normalized, Vector3.up);
                 }
                 #endregion
             }
@@ -159,7 +238,12 @@ public class BehaviourAI : MonoBehaviour
             }
             if (seekDistance < stoppingDistance[3])
             {
-                agent.SetDestination(targetDir.normalized * stoppingDistance[2]);
+                Vector3 randomPoint = transform.position + Random.insideUnitSphere * 10;
+                NavMeshHit hit;
+                if (NavMesh.SamplePosition(randomPoint, out hit, 2f, NavMesh.AllAreas))
+                {
+                    agent.SetDestination(hit.position);
+                }
                 print("Retreat");
             }
             #endregion
@@ -188,7 +272,16 @@ public class BehaviourAI : MonoBehaviour
         #endregion
     }
 
-
+    bool Retreat()
+    {
+        Vector3 randomPoint = transform.position + Random.insideUnitSphere * 10;
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomPoint, out hit, 2f, NavMesh.AllAreas))
+        {
+            agent.SetDestination(hit.position);
+        }
+        return true;
+    }
     public void Investigate(Vector3 position)
     {
         // Agent navigation speed.
