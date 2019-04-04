@@ -139,6 +139,10 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         RaycastHit hit;
         if (Physics.Raycast(groundRay, out hit, rayDistance))
         {
+            if (hit.collider.tag == "OOB")
+            {
+                return false;
+            }
             return true;
         }
         return false;
