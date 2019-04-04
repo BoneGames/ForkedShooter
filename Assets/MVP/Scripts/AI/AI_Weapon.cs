@@ -7,7 +7,7 @@ public class AI_Weapon : Weapon
 {
     #region Variable
     // Check in AI_ScoutDrone.cs for visibleTargets.
-    public AI_ScoutDrone contact;
+    public BehaviourAI contact;
     public float reloadTime;
     #endregion
 
@@ -16,8 +16,7 @@ public class AI_Weapon : Weapon
     void Start()
     {
         // Grab 'contact's component, give full ammo, and start Coroutine.
-        contact = gameObject.GetComponent<AI_ScoutDrone>();
-        currentMag = currentAmmo;
+        contact = GetComponentInParent<BehaviourAI>();
         StartCoroutine("Shoot");
     }
 
@@ -25,19 +24,47 @@ public class AI_Weapon : Weapon
     public override void Attack()
     {
         // If there is a player in our line of sight, and we still have ammo to work with...
-        if (contact.fov.visibleTargets.Count > 0 && currentMag != 0)    
+        if (isOnline && contact.fov.visibleTargets.Count > 0 && currentMag > 0)
         {
-            // Fire bullets at it.
-            GameObject clone = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
-            Bullet newBullet = clone.GetComponent<Bullet>();
+            RaycastHit hit;
+            Ray ray = new Ray(spawnPoint.position, spawnPoint.transform.forward);
+            if (Physics.Raycast(ray, out hit))
+            {
+                // For reference to see where bullets hit;
+                //GameObject bullet = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube), hit.point, Quaternion.identity);
+                //bullet.GetComponent<Renderer>().material.color = Color.red;
+                //bullet.transform.localScale = new Vector3(.15f, .15f, .15f);
 
-            newBullet.Fire(spawnPoint.transform.forward);
-            newBullet.sourceAgent = this.gameObject;
-            //print("Firing.");
-            currentMag--;
-            Debug.Log(currentMag);
+                if (isOnline)
+                {
+                    if (hit.collider.CompareTag("Player"))
+                    {
+                        hit.transform.GetComponent<PhotonView>().RPC("ChangeHealth", PhotonTargets.All, damage);
+                    }
+                }
+                else
+                {
+                    print("I'm firing!");
+                    Debug.DrawRay(spawnPoint.position, spawnPoint.forward, Color.red);
+
+                    if (hit.collider.tag == "Player")
+                    {
+                        hit.transform.GetComponent<Health>().ChangeHealth(damage);
+                        //print("I hit an enemy");
+                    }
+
+                }
+                // // Fire bullets at it.
+                // GameObject clone = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
+                // Bullet newBullet = clone.GetComponent<Bullet>();
+
+                // newBullet.Fire(spawnPoint.transform.forward);
+                // newBullet.sourceAgent = this.gameObject;
+                //print("Firing.");
+                currentMag--;
+                Debug.Log(currentMag);
+            }
         }
-
         // If we run out of ammo, start reloading and stop shooting.
         if (currentMag == 0)
         {

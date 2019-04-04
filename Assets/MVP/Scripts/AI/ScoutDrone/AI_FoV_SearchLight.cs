@@ -2,7 +2,7 @@
 using System.Collections.Generic; // Used to get public List<Transform> visibleTargets.
 using UnityEngine;
 
-public class AI_FoV_Detection : MonoBehaviour
+public class AI_FoV_SearchLight : MonoBehaviour
 {
     #region Variables
     // How far (viewRadius) can the AI see, and how much (viewAngle) can they see (clamped to 0°-360°).
@@ -18,6 +18,9 @@ public class AI_FoV_Detection : MonoBehaviour
     // List for adding found targets (player) to an index.
     [HideInInspector] // Hide the List below in Unity (it needs to be public so that the 'FieldOfViewEditor' script can access it).
     public List<Transform> visibleTargets = new List<Transform>(); // using System.Collections.Generic;
+
+    // Spotlight component (to control the 'Spot Angle' and 'Range' with the script's viewAngle and Radius).
+    public Light fovLight;
 
     // (advanced)
     // Used in constructing mesh from contact points of Raycast.
@@ -35,6 +38,11 @@ public class AI_FoV_Detection : MonoBehaviour
 
     void Start()
     {
+        // Get Light component from child SpotLight and assign values.
+        fovLight = GetComponentInChildren<Light>();
+        fovLight.spotAngle = viewAngle;
+        fovLight.range = viewRadius * 1.5f;
+
         // Where the MeshFilter is initialized.
         //viewMesh = new Mesh();
         //viewMesh.name = "View Mesh";
