@@ -169,7 +169,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4772487962471540}
-  - component: {fileID: 114657561762035214}
+  - component: {fileID: 114216294501329006}
   m_Layer: 11
   m_Name: SearchLight
   m_TagString: Untagged
@@ -643,7 +643,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1188078473502018}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 150.2, y: 2, z: 74.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4248089437234074}
@@ -1657,9 +1657,32 @@ MonoBehaviour:
   currentAmmo: 0
   currentMag: 0
   tempMag: 0
-  isOnline: 0
   contact: {fileID: 0}
   reloadTime: 4
+--- !u!114 &114216294501329006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1225739533183424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff828ec6eb5e64b4d95b42c10d0119d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewRadius: 50
+  viewAngle: 60
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 512
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 256
+  visibleTargets: []
+  fovLight: {fileID: 108193603917091660}
+  meshResolution: 3
+  edgeResolveIterations: 4
+  edgeDstThreshold: 0.5
 --- !u!114 &114272049808185796
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1681,15 +1704,16 @@ MonoBehaviour:
   - 8
   - 8
   stoppingDistance:
-  - 5
+  - 1
+  - 10
   - 8
-  - 4
+  - 2
   anim: {fileID: 95049339517146008}
   agent: {fileID: 195558518581967682}
   aim: {fileID: 4772487962471540}
   target: {fileID: 0}
   waypointParent: {fileID: 0}
-  fov: {fileID: 114657561762035214}
+  fov: {fileID: 114216294501329006}
   searchLight: {fileID: 0}
   colorPatrol: {r: 1, g: 1, b: 1, a: 1}
   colorSearch: {r: 0.8039216, g: 0.4019608, b: 0, a: 1}
@@ -1709,32 +1733,6 @@ MonoBehaviour:
   currentHealth: 0
   isGod: 0
   photonView: {fileID: 0}
-  ammoBox: {fileID: 1861980455999006, guid: 81097656c3f3f474695c95c52ee785d7, type: 2}
-  healthDrop: {fileID: 1770668066226042, guid: ef39cf02ff0e77243aef73b443f72843, type: 2}
---- !u!114 &114657561762035214
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1225739533183424}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c40633e44621e0f41a8e9375ecfcb18f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewRadius: 50
-  viewAngle: 60
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 512
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 256
-  visibleTargets: []
-  fovLight: {fileID: 108193603917091660}
-  meshResolution: 3
-  edgeResolveIterations: 4
-  edgeDstThreshold: 0.5
 --- !u!135 &135078705110572824
 SphereCollider:
   m_ObjectHideFlags: 1
