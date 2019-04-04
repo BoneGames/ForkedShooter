@@ -36,7 +36,7 @@ public class AI_ScoutDrone : MonoBehaviour
     public Transform aim; // Transform of drone chasis/body position.
     public Transform target; // Reference assigned target's Transform data (position/rotation/scale).
     public Transform waypointParent; // Reference one waypoint Parent (used to get children in array).
-    public AI_FoV_Detection fov; // Reference FieldOfView Script (used for line of sight player detection).
+    public AI_FoV_SearchLight fov; // Reference FieldOfView Script (used for line of sight player detection).
 
     // Creates a collection of Transforms
     private Transform[] waypoints; // Transform of (child) waypoints in array.

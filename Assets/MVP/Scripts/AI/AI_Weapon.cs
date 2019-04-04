@@ -7,7 +7,7 @@ public class AI_Weapon : Weapon
 {
     #region Variable
     // Check in AI_ScoutDrone.cs for visibleTargets.
-    public AI_ScoutDrone contact;
+    public BehaviourAI contact;
     public float reloadTime;
     #endregion
 
@@ -16,8 +16,7 @@ public class AI_Weapon : Weapon
     void Start()
     {
         // Grab 'contact's component, give full ammo, and start Coroutine.
-        contact = gameObject.GetComponent<AI_ScoutDrone>();
-        currentMag = currentAmmo;
+        contact = GetComponentInParent<BehaviourAI>();
         StartCoroutine("Shoot");
     }
 
@@ -25,7 +24,7 @@ public class AI_Weapon : Weapon
     public override void Attack()
     {
         // If there is a player in our line of sight, and we still have ammo to work with...
-        if (contact.fov.visibleTargets.Count > 0 && currentMag != 0)    
+        if (contact.fov.visibleTargets.Count > 0 && currentMag != 0)
         {
             // Fire bullets at it.
             GameObject clone = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
