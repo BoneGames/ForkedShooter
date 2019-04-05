@@ -21,9 +21,9 @@ public class Explosive : Projectile
         if(tag.Contains("Player") && collision.transform.name != firedBy)
         {
             collision.transform.GetComponent<PhotonView>().RPC("ChangeHealth", PhotonTargets.All, damage);
-            Explode();
-            Effects();
         }
+        Explode();
+        Effects();
     }
 
     void Explode()

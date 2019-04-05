@@ -13,6 +13,9 @@ public class Pistol : Weapon
         {
             RaycastHit hit;
             Ray ray = new Ray(spawnPoint.position, spawnPoint.transform.forward);
+
+            SpawnMuzzleFlash();
+
             if (Physics.Raycast(ray, out hit))
             {
                 // For reference to see where bullets hit;

@@ -11,9 +11,20 @@ public class RocketLauncher : Weapon
     {
         Quaternion hitRotation = GetTargetNormal();
 
-        GameObject clone = PhotonNetwork.Instantiate("Explosive", spawnPoint.position, spawnPoint.rotation, 0);
+        GameObject clone;
+        if (isOnline)
+        {
+            clone = PhotonNetwork.Instantiate("Explosive", spawnPoint.position, spawnPoint.rotation, 0);
+        }
+        else
+        {
+            clone = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
+        }
         Projectile newBullet = clone.GetComponent<Projectile>();
-        newBullet.firedBy = GetComponentInParent<PhotonView>().gameObject.name;
+        if (isOnline)
+        {
+            newBullet.firedBy = GetComponentInParent<PhotonView>().gameObject.name;
+        }
 
         newBullet.hitRotation = hitRotation;
         newBullet.Fire(transform.forward);

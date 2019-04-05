@@ -12,6 +12,8 @@ public class Shotgun : Weapon
     {
         if (currentMag > 0)
         {
+            SpawnMuzzleFlash();
+
             for (int i = 0; i < pellets; i++)
             {
                 Vector3 spread = Vector3.zero;

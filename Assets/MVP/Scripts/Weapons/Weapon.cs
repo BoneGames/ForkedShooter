@@ -15,6 +15,8 @@ namespace GameSystems
         public GameObject projectile;
         public Transform spawnPoint;
 
+        public GameObject muzzle;
+
         public Vector3 hitPoint;
         Quaternion hitRotation;
 
@@ -66,6 +68,15 @@ namespace GameSystems
                     currentMag = tempMag;
                     currentAmmo -= tempMag;
                 }
+            }
+        }
+
+        public virtual void SpawnMuzzleFlash()
+        {
+            if (muzzle)
+            {
+                GameObject _flash = Instantiate(muzzle, spawnPoint.transform);
+                Destroy(_flash, 3);
             }
         }
     }
