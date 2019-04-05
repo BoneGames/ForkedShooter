@@ -11,7 +11,7 @@ public class BehaviourAI : MonoBehaviour
     {
         Patrol = 0,
         Seek = 1,
-        Investigate = 2
+        Retreat = 2
     }
 
     [Header("Behaviours")]
@@ -36,6 +36,10 @@ public class BehaviourAI : MonoBehaviour
 
     public float attackRange = 5f;
     public LayerMask obstacleMask;
+    public float inAccuracy;
+    Vector3 strafeDir = Vector3.up;
+
+    float strafeTimer, strafeTimerMax;
 
     // Creates a collection of Transforms
     private Transform[] waypoints; // Transform of (child) waypoints in array.
@@ -60,9 +64,10 @@ public class BehaviourAI : MonoBehaviour
     }
 
     // Returns closest collider to target
-    Collider ClosestObstacle(Vector3 position)
+    Collider ClosestObstacle()
     {
-        Collider[] hits = Physics.OverlapSphere(position, attackRange, obstacleMask);
+        Collider[] hits = Physics.OverlapSphere(transform.position, attackRange, obstacleMask);
+        //Debug.Log("obstacles found: " + hits.Length);
         // Set closest to null
         Collider closest = null;
         // Set minValue to max value
@@ -71,7 +76,7 @@ public class BehaviourAI : MonoBehaviour
         foreach (var hit in hits)
         {
             // Set distance to entity distance
-            float distance = Vector3.Distance(position, hit.transform.position);
+            float distance = Vector3.Distance(transform.position, hit.transform.position);
             // If distance < minValue
             if (distance < minValue)
             {
@@ -85,34 +90,18 @@ public class BehaviourAI : MonoBehaviour
         return closest;
     }
 
-    void GetAvoidanceWaypoint()
+    Vector3 GetAvoidanceWaypoint()
     {
-        Collider closest = ClosestObstacle(transform.position);
+        Collider closest = ClosestObstacle();
 
         Vector3 start = target.position;
         Vector3 end = closest.transform.position;
         Vector3 direction = end - start;
         Vector3 point = closest.ClosestPoint(start + direction * 2f);
-
-        // FOUND IT! (Debugging)
-        closestPoint = end;
-        foundPoint = point;
+        return point;
     }
 
-    void GetWayPoints()
-    {
-        if (target)
-        {
-            GetAvoidanceWaypoint();
-
-            //Vector3 coverDirectionFromPlayer = waypoints[0].position - target.position;
-            //Debug.Log("V magnitude: " + coverDirectionFromPlayer.magnitude);
-
-            //float playerToObstacleDist = Vector3.Distance(target.position, waypoints[0].position) + waypoints[0].gameObject.GetComponent<Collider>().bounds.size.x / 2;
-            //Debug.Log("distance " + playerToObstacleDist);
-        }
-        //Transform[] closePoints = new Transform[]
-    }
+    
 
     #region STATES
     // The contained variables for the Patrol state (what rules the enemy AI follows when in 'Patrol').
@@ -164,8 +153,7 @@ public class BehaviourAI : MonoBehaviour
     {
         // Agent navigation speed.
         agent.speed = moveSpeed[1];
-        // Get distance between enemy and player/target.
-        float seekDistance = Vector3.Distance(transform.position, target.position);
+       
 
         #region If Target is Lost...
         // If we can't see any targets...
@@ -189,13 +177,14 @@ public class BehaviourAI : MonoBehaviour
                 }
             }
         }
+
         #endregion
         #region If Target is Seen...
         // If we see a target...
         if (fov.visibleTargets.Count > 0)
         {
             // Target the first target we see.
-            target = fov.visibleTargets[0];
+            target = GetClosestTarget();
 
             // Aim at the target.
             #region Rotations (AIM GUN)
@@ -203,47 +192,33 @@ public class BehaviourAI : MonoBehaviour
             {
                 // Reset the Seek timer.
                 holdStateTimer[1] = pauseDuration[1];
-
-                #region Aim at Player Position
-                // Direction of target (player) from the aim position.
-                Vector3 aimDir = target.position - aim.position;
-                Vector3 rotDir = target.position - transform.position;
-                
-                // If our aim is even slightly offset (not pointing directly at the target)...
-                if (aimDir.magnitude > 0)
-                {
-                    // ... rotate our aim to point straight at the target.
-                    aim.transform.rotation = Quaternion.LookRotation(aimDir.normalized, Vector3.up);
-                }
-                if (rotDir.magnitude > 0)
-                {
-                    transform.rotation = Quaternion.LookRotation(rotDir.normalized, Vector3.up);
-                }
-                #endregion
+                Vector3 accuracyOffset = new Vector3(Random.Range(0, inAccuracy), Random.Range(0, inAccuracy), Random.Range(0, inAccuracy));
+                transform.LookAt(target.position + accuracyOffset);
             }
             #endregion
+
+            // Get distance between enemy and player/target.
+            float seekDistance = Vector3.Distance(transform.position, target.position);
 
             // Move to specified position under set conditions.
             #region Agent Destinations
             Vector3 targetDir = transform.position - target.position;
             if (seekDistance > stoppingDistance[1])
             {
+                agent.isStopped = false;
                 agent.SetDestination(target.position);
                 print("Chase");
             }
             if (seekDistance >= stoppingDistance[2] - 0.5f && seekDistance <= stoppingDistance[2] + 0.5f)
             {
-                agent.SetDestination(transform.position);
+                Strafe();
+                agent.isStopped = true;
                 print("Hold");
             }
             if (seekDistance < stoppingDistance[3])
             {
-                Vector3 randomPoint = transform.position + Random.insideUnitSphere * 10;
-                NavMeshHit hit;
-                if (NavMesh.SamplePosition(randomPoint, out hit, 2f, NavMesh.AllAreas))
-                {
-                    agent.SetDestination(hit.position);
-                }
+                agent.isStopped = false;
+                currentState = State.Retreat;
                 print("Retreat");
             }
             #endregion
@@ -272,24 +247,50 @@ public class BehaviourAI : MonoBehaviour
         #endregion
     }
 
-    bool Retreat()
+    void Strafe()
     {
-        Vector3 randomPoint = transform.position + Random.insideUnitSphere * 10;
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(randomPoint, out hit, 2f, NavMesh.AllAreas))
+        
+        strafeTimer += Time.deltaTime;
+        //Debug.Log("strafeTimer: " + strafeTimer);
+        if(strafeTimer > strafeTimerMax)
         {
-            agent.SetDestination(hit.position);
+            strafeDir *= -1;
+            strafeTimerMax = Random.Range(1f, 3f);
+            strafeTimer = 0;
+            //random strafeSpeed?
         }
-        return true;
+        transform.RotateAround(target.position, strafeDir, 10 * Time.deltaTime);
+        //Debug.Log("strafing");
     }
-    public void Investigate(Vector3 position)
-    {
-        // Agent navigation speed.
-        agent.speed = moveSpeed[2];
 
-        agent.SetDestination(position);
-        currentState = State.Investigate;
+    Transform GetClosestTarget()
+    {
+        float closestTargetDist = Mathf.Infinity;
+        int transformIndex = 0;
+        for(int index = 0; index < fov.visibleTargets.Count; index++)
+        {
+             if(Vector3.Distance(transform.position, fov.visibleTargets[index].position) < closestTargetDist)
+             {
+                 closestTargetDist = Vector3.Distance(transform.position, fov.visibleTargets[index].position);
+                 transformIndex = index;
+             }
+        }
+       
+        return fov.visibleTargets[transformIndex];
     }
+
+    void Retreat()
+    {
+        Vector3 retreatPoint = GetAvoidanceWaypoint();
+        agent.SetDestination(retreatPoint);
+        if(Vector3.Distance(transform.position, retreatPoint) < 0.5f)
+        {
+            // Reload()
+            // Wait for a period of time
+            currentState = State.Patrol;
+        }
+    }
+   
     #endregion
 
     #region Start
@@ -300,10 +301,6 @@ public class BehaviourAI : MonoBehaviour
         holdStateTimer[0] = pauseDuration[0];
         holdStateTimer[1] = pauseDuration[1];
         holdStateTimer[2] = pauseDuration[2];
-
-        moveSpeed[0] = moveSpeed[0];
-        moveSpeed[1] = moveSpeed[1];
-        moveSpeed[2] = moveSpeed[2];
 
         // Get children of waypointParent.
         waypoints = waypointParent.GetComponentsInChildren<Transform>();
@@ -316,51 +313,22 @@ public class BehaviourAI : MonoBehaviour
     #endregion Start
 
     #region Update
-    // Update is called once per frame
     void Update()
     {
-        // Switch current state
         switch (currentState)
         {
             case State.Patrol:
-                // Patrol state
                 Patrol();
                 break;
             case State.Seek:
-                // Seek state
                 Seek();
                 break;
-            case State.Investigate:
-                // Run this code while in investigate state
-                // If the agent gets close to the investigate position
-                if (agent.remainingDistance < stoppingDistance[0])
-                {
-                    // Note(Manny): Why not wait for 5 seconds here (timer)
-                    holdStateTimer[2] -= Time.deltaTime;
-                    if (holdStateTimer[2] <= 0)
-                    {
-                        holdStateTimer[2] = pauseDuration[2];
-                        // Switch to Patrol
-                        currentState = State.Patrol;
-                    }
-                }
-
-                // If the agent sees the player
-                if (fov.visibleTargets.Count > 0)
-                {
-                    // Switch over to seek
-                    currentState = State.Seek;
-                    // Seek towards the visible target
-                    target = fov.visibleTargets[0];
-                }
+            case State.Retreat:
+                Retreat();
                 break;
             default:
                 break;
         }
-        // If we are in Patrol State...
-        // Call Patrol()
-        // If we are in Seek State...
-        // Call Seek()
     }
     #endregion Update
 }
