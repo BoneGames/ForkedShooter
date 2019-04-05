@@ -23,11 +23,14 @@ public class AI_Weapon : Weapon
     // Where we define shooting.
     public override void Attack()
     {
+        Debug.Log("Attack");
         // If there is a player in our line of sight, and we still have ammo to work with...
         if (isOnline && contact.fov.visibleTargets.Count > 0 && currentMag > 0)
         {
+            
             RaycastHit hit;
             Ray ray = new Ray(spawnPoint.position, spawnPoint.transform.forward);
+            
             if (Physics.Raycast(ray, out hit))
             {
                 // For reference to see where bullets hit;
@@ -52,7 +55,6 @@ public class AI_Weapon : Weapon
                         hit.transform.GetComponent<Health>().ChangeHealth(damage);
                         //print("I hit an enemy");
                     }
-
                 }
                 // // Fire bullets at it.
                 // GameObject clone = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
@@ -113,11 +115,16 @@ public class AI_Weapon : Weapon
         }
     }
 
+    private void Update()
+    {
+         Debug.DrawRay(spawnPoint.position, spawnPoint.transform.forward);
+    }
     // Where we run BurstFire().
     IEnumerator Shoot()
     {
         while (true)
         {
+            Debug.Log("shootroutine");
             // Run BurstFire every 0.5 ↔ 1.0 seconds.
 
             //This form of StartCoroutine doesn't use the string name to run it
