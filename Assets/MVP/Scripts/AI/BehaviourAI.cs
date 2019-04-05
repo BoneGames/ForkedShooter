@@ -10,8 +10,8 @@ public class BehaviourAI : MonoBehaviour
     public enum State // The behaviour states of the enemy AI.
     {
         Patrol = 0,
-        Seek = 1,
-        Investigate = 2
+        Seek = 1
+        //Investigate = 2
     }
 
     [Header("Behaviours")]
@@ -21,8 +21,8 @@ public class BehaviourAI : MonoBehaviour
     public float[] moveSpeed = new float[3]; // Movement speeds for different states (up to you).
     [AI_ScoutDrone_(new string[] { "Pause Patrol", "Pause Seek", "Pause Investigate" })]
     public float[] pauseDuration = new float[3]; // Time to wait before doing next thing.
-    // [AI_ScoutDrone_(new string[] { "Timer Patrol", "Timer Seek", "Timer Investigate" })]
-    private float[] holdStateTimer = new float[3]; // Used to count how much time has passed since...
+    [AI_ScoutDrone_(new string[] { "Timer Patrol", "Timer Seek", "Timer Investigate" })]
+    public float[] holdStateTimer = new float[3]; // Used to count how much time has passed since...
 
     [AI_ScoutDrone_(new string[] { "Waypoint", "Seek Target", "Range Target", "Retreat" })]
     public float[] stoppingDistance = new float[4]; // Stopping distance for different conditions.
@@ -40,83 +40,84 @@ public class BehaviourAI : MonoBehaviour
     // Creates a collection of Transforms
     private Transform[] waypoints; // Transform of (child) waypoints in array.
     private int currentIndex = 1; // Counts sequential waypoints of array index.
-    private Quaternion startRotation;
+    [HideInInspector]
+    public Quaternion startRotation;
     #endregion VARIABLES
 
     private Vector3 foundPoint;
     private Vector3 closestPoint;
-    private void OnDrawGizmos()
-    {
-        GetAvoidanceWaypoint();
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(target.position, fov.viewRadius);
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(target.position, closestPoint);
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(foundPoint, .5f);
-    }
-
-    // Returns closest collider to target
-    Collider ClosestObstacle(Vector3 position)
-    {
-        Collider[] hits = Physics.OverlapSphere(position, attackRange, obstacleMask);
-        // Set closest to null
-        Collider closest = null;
-        // Set minValue to max value
-        float minValue = float.MaxValue;
-        // Loop through all entities
-        foreach (var hit in hits)
-        {
-            // Set distance to entity distance
-            float distance = Vector3.Distance(position, hit.transform.position);
-            // If distance < minValue
-            if (distance < minValue)
-            {
-                // Set minValue to distance
-                minValue = distance;
-                // Set closest to entity
-                closest = hit;
-            }
-        }
-        // Return closest
-        return closest;
-    }
-
-    void GetAvoidanceWaypoint()
-    {
-        Collider closest = ClosestObstacle(transform.position);
-
-        Vector3 start = target.position;
-        Vector3 end = closest.transform.position;
-        Vector3 direction = end - start;
-        Vector3 point = closest.ClosestPoint(start + direction * 2f);
-
-        // FOUND IT! (Debugging)
-        closestPoint = end;
-        foundPoint = point;
-    }
-
-    void GetWayPoints()
-    {
-        if (target)
-        {
-            GetAvoidanceWaypoint();
-
-            //Vector3 coverDirectionFromPlayer = waypoints[0].position - target.position;
-            //Debug.Log("V magnitude: " + coverDirectionFromPlayer.magnitude);
-
-            //float playerToObstacleDist = Vector3.Distance(target.position, waypoints[0].position) + waypoints[0].gameObject.GetComponent<Collider>().bounds.size.x / 2;
-            //Debug.Log("distance " + playerToObstacleDist);
-        }
-        //Transform[] closePoints = new Transform[]
-    }
+    /// void OnDrawGizmos()
+    /// {
+    ///     GetAvoidanceWaypoint();
+    /// 
+    ///     Gizmos.color = Color.red;
+    ///     Gizmos.DrawWireSphere(target.position, fov.viewRadius);
+    /// 
+    ///     Gizmos.color = Color.red;
+    ///     Gizmos.DrawLine(target.position, closestPoint);
+    /// 
+    ///     Gizmos.color = Color.blue;
+    ///     Gizmos.DrawSphere(foundPoint, .5f);
+    /// }
+    /// 
+    /// // Returns closest collider to target
+    /// Collider ClosestObstacle(Vector3 position)
+    /// {
+    ///     Collider[] hits = Physics.OverlapSphere(position, attackRange, obstacleMask);
+    ///     // Set closest to null
+    ///     Collider closest = null;
+    ///     // Set minValue to max value
+    ///     float minValue = float.MaxValue;
+    ///     // Loop through all entities
+    ///     foreach (var hit in hits)
+    ///     {
+    ///         // Set distance to entity distance
+    ///         float distance = Vector3.Distance(position, hit.transform.position);
+    ///         // If distance < minValue
+    ///         if (distance < minValue)
+    ///         {
+    ///             // Set minValue to distance
+    ///             minValue = distance;
+    ///             // Set closest to entity
+    ///             closest = hit;
+    ///         }
+    ///     }
+    ///     // Return closest
+    ///     return closest;
+    /// }
+    /// 
+    /// void GetAvoidanceWaypoint()
+    /// {
+    ///     Collider closest = ClosestObstacle(transform.position);
+    /// 
+    ///     Vector3 start = target.position;
+    ///     Vector3 end = closest.transform.position;
+    ///     Vector3 direction = end - start;
+    ///     Vector3 point = closest.ClosestPoint(start + direction * 2f);
+    /// 
+    ///     // FOUND IT! (Debugging)
+    ///     closestPoint = end;
+    ///     foundPoint = point;
+    /// }
+    /// 
+    /// void GetWayPoints()
+    /// {
+    ///     if (target)
+    ///     {
+    ///         GetAvoidanceWaypoint();
+    /// 
+    ///         //Vector3 coverDirectionFromPlayer = waypoints[0].position - target.position;
+    ///         //Debug.Log("V magnitude: " + coverDirectionFromPlayer.magnitude);
+    /// 
+    ///         //float playerToObstacleDist = Vector3.Distance(target.position, waypoints[0].position) + waypoints[0].gameObject.GetComponent<Collider>().bounds.size.x / 2;
+    ///         //Debug.Log("distance " + playerToObstacleDist);
+    ///     }
+    ///     //Transform[] closePoints = new Transform[]
+    /// }
 
     #region STATES
     // The contained variables for the Patrol state (what rules the enemy AI follows when in 'Patrol').
-    void Patrol()
+    public virtual void Patrol()
     {
         // Transform(s) of the current waypoint in the waypoints array.
         Transform point = waypoints[currentIndex];
@@ -160,7 +161,7 @@ public class BehaviourAI : MonoBehaviour
     }
 
     // The contained variables for the Seek state (what rules the enemy AI follows when in 'Seek').
-    void Seek()
+    public virtual void Seek()
     {
         // Agent navigation speed.
         agent.speed = moveSpeed[1];
@@ -197,31 +198,8 @@ public class BehaviourAI : MonoBehaviour
             // Target the first target we see.
             target = fov.visibleTargets[0];
 
-            // Aim at the target.
-            #region Rotations (AIM GUN)
-            if (target)
-            {
-                // Reset the Seek timer.
-                holdStateTimer[1] = pauseDuration[1];
-
-                #region Aim at Player Position
-                // Direction of target (player) from the aim position.
-                Vector3 aimDir = target.position - aim.position;
-                Vector3 rotDir = target.position - transform.position;
-                
-                // If our aim is even slightly offset (not pointing directly at the target)...
-                if (aimDir.magnitude > 0)
-                {
-                    // ... rotate our aim to point straight at the target.
-                    aim.transform.rotation = Quaternion.LookRotation(aimDir.normalized, Vector3.up);
-                }
-                if (rotDir.magnitude > 0)
-                {
-                    transform.rotation = Quaternion.LookRotation(rotDir.normalized, Vector3.up);
-                }
-                #endregion
-            }
-            #endregion
+            // Reset the Seek timer.
+            holdStateTimer[1] = pauseDuration[1];
 
             // Move to specified position under set conditions.
             #region Agent Destinations
@@ -229,22 +207,22 @@ public class BehaviourAI : MonoBehaviour
             if (seekDistance > stoppingDistance[1])
             {
                 agent.SetDestination(target.position);
-                print("Chase");
+                //print("Chase");
             }
             if (seekDistance >= stoppingDistance[2] - 0.5f && seekDistance <= stoppingDistance[2] + 0.5f)
             {
                 agent.SetDestination(transform.position);
-                print("Hold");
+                //print("Hold");
             }
             if (seekDistance < stoppingDistance[3])
             {
                 Vector3 randomPoint = transform.position + Random.insideUnitSphere * 10;
                 NavMeshHit hit;
-                if (NavMesh.SamplePosition(randomPoint, out hit, 2f, NavMesh.AllAreas))
+                if (NavMesh.SamplePosition(randomPoint, out hit, 10f, NavMesh.AllAreas))
                 {
                     agent.SetDestination(hit.position);
                 }
-                print("Retreat");
+                //print("Retreat");
             }
             #endregion
         }
@@ -272,7 +250,28 @@ public class BehaviourAI : MonoBehaviour
         #endregion
     }
 
-    bool Retreat()
+    void Aim()
+    {
+        if (target)
+        {
+            // Direction of target (player) from the aim position.
+            Vector3 aimDir = target.position - aim.position;
+            Vector3 rotDir = target.position - transform.position;
+
+            // If our aim is even slightly offset (not pointing directly at the target)...
+            if (aimDir.magnitude > 0)
+            {
+                // ... rotate our aim to point straight at the target.
+                aim.transform.rotation = Quaternion.LookRotation(aimDir.normalized, Vector3.up);
+            }
+            if (rotDir.magnitude > 0)
+            {
+                transform.rotation = Quaternion.LookRotation(rotDir.normalized, Vector3.up);
+            } 
+        }
+    }
+
+    public virtual bool Retreat()
     {
         Vector3 randomPoint = transform.position + Random.insideUnitSphere * 10;
         NavMeshHit hit;
@@ -282,28 +281,24 @@ public class BehaviourAI : MonoBehaviour
         }
         return true;
     }
-    public void Investigate(Vector3 position)
-    {
-        // Agent navigation speed.
-        agent.speed = moveSpeed[2];
-
-        agent.SetDestination(position);
-        currentState = State.Investigate;
-    }
+    ///public void Investigate(Vector3 position)
+    ///{
+    ///    // Agent navigation speed.
+    ///    agent.speed = moveSpeed[2];
+    ///
+    ///    agent.SetDestination(position);
+    ///    currentState = State.Investigate;
+    ///}
     #endregion
 
     #region Start
     // Use this for initialization
-    void Start()
+    public virtual void Start()
     {
         // Set thisTimer to pauseDuration.
         holdStateTimer[0] = pauseDuration[0];
         holdStateTimer[1] = pauseDuration[1];
         holdStateTimer[2] = pauseDuration[2];
-
-        moveSpeed[0] = moveSpeed[0];
-        moveSpeed[1] = moveSpeed[1];
-        moveSpeed[2] = moveSpeed[2];
 
         // Get children of waypointParent.
         waypoints = waypointParent.GetComponentsInChildren<Transform>();
@@ -329,31 +324,32 @@ public class BehaviourAI : MonoBehaviour
             case State.Seek:
                 // Seek state
                 Seek();
+                Aim();
                 break;
-            case State.Investigate:
-                // Run this code while in investigate state
-                // If the agent gets close to the investigate position
-                if (agent.remainingDistance < stoppingDistance[0])
-                {
-                    // Note(Manny): Why not wait for 5 seconds here (timer)
-                    holdStateTimer[2] -= Time.deltaTime;
-                    if (holdStateTimer[2] <= 0)
-                    {
-                        holdStateTimer[2] = pauseDuration[2];
-                        // Switch to Patrol
-                        currentState = State.Patrol;
-                    }
-                }
-
-                // If the agent sees the player
-                if (fov.visibleTargets.Count > 0)
-                {
-                    // Switch over to seek
-                    currentState = State.Seek;
-                    // Seek towards the visible target
-                    target = fov.visibleTargets[0];
-                }
-                break;
+            ///case State.Investigate:
+            ///    // Run this code while in investigate state
+            ///    // If the agent gets close to the investigate position
+            ///    if (agent.remainingDistance < stoppingDistance[0])
+            ///    {
+            ///        // Note(Manny): Why not wait for 5 seconds here (timer)
+            ///        holdStateTimer[2] -= Time.deltaTime;
+            ///        if (holdStateTimer[2] <= 0)
+            ///        {
+            ///            holdStateTimer[2] = pauseDuration[2];
+            ///            // Switch to Patrol
+            ///            currentState = State.Patrol;
+            ///        }
+            ///    }
+            ///
+            ///    // If the agent sees the player
+            ///    if (fov.visibleTargets.Count > 0)
+            ///    {
+            ///        // Switch over to seek
+            ///        currentState = State.Seek;
+            ///        // Seek towards the visible target
+            ///        target = fov.visibleTargets[0];
+            ///    }
+            ///    break;
             default:
                 break;
         }
