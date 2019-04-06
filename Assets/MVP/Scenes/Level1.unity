@@ -147,6 +147,36 @@ Transform:
   m_Father: {fileID: 199339761}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8388324
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 1760026844631724, guid: ac17d428a901f9148868f42aa0936e15,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8388325}
+  m_Layer: 0
+  m_Name: DroneSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8388325
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 4601802675777468, guid: ac17d428a901f9148868f42aa0936e15,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 8388324}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 10, y: 4.0600004, z: 34}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2007916707}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &10965001 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 415042, guid: 64cfd3ebf9ae5764981d9f14aa7226d9,
@@ -7393,7 +7423,7 @@ Transform:
   m_Children:
   - {fileID: 36113175}
   m_Father: {fileID: 2007916707}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1348843493 stripped
 Transform:
@@ -7894,7 +7924,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2007916707}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1433719921
 GameObject:
@@ -8393,7 +8423,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2007916707}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1498104976 stripped
 Transform:
@@ -8686,7 +8716,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4643175267372752, guid: 35b75a7e54e19ed4c8268332205ff775, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35b75a7e54e19ed4c8268332205ff775, type: 2}
@@ -9224,13 +9254,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorFront: {fileID: 36113176}
   doorBack: {fileID: 1433719923}
-  drone: {fileID: 0}
-  enemy: {fileID: 1188078473502018, guid: 743310d68bad76e438b5ca22c733650d, type: 2}
+  drone: {fileID: 1188078473502018, guid: 743310d68bad76e438b5ca22c733650d, type: 2}
+  enemy: {fileID: 1210148752958328, guid: bbb8b8f930a956f498f80738b829185f, type: 2}
   enemyParent: {fileID: 1429344068}
   enemySpawned: 0
   roomCleared: 0
-  droneSpawnPoint: {fileID: 0}
-  enemySpawnPoint: {fileID: 0}
+  droneSpawnPoint: {fileID: 8388325}
+  enemySpawnPoint: {fileID: 1494729568}
   waypointParent: {fileID: 907499462}
   spawnDrone: 2
   spawnEnemy: 2
@@ -10881,6 +10911,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1666321617}
+  - {fileID: 8388325}
   - {fileID: 1494729568}
   - {fileID: 1429344068}
   - {fileID: 1344833553}
@@ -10955,7 +10986,7 @@ Transform:
   m_Children:
   - {fileID: 1433719922}
   m_Father: {fileID: 2007916707}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: -104.591, z: 0}
 --- !u!1001 &2024177196
 Prefab:
