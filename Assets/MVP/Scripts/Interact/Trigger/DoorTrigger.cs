@@ -9,14 +9,17 @@ public class DoorTrigger : MonoBehaviour
     public Animator doorBack;
 
     [Header("Variables")]
+    public GameObject drone;
     public GameObject enemy;
     public Transform enemyParent;
     public bool enemySpawned = false;
     public bool roomCleared = false;
-    public Transform spawnPoint;
+    public Transform droneSpawnPoint;
+    public Transform enemySpawnPoint;
 
     public Transform waypointParent;
 
+    public int spawnDrone = 2;
     public int spawnEnemy = 2;
 
     void Update()
@@ -51,13 +54,21 @@ public class DoorTrigger : MonoBehaviour
     IEnumerator SpawnTimer()
     {
 
-        for (int i = 0; i < spawnEnemy; i++)
+        for (int i = 0; i < spawnDrone; i++)
         {
-            GameObject clone = Instantiate(enemy, spawnPoint.position, spawnPoint.rotation);
+            GameObject clone = Instantiate(drone, droneSpawnPoint.position, droneSpawnPoint.rotation);
             clone.transform.parent = enemyParent;
             clone.GetComponent<AI_ScoutDrone>().waypointParent = waypointParent;
             yield return new WaitForSeconds(1);
         }
+        for (int i = 0; i < spawnEnemy; i++)
+        {
+            GameObject clone = Instantiate(enemy, enemySpawnPoint.position, enemySpawnPoint.rotation);
+            clone.transform.parent = enemyParent;
+            clone.GetComponent<BehaviourAI>().waypointParent = waypointParent;
+            yield return new WaitForSeconds(1);
+        }
+
         enemySpawned = true;
 
     }

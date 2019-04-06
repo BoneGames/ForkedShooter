@@ -21,8 +21,9 @@ public class BehaviourAI : MonoBehaviour
     public float[] moveSpeed = new float[3]; // Movement speeds for different states (up to you).
     [AI_ScoutDrone_(new string[] { "Pause Patrol", "Pause Seek", "Pause Investigate" })]
     public float[] pauseDuration = new float[3]; // Time to wait before doing next thing.
+    [HideInInspector]
     // [AI_ScoutDrone_(new string[] { "Timer Patrol", "Timer Seek", "Timer Investigate" })]
-    private float[] holdStateTimer = new float[3]; // Used to count how much time has passed since...
+    public float[] holdStateTimer = new float[3]; // Used to count how much time has passed since...
 
     [AI_ScoutDrone_(new string[] { "Waypoint", "Seek Target", "Range Target", "Retreat" })]
     public float[] stoppingDistance = new float[4]; // Stopping distance for different conditions.
@@ -42,29 +43,34 @@ public class BehaviourAI : MonoBehaviour
     float strafeTimer, strafeTimerMax;
 
     // Creates a collection of Transforms
-    private Transform[] waypoints; // Transform of (child) waypoints in array.
-    private int currentIndex = 1; // Counts sequential waypoints of array index.
-    private Quaternion startRotation;
+    [HideInInspector]
+    public Transform[] waypoints; // Transform of (child) waypoints in array.
+    [HideInInspector]
+    public int currentIndex = 1; // Counts sequential waypoints of array index.
+    [HideInInspector]
+    public Quaternion startRotation;
     #endregion VARIABLES
+    [HideInInspector]
+    public Vector3 foundPoint;
+    [HideInInspector]
+    public Vector3 closestPoint;
 
-    private Vector3 foundPoint;
-    private Vector3 closestPoint;
-    private void OnDrawGizmos()
-    {
-        GetAvoidanceWaypoint();
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(target.position, fov.viewRadius);
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(target.position, closestPoint);
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(foundPoint, .5f);
-    }
+    // private void OnDrawGizmos()
+    // {
+    //     GetAvoidanceWaypoint();
+    // 
+    //     Gizmos.color = Color.red;
+    //     Gizmos.DrawWireSphere(target.position, fov.viewRadius);
+    // 
+    //     Gizmos.color = Color.red;
+    //     Gizmos.DrawLine(target.position, closestPoint);
+    // 
+    //     Gizmos.color = Color.blue;
+    //     Gizmos.DrawSphere(foundPoint, .5f);
+    // }
 
     // Returns closest collider to target
-    Collider ClosestObstacle()
+    public Collider ClosestObstacle()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, attackRange, obstacleMask);
         //Debug.Log("obstacles found: " + hits.Length);
@@ -90,7 +96,7 @@ public class BehaviourAI : MonoBehaviour
         return closest;
     }
 
-    Vector3 GetAvoidanceWaypoint()
+    public Vector3 GetAvoidanceWaypoint()
     {
         Collider closest = ClosestObstacle();
 
@@ -101,11 +107,9 @@ public class BehaviourAI : MonoBehaviour
         return point;
     }
 
-    
-
     #region STATES
     // The contained variables for the Patrol state (what rules the enemy AI follows when in 'Patrol').
-    void Patrol()
+    public virtual void Patrol()
     {
         // Transform(s) of the current waypoint in the waypoints array.
         Transform point = waypoints[currentIndex];
@@ -153,7 +157,6 @@ public class BehaviourAI : MonoBehaviour
     {
         // Agent navigation speed.
         agent.speed = moveSpeed[1];
-       
 
         #region If Target is Lost...
         // If we can't see any targets...
@@ -202,7 +205,6 @@ public class BehaviourAI : MonoBehaviour
 
             // Move to specified position under set conditions.
             #region Agent Destinations
-            Vector3 targetDir = transform.position - target.position;
             if (seekDistance > stoppingDistance[1])
             {
                 agent.isStopped = false;
@@ -263,7 +265,7 @@ public class BehaviourAI : MonoBehaviour
         //Debug.Log("strafing");
     }
 
-    Transform GetClosestTarget()
+    public Transform GetClosestTarget()
     {
         float closestTargetDist = Mathf.Infinity;
         int transformIndex = 0;
@@ -279,7 +281,7 @@ public class BehaviourAI : MonoBehaviour
         return fov.visibleTargets[transformIndex];
     }
 
-    void Retreat()
+    public void Retreat()
     {
         Vector3 retreatPoint = GetAvoidanceWaypoint();
         agent.SetDestination(retreatPoint);
@@ -295,7 +297,7 @@ public class BehaviourAI : MonoBehaviour
 
     #region Start
     // Use this for initialization
-    void Start()
+    public virtual void Start()
     {
         // Set thisTimer to pauseDuration.
         holdStateTimer[0] = pauseDuration[0];
@@ -327,6 +329,7 @@ public class BehaviourAI : MonoBehaviour
                 Retreat();
                 break;
             default:
+                Patrol();
                 break;
         }
     }

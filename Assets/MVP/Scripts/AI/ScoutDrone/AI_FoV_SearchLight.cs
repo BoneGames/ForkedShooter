@@ -2,33 +2,13 @@
 using System.Collections.Generic; // Used to get public List<Transform> visibleTargets.
 using UnityEngine;
 
-public class AI_FoV_SearchLight : MonoBehaviour
+public class AI_FoV_SearchLight : AI_FoV_Detection
 {
     #region Variables
     // How far (viewRadius) can the AI see, and how much (viewAngle) can they see (clamped to 0°-360°).
     [Header("View Attributes")]
-    public float viewRadius = 50;
-    [Range(0, 360)]
-    public float viewAngle = 70;
-
-    // Two Masks used to set what counts as a target, or an obstruction to the FieldOfView.
-    public LayerMask targetMask;
-    public LayerMask obstacleMask;
-
-    // List for adding found targets (player) to an index.
-    [HideInInspector] // Hide the List below in Unity (it needs to be public so that the 'FieldOfViewEditor' script can access it).
-    public List<Transform> visibleTargets = new List<Transform>(); // using System.Collections.Generic;
-
     // Spotlight component (to control the 'Spot Angle' and 'Range' with the script's viewAngle and Radius).
     public Light fovLight;
-
-    // (advanced)
-    // Used in constructing mesh from contact points of Raycast.
-    // NOTE: This is where things get complicated, but it's all for the sake of efficiency.
-    public float meshResolution = 3; // Determines how many rays are cast out in 'DrawFieldOfView()' per ° (degree).
-    // Used in 'FindEdge' Method.
-    public int edgeResolveIterations = 4;
-    public float edgeDstThreshold = 0.5f;
 
     // (advanced)
     // Used to visualize the Field of View arc.
@@ -245,112 +225,4 @@ public class AI_FoV_SearchLight : MonoBehaviour
         }
     }
     #endregion
-
-    #region METHOD - Direction From Angle
-    // Visualized in 'FieldOfViewEditor' script.
-
-    // Method takes in an angle, and gives a direction for that angle using trigonometry. angleIsGlobal boolean used in 'FieldOfViewEditor' script.
-    public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
-    {
-        // if angle is NOT Global, convert to a Global angle by adding the transform's own rotation to it.
-        // This makes a thing rotate relative to its Global angle in degrees (SEE 'FieldOfViewEditor' SCRIPT FOR APPLICATION).
-        if (!angleIsGlobal)
-        {
-            angleInDegrees += transform.eulerAngles.y;
-        }
-
-        // Takes angle in Unity (converted from degrees (°) to radians (rad)), and switches Sine and Cosine
-        return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
-    }
-    #endregion
-
-    #region void METHOD - Draw Line to Target
-    /*private void OnDrawGizmos()
-    {
-        // 3D GUI Drawing Colour.
-        Gizmos.color = Color.red;
-        // foreach (for each instance of) 'visibleTarget' added to the list in the 'BossFoV_SearchLight' script...
-        foreach (Transform visibleTarget in visibleTargets)
-        {
-            // Draw a line from the script's transform position in 3D space to the target's position.
-            Gizmos.DrawLine(transform.position, visibleTarget.position);
-        }
-    }*/
-    #endregion
-
-    #region STRUCTS (or: 'The Rabbit Hole') - The Heart of Optimization
-    // "Welcome to The Rabbit Hole, stranger!~" - ???                                                                                    God help me.
-    #region An Attempt to Explain STRUCTS (accuracy not assured)
-    /* ~~~oOo~~~
-     * Jett Tay attempts to explain STRUCTS versus CLASSES (based on an answer by Unity user 'yagizpoyraz'):
-     * ~~~oOo~~~
-     * 
-     * Before we can understand STRUCTS, it's better to understand CLASSES first. So...
-     * 
-     * --
-     * What IS a CLASS?
-     * --
-     * A CLASS is a VALUE type that is the core of every script, including this one (see line 5 (public class FieldOfView : MonoBehaviour)).
-     * Every object/variable created under the CLASS will only hold a variable's reference to MEMORY.
-     * 
-     * In this script, there are Methods that would be awful to get working because they use similar variables several times for different reasons.
-     * For instance: If I used a float to get its value from one thing as 'Ø', but then wanted to use Ø to get a NEW Ø to use in a NEW-NEW Ø -
-     * That's probably a misunderstood interpretation, but my point being: If you store too many things in a CLASS, it's inefficient. So...
-     * 
-     * --
-     * What IS a STRUCT?
-     * --
-     * A STRUCT is a VALUE type that can be used to store objects/variables. However (unlike a CLASS):
-     * Every variable created under a STRUCT will hold the actual VALUE, NOT a reference to MEMORY.
-     * STRUCTS are SELF-CONTAINED - you can assign a STRUCT to a new variable in the script, but it will be a COPY, and
-     * changes made to the COPY will NOT affect the original STRUCT's variables.
-     * 
-     * In this script, for example, the 'View Cast Info' STRUCT contains FIVE different variables which are modified MUTLIPLE times, where some
-     * instances of the variable are used in Methods which rely on the variable AFTER it's been modified in ANOTHER Method, and THEN using the new -
-     * you get the idea.
-     * By using STRUCTS to store VALUE instead of in memory, it becomes easier to program, read, and will run much more efficiently.
-     */
-    #endregion
-
-    #region STRUCT (advanced) - View Cast Info
-    // struct used to store self-contained values, and then use elsewhere in the script.
-    public struct ViewCastInfo
-    {
-        // All variables copied for Raycast performed in 'ViewCast' Method.
-        // SEE 'ViewCastInfo ViewCast(float globalAngle)' METHOD FOR CONTEXT.
-
-        public bool hit; // YES/NO - I did/did not hit something!
-        public Vector3 point; // The Raycast stops at a set point.
-        public float dst; // The length of the Raycast.
-        public float angle; // The angle of the Raycast.
-
-        // public Constructor used to parse in the ViewCastInfo values.
-        public ViewCastInfo(bool _hit, Vector3 _point, float _dst, float _angle)
-        {
-            hit = _hit;
-            point = _point;
-            dst = _dst;
-            angle = _angle;
-        }
-    }
-    #endregion
-
-    #region STRUCT (advanced) - Edge Info
-    // struct stores values used for finding edges of obstacles. It's complicated, efficient, and damn it, because it's BRILLIANT.
-    public struct EdgeInfo
-    {
-        // pointA/B are kind of self-explanatory at this p- uhh... by now.
-        public Vector3 pointA;
-        public Vector3 pointB;
-
-        // public Constructor used to parse in the EdgeInfo values.
-        public EdgeInfo(Vector3 _pointA, Vector3 _pointB)
-        {
-            pointA = _pointA;
-            pointB = _pointB;
-        }
-    }
-    #endregion
-
-    #endregion STRUCTS (or: 'The Rabbit Hole') - The Heart of Optimization
 }

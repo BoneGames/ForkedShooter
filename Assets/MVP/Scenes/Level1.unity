@@ -1215,6 +1215,10 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 6.373
       objectReference: {fileID: 0}
+    - target: {fileID: 154804, guid: 82d4f016913f1d24ab26d390002561dd, type: 2}
+      propertyPath: m_Layer
+      value: 21
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82d4f016913f1d24ab26d390002561dd, type: 2}
   m_IsPrefabAsset: 0
@@ -2011,6 +2015,10 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 7.0660005
       objectReference: {fileID: 0}
+    - target: {fileID: 154804, guid: 82d4f016913f1d24ab26d390002561dd, type: 2}
+      propertyPath: m_Layer
+      value: 21
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82d4f016913f1d24ab26d390002561dd, type: 2}
   m_IsPrefabAsset: 0
@@ -2475,6 +2483,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1.2416003
       objectReference: {fileID: 0}
+    - target: {fileID: 178376, guid: 24aa58e7dffe5e549934afdd25d67219, type: 2}
+      propertyPath: m_Layer
+      value: 21
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24aa58e7dffe5e549934afdd25d67219, type: 2}
   m_IsPrefabAsset: 0
@@ -2755,7 +2767,7 @@ Transform:
   m_Children:
   - {fileID: 1421749395}
   m_Father: {fileID: 582360728}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: -52.045002, z: 0}
 --- !u!1001 &466529335
 Prefab:
@@ -3134,7 +3146,6 @@ Transform:
   - {fileID: 939340465}
   - {fileID: 1222952784}
   - {fileID: 591955225}
-  - {fileID: 553114636}
   - {fileID: 877298848}
   - {fileID: 1489228407}
   - {fileID: 1541376115}
@@ -3145,6 +3156,7 @@ Transform:
   - {fileID: 1199989509}
   - {fileID: 1348843493}
   - {fileID: 1394936548}
+  - {fileID: 553114636}
   - {fileID: 130090222}
   - {fileID: 60984023}
   - {fileID: 1034411144}
@@ -3291,6 +3303,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 587127747}
+  - {fileID: 1938004009}
   - {fileID: 1657261761}
   - {fileID: 1336993686}
   - {fileID: 1815391958}
@@ -3345,12 +3358,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorFront: {fileID: 906449195}
   doorBack: {fileID: 1421749396}
-  enemy: {fileID: 1188078473502018, guid: 743310d68bad76e438b5ca22c733650d, type: 2}
+  drone: {fileID: 1188078473502018, guid: 743310d68bad76e438b5ca22c733650d, type: 2}
+  enemy: {fileID: 1210148752958328, guid: bbb8b8f930a956f498f80738b829185f, type: 2}
   enemyParent: {fileID: 1336993686}
   enemySpawned: 0
   roomCleared: 0
-  spawnPoint: {fileID: 1657261761}
+  droneSpawnPoint: {fileID: 1938004009}
+  enemySpawnPoint: {fileID: 1657261761}
   waypointParent: {fileID: 640782264}
+  spawnDrone: 2
   spawnEnemy: 2
 --- !u!65 &587127749
 BoxCollider:
@@ -3443,6 +3459,10 @@ Prefab:
     - target: {fileID: 461702, guid: 02baa932ea03f3746adb538b9cd34bdf, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 124.26401
+      objectReference: {fileID: 0}
+    - target: {fileID: 168348, guid: 02baa932ea03f3746adb538b9cd34bdf, type: 2}
+      propertyPath: m_Layer
+      value: 21
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6549818, guid: 02baa932ea03f3746adb538b9cd34bdf, type: 2}
@@ -4231,6 +4251,10 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -37.733
       objectReference: {fileID: 0}
+    - target: {fileID: 135482, guid: db735a62c41bd6e4898ac65164e87c47, type: 2}
+      propertyPath: m_Layer
+      value: 21
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6554746, guid: db735a62c41bd6e4898ac65164e87c47, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: db735a62c41bd6e4898ac65164e87c47, type: 2}
@@ -4344,6 +4368,10 @@ Prefab:
     - target: {fileID: 4802985790247042, guid: 6b9a0bd56ddee1b43876a87547f52e99, type: 2}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1184061458281674, guid: 6b9a0bd56ddee1b43876a87547f52e99, type: 2}
+      propertyPath: m_Layer
+      value: 21
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b9a0bd56ddee1b43876a87547f52e99, type: 2}
@@ -4745,6 +4773,10 @@ Prefab:
     - target: {fileID: 461702, guid: 02baa932ea03f3746adb538b9cd34bdf, type: 2}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 160.18301
+      objectReference: {fileID: 0}
+    - target: {fileID: 168348, guid: 02baa932ea03f3746adb538b9cd34bdf, type: 2}
+      propertyPath: m_Layer
+      value: 21
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6549818, guid: 02baa932ea03f3746adb538b9cd34bdf, type: 2}
@@ -5544,7 +5576,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4643175267372752, guid: 35b75a7e54e19ed4c8268332205ff775, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35b75a7e54e19ed4c8268332205ff775, type: 2}
@@ -5715,6 +5747,10 @@ Prefab:
     - target: {fileID: 400000, guid: 050908f7cffe0ca47ab0747e8d7a6266, type: 3}
       propertyPath: m_LocalScale.z
       value: 2.7884
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 050908f7cffe0ca47ab0747e8d7a6266, type: 3}
+      propertyPath: m_Layer
+      value: 21
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 050908f7cffe0ca47ab0747e8d7a6266, type: 3}
@@ -6140,6 +6176,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1184061458281674, guid: 6b9a0bd56ddee1b43876a87547f52e99, type: 2}
+      propertyPath: m_Layer
+      value: 21
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b9a0bd56ddee1b43876a87547f52e99, type: 2}
   m_IsPrefabAsset: 0
@@ -6482,6 +6522,10 @@ Prefab:
     - target: {fileID: 400000, guid: e6229b45ee01a654dbab33f81370b102, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90.00001
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: e6229b45ee01a654dbab33f81370b102, type: 3}
+      propertyPath: m_Layer
+      value: 21
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6229b45ee01a654dbab33f81370b102, type: 3}
@@ -7264,7 +7308,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 582360728}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1343749095
 GameObject:
@@ -9078,7 +9122,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 582360728}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1663149116
 Prefab:
@@ -9180,12 +9224,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorFront: {fileID: 36113176}
   doorBack: {fileID: 1433719923}
+  drone: {fileID: 0}
   enemy: {fileID: 1188078473502018, guid: 743310d68bad76e438b5ca22c733650d, type: 2}
   enemyParent: {fileID: 1429344068}
   enemySpawned: 0
   roomCleared: 0
-  spawnPoint: {fileID: 1494729568}
+  droneSpawnPoint: {fileID: 0}
+  enemySpawnPoint: {fileID: 0}
   waypointParent: {fileID: 907499462}
+  spawnDrone: 2
   spawnEnemy: 2
 --- !u!65 &1666321619
 BoxCollider:
@@ -9773,6 +9820,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 7.6210885
       objectReference: {fileID: 0}
+    - target: {fileID: 168348, guid: 02baa932ea03f3746adb538b9cd34bdf, type: 2}
+      propertyPath: m_Layer
+      value: 21
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6549818, guid: 02baa932ea03f3746adb538b9cd34bdf, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 02baa932ea03f3746adb538b9cd34bdf, type: 2}
@@ -9870,6 +9921,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: db18042dc4046384982f1eab802ab846, type: 3}
+      propertyPath: m_Layer
+      value: 21
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db18042dc4046384982f1eab802ab846, type: 3}
   m_IsPrefabAsset: 0
@@ -9900,7 +9955,7 @@ Transform:
   m_Children:
   - {fileID: 906449199}
   m_Father: {fileID: 582360728}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1817158142
 GameObject:
@@ -10498,6 +10553,36 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64cfd3ebf9ae5764981d9f14aa7226d9, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &1938004008
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 1760026844631724, guid: ac17d428a901f9148868f42aa0936e15,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1938004009}
+  m_Layer: 0
+  m_Name: DroneSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1938004009
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 4601802675777468, guid: ac17d428a901f9148868f42aa0936e15,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1938004008}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3, y: 4.06, z: 54}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 582360728}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1940289587
 Prefab:
   m_ObjectHideFlags: 0
@@ -11109,6 +11194,10 @@ Prefab:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 102792, guid: 68b0d5ec068f24548bbb51542e696b6c, type: 2}
+      propertyPath: m_Layer
+      value: 21
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68b0d5ec068f24548bbb51542e696b6c, type: 2}
   m_IsPrefabAsset: 0
@@ -11353,6 +11442,10 @@ Prefab:
     - target: {fileID: 135482, guid: db735a62c41bd6e4898ac65164e87c47, type: 2}
       propertyPath: m_Name
       value: Rock_Light_4 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 135482, guid: db735a62c41bd6e4898ac65164e87c47, type: 2}
+      propertyPath: m_Layer
+      value: 21
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6554746, guid: db735a62c41bd6e4898ac65164e87c47, type: 2}

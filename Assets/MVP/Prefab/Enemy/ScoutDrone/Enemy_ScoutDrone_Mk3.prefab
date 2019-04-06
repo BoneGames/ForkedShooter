@@ -643,7 +643,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1188078473502018}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 150.2, y: 2, z: 74.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4248089437234074}
@@ -1645,20 +1645,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d226a0cd5dd188542a7ffa0f36407276, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 100
+  damage: 10
   maxAmmo: 30
   accuracy: 1
   range: 10
   rateOfFire: 5
   projectile: {fileID: 1874544804970178, guid: f5fad20bfebd88d46abe3e602f14fdaf, type: 2}
   spawnPoint: {fileID: 4076797023168174}
+  muzzle: {fileID: 0}
   hitPoint: {x: 0, y: 0, z: 0}
   magSize: 0
   currentAmmo: 0
   currentMag: 0
   tempMag: 0
   isOnline: 0
-  contact: {fileID: 0}
+  contact: {fileID: 114272049808185796}
   reloadTime: 4
 --- !u!114 &114272049808185796
 MonoBehaviour:
@@ -1680,18 +1681,32 @@ MonoBehaviour:
   - 4
   - 8
   - 8
+  holdStateTimer:
+  - 0
+  - 0
+  - 0
   stoppingDistance:
   - 5
   - 8
   - 4
   - 2
-  anim: {fileID: 95049339517146008}
   agent: {fileID: 195558518581967682}
   aim: {fileID: 4772487962471540}
   target: {fileID: 0}
   waypointParent: {fileID: 0}
   fov: {fileID: 114553284607818792}
-  searchLight: {fileID: 0}
+  attackRange: 5
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 2097152
+  inAccuracy: 0
+  waypoints: []
+  currentIndex: 1
+  startRotation: {x: 0, y: 0, z: 0, w: 0}
+  foundPoint: {x: 0, y: 0, z: 0}
+  closestPoint: {x: 0, y: 0, z: 0}
+  anim: {fileID: 95049339517146008}
+  searchLight: {fileID: 108193603917091660}
   colorPatrol: {r: 1, g: 1, b: 1, a: 1}
   colorSearch: {r: 0.8039216, g: 0.4019608, b: 0, a: 1}
   colorSeek: {r: 0.8039216, g: 0, b: 0, a: 1}
@@ -1732,10 +1747,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2097152
   visibleTargets: []
-  fovLight: {fileID: 108193603917091660}
   meshResolution: 3
   edgeResolveIterations: 4
   edgeDstThreshold: 0.5
+  fovLight: {fileID: 108193603917091660}
 --- !u!135 &135078705110572824
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -1761,7 +1776,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 0.42
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1

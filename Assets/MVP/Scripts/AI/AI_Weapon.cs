@@ -25,7 +25,7 @@ public class AI_Weapon : Weapon
     {
         Debug.Log("Attack");
         // If there is a player in our line of sight, and we still have ammo to work with...
-        if (isOnline && contact.fov.visibleTargets.Count > 0 && currentMag > 0)
+        if (contact.fov.visibleTargets.Count > 0  && currentMag > 0)
         {
             
             RaycastHit hit;
@@ -33,10 +33,10 @@ public class AI_Weapon : Weapon
             
             if (Physics.Raycast(ray, out hit))
             {
-                // For reference to see where bullets hit;
-                //GameObject bullet = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube), hit.point, Quaternion.identity);
-                //bullet.GetComponent<Renderer>().material.color = Color.red;
-                //bullet.transform.localScale = new Vector3(.15f, .15f, .15f);
+                /// For reference to see where bullets hit;
+                ///GameObject bullet = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube), hit.point, Quaternion.identity);
+                ///bullet.GetComponent<Renderer>().material.color = Color.red;
+                ///bullet.transform.localScale = new Vector3(.15f, .15f, .15f);
 
                 if (isOnline)
                 {
@@ -56,13 +56,13 @@ public class AI_Weapon : Weapon
                         //print("I hit an enemy");
                     }
                 }
-                // // Fire bullets at it.
-                // GameObject clone = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
-                // Bullet newBullet = clone.GetComponent<Bullet>();
-
-                // newBullet.Fire(spawnPoint.transform.forward);
-                // newBullet.sourceAgent = this.gameObject;
-                //print("Firing.");
+                /// // Fire bullets at it.
+                /// GameObject clone = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
+                /// Bullet newBullet = clone.GetComponent<Bullet>();
+                /// 
+                /// newBullet.Fire(spawnPoint.transform.forward);
+                /// newBullet.sourceAgent = this.gameObject;
+                /// print("Firing.");
                 currentMag--;
                 Debug.Log(currentMag);
             }
@@ -74,33 +74,6 @@ public class AI_Weapon : Weapon
             StopCoroutine("Shoot");
         }
     }
-
-    /// Garbage (old 'BurstFire()' and 'Shoot()').
-    /// // Where we run Attack() multiple times.
-    /// IEnumerator BurstFire()
-    /// {
-    ///     while (true)
-    ///     {
-    ///         Attack();
-    ///         yield return new WaitForSeconds(0.1f);
-    ///         Attack();
-    ///         yield return new WaitForSeconds(0.1f);
-    ///         Attack();
-    ///         yield return new WaitForSeconds(0.1f);
-    ///         StopCoroutine("BurstFire");
-    ///     }
-    /// }
-    /// 
-    /// // Where we run BurstFire().
-    /// IEnumerator Shoot()
-    /// {
-    ///     // While the Coroutine is running...
-    ///     while (true)
-    ///     {
-    ///         StartCoroutine("BurstFire");
-    ///         yield return new WaitForSeconds(Random.Range(0.5f, 1f));
-    ///     }
-    /// }
 
     // Where we run Attack() multiple times.
     IEnumerator BurstFire(int burstCount, float burstDelay)
@@ -143,6 +116,7 @@ public class AI_Weapon : Weapon
             // Wait (reloadTime) seconds before reloading, then you can start shooting again.
             yield return new WaitForSeconds(reloadTime);
             Reload();
+            currentAmmo = maxAmmo;
             StartCoroutine("Shoot");
             StopCoroutine("StartReload");
         }
