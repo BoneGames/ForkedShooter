@@ -57,6 +57,7 @@ public class DoorTrigger : MonoBehaviour
         for (int i = 0; i < spawnDrone; i++)
         {
             GameObject clone = Instantiate(drone, droneSpawnPoint.position, droneSpawnPoint.rotation);
+            clone.transform.name += i.ToString(); 
             clone.transform.parent = enemyParent;
             clone.GetComponent<AI_ScoutDrone>().waypointParent = waypointParent;
             yield return new WaitForSeconds(1);
@@ -64,6 +65,7 @@ public class DoorTrigger : MonoBehaviour
         for (int i = 0; i < spawnEnemy; i++)
         {
             GameObject clone = Instantiate(enemy, enemySpawnPoint.position, enemySpawnPoint.rotation);
+            clone.transform.name += i.ToString(); 
             clone.transform.parent = enemyParent;
             clone.GetComponent<BehaviourAI>().waypointParent = waypointParent;
             yield return new WaitForSeconds(1);

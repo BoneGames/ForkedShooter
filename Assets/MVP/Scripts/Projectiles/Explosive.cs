@@ -18,9 +18,15 @@ public class Explosive : Projectile
     public override void OnCollisionEnter(Collision collision)
     {
         string tag = collision.collider.tag;
-        if(tag.Contains("Player") && collision.transform.name != firedBy)
+        if(tag == "Player" && collision.transform.name != firedBy)
         {
+
             collision.transform.GetComponent<PhotonView>().RPC("ChangeHealth", PhotonTargets.All, damage);
+        }
+        if(tag == "Enemy")
+        {
+            collision.transform.GetComponent<Health>().ChangeHealth(damage);
+            Debug.Log(collision.transform.name + " just got hit by rocket. Now has: " + collision.transform.GetComponent<Health>().currentHealth + " health");
         }
         Explode();
         Effects();
@@ -28,15 +34,19 @@ public class Explosive : Projectile
 
     void Explode()
     {
-		//Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius);
-		//foreach(var hit in hits)
-		//{
-		//	Enemy e = hit.GetComponent<Enemy>();
-		//	if(e)
-		//	{
-		//		//e.TakeDamage(damage);
-		//	}
-		//}
+        // explosion damage does 1/2 the damage the impact does
+        // NOTE: this will mean damage gets done twice for hit player... Maybe that's fine?
+        int explosionDamage = (int)(damage * 0.5f);
+		Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius);
+		foreach(var hit in hits)
+		{
+			Health h = hit.GetComponent<Health>();
+			if(h)
+			{
+				h.ChangeHealth(explosionDamage);
+                Debug.Log(h.transform.name + " just got hit by rocket explosion and took +" + explosionDamage + " damage. It now has: " + h.transform.GetComponent<Health>().currentHealth + " health");
+			}
+		}
         GameObject.Destroy(this.gameObject);
     }
 	
