@@ -1646,20 +1646,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  maxAmmo: 30
-  accuracy: 1
+  maxAmmo: 60
+  accuracy: 0.2
   range: 10
   rateOfFire: 5
   projectile: {fileID: 1874544804970178, guid: f5fad20bfebd88d46abe3e602f14fdaf, type: 2}
   spawnPoint: {fileID: 4076797023168174}
   muzzle: {fileID: 0}
   hitPoint: {x: 0, y: 0, z: 0}
-  magSize: 0
-  currentAmmo: 0
-  currentMag: 0
+  magSize: 7
+  currentAmmo: 30
+  currentMag: 7
   tempMag: 0
-  isOnline: 0
   contact: {fileID: 114272049808185796}
+  hitParticle: {fileID: 1097464064478134, guid: 259a0b96acab2f749b11f8a6e18a8862,
+    type: 2}
+  burstCount: 3
+  burstDelay: 0.1
   reloadTime: 4
 --- !u!114 &114272049808185796
 MonoBehaviour:
