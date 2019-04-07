@@ -29,7 +29,7 @@ public class DoorTrigger : MonoBehaviour
             roomCleared = true;
             doorFront.SetBool("Exit", true);
             doorBack.SetBool("Exit", true);
-            print("Fuck");
+            print("Doors Activated");
         }
     }
 
@@ -42,7 +42,7 @@ public class DoorTrigger : MonoBehaviour
             //Only trigger is tag is player
             if (other.gameObject.CompareTag("Player"))
             {
-                Debug.Log("Collision detected");
+                Debug.Log("DoorTrigger PLayer Enter Collision detected");
                 //Set the trigger for the animator
                 doorFront.SetTrigger("Enter");
                 doorBack.SetTrigger("Enter");

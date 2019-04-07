@@ -27,8 +27,8 @@ public class PlayerHealth : Health
     [PunRPC]
     public override void ChangeHealth(int value)
     {
-        Debug.Log(this.name + " health Method");
         currentHealth -= value;
+        Debug.Log(this.name + " ChangeHealth Method Called. Health reduced by: " + value + ", and now is: " + currentHealth);
 
         if (currentHealth > maxHealth)
         {

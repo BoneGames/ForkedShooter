@@ -209,19 +209,19 @@ public class BehaviourAI : MonoBehaviour
             {
                 agent.isStopped = false;
                 agent.SetDestination(target.position);
-                print("Chase");
+                //print("Chase");
             }
             if (seekDistance >= stoppingDistance[2] - 0.5f && seekDistance <= stoppingDistance[2] + 0.5f)
             {
                 Strafe();
                 agent.isStopped = true;
-                print("Hold");
+                //print("Hold");
             }
             if (seekDistance < stoppingDistance[3])
             {
                 agent.isStopped = false;
                 currentState = State.Retreat;
-                print("Retreat");
+                //print("Retreat");
             }
             #endregion
         }
@@ -250,8 +250,7 @@ public class BehaviourAI : MonoBehaviour
     }
 
     void Strafe()
-    {
-        
+    { 
         strafeTimer += Time.deltaTime;
         //Debug.Log("strafeTimer: " + strafeTimer);
         if(strafeTimer > strafeTimerMax)
@@ -262,7 +261,6 @@ public class BehaviourAI : MonoBehaviour
             //random strafeSpeed?
         }
         transform.RotateAround(target.position, strafeDir, 10 * Time.deltaTime);
-        //Debug.Log("strafing");
     }
 
     public Transform GetClosestTarget()

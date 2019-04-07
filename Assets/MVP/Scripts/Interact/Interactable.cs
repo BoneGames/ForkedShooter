@@ -9,7 +9,7 @@ namespace Interactions
 
         public virtual void Interact()
         {
-            Debug.Log("You hit the base class!");
+            Debug.Log("You hit the Interact base class!");
         }
     }
 }

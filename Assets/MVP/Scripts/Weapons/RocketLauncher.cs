@@ -12,7 +12,7 @@ public class RocketLauncher : Weapon
         Quaternion hitRotation = GetTargetNormal();
 
         GameObject clone;
-        if (isOnline)
+        if (GameManager.isOnline)
         {
             clone = PhotonNetwork.Instantiate("Explosive", spawnPoint.position, spawnPoint.rotation, 0);
         }
@@ -21,7 +21,7 @@ public class RocketLauncher : Weapon
             clone = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
         }
         Projectile newBullet = clone.GetComponent<Projectile>();
-        if (isOnline)
+        if (GameManager.isOnline)
         {
             newBullet.firedBy = GetComponentInParent<PhotonView>().gameObject.name;
         }

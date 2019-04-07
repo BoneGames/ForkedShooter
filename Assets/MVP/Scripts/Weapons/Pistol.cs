@@ -23,7 +23,7 @@ public class Pistol : Weapon
                 //bullet.GetComponent<Renderer>().material.color = Color.red;
                 //bullet.transform.localScale = new Vector3(.15f, .15f, .15f);
 
-                if (isOnline)
+                if (GameManager.isOnline)
                 {
                     if (hit.collider.CompareTag("Enemy"))
                     {
@@ -32,8 +32,8 @@ public class Pistol : Weapon
                 }
                 else
                 {
-                    print("I'm firing!");
-                    Debug.DrawRay(spawnPoint.position, spawnPoint.forward, Color.red);
+                    //print("I'm firing!");
+                    //Debug.DrawRay(spawnPoint.position, spawnPoint.forward, Color.red);
 
                     if (hit.collider.tag == "Enemy")
                     {

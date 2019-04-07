@@ -26,8 +26,6 @@ namespace GameSystems
         public int currentMag;
         public int tempMag;
 
-        public bool isOnline;
-
         private void Start()
         {
             currentAmmo = maxAmmo;

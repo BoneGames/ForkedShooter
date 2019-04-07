@@ -95,40 +95,6 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     public void SelectWeaponRPC(int index)
     {        
         SelectWeapon(index);
-
-        // Note (Manny): Here's your old code
-        /*
-        Debug.Log("RPC");
-
-        Debug.Log("currentWeaponIndex: " + currentWeaponIndex);
-        foreach (Weapon weapon in weapons)
-        {
-            Debug.Log(weapon.name + " is " + weapon.isActiveAndEnabled);
-        }
-        
-        float trueWeaponBoolIndex = 0;
-        for (int b = 0; b < WeaponsBools.Length; b++)
-        {
-            if (WeaponsBools[b])
-            {
-                trueWeaponBoolIndex = b;
-            }
-        }
-
-        if (currentWeaponIndex != trueWeaponBoolIndex)
-        {
-            Debug.Log("RPC1");
-
-            for (int weaponIndex = 0; weaponIndex < weapons.Length; weaponIndex++)
-            {
-                weapons[weaponIndex].gameObject.SetActive(WeaponsBools[weaponIndex]);
-                if (weapons[weaponIndex].isActiveAndEnabled)
-                {
-                    currentWeapon = weapons[weaponIndex];
-                }
-            }
-        }
-        */
     }
     #endregion
 
@@ -241,7 +207,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         // Note (Manny): This error was pissing me off lol
         if (lastCheckpoint)
             transform.position = lastCheckpoint.position;
-
+            Debug.Log("Player has died and respawned");
         myHealth.currentHealth = myHealth.maxHealth;
     }
     // Combat
@@ -249,10 +215,10 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     {
         currentWeapon.Attack();
 
-        if (photonView)
-        {
-            currentWeapon.isOnline = true;
-        }
+        // if (photonView)
+        // {
+        //     currentWeapon.isOnline = true;
+        // }
     }
     public void Reload()
     {

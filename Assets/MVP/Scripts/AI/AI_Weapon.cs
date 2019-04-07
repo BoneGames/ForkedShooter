@@ -23,7 +23,7 @@ public class AI_Weapon : Weapon
     // Where we define shooting.
     public override void Attack()
     {
-        Debug.Log("Attack");
+        //Debug.Log("Attack");
         // If there is a player in our line of sight, and we still have ammo to work with...
         if (contact.fov.visibleTargets.Count > 0  && currentMag > 0)
         {
@@ -38,7 +38,7 @@ public class AI_Weapon : Weapon
                 ///bullet.GetComponent<Renderer>().material.color = Color.red;
                 ///bullet.transform.localScale = new Vector3(.15f, .15f, .15f);
 
-                if (isOnline)
+                if (GameManager.isOnline)
                 {
                     if (hit.collider.CompareTag("Player"))
                     {
@@ -47,13 +47,10 @@ public class AI_Weapon : Weapon
                 }
                 else
                 {
-                    print("I'm firing!");
-                    Debug.DrawRay(spawnPoint.position, spawnPoint.forward, Color.red);
-
                     if (hit.collider.tag == "Player")
                     {
                         hit.transform.GetComponent<Health>().ChangeHealth(damage);
-                        //print("I hit an enemy");
+                        print("AI hit an enemy");
                     }
                 }
                 /// // Fire bullets at it.
@@ -64,7 +61,6 @@ public class AI_Weapon : Weapon
                 /// newBullet.sourceAgent = this.gameObject;
                 /// print("Firing.");
                 currentMag--;
-                Debug.Log(currentMag);
             }
         }
         // If we run out of ammo, start reloading and stop shooting.
@@ -88,16 +84,12 @@ public class AI_Weapon : Weapon
         }
     }
 
-    private void Update()
-    {
-         Debug.DrawRay(spawnPoint.position, spawnPoint.transform.forward);
-    }
+    
     // Where we run BurstFire().
     IEnumerator Shoot()
     {
         while (true)
         {
-            Debug.Log("shootroutine");
             // Run BurstFire every 0.5 ↔ 1.0 seconds.
 
             //This form of StartCoroutine doesn't use the string name to run it

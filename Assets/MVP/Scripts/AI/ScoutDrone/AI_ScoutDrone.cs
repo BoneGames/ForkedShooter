@@ -115,17 +115,17 @@ public class AI_ScoutDrone : BehaviourAI
             if (seekDistance > stoppingDistance[1])
             {
                 agent.SetDestination(target.position);
-                print("Chase");
+                //print("Chase");
             }
             if (seekDistance >= stoppingDistance[2] - 0.5f && seekDistance <= stoppingDistance[2] + 0.5f)
             {
                 agent.SetDestination(transform.position);
-                print("Hold");
+                //print("Hold");
             }
             if (seekDistance < stoppingDistance[3])
             {
                 agent.SetDestination(targetDir.normalized * stoppingDistance[2]);
-                print("Retreat");
+                //print("Retreat");
             } 
             #endregion
         }
