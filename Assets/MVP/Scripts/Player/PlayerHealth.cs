@@ -43,7 +43,7 @@ public class PlayerHealth : Health
     {
         if (currentHealth <= 0)
         {
-            this.gameObject.GetComponent<RigidCharacterMovement>().Respawn();
+            this.gameObject.GetComponent<RigidCharacterMovement>().StartCoroutine("Respawn");
         }
     }
 

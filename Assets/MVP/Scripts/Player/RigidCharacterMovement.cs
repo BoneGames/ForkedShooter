@@ -35,6 +35,8 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     private bool weaponRotationThing = false;
     private Vector3 moveDirection;
     private Interactable interactObject;
+    private bool showGui = false;
+    private int timeTillRespawn = 5;
 
     #region Unity Events
     void Awake()
@@ -200,15 +202,39 @@ public class RigidCharacterMovement : Photon.PunBehaviour
             interactObject.Interact();
         }
     }
-    public void Respawn()
+    public IEnumerator Respawn()
     {
+        showGui = true;
+        for(int respawnTime = timeTillRespawn; respawnTime > 0; respawnTime--)
+        {
+            Debug.Log("for");
+            yield return new WaitForSeconds(1);
+            timeTillRespawn--;
+        }
+        showGui = false;
+
         isDead = false;
 
-        // Note (Manny): This error was pissing me off lol
-        if (lastCheckpoint)
+        if (lastCheckpoint) 
+        {
             transform.position = lastCheckpoint.position;
-            Debug.Log("Player has died and respawned");
+        } 
+        else 
+        {
+            // gives sense of falling back into scene
+            transform.position += new Vector3(0,5,0);
+        }
+
+        Debug.Log("Player has died and respawned");
         myHealth.currentHealth = myHealth.maxHealth;
+    }
+
+    void OnGUI()
+    {
+        if (showGui)
+        {
+            GUI.Box(new Rect(0, 0, Screen.width, Screen.height), "You died and will respawn in " + timeTillRespawn + " seconds");
+        }
     }
     // Combat
     public void Attack()
