@@ -11,6 +11,8 @@ public class RocketLauncher : Weapon
     {
         Quaternion hitRotation = GetTargetNormal();
 
+        UpdateAmmoDisplay();
+
         GameObject clone;
         if (GameManager.isOnline)
         {
@@ -27,6 +29,7 @@ public class RocketLauncher : Weapon
         }
 
         newBullet.hitRotation = hitRotation;
+        newBullet.damage = damage;
         newBullet.Fire(transform.forward);
     }
 }

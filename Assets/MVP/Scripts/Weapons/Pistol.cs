@@ -15,6 +15,7 @@ public class Pistol : Weapon
             Ray ray = new Ray(spawnPoint.position, spawnPoint.transform.forward);
 
             SpawnMuzzleFlash();
+            UpdateAmmoDisplay();
 
             if (Physics.Raycast(ray, out hit))
             {

@@ -11,7 +11,7 @@ public class EnemyHealth : Health
     [Header("Enemy Drops")]
     public GameObject ammoBox;
     public GameObject healthDrop;
-
+    
     void Awake()
     {  
         photonView = GetComponent<PhotonView>();
@@ -24,6 +24,7 @@ public class EnemyHealth : Health
         if (!isGod)
         {
             currentHealth -= value;
+            healthBar.UpdateBar();
             CheckDie();
         }
     }

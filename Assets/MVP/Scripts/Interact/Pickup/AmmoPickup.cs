@@ -23,6 +23,8 @@ public class AmmoPickup : Pickup
                         player.currentWeapon.currentAmmo = player.currentWeapon.maxAmmo;
                     }
 
+                    player.currentWeapon.UpdateAmmoDisplay();
+
                     Destroy(gameObject);
                 }
             }

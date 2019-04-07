@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerHealth : Health
 {
-
     PhotonView photonView;
     string photonID;
 
@@ -28,6 +27,7 @@ public class PlayerHealth : Health
     public override void ChangeHealth(int value)
     {
         currentHealth -= value;
+
         Debug.Log(this.name + " ChangeHealth Method Called. Health reduced by: " + value + ", and now is: " + currentHealth);
 
         if (currentHealth > maxHealth)
@@ -41,6 +41,8 @@ public class PlayerHealth : Health
     // Self explanatory.
     public override void CheckDie()
     {
+        healthBar.UpdateBar();
+
         if (currentHealth <= 0)
         {
             this.gameObject.GetComponent<RigidCharacterMovement>().StartCoroutine("Respawn");

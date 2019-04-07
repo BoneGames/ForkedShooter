@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using BT;
 
 namespace GameSystems
@@ -9,8 +10,11 @@ namespace GameSystems
     {
         public int damage = 100;
         public int maxAmmo = 30;
+
         public float accuracy = 1f;
         public float range = 10f;
+        public float scopeZoom = 75f;
+
         public float rateOfFire = 5f;
         public GameObject projectile;
         public Transform spawnPoint;
@@ -25,6 +29,8 @@ namespace GameSystems
 
         public int currentMag;
         public int tempMag;
+
+        public Text ammoDisplay;
 
         private void Start()
         {
@@ -67,6 +73,8 @@ namespace GameSystems
                     currentAmmo -= tempMag;
                 }
             }
+
+            UpdateAmmoDisplay();
         }
 
         public virtual void SpawnMuzzleFlash()
@@ -76,6 +84,11 @@ namespace GameSystems
                 GameObject _flash = Instantiate(muzzle, spawnPoint.transform);
                 Destroy(_flash, 3);
             }
+        }
+
+        public virtual void UpdateAmmoDisplay()
+        {
+            ammoDisplay.text = string.Format("{0}/{1} // {2}/{3}", currentMag, magSize, currentAmmo, maxAmmo);
         }
     }
 }

@@ -14,6 +14,8 @@ public class Shotgun : Weapon
         {
             SpawnMuzzleFlash();
 
+            UpdateAmmoDisplay();
+
             for (int i = 0; i < pellets; i++)
             {
                 Vector3 spread = Vector3.zero;
@@ -61,6 +63,8 @@ public class Shotgun : Weapon
         while (currentMag < magSize)
         {
             currentMag++;
+            UpdateAmmoDisplay();
+
             yield return new WaitForSeconds(reloadSpeed);
         }
 

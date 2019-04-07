@@ -58,6 +58,7 @@ GameObject:
   - component: {fileID: 114063992362631900}
   - component: {fileID: 195671733529801184}
   - component: {fileID: 54879496485559750}
+  - component: {fileID: 114724907606451946}
   m_Layer: 10
   m_Name: Enemy
   m_TagString: Enemy
@@ -559,6 +560,7 @@ MonoBehaviour:
   photonView: {fileID: 0}
   ammoBox: {fileID: 1861980455999006, guid: 81097656c3f3f474695c95c52ee785d7, type: 2}
   healthDrop: {fileID: 1770668066226042, guid: ef39cf02ff0e77243aef73b443f72843, type: 2}
+  healthBar: {fileID: 0}
 --- !u!114 &114698108128121888
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -582,6 +584,20 @@ MonoBehaviour:
   meshResolution: 3
   edgeResolveIterations: 4
   edgeDstThreshold: 0.5
+--- !u!114 &114724907606451946
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1210148752958328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c600db55c398ae146aee35e4c9a3c7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBarPrefab: {fileID: 1744921355771316, guid: 2a7c22fccbffa414c8a105b65e5aa1be,
+    type: 2}
+  offset: {x: 0, y: 1.5, z: 0}
 --- !u!136 &136307132158839224
 CapsuleCollider:
   m_ObjectHideFlags: 1

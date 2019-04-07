@@ -23,7 +23,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     [Header("Important Stuff")]
     public Rigidbody rigid;
     public float rayDistance = 1f;
-    public GameObject myCamera;
+    public Camera myCamera;
     public Transform myHand;
     public Health myHealth;
     public Weapon[] weapons;
@@ -49,6 +49,8 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     {
         // Note (Manny): Since it's an internal function, call it on start internally
         SelectWeapon(currentWeaponIndex);
+
+        currentWeapon.UpdateAmmoDisplay();
     }
     void OnTriggerEnter(Collider other)
     {
@@ -250,9 +252,12 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     {
         currentWeapon.Reload();
     }
+
     public void Aim(bool isAiming)
     {
         myHand.localPosition = isAiming ? new Vector3(0, myHand.localPosition.y + .05f, myHand.localPosition.z) : myHand.localPosition = new Vector3(0.5f, myHand.localPosition.y - .05f, myHand.localPosition.z);
+
+        myCamera.fieldOfView = isAiming ? currentWeapon.scopeZoom : 75;
     }
     public void SwitchWeapon(int direction)
     {
@@ -270,7 +275,10 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         SelectWeapon(currentWeaponIndex);
 
         // Note (Manny): Send the index to every client
-        photonView.RPC("SelectWeaponRPC", PhotonTargets.All, currentWeaponIndex);
+        if (photonView)
+        {
+            photonView.RPC("SelectWeaponRPC", PhotonTargets.All, currentWeaponIndex);
+        }
     }
     #endregion
 }

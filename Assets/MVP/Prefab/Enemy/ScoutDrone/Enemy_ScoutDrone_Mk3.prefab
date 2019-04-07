@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4248089437234074}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,7 +34,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4989428886416606}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: rotY_RotorBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,7 +51,7 @@ GameObject:
   - component: {fileID: 4061590927737712}
   - component: {fileID: 33405108219519488}
   - component: {fileID: 23843644330971128}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Obj_Eye001_Lens
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -66,7 +66,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4969552863425238}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: rotY_RotorTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,7 +81,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4949517894230020}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: anims_RotorBlades
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 4564489597549000}
   - component: {fileID: 33516786911907914}
   - component: {fileID: 23155050157062704}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Obj_Eye002_Frame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,7 +115,7 @@ GameObject:
   - component: {fileID: 4075379094068140}
   - component: {fileID: 33645209233474140}
   - component: {fileID: 23057081493180244}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Obj_Chasis_Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 195558518581967682}
   - component: {fileID: 95049339517146008}
   - component: {fileID: 54902989782543628}
+  - component: {fileID: 114857226843892834}
   m_Layer: 10
   m_Name: Enemy_ScoutDrone_Mk3
   m_TagString: Enemy
@@ -154,7 +155,7 @@ GameObject:
   - component: {fileID: 4173215116952174}
   - component: {fileID: 33449195813393196}
   - component: {fileID: 23556114179798770}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Obj_Chasis_Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +171,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4772487962471540}
   - component: {fileID: 114553284607818792}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: SearchLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,7 +186,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4589934956613586}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Chasis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,7 +203,7 @@ GameObject:
   - component: {fileID: 4107248342634476}
   - component: {fileID: 33078076996121744}
   - component: {fileID: 23301158384396214}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Obj_Eye003_Lens
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,7 +218,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4144810091662392}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: rotZ_SearchLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,7 +235,7 @@ GameObject:
   - component: {fileID: 4880322053579568}
   - component: {fileID: 33038276001675416}
   - component: {fileID: 23256606949560194}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Obj_Eye002_Lens
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,7 +252,7 @@ GameObject:
   - component: {fileID: 4919047846922626}
   - component: {fileID: 33627904163072256}
   - component: {fileID: 23171522304340174}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Obj_SearchLight_swivelMount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -268,7 +269,7 @@ GameObject:
   - component: {fileID: 4607377754648898}
   - component: {fileID: 33076404714440798}
   - component: {fileID: 23315194323273636}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Obj_Eye001_Frame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -285,7 +286,7 @@ GameObject:
   - component: {fileID: 4723305601370328}
   - component: {fileID: 33869658909059062}
   - component: {fileID: 23179173317644620}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Obj_SearchLight_Mount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -302,7 +303,7 @@ GameObject:
   - component: {fileID: 4796515806230154}
   - component: {fileID: 33393743938552924}
   - component: {fileID: 23441465890007946}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Obj_SearchLight_rotateMount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -319,7 +320,7 @@ GameObject:
   - component: {fileID: 4567320467874754}
   - component: {fileID: 33137940679863880}
   - component: {fileID: 23541420359236596}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Obj_SearchLight_Chasis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,7 +337,7 @@ GameObject:
   - component: {fileID: 4433854694148572}
   - component: {fileID: 33677429914363136}
   - component: {fileID: 23727862281930214}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Obj_Rotor_Shaft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -353,7 +354,7 @@ GameObject:
   - component: {fileID: 4479087879701998}
   - component: {fileID: 33224850082868158}
   - component: {fileID: 23383798833740436}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Obj_SearchLight_Lens
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -368,7 +369,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4220453947630138}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: anims_SearchLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -384,7 +385,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4712665759877944}
   - component: {fileID: 108193603917091660}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: SpotLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -401,7 +402,7 @@ GameObject:
   - component: {fileID: 4217186765788762}
   - component: {fileID: 33408312440131308}
   - component: {fileID: 23391642739962142}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Obj_Rotor_Blade002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -416,7 +417,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4059432951273138}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: rotY_SearchLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -433,7 +434,7 @@ GameObject:
   - component: {fileID: 4440761220678330}
   - component: {fileID: 33408751809336782}
   - component: {fileID: 23024195046505670}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Obj_Rotor_Blade001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -450,7 +451,7 @@ GameObject:
   - component: {fileID: 4061478527448708}
   - component: {fileID: 33679007043784130}
   - component: {fileID: 23028320385659194}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Obj_Eye003_Frame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -465,7 +466,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4076797023168174}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GUN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -480,7 +481,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4015611983574644}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: rotX_SearchLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -643,7 +644,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1188078473502018}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 150.2, y: 2, z: 74.7}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4248089437234074}
@@ -1730,6 +1731,7 @@ MonoBehaviour:
   photonView: {fileID: 0}
   ammoBox: {fileID: 1861980455999006, guid: 81097656c3f3f474695c95c52ee785d7, type: 2}
   healthDrop: {fileID: 1770668066226042, guid: ef39cf02ff0e77243aef73b443f72843, type: 2}
+  healthBar: {fileID: 0}
 --- !u!114 &114553284607818792
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1754,6 +1756,20 @@ MonoBehaviour:
   edgeResolveIterations: 4
   edgeDstThreshold: 0.5
   fovLight: {fileID: 108193603917091660}
+--- !u!114 &114857226843892834
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1188078473502018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c600db55c398ae146aee35e4c9a3c7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBarPrefab: {fileID: 1744921355771316, guid: 2a7c22fccbffa414c8a105b65e5aa1be,
+    type: 2}
+  offset: {x: 0, y: 4, z: 0}
 --- !u!135 &135078705110572824
 SphereCollider:
   m_ObjectHideFlags: 1

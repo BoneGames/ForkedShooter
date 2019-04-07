@@ -7,6 +7,10 @@ public abstract class Health : MonoBehaviour
     public int maxHealth = 100;
     public int currentHealth;
 
+    [HideInInspector]
+    public HealthBar healthBar;
+
+
     private void Start()
     {
         currentHealth = maxHealth;
