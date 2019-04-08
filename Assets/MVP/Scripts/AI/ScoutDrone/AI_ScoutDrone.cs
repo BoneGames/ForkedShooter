@@ -15,6 +15,8 @@ public class AI_ScoutDrone : BehaviourAI
     public Color colorPatrol = Color.white;
     public Color colorSearch = new Color(0.8039216f - 0 / 100, 0.4019608f - 0 / 100, 0);
     public Color colorSeek = new Color(0.8039216f - 0 / 100, 0, 0);
+    public Transform aim; // Transform of aim position.
+    private Quaternion startRotation;
     #endregion VARIABLES
 
     #region STATES
@@ -164,6 +166,8 @@ public class AI_ScoutDrone : BehaviourAI
         
         // Get Light component from child in GameObject.
         searchLight = GetComponentInChildren<Light>();
+
+        startRotation = aim.transform.localRotation;
     }
     #endregion Start
 

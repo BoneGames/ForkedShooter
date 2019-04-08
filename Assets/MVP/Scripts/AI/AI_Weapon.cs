@@ -68,7 +68,7 @@ public class AI_Weapon : Weapon
             // Wait (reloadTime) seconds before reloading, then you can start shooting again.
             yield return new WaitForSeconds(reloadTime);
             Reload();
-            currentAmmo = maxAmmo;
+            //currentAmmo = maxAmmo;
             StartCoroutine("Shoot");
             StopCoroutine("StartReload");
         }

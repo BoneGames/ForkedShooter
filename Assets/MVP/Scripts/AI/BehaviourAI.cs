@@ -11,7 +11,8 @@ public class BehaviourAI : MonoBehaviour
     {
         Patrol = 0,
         Seek = 1,
-        Retreat = 2
+        Retreat = 2,
+        Survey = 3
     }
 
     [Header("Behaviours")]
@@ -30,30 +31,28 @@ public class BehaviourAI : MonoBehaviour
 
     [Header("Components")]
     public NavMeshAgent agent; // Unity component reference
-    public Transform aim; // Transform of aim position.
     public Transform target; // Reference assigned target's Transform data (position/rotation/scale).
     public Transform waypointParent; // Reference one waypoint Parent (used to get children in array).
     public AI_FoV_Detection fov; // Reference FieldOfView Script (used for line of sight player detection).
 
     public float attackRange = 5f;
     public LayerMask obstacleMask;
-    public float inAccuracy;
+    public float inaccuracy;
     Vector3 strafeDir = Vector3.up;
 
     float strafeTimer, strafeTimerMax;
+    private Quaternion startRotation;
 
     // Creates a collection of Transforms
     [HideInInspector]
     public Transform[] waypoints; // Transform of (child) waypoints in array.
     [HideInInspector]
     public int currentIndex = 1; // Counts sequential waypoints of array index.
-    [HideInInspector]
-    public Quaternion startRotation;
+    //[HideInInspector]
+    //public Quaternion startRotation;
     #endregion VARIABLES
-    [HideInInspector]
-    public Vector3 foundPoint;
-    [HideInInspector]
-    public Vector3 closestPoint;
+
+    
 
     // private void OnDrawGizmos()
     // {
@@ -163,7 +162,7 @@ public class BehaviourAI : MonoBehaviour
         if (fov.visibleTargets.Count < 1)
         {
             // Reset rotation of our aim.
-            aim.transform.localRotation = startRotation;
+            //aim.transform.localRotation = startRotation;
             // Start counting down the Seek timer.
             holdStateTimer[1] -= Time.deltaTime;
             // When the timer reaches zero...
@@ -198,7 +197,7 @@ public class BehaviourAI : MonoBehaviour
             {
                 // Reset the Seek timer.
                 holdStateTimer[1] = pauseDuration[1];
-                Vector3 accuracyOffset = new Vector3(Random.Range(0, inAccuracy), Random.Range(0, inAccuracy), Random.Range(0, inAccuracy));
+                Vector3 accuracyOffset = new Vector3(Random.Range(0, inaccuracy), Random.Range(0, inaccuracy), Random.Range(0, inaccuracy));
                 transform.LookAt(target.position + accuracyOffset);
             }
             #endregion
@@ -252,6 +251,19 @@ public class BehaviourAI : MonoBehaviour
         #endregion
     }
 
+    void Survey()
+    {
+        Debug.Log("survey");
+        Debug.Log(transform.rotation);
+        // spin to check surroundings
+        transform.Rotate(Vector3.up * Time.deltaTime);
+        // after 1 full revolution
+        if(transform.rotation == startRotation)
+        {
+            currentState = State.Patrol;
+        }
+    }
+
     void Strafe()
     { 
         strafeTimer += Time.deltaTime;
@@ -288,9 +300,18 @@ public class BehaviourAI : MonoBehaviour
         agent.SetDestination(retreatPoint);
         if(Vector3.Distance(transform.position, retreatPoint) < 0.5f)
         {
-            // Reload()
             // Wait for a period of time
-            currentState = State.Patrol;
+            holdStateTimer[2] -= Time.deltaTime;
+            // when wait timer expires
+            if(holdStateTimer[2] <= 0)
+            {
+                // get initial rotation
+                Quaternion startRotation = transform.rotation;
+                // reset timer
+                holdStateTimer[2] = pauseDuration[2];
+
+                currentState = State.Survey;   
+            }
         }
     }
    
@@ -310,8 +331,6 @@ public class BehaviourAI : MonoBehaviour
 
         // Get NavMeshAgent (failsafe).
         agent = GetComponent<NavMeshAgent>();
-
-        startRotation = aim.transform.localRotation;
     }
     #endregion Start
 
@@ -328,6 +347,9 @@ public class BehaviourAI : MonoBehaviour
                 break;
             case State.Retreat:
                 Retreat();
+                break;
+            case State.Survey:
+                Survey();
                 break;
             default:
                 Patrol();

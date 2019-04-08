@@ -2275,7 +2275,7 @@ GameObject:
   m_Component:
   - component: {fileID: 403574974}
   - component: {fileID: 403574975}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CheckPoint (3)
   m_TagString: CheckPoint
   m_Icon: {fileID: 0}
@@ -3264,7 +3264,7 @@ GameObject:
   - component: {fileID: 587127747}
   - component: {fileID: 587127749}
   - component: {fileID: 587127748}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: DoorTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3423,7 +3423,7 @@ GameObject:
   m_Component:
   - component: {fileID: 618334027}
   - component: {fileID: 618334028}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CheckPoint
   m_TagString: CheckPoint
   m_Icon: {fileID: 0}
@@ -6879,7 +6879,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1278767253}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CheckPoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11124,6 +11124,48 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9abe8120d4e0e444b24bd651efc1b61, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1001 &1974114122
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4903510248585718, guid: bbb8b8f930a956f498f80738b829185f, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 127.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 4903510248585718, guid: bbb8b8f930a956f498f80738b829185f, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 3.0393
+      objectReference: {fileID: 0}
+    - target: {fileID: 4903510248585718, guid: bbb8b8f930a956f498f80738b829185f, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 82.584
+      objectReference: {fileID: 0}
+    - target: {fileID: 4903510248585718, guid: bbb8b8f930a956f498f80738b829185f, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4903510248585718, guid: bbb8b8f930a956f498f80738b829185f, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4903510248585718, guid: bbb8b8f930a956f498f80738b829185f, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4903510248585718, guid: bbb8b8f930a956f498f80738b829185f, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4903510248585718, guid: bbb8b8f930a956f498f80738b829185f, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bbb8b8f930a956f498f80738b829185f, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!4 &1982748967 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 406138, guid: e9abe8120d4e0e444b24bd651efc1b61,
@@ -11138,7 +11180,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1987680521}
   - component: {fileID: 1987680522}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CheckPoint (2)
   m_TagString: CheckPoint
   m_Icon: {fileID: 0}
@@ -11697,7 +11739,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2073681301}
   - component: {fileID: 2073681302}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CheckPoint (1)
   m_TagString: CheckPoint
   m_Icon: {fileID: 0}

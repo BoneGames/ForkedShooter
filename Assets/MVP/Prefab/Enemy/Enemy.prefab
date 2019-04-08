@@ -295,7 +295,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1787144881886410}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.0742, y: 0.0308, z: 0}
+  m_LocalPosition: {x: -0.074, y: 0.0308, z: 0.109}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4798492455007726}
@@ -499,7 +499,6 @@ MonoBehaviour:
   - 8
   - 2
   agent: {fileID: 195671733529801184}
-  aim: {fileID: 4313377696951408}
   target: {fileID: 0}
   waypointParent: {fileID: 0}
   fov: {fileID: 114698108128121888}
@@ -507,12 +506,9 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 2097152
-  inAccuracy: 1
+  inaccuracy: 0
   waypoints: []
   currentIndex: 1
-  startRotation: {x: 0, y: 0, z: 0, w: 0}
-  foundPoint: {x: 0, y: 0, z: 0}
-  closestPoint: {x: 0, y: 0, z: 0}
 --- !u!114 &114154953750901988
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -535,7 +531,7 @@ MonoBehaviour:
   muzzle: {fileID: 1474961396079312, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 2}
   hitPoint: {x: 0, y: 0, z: 0}
   magSize: 7
-  currentAmmo: 30
+  currentAmmo: 2
   currentMag: 7
   tempMag: 0
   ammoDisplay: {fileID: 0}
