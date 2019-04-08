@@ -19,7 +19,7 @@ public class EnemyHealth : Health
 
     // Takes damage from various bullet/projectile scripts and runs 'CheckDie()'.
     [PunRPC]
-    public override void ChangeHealth(int value)
+    public override void ChangeHealth(int value, Vector3 shotDir)
     {
         if (!isGod)
         {

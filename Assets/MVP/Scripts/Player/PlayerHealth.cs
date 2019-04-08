@@ -6,6 +6,9 @@ public class PlayerHealth : Health
 {
     PhotonView photonView;
     string photonID;
+    [HideInInspector]
+    public GameObject shotDirectionArm;
+    public float shotIndicatorDelay;
 
     void Start()
     {  
@@ -24,7 +27,7 @@ public class PlayerHealth : Health
 
     // Takes damage from various bullet/projectile scripts and runs 'CheckDie()'.
     [PunRPC]
-    public override void ChangeHealth(int value)
+    public override void ChangeHealth(int value, Vector3 shotDir)
     {
         currentHealth -= value;
 
@@ -34,8 +37,31 @@ public class PlayerHealth : Health
         {
             currentHealth = maxHealth;
         }
+        ShotDirection(shotDir);
 
         CheckDie();
+    }
+
+    void ShotDirection(Vector3 incoming)
+    {
+        // Angle between other pos vs player
+        Vector3 incomingDir = (transform.position - incoming).normalized;
+
+        // Flatten to plane
+        Vector3 otherDir = new Vector3(-incomingDir.x, 0f, -incomingDir.z);
+        var playerFwd = Vector3.ProjectOnPlane(transform.forward, Vector3.up);
+ 
+        // Direction between player fwd and incoming object
+        var angle = Vector3.SignedAngle(playerFwd, otherDir, Vector3.up);
+        shotDirectionArm.transform.rotation = Quaternion.Euler(0,0, -angle);
+        StartCoroutine("ShotDirectionActive");
+    }
+
+    IEnumerator ShotDirectionActive()
+    {
+        shotDirectionArm.SetActive(true);
+        yield return new WaitForSeconds(shotIndicatorDelay);
+        shotDirectionArm.SetActive(false);
     }
 
     // Self explanatory.

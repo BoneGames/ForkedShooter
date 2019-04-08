@@ -187,7 +187,10 @@ public class BehaviourAI : MonoBehaviour
         if (fov.visibleTargets.Count > 0)
         {
             // Target the first target we see.
-            target = GetClosestTarget();
+            if (fov.visibleTargets.Count > 1)
+            {
+                target = GetClosestTarget();
+            }
 
             // Aim at the target.
             #region Rotations (AIM GUN)

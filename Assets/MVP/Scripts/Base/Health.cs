@@ -18,7 +18,7 @@ public abstract class Health : MonoBehaviour
 
     // Takes damage from various bullet/projectile scripts and runs 'CheckDie()'.
     [PunRPC]
-    public virtual void ChangeHealth(int value)
+    public virtual void ChangeHealth(int value, Vector3 shotDir)
     {
         currentHealth -= value;
         CheckDie();

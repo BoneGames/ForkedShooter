@@ -36,7 +36,7 @@ public class InvulTotem : Health
     #endregion
 
     // Where we take damage and check if we can die.
-    public override void ChangeHealth(int value)
+    public override void ChangeHealth(int value, Vector3 shotDir)
     {
         currentHealth -= value;
         CheckDie();

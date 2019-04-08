@@ -26,10 +26,10 @@ public class AI_Weapon : Weapon
         StartCoroutine("Shoot");
     }
 
-    private void Update()
-    {
-        Debug.DrawRay(spawnPoint.position, spawnPoint.transform.forward);
-    }
+    // private void Update()
+    // {
+    //     Debug.DrawRay(spawnPoint.position, spawnPoint.transform.forward);
+    // }
 
     // Where we run Attack() multiple times.
     IEnumerator BurstFire(int burstCount, float burstDelay)
@@ -49,7 +49,7 @@ public class AI_Weapon : Weapon
     {
         while (true)
         {
-            Debug.Log("shootroutine");
+            //Debug.Log("shootroutine");
             // Run BurstFire every 0.5 ↔ 1.0 seconds.
 
             //This form of StartCoroutine doesn't use the string name to run it
@@ -77,7 +77,7 @@ public class AI_Weapon : Weapon
     // Where we define shooting.
     public override void Attack()
     {
-        Debug.Log("Attack");
+        //Debug.Log("Attack");
         // If there is a player in our line of sight, and we still have ammo to work with...
         if (contact.fov.visibleTargets.Count > 0 && currentMag > 0)
         {
@@ -115,7 +115,7 @@ public class AI_Weapon : Weapon
 
                     if (hit.collider.tag == "Player")
                     {
-                        hit.transform.GetComponent<Health>().ChangeHealth(damage);
+                        hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position);
                         //print("I hit an enemy");
                     }
                 }

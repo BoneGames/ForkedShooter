@@ -22,7 +22,7 @@ public class Bullet : MonoBehaviour
             if (other.transform.GetComponent<Health>())
             {
                 Health target = other.transform.GetComponent<Health>();
-                target.ChangeHealth(damage);
+                target.ChangeHealth(damage, transform.position);
             }
         }
 

@@ -88,6 +88,7 @@ namespace GameSystems
 
         public virtual void UpdateAmmoDisplay()
         {
+            if(ammoDisplay)
             ammoDisplay.text = string.Format("{0}/{1} // {2}/{3}", currentMag, magSize, currentAmmo, maxAmmo);
         }
     }

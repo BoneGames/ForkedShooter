@@ -38,7 +38,7 @@ public class Pistol : Weapon
 
                     if (hit.collider.tag == "Enemy")
                     {
-                        hit.transform.GetComponent<Health>().ChangeHealth(damage);
+                        hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position);
                         print("I hit an enemy");
                     }
 

@@ -25,7 +25,7 @@ public class Explosive : Projectile
         }
         if(tag == "Enemy")
         {
-            collision.transform.GetComponent<Health>().ChangeHealth(damage);
+            collision.transform.GetComponent<Health>().ChangeHealth(damage, transform.position);
             Debug.Log(collision.transform.name + " just got hit by rocket. Now has: " + collision.transform.GetComponent<Health>().currentHealth + " health");
         }
         Explode();
@@ -43,7 +43,7 @@ public class Explosive : Projectile
 			Health h = hit.GetComponent<Health>();
 			if(h)
 			{
-				h.ChangeHealth(explosionDamage);
+				h.ChangeHealth(explosionDamage, transform.position);
                 Debug.Log(h.transform.name + " just got hit by rocket explosion and took +" + explosionDamage + " damage. It now has: " + h.transform.GetComponent<Health>().currentHealth + " health");
 			}
 		}
