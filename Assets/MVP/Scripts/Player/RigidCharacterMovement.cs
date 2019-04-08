@@ -18,6 +18,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     public bool isSprinting = false;
     private bool isJumping = false;
     public bool isDead = false;
+    public static bool isAiming = false;
     public Transform lastCheckpoint;
 
     [Header("Important Stuff")]
@@ -170,6 +171,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
 
         // Note (Manny): Update it here for observers
         currentWeaponIndex = index;
+        currentWeapon.UpdateAmmoDisplay();
     }
     #endregion
 
@@ -235,7 +237,10 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     {
         if (showGui)
         {
-            GUI.Box(new Rect(0, 0, Screen.width, Screen.height), "You died and will respawn in " + timeTillRespawn + " seconds");
+            GUIStyle style = new GUIStyle();
+            style.alignment = TextAnchor.MiddleCenter;
+            style.fontSize = 55;
+            GUI.Box(new Rect(0, 0, Screen.width, Screen.height), "You died and will respawn in " + timeTillRespawn + " seconds", style);
         }
     }
     // Combat
@@ -253,11 +258,12 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         currentWeapon.Reload();
     }
 
-    public void Aim(bool isAiming)
+    public void Aim(bool _isAiming)
     {
-        myHand.localPosition = isAiming ? new Vector3(0, myHand.localPosition.y + .05f, myHand.localPosition.z) : myHand.localPosition = new Vector3(0.5f, myHand.localPosition.y - .05f, myHand.localPosition.z);
+        isAiming = _isAiming;
+        myHand.localPosition = _isAiming ? new Vector3(0, myHand.localPosition.y + .05f, myHand.localPosition.z) : myHand.localPosition = new Vector3(0.5f, myHand.localPosition.y - .05f, myHand.localPosition.z);
 
-        myCamera.fieldOfView = isAiming ? currentWeapon.scopeZoom : 75;
+        myCamera.fieldOfView = _isAiming ? currentWeapon.scopeZoom : 75;
     }
     public void SwitchWeapon(int direction)
     {

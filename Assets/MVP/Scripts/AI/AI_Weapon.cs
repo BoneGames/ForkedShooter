@@ -110,8 +110,8 @@ public class AI_Weapon : Weapon
                 }
                 else
                 {
-                    print("I'm firing!");
-                    Debug.DrawRay(spawnPoint.position, spawnPoint.forward, Color.red);
+                    //print("I'm firing!");
+                    Debug.DrawRay(spawnPoint.position, spawnPoint.forward * 10, Color.red);
 
                     if (hit.collider.tag == "Player")
                     {
@@ -127,7 +127,7 @@ public class AI_Weapon : Weapon
                 /// newBullet.sourceAgent = this.gameObject;
                 /// print("Firing.");
                 currentMag--;
-                Debug.Log(currentMag);
+                //Debug.Log(currentMag);
             }
         }
         // If we run out of ammo, start reloading and stop shooting.

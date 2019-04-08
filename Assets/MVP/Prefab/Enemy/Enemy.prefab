@@ -507,7 +507,7 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 2097152
-  inAccuracy: 0
+  inAccuracy: 1
   waypoints: []
   currentIndex: 1
   startRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -528,6 +528,7 @@ MonoBehaviour:
   maxAmmo: 30
   accuracy: 0.125
   range: 10
+  scopeZoom: 75
   rateOfFire: 5
   projectile: {fileID: 1874544804970178, guid: f5fad20bfebd88d46abe3e602f14fdaf, type: 2}
   spawnPoint: {fileID: 4686679147568946}
@@ -537,6 +538,7 @@ MonoBehaviour:
   currentAmmo: 30
   currentMag: 7
   tempMag: 0
+  ammoDisplay: {fileID: 0}
   contact: {fileID: 114063992362631900}
   hitParticle: {fileID: 1097464064478134, guid: 259a0b96acab2f749b11f8a6e18a8862,
     type: 2}
@@ -556,11 +558,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
+  healthBar: {fileID: 0}
   isGod: 0
   photonView: {fileID: 0}
   ammoBox: {fileID: 1861980455999006, guid: 81097656c3f3f474695c95c52ee785d7, type: 2}
   healthDrop: {fileID: 1770668066226042, guid: ef39cf02ff0e77243aef73b443f72843, type: 2}
-  healthBar: {fileID: 0}
 --- !u!114 &114698108128121888
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -595,6 +597,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c600db55c398ae146aee35e4c9a3c7ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthBarContainer: {fileID: 0}
+  healthBarDisplay: {fileID: 0}
+  health: {fileID: 0}
   healthBarPrefab: {fileID: 1744921355771316, guid: 2a7c22fccbffa414c8a105b65e5aa1be,
     type: 2}
   offset: {x: 0, y: 1.5, z: 0}

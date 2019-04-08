@@ -5,7 +5,11 @@ using GameSystems;
 
 public class RocketLauncher : Weapon
 {
-    public float spread;
+    Quaternion startRotation;
+    void Start()
+    {
+        startRotation = spawnPoint.localRotation;
+    }
 
     public override void Attack()
     {
@@ -22,7 +26,9 @@ public class RocketLauncher : Weapon
         {
             clone = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
         }
+
         Projectile newBullet = clone.GetComponent<Projectile>();
+
         if (GameManager.isOnline)
         {
             newBullet.firedBy = GetComponentInParent<PhotonView>().gameObject.name;
@@ -30,6 +36,30 @@ public class RocketLauncher : Weapon
 
         newBullet.hitRotation = hitRotation;
         newBullet.damage = damage;
-        newBullet.Fire(transform.forward);
+        if(RigidCharacterMovement.isAiming)
+        {
+            Vector3 aimPoint = Vector3.zero;
+            // creates a Camera ray that matches the scope needle
+            Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width * 0.5f, Screen.height/1.75f, 0));
+            RaycastHit hit;
+            if(Physics.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                if(hit.collider)
+                {
+                    aimPoint = hit.point; 
+
+                    // TESTING
+                    //GameObject bullet = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube), hit.point, Quaternion.identity);
+                    //bullet.GetComponent<Renderer>().material.color = Color.red;
+                    //bullet.transform.localScale = new Vector3(.15f, .15f, .15f);
+                }
+            }
+            spawnPoint.LookAt(aimPoint);
+        }
+        else
+        {
+            spawnPoint.localRotation = startRotation;
+        }
+        newBullet.Fire(spawnPoint.forward);
     }
 }

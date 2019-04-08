@@ -11,6 +11,7 @@ public class EnemyHealth : Health
     [Header("Enemy Drops")]
     public GameObject ammoBox;
     public GameObject healthDrop;
+    bool firstDrop = true;
     
     void Awake()
     {  
@@ -27,6 +28,12 @@ public class EnemyHealth : Health
             healthBar.UpdateBar();
             CheckDie();
         }
+        TurnToAttacker(shotDir);
+    }
+
+    void TurnToAttacker(Vector3 attackerPos)
+    {
+        transform.LookAt(attackerPos);
     }
 
     // Self explanatory.
@@ -42,23 +49,28 @@ public class EnemyHealth : Health
 
     void DropItem()
     {
-        int dropRate = Random.Range(1, 5);
-        GameObject clone;
-
-        switch (dropRate)
+        if(firstDrop)
         {
-            case 1:
-            case 2:
-            case 3:
-                clone = Instantiate(ammoBox, new Vector3(transform.position.x, transform.position.y + 3, transform.position.z), transform.rotation);
-                break;
-            case 4:
-            case 5:
-                clone = Instantiate(healthDrop, new Vector3(transform.position.x, transform.position.y + 3, transform.position.z), transform.rotation);
-                break;
-            default:
-                break;
+            firstDrop = false;
+            int dropRate = Random.Range(1, 5);
+            GameObject clone;
+
+            switch (dropRate)
+            {
+                case 1:
+                case 2:
+                case 3:
+                    clone = Instantiate(ammoBox, transform.position + (Vector3.up * 3), transform.rotation);
+                    break;
+                case 4:
+                case 5:
+                    clone = Instantiate(healthDrop, transform.position + (Vector3.up * 3), transform.rotation);
+                    break;
+                default:
+                    break;
+            }
         }
+        
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

@@ -20,10 +20,10 @@ public class PlayerHealth : Health
             FindObjectOfType<PhotonHealthMoniter>().Register(gameObject);
         }
     }
-    private void Update()
-    {
-        CheckDie();
-    }
+    // private void Update()
+    // {
+    //     CheckDie();
+    // }
 
     // Takes damage from various bullet/projectile scripts and runs 'CheckDie()'.
     [PunRPC]
