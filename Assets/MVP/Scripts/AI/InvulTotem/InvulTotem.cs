@@ -40,6 +40,7 @@ public class InvulTotem : Health
     {
         currentHealth -= value;
         CheckDie();
+        Debug.Log("Totem Hit. Remaining health: " + currentHealth);
     }
 
     // Where we go to die...

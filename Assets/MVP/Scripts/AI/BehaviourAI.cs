@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Linq;
 
 public class BehaviourAI : MonoBehaviour
 {
@@ -12,7 +13,8 @@ public class BehaviourAI : MonoBehaviour
         Patrol = 0,
         Seek = 1,
         Retreat = 2,
-        Survey = 3
+        Survey = 3,
+        Totem = 4
     }
 
     [Header("Behaviours")]
@@ -42,6 +44,8 @@ public class BehaviourAI : MonoBehaviour
 
     float strafeTimer, strafeTimerMax;
     private Quaternion startRotation;
+    private Vector3 totemPos;
+    public int healthRef;
 
     // Creates a collection of Transforms
     [HideInInspector]
@@ -154,6 +158,11 @@ public class BehaviourAI : MonoBehaviour
     // The contained variables for the Seek state (what rules the enemy AI follows when in 'Seek').
     void Seek()
     {
+        if(healthRef < 25)
+        {
+            Debug.Log("Totem");
+            currentState = State.Totem;
+        }
         // Agent navigation speed.
         agent.speed = moveSpeed[1];
 
@@ -307,11 +316,20 @@ public class BehaviourAI : MonoBehaviour
             {
                 // get initial rotation
                 Quaternion startRotation = transform.rotation;
+
+                currentState = State.Survey; 
                 // reset timer
                 holdStateTimer[2] = pauseDuration[2];
-
-                currentState = State.Survey;   
             }
+        }
+    }
+
+    public void Totem()
+    {
+        agent.SetDestination(totemPos);
+        if(Vector3.Distance(transform.position, totemPos) < 2)
+        {
+            currentState = State.Survey;
         }
     }
    
@@ -321,6 +339,9 @@ public class BehaviourAI : MonoBehaviour
     // Use this for initialization
     public virtual void Start()
     {
+        GetNearestTotem();
+        healthRef = GetComponent<EnemyHealth>().currentHealth;
+
         // Set thisTimer to pauseDuration.
         holdStateTimer[0] = pauseDuration[0];
         holdStateTimer[1] = pauseDuration[1];
@@ -331,6 +352,22 @@ public class BehaviourAI : MonoBehaviour
 
         // Get NavMeshAgent (failsafe).
         agent = GetComponent<NavMeshAgent>();
+    }
+
+    void GetNearestTotem()
+    {
+        InvulTotem[] totemPoles = FindObjectsOfType<InvulTotem>();
+        float shortestDist = Mathf.Infinity;
+
+        foreach(InvulTotem tp in totemPoles)
+        {
+            float thisDist = Vector3.Distance(transform.position, tp.transform.position);
+            if(thisDist < shortestDist)
+            {
+                shortestDist = thisDist;
+                totemPos = tp.transform.position;
+            }
+        }
     }
     #endregion Start
 
@@ -350,6 +387,9 @@ public class BehaviourAI : MonoBehaviour
                 break;
             case State.Survey:
                 Survey();
+                break;
+            case State.Totem:
+                Totem();
                 break;
             default:
                 Patrol();

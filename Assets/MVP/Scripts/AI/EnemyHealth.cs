@@ -28,13 +28,10 @@ public class EnemyHealth : Health
             healthBar.UpdateBar();
             CheckDie();
         }
-        TurnToAttacker(shotDir);
+        // Turn to look at attacker
+        transform.LookAt(shotDir);
     }
 
-    void TurnToAttacker(Vector3 attackerPos)
-    {
-        transform.LookAt(attackerPos);
-    }
 
     // Self explanatory.
     public override void CheckDie()
