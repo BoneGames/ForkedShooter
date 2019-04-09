@@ -45,7 +45,7 @@ public class BehaviourAI : MonoBehaviour
     float strafeTimer, strafeTimerMax;
     private Quaternion startRotation;
     private Vector3 totemPos;
-    public int healthRef;
+    public EnemyHealth healthRef;
 
     // Creates a collection of Transforms
     [HideInInspector]
@@ -122,7 +122,7 @@ public class BehaviourAI : MonoBehaviour
         agent.SetDestination(point.position);
         
         // Get the distance between enemy and waypoint.
-        float distance = Vector3.Distance(transform.position, point.position);
+        float distance = agent.remainingDistance;
 
         // Wait for a set time at each waypoint before moving to the next one.
         #region Hold (Wait) at Waypoint
@@ -158,7 +158,7 @@ public class BehaviourAI : MonoBehaviour
     // The contained variables for the Seek state (what rules the enemy AI follows when in 'Seek').
     void Seek()
     {
-        if(healthRef < 25)
+        if(healthRef.currentHealth < 25)
         {
             Debug.Log("Totem");
             currentState = State.Totem;
@@ -212,25 +212,23 @@ public class BehaviourAI : MonoBehaviour
             #endregion
 
             // Get distance between enemy and player/target.
-            float seekDistance = Vector3.Distance(transform.position, target.position);
+            float seekDistance = agent.remainingDistance;
 
             // Move to specified position under set conditions.
             #region Agent Destinations
             if (seekDistance > stoppingDistance[1])
             {
-                agent.isStopped = false;
                 agent.SetDestination(target.position);
                 //print("Chase");
             }
             if (seekDistance >= stoppingDistance[2] - 0.5f && seekDistance <= stoppingDistance[2] + 0.5f)
             {
                 Strafe();
-                agent.isStopped = true;
+                agent.ResetPath();
                 //print("Hold");
             }
             if (seekDistance < stoppingDistance[3])
             {
-                agent.isStopped = false;
                 currentState = State.Retreat;
                 //print("Retreat");
             }
@@ -242,7 +240,7 @@ public class BehaviourAI : MonoBehaviour
         // NOTE: Copy-paste from Patrol() - This is to keep the waitTimer counting down during Seek().
         Transform point = waypoints[currentIndex];
 
-        float distance = Vector3.Distance(transform.position, point.position);
+        float distance = agent.remainingDistance;
 
         if (distance < stoppingDistance[0])
         {
@@ -253,7 +251,7 @@ public class BehaviourAI : MonoBehaviour
                 currentIndex++;
                 if (currentIndex >= waypoints.Length)
                 {
-                    currentIndex = 1;
+                    currentIndex = 0;
                 }
             }
         }
@@ -262,12 +260,10 @@ public class BehaviourAI : MonoBehaviour
 
     void Survey()
     {
-        Debug.Log("survey");
-        Debug.Log(transform.rotation);
         // spin to check surroundings
-        transform.Rotate(Vector3.up * Time.deltaTime);
+        transform.Rotate(Vector3.up * Time.deltaTime * 50);
         // after 1 full revolution
-        if(transform.rotation == startRotation)
+        if(transform.rotation.eulerAngles.y > startRotation.eulerAngles.y -5 && transform.rotation.eulerAngles.y < startRotation.eulerAngles.y +5)
         {
             currentState = State.Patrol;
         }
@@ -307,7 +303,7 @@ public class BehaviourAI : MonoBehaviour
     {
         Vector3 retreatPoint = GetAvoidanceWaypoint();
         agent.SetDestination(retreatPoint);
-        if(Vector3.Distance(transform.position, retreatPoint) < 0.5f)
+        if(agent.remainingDistance < 0.5f)
         {
             // Wait for a period of time
             holdStateTimer[2] -= Time.deltaTime;
@@ -315,7 +311,7 @@ public class BehaviourAI : MonoBehaviour
             if(holdStateTimer[2] <= 0)
             {
                 // get initial rotation
-                Quaternion startRotation = transform.rotation;
+                startRotation = transform.rotation;
 
                 currentState = State.Survey; 
                 // reset timer
@@ -327,8 +323,10 @@ public class BehaviourAI : MonoBehaviour
     public void Totem()
     {
         agent.SetDestination(totemPos);
-        if(Vector3.Distance(transform.position, totemPos) < 2)
+        if(agent.remainingDistance < 5)
         {
+            agent.ResetPath();
+            startRotation = transform.rotation;
             currentState = State.Survey;
         }
     }
@@ -340,7 +338,7 @@ public class BehaviourAI : MonoBehaviour
     public virtual void Start()
     {
         GetNearestTotem();
-        healthRef = GetComponent<EnemyHealth>().currentHealth;
+        healthRef = GetComponent<EnemyHealth>();
 
         // Set thisTimer to pauseDuration.
         holdStateTimer[0] = pauseDuration[0];

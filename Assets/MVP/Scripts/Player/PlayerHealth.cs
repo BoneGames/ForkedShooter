@@ -37,7 +37,10 @@ public class PlayerHealth : Health
         {
             currentHealth = maxHealth;
         }
-        ShotDirection(shotDir);
+        //ShotDirection(shotDir);
+
+        StopCoroutine(ShotDirectionActive(shotDir));
+        StartCoroutine(ShotDirectionActive(shotDir));
 
         CheckDie();
     }
@@ -54,13 +57,29 @@ public class PlayerHealth : Health
         // Direction between player fwd and incoming object
         var angle = Vector3.SignedAngle(playerFwd, otherDir, Vector3.up);
         shotDirectionArm.transform.rotation = Quaternion.Euler(0,0, -angle);
-        StartCoroutine("ShotDirectionActive");
+        
     }
 
-    IEnumerator ShotDirectionActive()
+    IEnumerator ShotDirectionActive(Vector3 incoming)
     {
         shotDirectionArm.SetActive(true);
-        yield return new WaitForSeconds(shotIndicatorDelay);
+        float timer = 0;
+        while(timer < shotIndicatorDelay)
+        {
+            timer += Time.deltaTime;
+
+            // Angle between other pos vs player
+            Vector3 incomingDir = (transform.position - incoming).normalized;
+
+            // Flatten to plane
+            Vector3 otherDir = new Vector3(-incomingDir.x, 0f, -incomingDir.z);
+            var playerFwd = Vector3.ProjectOnPlane(transform.forward, Vector3.up);
+    
+            // Direction between player fwd and incoming object
+            var angle = Vector3.SignedAngle(playerFwd, otherDir, Vector3.up);
+            shotDirectionArm.transform.rotation = Quaternion.Euler(0,0, -angle);
+            yield return null;
+        }
         shotDirectionArm.SetActive(false);
     }
 

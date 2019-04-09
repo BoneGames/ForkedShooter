@@ -20,9 +20,15 @@ namespace GameSystems
         public Transform spawnPoint;
 
         public GameObject muzzle;
-
+        public LineRenderer bulletPathRend;
+        public Vector3[] bulletPathPositions = new Vector3[2];
         public Vector3 hitPoint;
         Quaternion hitRotation;
+        public Gradient bulletGrad;
+
+        public GradientAlphaKey[] startingAlphaKeys;
+        [Tooltip("meters/second")]
+        public float bulletPathSpeed;
 
         public int magSize;
         public int currentAmmo;
@@ -32,10 +38,13 @@ namespace GameSystems
 
         public Text ammoDisplay;
 
-        private void Start()
+        public void Start()
         {
             currentAmmo = maxAmmo;
             currentMag = magSize;
+            bulletPathRend.startWidth = 0.02f;
+            bulletPathRend.colorGradient = bulletGrad;
+            startingAlphaKeys = bulletGrad.alphaKeys;
         }
 
         public abstract void Attack();
