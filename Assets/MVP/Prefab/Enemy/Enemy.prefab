@@ -507,6 +507,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2097152
   inaccuracy: 0
+  healthRef: {fileID: 0}
   waypoints: []
   currentIndex: 1
 --- !u!114 &114154953750901988
@@ -523,13 +524,13 @@ MonoBehaviour:
   damage: 10
   maxAmmo: 30
   accuracy: 0.125
-  range: 10
   scopeZoom: 75
   rateOfFire: 5
   projectile: {fileID: 1874544804970178, guid: f5fad20bfebd88d46abe3e602f14fdaf, type: 2}
   spawnPoint: {fileID: 4686679147568946}
   muzzle: {fileID: 1474961396079312, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 2}
-  hitPoint: {x: 0, y: 0, z: 0}
+  lineRendPrefab: {fileID: 1832311583618776, guid: 1cb6f47bab6be4ddc9cdc473d8b3c35a,
+    type: 2}
   magSize: 7
   currentAmmo: 2
   currentMag: 7

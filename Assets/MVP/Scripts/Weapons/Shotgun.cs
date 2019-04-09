@@ -39,10 +39,7 @@ public class Shotgun : Weapon
         RaycastHit hit;
         if (Physics.Raycast(bulletRay, out hit))
         {
-            // For reference to see where bullets hit;
-            GameObject bullet = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube), hit.point, Quaternion.identity);
-            bullet.GetComponent<Renderer>().material.color = Color.red;
-            bullet.transform.localScale = new Vector3(.15f, .15f, .15f);
+            BulletTrail(hit.point, hit.distance);
 
             if (hit.collider.CompareTag("Player"))
             {
@@ -55,6 +52,15 @@ public class Shotgun : Weapon
                 hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position);
             }
         }
+    }
+
+    void BulletTrail(Vector3 target, float distance)
+    {
+        GameObject bulletPath = Instantiate(lineRendPrefab, spawnPoint.position, spawnPoint.rotation);
+        bulletPath.transform.SetParent(spawnPoint);
+        BulletPath script = bulletPath.GetComponent<BulletPath>();
+        script.target = target;
+        script.distance = distance;
     }
 
     public override void Reload()

@@ -94,11 +94,8 @@ public class AI_Weapon : Weapon
 
             if (Physics.Raycast(ray.origin, direction, out hit))
             {
-                /// For reference to see where bullets hit;
-                ///GameObject bullet = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube), hit.point, Quaternion.identity);
-                ///bullet.GetComponent<Renderer>().material.color = Color.red;
-                ///bullet.transform.localScale = new Vector3(.15f, .15f, .15f);
-
+                
+                BulletTrail(hit.point, hit.distance);
                 SpawnHitParticle(hit.point);
 
                 if (GameManager.isOnline)
@@ -136,6 +133,15 @@ public class AI_Weapon : Weapon
             StartCoroutine("StartReload", reloadTime);
             StopCoroutine("Shoot");
         }
+    }
+
+    void BulletTrail(Vector3 target, float distance)
+    {
+        GameObject bulletPath = Instantiate(lineRendPrefab, spawnPoint.position, spawnPoint.rotation);
+        bulletPath.transform.SetParent(spawnPoint);
+        BulletPath script = bulletPath.GetComponent<BulletPath>();
+        script.target = target;
+        script.distance = distance;
     }
 
     void SpawnHitParticle(Vector3 hit)

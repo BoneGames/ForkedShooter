@@ -12,7 +12,7 @@ namespace GameSystems
         public int maxAmmo = 30;
 
         public float accuracy = 1f;
-        public float range = 10f;
+        //public float range = 10f;
         public float scopeZoom = 75f;
 
         public float rateOfFire = 5f;
@@ -20,15 +20,15 @@ namespace GameSystems
         public Transform spawnPoint;
 
         public GameObject muzzle;
-        public LineRenderer bulletPathRend;
-        public Vector3[] bulletPathPositions = new Vector3[2];
-        public Vector3 hitPoint;
+        //public Vector3 hitPoint;
+
+
+        
         Quaternion hitRotation;
-        public Gradient bulletGrad;
+        public GameObject lineRendPrefab;
 
         public GradientAlphaKey[] startingAlphaKeys;
         [Tooltip("meters/second")]
-        public float bulletPathSpeed;
 
         public int magSize;
         public int currentAmmo;
@@ -42,9 +42,6 @@ namespace GameSystems
         {
             currentAmmo = maxAmmo;
             currentMag = magSize;
-            bulletPathRend.startWidth = 0.02f;
-            bulletPathRend.colorGradient = bulletGrad;
-            startingAlphaKeys = bulletGrad.alphaKeys;
         }
 
         public abstract void Attack();
@@ -58,7 +55,7 @@ namespace GameSystems
 
             if (Physics.Raycast(ray, out hit))
             {
-                hitPoint = hit.point;
+                //hitPoint = hit.point;
                 hitRotation = hit.transform.rotation;
             }
             return hitRotation;
