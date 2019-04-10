@@ -6,7 +6,6 @@ using GameSystems;
 public class Shotgun : Weapon
 {
     public int pellets = 6;
-    public float reloadSpeed;
 
     public override void Attack()
     {

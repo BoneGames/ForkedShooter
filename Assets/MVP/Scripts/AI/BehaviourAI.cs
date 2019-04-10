@@ -43,7 +43,8 @@ public class BehaviourAI : MonoBehaviour
     Vector3 strafeDir = Vector3.up;
 
     float strafeTimer, strafeTimerMax;
-    private Quaternion startRotation;
+    [HideInInspector]
+    public Quaternion startRotation;
     private Vector3 totemPos;
     public EnemyHealth healthRef;
 

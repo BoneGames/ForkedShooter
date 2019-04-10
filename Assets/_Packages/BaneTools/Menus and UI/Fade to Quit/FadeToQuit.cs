@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BT;
 
 public class FadeToQuit : MonoBehaviour
 {
     public KeyCode quitKey;
 
     public float holdTime;
-    //float startTime;
+    float startTime;
     float timer;
 
     public Image dark;
@@ -16,7 +17,7 @@ public class FadeToQuit : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        //startTime = 0;
+        startTime = 0;
 
         if (gameObject.name == "QuitFadeObject")
         {
@@ -42,7 +43,7 @@ public class FadeToQuit : MonoBehaviour
 
             if (timer > holdTime)
             {
-                //Debug.Log("You Quit!");
+            	print(BaneTools.ColorString("Quit Successfully", BaneTools.Color255(255,0,0)));
                 Application.Quit();
             }
         }

@@ -19,7 +19,7 @@ public class AI_Weapon : Weapon
 
     #region Functions 'n' Methods
     // Where we initialize / Start things.
-    void Start()
+    public override void Start()
     {
         // Grab 'contact's component, give full ammo, and start Coroutine.
         contact = GetComponentInParent<BehaviourAI>();
@@ -94,8 +94,10 @@ public class AI_Weapon : Weapon
 
             if (Physics.Raycast(ray.origin, direction, out hit))
             {
-                
-                BulletTrail(hit.point, hit.distance);
+                if (lineRendPrefab)
+                {
+                    BulletTrail(hit.point, hit.distance);
+                }
                 SpawnHitParticle(hit.point);
 
                 if (GameManager.isOnline)

@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TotemHitBox : InvulTotem {
+public class TotemHitBox : InvulTotem
+{
+    void Start()
+    {
+        currentHealth = maxHealth;
+    }
 
-	// Use this for initialization
-	void Start () {
-		currentHealth = maxHealth;
-	}
+    void OnDestroy()
+    {
+        Destroy(transform.parent.gameObject, 1);
+    }
 }

@@ -16,7 +16,7 @@ public class AI_ScoutDrone : BehaviourAI
     public Color colorSearch = new Color(0.8039216f - 0 / 100, 0.4019608f - 0 / 100, 0);
     public Color colorSeek = new Color(0.8039216f - 0 / 100, 0, 0);
     public Transform aim; // Transform of aim position.
-    private Quaternion startRotation;
+
     #endregion VARIABLES
 
     #region STATES

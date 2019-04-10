@@ -11,7 +11,7 @@ public class PlayerHealth : Health
     public float shotIndicatorDelay;
 
     void Start()
-    {  
+    {
         photonView = GetComponent<PhotonView>();
         if (photonView)
         {
@@ -29,20 +29,28 @@ public class PlayerHealth : Health
     [PunRPC]
     public override void ChangeHealth(int value, Vector3 shotDir)
     {
-        currentHealth -= value;
-
-        Debug.Log(this.name + " ChangeHealth Method Called. Health reduced by: " + value + ", and now is: " + currentHealth);
-
-        if (currentHealth > maxHealth)
+        if (currentHealth > 0)
         {
-            currentHealth = maxHealth;
+            currentHealth -= value;
+
+            print(string.Format(""));
+
+            print(value > 0 ? string.Format("Health reduced by {0} and is now {1}", value, currentHealth) : string.Format("Health healed by {0} and is now {1}", -value, currentHealth));
+
+            if (currentHealth > maxHealth)
+            {
+                currentHealth = maxHealth;
+            }
+
+            //If you're actually being damaged (negative means healing)
+            if (value > 0)
+            {
+                StopCoroutine(ShotDirectionActive(shotDir));
+                StartCoroutine(ShotDirectionActive(shotDir));
+            }
+
+            CheckDie();
         }
-        //ShotDirection(shotDir);
-
-        StopCoroutine(ShotDirectionActive(shotDir));
-        StartCoroutine(ShotDirectionActive(shotDir));
-
-        CheckDie();
     }
 
     void ShotDirection(Vector3 incoming)
@@ -53,18 +61,18 @@ public class PlayerHealth : Health
         // Flatten to plane
         Vector3 otherDir = new Vector3(-incomingDir.x, 0f, -incomingDir.z);
         var playerFwd = Vector3.ProjectOnPlane(transform.forward, Vector3.up);
- 
+
         // Direction between player fwd and incoming object
         var angle = Vector3.SignedAngle(playerFwd, otherDir, Vector3.up);
-        shotDirectionArm.transform.rotation = Quaternion.Euler(0,0, -angle);
-        
+        shotDirectionArm.transform.rotation = Quaternion.Euler(0, 0, -angle);
+
     }
 
     IEnumerator ShotDirectionActive(Vector3 incoming)
     {
         shotDirectionArm.SetActive(true);
         float timer = 0;
-        while(timer < shotIndicatorDelay)
+        while (timer < shotIndicatorDelay)
         {
             timer += Time.deltaTime;
 
@@ -74,10 +82,10 @@ public class PlayerHealth : Health
             // Flatten to plane
             Vector3 otherDir = new Vector3(-incomingDir.x, 0f, -incomingDir.z);
             var playerFwd = Vector3.ProjectOnPlane(transform.forward, Vector3.up);
-    
+
             // Direction between player fwd and incoming object
             var angle = Vector3.SignedAngle(playerFwd, otherDir, Vector3.up);
-            shotDirectionArm.transform.rotation = Quaternion.Euler(0,0, -angle);
+            shotDirectionArm.transform.rotation = Quaternion.Euler(0, 0, -angle);
             yield return null;
         }
         shotDirectionArm.SetActive(false);
@@ -97,13 +105,13 @@ public class PlayerHealth : Health
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         //Send health data to network
-        if(stream.isWriting)
+        if (stream.isWriting)
         {
             stream.SendNext(currentHealth);
-			//stream.SendNext()
+            //stream.SendNext()
         }
         // recieve health data from network (other player)
-        else if(stream.isReading)
+        else if (stream.isReading)
         {
             currentHealth = (int)stream.ReceiveNext();
         }
