@@ -38,10 +38,12 @@ namespace GameSystems
 
         public Text ammoDisplay;
 
-        public void Start()
+        public virtual void Start()
         {
             currentAmmo = maxAmmo;
             currentMag = magSize;
+
+            DefaultReload();
         }
 
         public abstract void Attack();
@@ -63,6 +65,36 @@ namespace GameSystems
 
         public virtual void Reload()
         {
+            DefaultReload();
+
+            UpdateAmmoDisplay();
+        }
+
+        public virtual void SpawnMuzzleFlash()
+        {
+            if (muzzle)
+            {
+                GameObject _flash = Instantiate(muzzle, spawnPoint.transform);
+                _flash.transform.SetParent(null);
+
+                Destroy(_flash, 3);
+            }
+        }
+
+        public virtual void UpdateAmmoDisplay()
+        {
+            if (ammoDisplay)
+                ammoDisplay.text = string.Format("{0}/{1} // {2}/{3}", currentMag, magSize, currentAmmo, maxAmmo);
+        }
+        public IEnumerator ReloadTimed()
+        {
+            print(BaneTools.ColorString("Reloading", "green"));
+            yield return new WaitForSeconds(reloadSpeed);
+            DefaultReload();
+        }
+
+        void DefaultReload()
+        {
             print(BaneTools.ColorString(gameObject.name + " is reloading!", BaneTools.Color255(0, 255, 0)));
             if (currentAmmo > 0)
             {
@@ -81,22 +113,6 @@ namespace GameSystems
             }
 
             UpdateAmmoDisplay();
-        }
-
-        public virtual void SpawnMuzzleFlash()
-        {
-            if (muzzle)
-            {
-                GameObject _flash = Instantiate(muzzle, spawnPoint.transform);
-                Destroy(_flash, 3);
-            }
-        }
-
-        public virtual void UpdateAmmoDisplay()
-        {
-            print("FUCK");
-            if (ammoDisplay)
-                ammoDisplay.text = string.Format("{0}/{1} // {2}/{3}", currentMag, magSize, currentAmmo, maxAmmo);
         }
     }
 }

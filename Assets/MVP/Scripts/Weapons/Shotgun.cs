@@ -27,6 +27,7 @@ public class Shotgun : Weapon
                 RaycastBullet(spreadRay);
             }
             currentMag--;
+            UpdateAmmoDisplay();
         }
         if (currentMag <= 0)
         {
@@ -57,7 +58,7 @@ public class Shotgun : Weapon
     void BulletTrail(Vector3 target, float distance)
     {
         GameObject bulletPath = Instantiate(lineRendPrefab, spawnPoint.position, spawnPoint.rotation);
-        bulletPath.transform.SetParent(spawnPoint);
+        bulletPath.transform.SetParent(null);
         BulletPath script = bulletPath.GetComponent<BulletPath>();
         script.target = target;
         script.distance = distance;

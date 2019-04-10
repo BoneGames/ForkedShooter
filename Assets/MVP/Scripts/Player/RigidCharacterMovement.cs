@@ -36,8 +36,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     private bool weaponRotationThing = false;
     private Vector3 moveDirection;
     private Interactable interactObject;
-    private bool showGui = false;
-    private int timeTillRespawn = 5;
+    private float timeTillRespawn = 5;
 
     #region Unity Events
     void Awake()
@@ -133,6 +132,10 @@ public class RigidCharacterMovement : Photon.PunBehaviour
             {
                 moveDirection *= crouchMultiplier;
             }
+            if (isAiming)
+            {
+                moveDirection *= crouchMultiplier;
+            }
         }
 
         Vector3 force = new Vector3(moveDirection.x, rigid.velocity.y, moveDirection.z);
@@ -208,15 +211,18 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     }
     public IEnumerator Respawn()
     {
-        showGui = true;
-        for(int respawnTime = timeTillRespawn; respawnTime > 0; respawnTime--)
+        isDead = true;
+        Aim(!isDead);
+
+        float fuck = timeTillRespawn;
+
+        for(int respawnTime = (int)timeTillRespawn; respawnTime > 0; respawnTime--)
         {
-            Debug.Log("for");
             yield return new WaitForSeconds(1);
             timeTillRespawn--;
         }
-        showGui = false;
-
+        timeTillRespawn = fuck;
+        
         isDead = false;
 
         if (lastCheckpoint) 
@@ -231,16 +237,18 @@ public class RigidCharacterMovement : Photon.PunBehaviour
 
         Debug.Log("Player has died and respawned");
         myHealth.currentHealth = myHealth.maxHealth;
+
+        myHealth.healthBar.UpdateBar();
     }
 
     void OnGUI()
     {
-        if (showGui)
+        if (isDead)
         {
             GUIStyle style = new GUIStyle();
             style.alignment = TextAnchor.MiddleCenter;
-            style.fontSize = 55;
-            GUI.Box(new Rect(0, 0, Screen.width, Screen.height), "You died and will respawn in " + timeTillRespawn + " seconds", style);
+            style.fontSize = 35;
+            GUI.Box(new Rect(0, 0, Screen.width, Screen.height), "You died and will respawn in \n" + timeTillRespawn + " seconds", style);
         }
     }
     // Combat
@@ -279,6 +287,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         }
 
         SelectWeapon(currentWeaponIndex);
+        currentWeapon.UpdateAmmoDisplay();
 
         // Note (Manny): Send the index to every client
         if (photonView)

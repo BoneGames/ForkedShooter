@@ -43,28 +43,32 @@ public class PlayerInput : Photon.PunBehaviour
 
     private void ProcessInputs()
     {
-        float inputH = Input.GetAxis("Horizontal");
-        float inputV = Input.GetAxis("Vertical");
-        player.Move(inputH, inputV);
-
-        if (Input.GetKeyDown(jumpKey)) player.Jump();
-        if (Input.GetKeyDown(crouchKey)) player.Crouch();
-        if (Input.GetKey(sprintKey)) player.isSprinting = true;
-        if (Input.GetKeyUp(sprintKey)) player.isSprinting = false;
-        if (Input.GetKeyDown(shootKey)) player.Attack();
-        if (Input.GetKeyDown(aimKey)) player.Aim(true);
-        if (Input.GetKeyUp(aimKey)) player.Aim(false);
-        if (Input.GetKeyDown(reloadKey)) player.Reload();
-        if (Input.GetKeyDown(KeyCode.E)) player.Interact();
-
-        float inputScroll = Input.GetAxisRaw("Mouse ScrollWheel");
-        if (inputScroll != 0)
+        if (!player.isDead)
         {
-            inputScroll = inputScroll < 0 ? -1 : 1;
+            float inputH = Input.GetAxis("Horizontal");
+            float inputV = Input.GetAxis("Vertical");
+            player.Move(inputH, inputV);
 
-            // Note (Manny): Just changed this a bit.
-            int direction = (int)inputScroll;
-            player.SwitchWeapon(direction);
+            if (Input.GetKeyDown(jumpKey)) player.Jump();
+            if (Input.GetKeyDown(crouchKey)) player.Crouch();
+            if (Input.GetKey(sprintKey)) player.isSprinting = true;
+            if (Input.GetKeyUp(sprintKey)) player.isSprinting = false;
+            if (Input.GetKeyDown(shootKey)) player.Attack();
+            if (Input.GetKeyUp(aimKey)) player.Aim(false);
+            if (Input.GetKeyDown(aimKey)) player.Aim(true);
+            if (Input.GetKeyDown(reloadKey)) player.Reload();
+
+            float inputScroll = Input.GetAxisRaw("Mouse ScrollWheel");
+            if (inputScroll != 0)
+            {
+                inputScroll = inputScroll < 0 ? -1 : 1;
+
+                // Note (Manny): Just changed this a bit.
+                int direction = (int)inputScroll;
+                player.SwitchWeapon(direction);
+            }
         }
+       
+        if (Input.GetKeyDown(KeyCode.E)) player.Interact();        
     }
 }

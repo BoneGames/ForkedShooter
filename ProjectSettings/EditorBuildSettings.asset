@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/MVP/Scenes/MVPScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 0
+  - enabled: 1
     path: Assets/MVP/Scenes/Home.unity
     guid: f09c4672744ed4b488cdda0e389c5222
   - enabled: 1

@@ -15,7 +15,6 @@ public class Pistol : Weapon
             Ray ray = new Ray(spawnPoint.position, spawnPoint.transform.forward);
 
             SpawnMuzzleFlash();
-            
 
             if (Physics.Raycast(ray, out hit))
             {
@@ -47,7 +46,7 @@ public class Pistol : Weapon
         }
         if (currentMag <= 0 )
         {
-            ReloadTimed();
+            StartCoroutine(ReloadTimed());
         }
     }
 
@@ -65,9 +64,5 @@ public class Pistol : Weapon
         StartCoroutine(ReloadTimed());
     }
 
-    public IEnumerator ReloadTimed()
-    {
-        yield return new WaitForSeconds(reloadSpeed);
-        base.Reload();
-    }
+
 }
