@@ -9,14 +9,13 @@ public class Pistol : Weapon
 
     public override void Attack()
     {
-        
         if (currentMag > 0)
         {
             RaycastHit hit;
             Ray ray = new Ray(spawnPoint.position, spawnPoint.transform.forward);
 
             SpawnMuzzleFlash();
-            UpdateAmmoDisplay();
+            
 
             if (Physics.Raycast(ray, out hit))
             {
@@ -43,10 +42,12 @@ public class Pistol : Weapon
                 }
             }
             currentMag--;
+
+            UpdateAmmoDisplay();
         }
-        if(currentMag <= 0 )
+        if (currentMag <= 0 )
         {
-            Reload();
+            ReloadTimed();
         }
     }
 
@@ -57,5 +58,16 @@ public class Pistol : Weapon
         BulletPath script = bulletPath.GetComponent<BulletPath>();
         script.target = target;
         script.distance = distance;
+    }
+
+    public override void Reload()
+    {
+        StartCoroutine(ReloadTimed());
+    }
+
+    public IEnumerator ReloadTimed()
+    {
+        yield return new WaitForSeconds(reloadSpeed);
+        base.Reload();
     }
 }

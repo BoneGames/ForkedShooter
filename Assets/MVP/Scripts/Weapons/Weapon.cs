@@ -14,7 +14,7 @@ namespace GameSystems
         public float accuracy = 1f;
         //public float range = 10f;
         public float scopeZoom = 75f;
-
+        public float reloadSpeed;
         public float rateOfFire = 5f;
         public GameObject projectile;
         public Transform spawnPoint;
@@ -23,7 +23,7 @@ namespace GameSystems
         //public Vector3 hitPoint;
 
 
-        
+
         Quaternion hitRotation;
         public GameObject lineRendPrefab;
 
@@ -63,7 +63,7 @@ namespace GameSystems
 
         public virtual void Reload()
         {
-            print(BaneTools.ColorString(gameObject.name + " is reloading!", BaneTools.Color255(0,255,0)));
+            print(BaneTools.ColorString(gameObject.name + " is reloading!", BaneTools.Color255(0, 255, 0)));
             if (currentAmmo > 0)
             {
                 if (currentAmmo >= magSize)
@@ -94,8 +94,9 @@ namespace GameSystems
 
         public virtual void UpdateAmmoDisplay()
         {
-            if(ammoDisplay)
-            ammoDisplay.text = string.Format("{0}/{1} // {2}/{3}", currentMag, magSize, currentAmmo, maxAmmo);
+            print("FUCK");
+            if (ammoDisplay)
+                ammoDisplay.text = string.Format("{0}/{1} // {2}/{3}", currentMag, magSize, currentAmmo, maxAmmo);
         }
     }
 }
