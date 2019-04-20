@@ -6391,22 +6391,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c3c6f836253b394abb6664b9bb7827a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 100
-  maxAmmo: 30
-  accuracy: 1
-  scopeZoom: 75
-  reloadSpeed: 0
-  rateOfFire: 5
-  projectile: {fileID: 0}
-  spawnPoint: {fileID: 0}
-  muzzle: {fileID: 0}
-  lineRendPrefab: {fileID: 0}
-  magSize: 0
-  currentAmmo: 0
-  currentMag: 0
-  tempMag: 0
-  ammoDisplay: {fileID: 0}
-  isBuried: 0
 --- !u!65 &1142515287
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9030,6 +9014,10 @@ Prefab:
     - target: {fileID: 100000, guid: fa62d3e9dfe92bc48826522e583fa323, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: fa62d3e9dfe92bc48826522e583fa323, type: 3}
+      propertyPath: m_TagString
+      value: DoNotShootInside
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa62d3e9dfe92bc48826522e583fa323, type: 3}
