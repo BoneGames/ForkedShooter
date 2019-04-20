@@ -6,18 +6,34 @@ using GameSystems;
 public class RocketLauncher : Weapon
 {
     Quaternion startRotation;
+    public bool isBuried;
+    Transform rocketSpawn;
+    Transform lookOrigin;
+
 
     public override void Start()
     {
         base.Start();
-
+        lookOrigin = GetComponentInParent<Camera>().transform;
         startRotation = spawnPoint.localRotation;
+        rocketSpawn = spawnPoint;
     }
 
     public override void Attack()
     {
         if (currentMag > 0)
         {
+            // if rocket shootpoint is inside terrain
+            if(isBuried)
+            {
+                // set spawn point to raycast forward (hit) from camera
+                rocketSpawn = GetExplosionPoint();
+            } else
+            {
+                // set spawn point as standard point at end of gun
+                rocketSpawn = spawnPoint;
+            }
+
             Quaternion hitRotation = GetTargetNormal();
 
             SpawnMuzzleFlash();
@@ -25,11 +41,11 @@ public class RocketLauncher : Weapon
             GameObject clone;
             if (GameManager.isOnline)
             {
-                clone = PhotonNetwork.Instantiate("Explosive", spawnPoint.position, spawnPoint.rotation, 0);
+                clone = PhotonNetwork.Instantiate("Explosive", rocketSpawn.position, rocketSpawn.rotation, 0);
             }
             else
             {
-                clone = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
+                clone = Instantiate(projectile, rocketSpawn.position, rocketSpawn.rotation);
             }
 
             Projectile newBullet = clone.GetComponent<Projectile>();
@@ -74,8 +90,19 @@ public class RocketLauncher : Weapon
 
         if (currentMag <= 0)
         {
-            //Reload();
+            Reload();
         }
+    }
+
+    Transform GetExplosionPoint()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(lookOrigin.position, lookOrigin.transform.forward, out hit))
+        {
+            rocketSpawn = hit.transform;
+            GameObject bullet = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube), hit.point, Quaternion.identity);
+        }
+        return rocketSpawn;
     }
 
     public override void Reload()
@@ -86,12 +113,16 @@ public class RocketLauncher : Weapon
             StartCoroutine(ReloadTimed());
         }
     }
+    private void OnDrawGizmos()
+    {
+        Debug.DrawRay(lookOrigin.position, lookOrigin.transform.forward);
+    }
 
     public override void SpawnMuzzleFlash()
     {
         if (muzzle)
         {
-            GameObject _flash = Instantiate(muzzle, spawnPoint.transform);
+            GameObject _flash = Instantiate(muzzle, rocketSpawn.position, rocketSpawn.rotation);
             _flash.transform.SetParent(null);
             _flash.transform.localScale = new Vector3(4, 4, 4);
             Destroy(_flash, 3);

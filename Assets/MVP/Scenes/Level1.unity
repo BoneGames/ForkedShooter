@@ -6375,6 +6375,50 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 050908f7cffe0ca47ab0747e8d7a6266, type: 3}
+--- !u!1 &1142515284 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1372220363222576, guid: d4959bfe9c2bdde4ba18947f246452be,
+    type: 2}
+  m_PrefabInternal: {fileID: 1389622838}
+--- !u!114 &1142515286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1142515284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c3c6f836253b394abb6664b9bb7827a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 100
+  maxAmmo: 30
+  accuracy: 1
+  scopeZoom: 75
+  reloadSpeed: 0
+  rateOfFire: 5
+  projectile: {fileID: 0}
+  spawnPoint: {fileID: 0}
+  muzzle: {fileID: 0}
+  lineRendPrefab: {fileID: 0}
+  magSize: 0
+  currentAmmo: 0
+  currentMag: 0
+  tempMag: 0
+  ammoDisplay: {fileID: 0}
+  isBuried: 0
+--- !u!65 &1142515287
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1142515284}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.01, y: 0.01, z: 0.01}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1154644877
 Prefab:
   m_ObjectHideFlags: 0
@@ -8034,7 +8078,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1610054995432940, guid: d4959bfe9c2bdde4ba18947f246452be, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4522203120360904, guid: d4959bfe9c2bdde4ba18947f246452be, type: 2}
       propertyPath: m_LocalPosition.z
@@ -8216,6 +8260,11 @@ Prefab:
     - target: {fileID: 4276223126385402, guid: d4959bfe9c2bdde4ba18947f246452be, type: 2}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114399733248021772, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 2}
+      propertyPath: isBuried
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4959bfe9c2bdde4ba18947f246452be, type: 2}
