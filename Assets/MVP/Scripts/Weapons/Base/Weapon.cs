@@ -22,8 +22,6 @@ namespace GameSystems
         public GameObject muzzle;
         //public Vector3 hitPoint;
 
-
-
         Quaternion hitRotation;
         public GameObject lineRendPrefab;
 
@@ -95,7 +93,7 @@ namespace GameSystems
 
         void DefaultReload()
         {
-            print(BaneTools.ColorString(gameObject.name + " is reloading!", BaneTools.Color255(0, 255, 0)));
+            //print(BaneTools.ColorString(gameObject.name + " is reloading!", BaneTools.Color255(0, 255, 0)));
             if (currentAmmo > 0)
             {
                 if (currentAmmo >= magSize)

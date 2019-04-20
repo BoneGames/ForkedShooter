@@ -55,19 +55,22 @@ public class LightFlickerEffect : MonoBehaviour
         if (light == null)
             return;
 
-        // pop off an item if too big
-        while (smoothQueue.Count >= smoothing)
+        if (smoothQueue != null)
         {
-            lastSum -= smoothQueue.Dequeue();
+            // pop off an item if too big
+            while (smoothQueue.Count >= smoothing)
+            {
+                lastSum -= smoothQueue.Dequeue();
+            }
+
+            // Generate random new item, calculate new average
+            float newVal = Random.Range(minIntensity, maxIntensity);
+            smoothQueue.Enqueue(newVal);
+            lastSum += newVal;
+
+            // Calculate new smoothed average
+            light.intensity = lastSum / (float)smoothQueue.Count; 
         }
-
-        // Generate random new item, calculate new average
-        float newVal = Random.Range(minIntensity, maxIntensity);
-        smoothQueue.Enqueue(newVal);
-        lastSum += newVal;
-
-        // Calculate new smoothed average
-        light.intensity = lastSum / (float)smoothQueue.Count;
     }
 
 }

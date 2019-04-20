@@ -56,10 +56,10 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     {
         interactObject = other.GetComponent<Interactable>();
 
-        if (interactObject)
-        {
-            print("Should be able to open");
-        }
+        //if (interactObject)
+        //{
+        //    print("Should be able to open");
+        //}
 
         if (other.tag == "OOB")
         {

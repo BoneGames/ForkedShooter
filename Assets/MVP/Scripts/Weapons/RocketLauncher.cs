@@ -6,29 +6,32 @@ using GameSystems;
 public class RocketLauncher : Weapon
 {
     Quaternion startRotation;
-    public bool isBuried;
     Transform rocketSpawn;
     Transform lookOrigin;
 
+    InsideCollider internalCheck;
 
     public override void Start()
     {
         base.Start();
-        lookOrigin = GetComponentInParent<Camera>().transform;
+        lookOrigin = Camera.main.transform;
         startRotation = spawnPoint.localRotation;
         rocketSpawn = spawnPoint;
+
+        internalCheck = rocketSpawn.GetComponent<InsideCollider>();
     }
 
     public override void Attack()
     {
         if (currentMag > 0)
         {
-            // if rocket shootpoint is inside terrain
-            if(isBuried)
+            // if spawnPoint is inside mesh
+            if (internalCheck.InsideMesh(lookOrigin, spawnPoint))
             {
-                // set spawn point to raycast forward (hit) from camera
+                print("Rocket is inside ground, time to assplode");
                 rocketSpawn = GetExplosionPoint();
-            } else
+            }
+            else
             {
                 // set spawn point as standard point at end of gun
                 rocketSpawn = spawnPoint;
@@ -109,13 +112,8 @@ public class RocketLauncher : Weapon
     {
         if (!(currentMag == magSize))
         {
-            print("I need reloading");
             StartCoroutine(ReloadTimed());
         }
-    }
-    private void OnDrawGizmos()
-    {
-        Debug.DrawRay(lookOrigin.position, lookOrigin.transform.forward);
     }
 
     public override void SpawnMuzzleFlash()
