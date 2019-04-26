@@ -8,19 +8,20 @@ public class DoorTrigger : MonoBehaviour
     public Animator doorFront;
     public Animator doorBack;
 
-    [Header("Variables")]
+    [Header("Enemies")]
     public GameObject drone;
+    public int droneCount = 2;
     public GameObject enemy;
-    public Transform enemyParent;
-    public bool enemySpawned = false;
-    public bool roomCleared = false;
+    public int enemyCount = 2;
     public Transform droneSpawnPoint;
     public Transform enemySpawnPoint;
 
-    public Transform waypointParent;
+    [Header("Variables")]
+    public Transform enemyParent;
+    public bool enemySpawned = false;
+    public bool roomCleared = false;
 
-    public int spawnDrone = 2;
-    public int spawnEnemy = 2;
+    public Transform waypointParent;
 
     void Update()
     {
@@ -32,7 +33,6 @@ public class DoorTrigger : MonoBehaviour
             print("Doors Activated");
         }
     }
-
 
     //When player enters triggerbox
     void OnTriggerEnter(Collider other)
@@ -47,33 +47,28 @@ public class DoorTrigger : MonoBehaviour
                 doorFront.SetTrigger("Enter");
                 doorBack.SetTrigger("Enter");
                 StartCoroutine(SpawnTimer());
-
             }
         }
     }
     IEnumerator SpawnTimer()
     {
-
-        for (int i = 0; i < spawnDrone; i++)
+        for (int i = 0; i < droneCount; i++)
         {
-            GameObject clone = Instantiate(drone, droneSpawnPoint.position, droneSpawnPoint.rotation);
+            GameObject clone = Instantiate(drone, droneSpawnPoint.position, droneSpawnPoint.rotation, droneSpawnPoint);
             clone.transform.name += i.ToString(); 
             clone.transform.parent = enemyParent;
             clone.GetComponent<AI_ScoutDrone>().waypointParent = waypointParent;
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(.1f);
         }
-        for (int i = 0; i < spawnEnemy; i++)
+        for (int i = 0; i < enemyCount; i++)
         {
-            GameObject clone = Instantiate(enemy, enemySpawnPoint.position, enemySpawnPoint.rotation);
+            GameObject clone = Instantiate(enemy, enemySpawnPoint.position, enemySpawnPoint.rotation, enemySpawnPoint);
             clone.transform.name += i.ToString(); 
             clone.transform.parent = enemyParent;
             clone.GetComponent<BehaviourAI>().waypointParent = waypointParent;
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(.1f);
         }
 
         enemySpawned = true;
-
     }
-
- 
 }

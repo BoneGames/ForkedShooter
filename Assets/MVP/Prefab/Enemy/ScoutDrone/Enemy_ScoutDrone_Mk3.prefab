@@ -131,12 +131,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4228566872078592}
   - component: {fileID: 135078705110572824}
+  - component: {fileID: 54902989782543628}
+  - component: {fileID: 195558518581967682}
+  - component: {fileID: 95049339517146008}
+  - component: {fileID: 23623985816531344}
   - component: {fileID: 114366355171617984}
   - component: {fileID: 114272049808185796}
   - component: {fileID: 114020886584632132}
-  - component: {fileID: 195558518581967682}
-  - component: {fileID: 95049339517146008}
-  - component: {fileID: 54902989782543628}
   - component: {fileID: 114857226843892834}
   m_Layer: 10
   m_Name: Enemy_ScoutDrone_Mk3
@@ -1383,6 +1384,41 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!23 &23623985816531344
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1188078473502018}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!23 &23727862281930214
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -1649,16 +1685,18 @@ MonoBehaviour:
   damage: 10
   maxAmmo: 60
   accuracy: 0.2
-  range: 10
+  scopeZoom: 75
+  reloadSpeed: 0
   rateOfFire: 5
   projectile: {fileID: 1874544804970178, guid: f5fad20bfebd88d46abe3e602f14fdaf, type: 2}
   spawnPoint: {fileID: 4076797023168174}
   muzzle: {fileID: 0}
-  hitPoint: {x: 0, y: 0, z: 0}
+  lineRendPrefab: {fileID: 0}
   magSize: 7
   currentAmmo: 30
   currentMag: 7
   tempMag: 0
+  ammoDisplay: {fileID: 0}
   contact: {fileID: 114272049808185796}
   hitParticle: {fileID: 1097464064478134, guid: 259a0b96acab2f749b11f8a6e18a8862,
     type: 2}
@@ -1695,7 +1733,6 @@ MonoBehaviour:
   - 4
   - 2
   agent: {fileID: 195558518581967682}
-  aim: {fileID: 4772487962471540}
   target: {fileID: 0}
   waypointParent: {fileID: 0}
   fov: {fileID: 114553284607818792}
@@ -1703,17 +1740,17 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 2097152
-  inAccuracy: 0
+  inaccuracy: 0
+  startRotation: {x: 0, y: 0, z: 0, w: 0}
+  healthRef: {fileID: 0}
   waypoints: []
   currentIndex: 1
-  startRotation: {x: 0, y: 0, z: 0, w: 0}
-  foundPoint: {x: 0, y: 0, z: 0}
-  closestPoint: {x: 0, y: 0, z: 0}
   anim: {fileID: 95049339517146008}
   searchLight: {fileID: 108193603917091660}
   colorPatrol: {r: 1, g: 1, b: 1, a: 1}
   colorSearch: {r: 0.8039216, g: 0.4019608, b: 0, a: 1}
   colorSeek: {r: 0.8039216, g: 0, b: 0, a: 1}
+  aim: {fileID: 4772487962471540}
 --- !u!114 &114366355171617984
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1727,11 +1764,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
+  healthBar: {fileID: 0}
   isGod: 0
   photonView: {fileID: 0}
   ammoBox: {fileID: 1861980455999006, guid: 81097656c3f3f474695c95c52ee785d7, type: 2}
   healthDrop: {fileID: 1770668066226042, guid: ef39cf02ff0e77243aef73b443f72843, type: 2}
-  healthBar: {fileID: 0}
 --- !u!114 &114553284607818792
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1767,6 +1804,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c600db55c398ae146aee35e4c9a3c7ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthBarContainer: {fileID: 0}
+  healthBarDisplay: {fileID: 0}
+  health: {fileID: 0}
   healthBarPrefab: {fileID: 1744921355771316, guid: 2a7c22fccbffa414c8a105b65e5aa1be,
     type: 2}
   offset: {x: 0, y: 4, z: 0}

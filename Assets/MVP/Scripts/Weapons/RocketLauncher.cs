@@ -6,7 +6,7 @@ using GameSystems;
 public class RocketLauncher : Weapon
 {
     Quaternion startRotation;
-    Transform rocketSpawn;
+    public Transform rocketSpawn;
     Transform lookOrigin;
 
     InsideCollider internalCheck;
@@ -25,8 +25,9 @@ public class RocketLauncher : Weapon
     {
         if (currentMag > 0)
         {
+            bool insideMesh = internalCheck.InsideMesh(lookOrigin, spawnPoint);
             // if spawnPoint is inside mesh
-            if (internalCheck.InsideMesh(lookOrigin, spawnPoint))
+            if (insideMesh)
             {
                 print("Rocket is inside ground, time to assplode");
                 rocketSpawn = GetExplosionPoint();
@@ -60,6 +61,7 @@ public class RocketLauncher : Weapon
 
             newBullet.hitRotation = hitRotation;
             newBullet.damage = damage;
+
             if (RigidCharacterMovement.isAiming)
             {
                 Vector3 aimPoint = Vector3.zero;
@@ -71,11 +73,6 @@ public class RocketLauncher : Weapon
                     if (hit.collider)
                     {
                         aimPoint = hit.point;
-
-                        // TESTING
-                        //GameObject bullet = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube), hit.point, Quaternion.identity);
-                        //bullet.GetComponent<Renderer>().material.color = Color.red;
-                        //bullet.transform.localScale = new Vector3(.15f, .15f, .15f);
                     }
                 }
                 spawnPoint.LookAt(aimPoint);
@@ -84,6 +81,7 @@ public class RocketLauncher : Weapon
             {
                 spawnPoint.localRotation = startRotation;
             }
+
             newBullet.Fire(spawnPoint.forward);
 
             currentMag--;
@@ -102,8 +100,8 @@ public class RocketLauncher : Weapon
         RaycastHit hit;
         if (Physics.Raycast(lookOrigin.position, lookOrigin.transform.forward, out hit))
         {
-            rocketSpawn = hit.transform;
-            GameObject bullet = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube), hit.point, Quaternion.identity);
+            rocketSpawn = Camera.main.transform;
+            //GameObject bullet = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube), hit.point, Quaternion.identity);
         }
         return rocketSpawn;
     }

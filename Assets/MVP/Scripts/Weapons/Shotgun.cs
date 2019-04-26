@@ -65,8 +65,6 @@ public class Shotgun : Weapon
 
     public override void Reload()
     {
-        print("Reloading...");
-
         StartCoroutine(GradualReload(reloadSpeed, 7));
     }
 
@@ -75,23 +73,10 @@ public class Shotgun : Weapon
         while (currentMag < magSize)
         {
             currentMag++;
+            currentAmmo--;
             UpdateAmmoDisplay();
 
             yield return new WaitForSeconds(reloadSpeed);
         }
-
-        //for (int i = currentMag; i < magSize; i++)
-        //{
-        //    print(string.Format("Current Mag is {0}, magSize is {1}, i is {2}", currentMag, magSize, i));
-
-        //    currentMag++;
-        //    yield return new WaitForSeconds(1);
-        //    print("1 second passed...");
-
-        //    if (currentMag < magSize)
-        //    {
-        //        StartCoroutine(GradualReload(reloadSpeed, 7));
-        //    }
-        //}
     }
 }

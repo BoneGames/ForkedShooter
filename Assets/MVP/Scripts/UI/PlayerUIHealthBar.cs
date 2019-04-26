@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class PlayerUIHealthBar : HealthBar
 {
-    //PlayerHealth health;
-
     public GameObject healthBarBG;
 
     // Use this for initialization
@@ -16,7 +14,6 @@ public class PlayerUIHealthBar : HealthBar
         health = GetComponent<Health>();
         health.healthBar = this;
     }
-
 
     public override void UpdateBar()
     {

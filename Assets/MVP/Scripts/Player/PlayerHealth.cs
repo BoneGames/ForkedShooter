@@ -20,10 +20,6 @@ public class PlayerHealth : Health
             FindObjectOfType<PhotonHealthMoniter>().Register(gameObject);
         }
     }
-    // private void Update()
-    // {
-    //     CheckDie();
-    // }
 
     // Takes damage from various bullet/projectile scripts and runs 'CheckDie()'.
     [PunRPC]
@@ -65,7 +61,6 @@ public class PlayerHealth : Health
         // Direction between player fwd and incoming object
         var angle = Vector3.SignedAngle(playerFwd, otherDir, Vector3.up);
         shotDirectionArm.transform.rotation = Quaternion.Euler(0, 0, -angle);
-
     }
 
     IEnumerator ShotDirectionActive(Vector3 incoming)

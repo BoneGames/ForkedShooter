@@ -54,10 +54,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4903510248585718}
   - component: {fileID: 136307132158839224}
+  - component: {fileID: 54879496485559750}
+  - component: {fileID: 195671733529801184}
+  - component: {fileID: 23674546893696670}
   - component: {fileID: 114170787183116192}
   - component: {fileID: 114063992362631900}
-  - component: {fileID: 195671733529801184}
-  - component: {fileID: 54879496485559750}
   - component: {fileID: 114724907606451946}
   m_Layer: 10
   m_Name: Enemy
@@ -363,7 +364,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1210148752958328}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 127.07, y: 3.0393, z: 82.584}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4247510713931996}
@@ -421,6 +422,41 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!23 &23674546893696670
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1210148752958328}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -507,6 +543,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2097152
   inaccuracy: 0
+  startRotation: {x: 0, y: 0, z: 0, w: 0}
   healthRef: {fileID: 0}
   waypoints: []
   currentIndex: 1
@@ -525,6 +562,7 @@ MonoBehaviour:
   maxAmmo: 30
   accuracy: 0.125
   scopeZoom: 75
+  reloadSpeed: 0
   rateOfFire: 5
   projectile: {fileID: 1874544804970178, guid: f5fad20bfebd88d46abe3e602f14fdaf, type: 2}
   spawnPoint: {fileID: 4686679147568946}

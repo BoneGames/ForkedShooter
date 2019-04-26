@@ -10,8 +10,6 @@ public class EnemyUIHealthBar : HealthBar
 
     Transform target;
 
-    //EnemyHealth health;
-
     // Use this for initialization
     void Start()
     {
@@ -36,6 +34,8 @@ public class EnemyUIHealthBar : HealthBar
         {
             print("My target died!");
         }
+
+        healthBarContainer.SetActive(GetComponent<Renderer>().IsVisibleFrom(Camera.main) ? true : false);
     }
 
     void OnDestroy()

@@ -6,7 +6,6 @@ using System.Linq;
 
 public class Pistol : Weapon
 {
-
     public override void Attack()
     {
         if (currentMag > 0)
@@ -29,9 +28,6 @@ public class Pistol : Weapon
                 }
                 else
                 {
-                    //print("I'm firing!");
-                    //Debug.DrawRay(spawnPoint.position, spawnPoint.forward, Color.red);
-
                     if (hit.collider.tag == "Enemy")
                     {
                         hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position);
@@ -63,6 +59,4 @@ public class Pistol : Weapon
     {
         StartCoroutine(ReloadTimed());
     }
-
-
 }
