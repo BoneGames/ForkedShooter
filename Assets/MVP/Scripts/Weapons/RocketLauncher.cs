@@ -75,7 +75,8 @@ public class RocketLauncher : Weapon
                         aimPoint = hit.point;
                     }
                 }
-                spawnPoint.LookAt(aimPoint);
+                //What's this for?
+                //spawnPoint.LookAt(aimPoint); 
             }
             else
             {
