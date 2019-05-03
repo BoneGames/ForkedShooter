@@ -62,27 +62,6 @@ public class RocketLauncher : Weapon
             newBullet.hitRotation = hitRotation;
             newBullet.damage = damage;
 
-            if (RigidCharacterMovement.isAiming)
-            {
-                Vector3 aimPoint = Vector3.zero;
-                // creates a Camera ray that matches the scope needle
-                Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width * 0.5f, Screen.height / 1.75f, 0));
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity))
-                {
-                    if (hit.collider)
-                    {
-                        aimPoint = hit.point;
-                    }
-                }
-                //What's this for?
-                //spawnPoint.LookAt(aimPoint); 
-            }
-            else
-            {
-                spawnPoint.localRotation = startRotation;
-            }
-
             newBullet.Fire(spawnPoint.forward);
 
             currentMag--;
