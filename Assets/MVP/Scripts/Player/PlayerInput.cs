@@ -15,6 +15,11 @@ public class PlayerInput : Photon.PunBehaviour
     public KeyCode shootKey = KeyCode.Mouse0;
     public KeyCode aimKey = KeyCode.Mouse1;
     public KeyCode reloadKey = KeyCode.R;
+
+    [Header("Acion Keys")]
+    public KeyCode interactKey = KeyCode.E;
+    public KeyCode ammoKey = KeyCode.G;
+
     private int weaponIndex;
     private int currentIndex;
 
@@ -53,7 +58,8 @@ public class PlayerInput : Photon.PunBehaviour
             if (Input.GetKeyDown(crouchKey)) player.Crouch();
             if (Input.GetKey(sprintKey)) player.isSprinting = true;
             if (Input.GetKeyUp(sprintKey)) player.isSprinting = false;
-            if (Input.GetKeyDown(shootKey)) player.Attack();
+            if (player.currentWeapon.rateOfFire == 0 && Input.GetKeyDown(shootKey)) player.Attack();
+            if (player.currentWeapon.rateOfFire != 0 && Input.GetKey(shootKey)) player.Attack();
             if (Input.GetKeyUp(aimKey)) player.Aim(false);
             if (Input.GetKeyDown(aimKey)) player.Aim(true);
             if (Input.GetKeyDown(reloadKey)) player.Reload();
@@ -69,6 +75,7 @@ public class PlayerInput : Photon.PunBehaviour
             }
         }
        
-        if (Input.GetKeyDown(KeyCode.E)) player.Interact();        
+        if (Input.GetKeyDown(interactKey)) player.Interact();
+        if (Input.GetKeyDown(ammoKey)) player.FreeAmmo();
     }
 }
