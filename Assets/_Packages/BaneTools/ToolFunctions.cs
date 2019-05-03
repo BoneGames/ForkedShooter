@@ -168,6 +168,7 @@ namespace BT
     public static class BaneMath
     {
         public static Vector2 centre = new Vector2(.5f, .5f);
+        public static Vector2 screenCentre = new Vector2(Screen.width/2, Screen.height/2);
 
         public static Vector2 AddedVector2(Vector2 _vector2, float _value)
         {

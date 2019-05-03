@@ -46,6 +46,33 @@ namespace GameSystems
 
         public abstract void Attack();
 
+
+        public virtual void Aiming()
+        {
+            //if (RigidCharacterMovement.isAiming)
+            // {
+            Vector3 aimPoint = Vector3.zero;
+
+            // creates a Camera ray that matches the scope needle
+            Ray ray = Camera.main.ScreenPointToRay(BaneMath.screenCentre);
+
+            // The below code calibrates the hitpoint to be on rocket sights crosshair (aiming), or on the onscreen UI cross hair  (not aiming)
+            // This is obsolete once we fix our 3D models to have sights screen-centred when on aiming mode.
+            // Ray ray = RigidCharacterMovement.isAiming ? Camera.main.ScreenPointToRay(new Vector3(Screen.width * 0.5f, Screen.height / 1.7f, 0)) : Camera.main.ScreenPointToRay(new Vector3(Screen.width * 0.5f, Screen.height * .5f, 0));
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                if (hit.collider)
+                {
+                    aimPoint = hit.point;
+                }
+            }
+            //What's this for?
+            spawnPoint.LookAt(aimPoint);
+            //}
+        }
+
+
         public Quaternion GetTargetNormal()
         {
             RaycastHit hit;
