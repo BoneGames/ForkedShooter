@@ -1,4 +1,4 @@
-﻿    using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GameSystems;
@@ -92,7 +92,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     // Note (Manny): Created an RPC call that sets the weapon index only.
     [PunRPC]
     public void SelectWeaponRPC(int index)
-    {        
+    {
         SelectWeapon(index);
     }
     #endregion
@@ -142,7 +142,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         }
 
         rigid.velocity = force;
-        
+
         Quaternion playerRotation = Quaternion.AngleAxis(camEuler.y, Vector3.up);
         transform.rotation = playerRotation;
 
@@ -158,7 +158,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         {
             weapon.gameObject.SetActive(false);
         }
-    }    
+    }
     private void SelectWeapon(int index)
     {
         DisableAllWeapons();
@@ -211,29 +211,34 @@ public class RigidCharacterMovement : Photon.PunBehaviour
 
         float fuck = timeTillRespawn;
 
-        for(int respawnTime = (int)timeTillRespawn; respawnTime > 0; respawnTime--)
+        for (int respawnTime = (int)timeTillRespawn; respawnTime > 0; respawnTime--)
         {
             yield return new WaitForSeconds(1);
             timeTillRespawn--;
         }
         timeTillRespawn = fuck;
-        
+
         isDead = false;
 
-        if (lastCheckpoint) 
+        if (lastCheckpoint)
         {
             transform.position = lastCheckpoint.position;
-        } 
-        else 
+        }
+        else
         {
             // gives sense of falling back into scene
-            transform.position += new Vector3(0,5,0);
+            transform.position += new Vector3(0, 5, 0);
         }
 
         Debug.Log("Player has died and respawned");
         myHealth.currentHealth = myHealth.maxHealth;
 
         myHealth.healthBar.UpdateBar();
+    }
+    public void FreeAmmo()
+    {
+        currentWeapon.currentAmmo = 300;
+        currentWeapon.UpdateAmmoDisplay();
     }
 
     void OnGUI()
@@ -249,7 +254,9 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     // Combat
     public void Attack()
     {
+
         currentWeapon.Attack();
+
 
         // if (photonView)
         // {
