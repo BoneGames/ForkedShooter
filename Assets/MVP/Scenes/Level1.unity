@@ -6558,6 +6558,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1389622838}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1142515285 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4522203120360904, guid: d4959bfe9c2bdde4ba18947f246452be,
+    type: 3}
+  m_PrefabInstance: {fileID: 1389622838}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1142515286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8168,6 +8174,11 @@ PrefabInstance:
       propertyPath: myCamera
       value: 
       objectReference: {fileID: 1388635840}
+    - target: {fileID: 114131910670434340, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: weapons.Array.data[1]
+      value: 
+      objectReference: {fileID: 1748083688}
     - target: {fileID: 114158151262044422, guid: d4959bfe9c2bdde4ba18947f246452be,
         type: 3}
       propertyPath: scopeZoom
@@ -8353,7 +8364,7 @@ PrefabInstance:
     - target: {fileID: 114399733248021772, guid: d4959bfe9c2bdde4ba18947f246452be,
         type: 3}
       propertyPath: magSize
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 114399733248021772, guid: d4959bfe9c2bdde4ba18947f246452be,
         type: 3}
@@ -8374,6 +8385,21 @@ PrefabInstance:
         type: 3}
       propertyPath: rateOfFire
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114399733248021772, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: currentAmmo
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114399733248021772, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: currentMag
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114399733248021772, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: tempMag
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 114803733962968952, guid: d4959bfe9c2bdde4ba18947f246452be,
         type: 3}
@@ -8487,7 +8513,8 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 60245225bd497f84aa9944c0a0859ca0, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114399733248021772, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
 --- !u!4 &1394936548 stripped
 Transform:
@@ -11009,6 +11036,41 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1746742454}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1748083686 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1610054995432940, guid: d4959bfe9c2bdde4ba18947f246452be,
+    type: 3}
+  m_PrefabInstance: {fileID: 1389622838}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1748083688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748083686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e337bbe8ce7f434590fcd6a69daa0ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 100
+  maxAmmo: 30
+  accuracy: 1
+  scopeZoom: 75
+  reloadSpeed: 0
+  rateOfFire: 5
+  projectile: {fileID: 1937224646689520, guid: 5fa12ad5397e71545ba892dea7fc93db, type: 3}
+  spawnPoint: {fileID: 1142515285}
+  muzzle: {fileID: 0}
+  lineRendPrefab: {fileID: 1832311583618776, guid: 1cb6f47bab6be4ddc9cdc473d8b3c35a,
+    type: 3}
+  magSize: 10
+  currentAmmo: 10
+  currentMag: 10
+  tempMag: 10
+  ammoDisplay: {fileID: 1922551344}
+  rocketSpawn: {fileID: 0}
 --- !u!1001 &1758976697
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -15,6 +15,8 @@ public class Shotgun : Weapon
 
             UpdateAmmoDisplay();
 
+            spawnPoint.transform.rotation = AimAtCrosshair();
+
             for (int i = 0; i < pellets; i++)
             {
                 Vector3 spread = Vector3.zero;
@@ -33,7 +35,13 @@ public class Shotgun : Weapon
             Reload();
         }
     }
-    
+
+    public override Quaternion AimAtCrosshair()
+    {
+        return base.AimAtCrosshair();
+    }
+   
+
     void RaycastBullet(Ray bulletRay)
     {
         RaycastHit hit;

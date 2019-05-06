@@ -62,7 +62,9 @@ public class RocketLauncher : Weapon
             newBullet.hitRotation = hitRotation;
             newBullet.damage = damage;
 
-            newBullet.Fire(spawnPoint.forward);
+            spawnPoint.rotation = AimAtCrosshair();
+
+            newBullet.Fire(spawnPoint.transform.forward);
 
             currentMag--;
 
@@ -73,6 +75,11 @@ public class RocketLauncher : Weapon
         {
             Reload();
         }
+    }
+
+    public override Quaternion AimAtCrosshair()
+    {
+        return base.AimAtCrosshair();
     }
 
     Transform GetExplosionPoint()

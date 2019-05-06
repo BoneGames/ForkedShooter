@@ -46,6 +46,22 @@ namespace GameSystems
 
         public abstract void Attack();
 
+        public virtual Quaternion AimAtCrosshair()
+        {
+            Ray crossHairRay = Camera.main.ScreenPointToRay(new Vector2(Screen.width/2, Screen.height/2));
+            RaycastHit hit;
+            if(Physics.Raycast(crossHairRay, out hit, Mathf.Infinity))
+            {
+                Vector3 direction = hit.point - spawnPoint.position;
+                spawnPoint.rotation = Quaternion.LookRotation(direction);
+            }
+            else
+            {
+                spawnPoint.rotation = Quaternion.Euler(0, 90, 0);
+            }
+            return spawnPoint.rotation;
+        }
+
         public Quaternion GetTargetNormal()
         {
             RaycastHit hit;

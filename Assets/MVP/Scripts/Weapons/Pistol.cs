@@ -11,6 +11,7 @@ public class Pistol : Weapon
         if (currentMag > 0)
         {
             RaycastHit hit;
+            spawnPoint.rotation = AimAtCrosshair();
             Ray ray = new Ray(spawnPoint.position, spawnPoint.transform.forward);
 
             SpawnMuzzleFlash();
@@ -44,6 +45,11 @@ public class Pistol : Weapon
         {
             StartCoroutine(ReloadTimed());
         }
+    }
+
+    public override Quaternion AimAtCrosshair()
+    {
+        return base.AimAtCrosshair();
     }
 
     void BulletTrail(Vector3 target, float distance)
