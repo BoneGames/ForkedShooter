@@ -237,7 +237,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     }
     public void FreeAmmo()
     {
-        currentWeapon.currentAmmo = 300;
+        currentWeapon.currentReserves = 300;
         currentWeapon.UpdateAmmoDisplay();
     }
 

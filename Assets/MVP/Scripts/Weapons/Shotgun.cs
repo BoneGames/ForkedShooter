@@ -81,7 +81,7 @@ public class Shotgun : Weapon
         while (currentMag < magSize)
         {
             currentMag++;
-            currentAmmo--;
+            currentReserves--;
             UpdateAmmoDisplay();
 
             yield return new WaitForSeconds(reloadSpeed);

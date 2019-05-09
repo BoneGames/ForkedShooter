@@ -14,13 +14,13 @@ public class AmmoPickup : Pickup
 
             if (player.currentWeapon != null)
             {
-                if (player.currentWeapon.currentAmmo < player.currentWeapon.maxAmmo)
+                if (player.currentWeapon.currentReserves < player.currentWeapon.maxReserves)
                 {
-                    player.currentWeapon.currentAmmo += ammoAmount;
+                    player.currentWeapon.currentReserves += ammoAmount;
 
-                    if (player.currentWeapon.currentAmmo >= player.currentWeapon.maxAmmo)
+                    if (player.currentWeapon.currentReserves >= player.currentWeapon.maxReserves)
                     {
-                        player.currentWeapon.currentAmmo = player.currentWeapon.maxAmmo;
+                        player.currentWeapon.currentReserves = player.currentWeapon.maxReserves;
                     }
 
                     player.currentWeapon.UpdateAmmoDisplay();

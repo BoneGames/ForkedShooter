@@ -9,7 +9,7 @@ namespace GameSystems
     public abstract class Weapon : MonoBehaviour
     {
         public int damage = 100;
-        public int maxAmmo = 30;
+        public int maxReserves = 30;
 
         public float accuracy = 1f;
         //public float range = 10f;
@@ -29,7 +29,7 @@ namespace GameSystems
         [Tooltip("meters/second")]
 
         public int magSize;
-        public int currentAmmo;
+        public int currentReserves;
 
         public int currentMag;
         public int tempMag;
@@ -38,7 +38,7 @@ namespace GameSystems
 
         public virtual void Start()
         {
-            currentAmmo = maxAmmo;
+            currentReserves = maxReserves;
             currentMag = magSize;
 
             DefaultReload();
@@ -98,11 +98,10 @@ namespace GameSystems
         public virtual void UpdateAmmoDisplay()
         {
             if (ammoDisplay)
-                ammoDisplay.text = string.Format("{0}/{1} // {2}/{3}", currentMag, magSize, currentAmmo, maxAmmo);
+                ammoDisplay.text = string.Format("{0}/{1} // {2}/{3}", currentMag, magSize, currentReserves, maxReserves);
         }
         public IEnumerator ReloadTimed()
         {
-            print(BaneTools.ColorString("Reloading", "green"));
             yield return new WaitForSeconds(reloadSpeed);
             DefaultReload();
         }
@@ -110,19 +109,25 @@ namespace GameSystems
         void DefaultReload()
         {
             //print(BaneTools.ColorString(gameObject.name + " is reloading!", BaneTools.Color255(0, 255, 0)));
-            if (currentAmmo > 0)
+            if (currentReserves > 0)
             {
-                if (currentAmmo >= magSize)
+                if (currentMag >= 0)
                 {
-                    currentAmmo -= magSize - currentMag;
+                    currentReserves += currentMag;
+                    currentMag = 0;
 
-                    currentMag = magSize;
-                }
-                if (currentAmmo < magSize)
-                {
-                    tempMag = currentAmmo;
-                    currentMag = tempMag;
-                    currentAmmo -= tempMag;
+                    if (currentReserves >= magSize)
+                    {
+                        currentReserves -= magSize - currentMag;
+
+                        currentMag = magSize;
+                    }
+                    else if (currentReserves < magSize)
+                    {
+                        tempMag = currentReserves;
+                        currentMag = tempMag;
+                        currentReserves -= tempMag;
+                    }
                 }
             }
 
