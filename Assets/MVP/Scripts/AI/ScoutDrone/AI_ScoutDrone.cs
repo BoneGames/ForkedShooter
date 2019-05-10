@@ -146,7 +146,7 @@ public class AI_ScoutDrone : BehaviourAI
             {
                 holdStateTimer[0] = pauseDuration[0];
                 currentIndex++;
-                if (currentIndex >= waypoints.Length)
+                if (currentIndex >= waypoints.Count)
                 {
                     currentIndex = 1;
                 }

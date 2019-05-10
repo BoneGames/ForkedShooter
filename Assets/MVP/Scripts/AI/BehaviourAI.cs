@@ -14,7 +14,8 @@ public class BehaviourAI : MonoBehaviour
         Seek = 1,
         Retreat = 2,
         Survey = 3,
-        Totem = 4
+        Totem = 4,
+        Investigate = 5
     }
 
     [Header("Behaviours")]
@@ -48,9 +49,15 @@ public class BehaviourAI : MonoBehaviour
     private Vector3 totemPos;
     public EnemyHealth healthRef;
 
+    Transform inspectionPoint;
+    float wayPointAdded;
+    int inspectionTime;
+    int staticWaypointCount;
+
     // Creates a collection of Transforms
-    [HideInInspector]
-    public Transform[] waypoints; // Transform of (child) waypoints in array.
+    //[HideInInspector]
+    public List<Transform> waypoints; // Transform of (child) waypoints in array.
+    Transform wayPoint1;
     [HideInInspector]
     public int currentIndex = 1; // Counts sequential waypoints of array index.
     //[HideInInspector]
@@ -59,22 +66,43 @@ public class BehaviourAI : MonoBehaviour
 
     
 
-    // private void OnDrawGizmos()
-    // {
-    //     GetAvoidanceWaypoint();
-    // 
-    //     Gizmos.color = Color.red;
-    //     Gizmos.DrawWireSphere(target.position, fov.viewRadius);
-    // 
-    //     Gizmos.color = Color.red;
-    //     Gizmos.DrawLine(target.position, closestPoint);
-    // 
-    //     Gizmos.color = Color.blue;
-    //     Gizmos.DrawSphere(foundPoint, .5f);
-    // }
 
-    // Returns closest collider to target
-    public Collider ClosestObstacle()
+// Method to call upon FindVisibleTargets Method with a delay (0.2f from Coroutine argument).
+    IEnumerator GetInspectionPoint(float delay)
+    {
+    // while running...
+    while (true)
+        {
+        // Stop/Wait (delay) seconds, then run 'FindVisibleTargets' Method, and update information drawn from it.
+            yield return new WaitForSeconds(delay);
+            // if the fov system has found a target
+            if(target)
+            {
+                // set inspection point to where target last seen
+                inspectionPoint = target;
+                // add inspectionPoint to waypoints
+                waypoints.Add(inspectionPoint);
+                wayPointAdded = Time.time;
+            }
+        }
+    }
+
+// private void OnDrawGizmos()
+// {
+//     GetAvoidanceWaypoint();
+// 
+//     Gizmos.color = Color.red;
+//     Gizmos.DrawWireSphere(target.position, fov.viewRadius);
+// 
+//     Gizmos.color = Color.red;
+//     Gizmos.DrawLine(target.position, closestPoint);
+// 
+//     Gizmos.color = Color.blue;
+//     Gizmos.DrawSphere(foundPoint, .5f);
+// }
+
+// Returns closest obstacle collider to target
+public Collider ClosestObstacle()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, attackRange, obstacleMask);
         //Debug.Log("obstacles found: " + hits.Length);
@@ -139,7 +167,7 @@ public class BehaviourAI : MonoBehaviour
                 holdStateTimer[0] = pauseDuration[0];
                 currentIndex++;
                 // Set waypoint currentIndex back to the start if we complete the last waypoint.
-                if (currentIndex >= waypoints.Length)
+                if (currentIndex >= waypoints.Count)
                 {
                     currentIndex = 1;
                 }
@@ -154,6 +182,11 @@ public class BehaviourAI : MonoBehaviour
             currentState = State.Seek;
             target = fov.visibleTargets[0];
         }
+    }
+
+    void AddWaypoint()
+    {
+
     }
 
     // The contained variables for the Seek state (what rules the enemy AI follows when in 'Seek').
@@ -250,7 +283,7 @@ public class BehaviourAI : MonoBehaviour
             {
                 holdStateTimer[0] = pauseDuration[0];
                 currentIndex++;
-                if (currentIndex >= waypoints.Length)
+                if (currentIndex >= waypoints.Count)
                 {
                     currentIndex = 0;
                 }
@@ -321,6 +354,11 @@ public class BehaviourAI : MonoBehaviour
         }
     }
 
+    public void Investigate()
+    {
+
+    }
+
     public void Totem()
     {
         agent.SetDestination(totemPos);
@@ -347,10 +385,19 @@ public class BehaviourAI : MonoBehaviour
         holdStateTimer[2] = pauseDuration[2];
 
         // Get children of waypointParent.
-        waypoints = waypointParent.GetComponentsInChildren<Transform>();
+        //waypoints = waypointParent.GetComponentsInChildren<Transform>().ToList();
+
+        foreach (Transform waypoint in waypointParent)
+        {
+            waypoints.Add(waypoint);
+        }
+
+        wayPoint1 = waypoints[0];
+        staticWaypointCount = waypoints.Count;
 
         // Get NavMeshAgent (failsafe).
         agent = GetComponent<NavMeshAgent>();
+        StartCoroutine("GetInspectionPoint", .2f);
     }
 
     void GetNearestTotem()
@@ -373,6 +420,17 @@ public class BehaviourAI : MonoBehaviour
     #region Update
     void Update()
     {
+        // if the investigate waypoint has been in the list for longer than the inspectionTimer variable, && there are more waypoints than thew starting set
+        if((Time.time - wayPointAdded) > inspectionTime && waypoints.Count > staticWaypointCount)
+        {
+            // remove inspection waypoint
+            waypoints.RemoveAt(3);
+        }
+        // if in "searching" states, && there is an inspectionn waypoint found
+        if((currentState == State.Patrol || currentState == State.Survey) && waypoints.Count > staticWaypointCount)
+        {
+            Investigate();
+        }
         switch (currentState)
         {
             case State.Patrol:
@@ -389,6 +447,9 @@ public class BehaviourAI : MonoBehaviour
                 break;
             case State.Totem:
                 Totem();
+                break;
+            case State.Investigate:
+                Investigate();
                 break;
             default:
                 Patrol();

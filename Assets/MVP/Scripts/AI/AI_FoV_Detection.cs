@@ -27,6 +27,8 @@ public class AI_FoV_Detection : MonoBehaviour
     public int edgeResolveIterations = 4;
     public float edgeDstThreshold = 0.5f;
 
+    
+
     // (advanced)
     // Used to visualize the Field of View arc.
     //public MeshFilter viewMeshFilter;

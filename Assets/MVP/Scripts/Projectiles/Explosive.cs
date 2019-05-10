@@ -17,6 +17,7 @@ public class Explosive : Projectile
 
     public override void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("ROCKET HIT: " + collision.transform.name);
         string tag = collision.collider.tag;
         //if(tag != "Player" && collision.transform.name != firedBy)
         //{

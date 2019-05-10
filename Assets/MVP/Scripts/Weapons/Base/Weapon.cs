@@ -18,6 +18,7 @@ namespace GameSystems
         public float rateOfFire = 5f;
         public GameObject projectile;
         public Transform spawnPoint;
+        public Transform aimPoint;
 
         public GameObject muzzle;
         //public Vector3 hitPoint;
@@ -40,7 +41,6 @@ namespace GameSystems
         {
             currentReserves = maxReserves;
             currentMag = magSize;
-
             DefaultReload();
         }
 

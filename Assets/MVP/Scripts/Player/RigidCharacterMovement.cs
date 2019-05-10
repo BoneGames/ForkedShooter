@@ -18,7 +18,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     public bool isSprinting = false;
     private bool isJumping = false;
     public bool isDead = false;
-    public static bool isAiming = false;
+    public bool isAiming = false;
     public Transform lastCheckpoint;
 
     [Header("Important Stuff")]
@@ -37,6 +37,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     private Vector3 moveDirection;
     private Interactable interactObject;
     private float timeTillRespawn = 5;
+    private Vector3 handStartPos;
 
     #region Unity Events
     void Awake()
@@ -44,9 +45,11 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         // Note (Manny): Get into the habbit of getting components in Awake instead!
         rigid = GetComponent<Rigidbody>();
         myHealth = GetComponent<PlayerHealth>();
+        
     }
     void Start()
     {
+        handStartPos = myHand.localPosition;
         // Note (Manny): Since it's an internal function, call it on start internally
         SelectWeapon(currentWeaponIndex);
 
@@ -271,7 +274,14 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     public void Aim(bool _isAiming)
     {
         isAiming = _isAiming;
-        myHand.localPosition = _isAiming ? new Vector3(0, myHand.localPosition.y + .05f, myHand.localPosition.z) : myHand.localPosition = new Vector3(0.5f, myHand.localPosition.y - .05f, myHand.localPosition.z);
+        if(_isAiming)
+        {
+            myHand.localPosition = currentWeapon.aimPoint.localPosition;
+        }
+        else
+        {
+            myHand.localPosition = handStartPos;
+        }
 
         myCamera.fieldOfView = _isAiming ? currentWeapon.scopeZoom : 75;
     }

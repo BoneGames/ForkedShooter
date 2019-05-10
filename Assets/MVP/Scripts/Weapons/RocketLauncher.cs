@@ -23,6 +23,7 @@ public class RocketLauncher : Weapon
 
     public override void Attack()
     {
+        Debug.Log("ROCKET ATTACK");
         if (currentMag > 0)
         {
             bool insideMesh = internalCheck.InsideMesh(lookOrigin, spawnPoint);
