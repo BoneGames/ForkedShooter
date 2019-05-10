@@ -64,8 +64,6 @@ public class BehaviourAI : MonoBehaviour
     //public Quaternion startRotation;
     #endregion VARIABLES
 
-    
-
 
 // Method to call upon FindVisibleTargets Method with a delay (0.2f from Coroutine argument).
     IEnumerator GetInspectionPoint(float delay)
@@ -73,7 +71,7 @@ public class BehaviourAI : MonoBehaviour
     // while running...
     while (true)
         {
-        // Stop/Wait (delay) seconds, then run 'FindVisibleTargets' Method, and update information drawn from it.
+            // Stop/Wait (delay) seconds, then run 'FindVisibleTargets' Method, and update information drawn from it.
             yield return new WaitForSeconds(delay);
             // if the fov system has found a target
             if(target)
@@ -82,27 +80,14 @@ public class BehaviourAI : MonoBehaviour
                 inspectionPoint = target;
                 // add inspectionPoint to waypoints
                 waypoints.Add(inspectionPoint);
+                // Set waypoint timer
                 wayPointAdded = Time.time;
             }
         }
     }
 
-// private void OnDrawGizmos()
-// {
-//     GetAvoidanceWaypoint();
-// 
-//     Gizmos.color = Color.red;
-//     Gizmos.DrawWireSphere(target.position, fov.viewRadius);
-// 
-//     Gizmos.color = Color.red;
-//     Gizmos.DrawLine(target.position, closestPoint);
-// 
-//     Gizmos.color = Color.blue;
-//     Gizmos.DrawSphere(foundPoint, .5f);
-// }
-
-// Returns closest obstacle collider to target
-public Collider ClosestObstacle()
+    // Returns closest obstacle collider to target
+    public Collider ClosestObstacle()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, attackRange, obstacleMask);
         //Debug.Log("obstacles found: " + hits.Length);
@@ -131,7 +116,6 @@ public Collider ClosestObstacle()
     public Vector3 GetAvoidanceWaypoint()
     {
         Collider closest = ClosestObstacle();
-
         Vector3 start = target.position;
         Vector3 end = closest.transform.position;
         Vector3 direction = end - start;
@@ -182,11 +166,6 @@ public Collider ClosestObstacle()
             currentState = State.Seek;
             target = fov.visibleTargets[0];
         }
-    }
-
-    void AddWaypoint()
-    {
-
     }
 
     // The contained variables for the Seek state (what rules the enemy AI follows when in 'Seek').
@@ -356,7 +335,17 @@ public Collider ClosestObstacle()
 
     public void Investigate()
     {
+        // set destination to waypoints[3] (investigate pos)
+        if(agent.destination != waypoints[3].position)
+        {
+            agent.SetDestination(waypoints[3].position);
+        }
 
+        // 
+        if (transform.position == waypoints[3].position)
+        {
+            currentState = State.Survey;
+        }
     }
 
     public void Totem()
@@ -369,7 +358,23 @@ public Collider ClosestObstacle()
             currentState = State.Survey;
         }
     }
-   
+
+    void GetNearestTotem()
+    {
+        InvulTotem[] totemPoles = FindObjectsOfType<InvulTotem>();
+        float shortestDist = Mathf.Infinity;
+
+        foreach (InvulTotem tp in totemPoles)
+        {
+            float thisDist = Vector3.Distance(transform.position, tp.transform.position);
+            if (thisDist < shortestDist)
+            {
+                shortestDist = thisDist;
+                totemPos = tp.transform.position;
+            }
+        }
+    }
+
     #endregion
 
     #region Start
@@ -400,21 +405,7 @@ public Collider ClosestObstacle()
         StartCoroutine("GetInspectionPoint", .2f);
     }
 
-    void GetNearestTotem()
-    {
-        InvulTotem[] totemPoles = FindObjectsOfType<InvulTotem>();
-        float shortestDist = Mathf.Infinity;
-
-        foreach(InvulTotem tp in totemPoles)
-        {
-            float thisDist = Vector3.Distance(transform.position, tp.transform.position);
-            if(thisDist < shortestDist)
-            {
-                shortestDist = thisDist;
-                totemPos = tp.transform.position;
-            }
-        }
-    }
+    
     #endregion Start
 
     #region Update
