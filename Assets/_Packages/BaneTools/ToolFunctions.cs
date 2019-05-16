@@ -72,6 +72,8 @@ namespace BT
             _object.localScale = BaneMath.MultipliedVector3(_object.localScale, _scale);
             _object.SetParent(_parent);
         }
+
+         
     }
 
     public static class BaneRays
@@ -85,6 +87,13 @@ namespace BT
             return hits[1];
         }
 
+        /// <summary>
+        /// Returns True if the whole object is visible, false if any of it is obscured (as defined by the offsets)
+        /// </summary>
+        /// <param name="objectBounds"></param>
+        /// <param name="_start"></param>
+        /// <param name="_target"></param>
+        /// <returns></returns>
         public static bool ViewNotObstructed(Vector4 objectBounds, Transform _start, Transform _target)
         {
             //Stores the visibility checks
@@ -209,6 +218,16 @@ namespace BT
         {
             Vector3 _splitAddedVector3 = new Vector3(_vector3.x * _valueX, _vector3.y * _valueY, _vector3.z * _valueZ);
             return _splitAddedVector3;
+        }
+        public static Vector3 CombinedVector3(Vector3 _v1, Vector3 _v2)
+        {
+            Vector3 _addedVector3 = new Vector3(_v1.x + _v2.x, _v1.y + _v2.y, _v1.z + _v2.z);
+            return _addedVector3;
+        }
+        public static Vector3 MultiplyCombinedVector3(Vector3 _v1, Vector3 _v2)
+        {
+            Vector3 _addedVector3 = new Vector3(_v1.x * _v2.x, _v1.y * _v2.y, _v1.z * _v2.z);
+            return _addedVector3;
         }
 
         public static float DivideInts(int _a, int _b)
