@@ -4,111 +4,112 @@ using UnityEngine;
 
 public class PlayerHealth : Health
 {
-    PhotonView photonView;
-    string photonID;
-    [HideInInspector]
-    public GameObject shotDirectionArm;
-    public float shotIndicatorDelay;
+  PhotonView photonView;
+  string photonID;
+  [HideInInspector]
+  public GameObject shotDirectionArm;
+  public float shotIndicatorDelay;
 
-    void Start()
+  void Start()
+  {
+    photonView = GetComponent<PhotonView>();
+    if (photonView)
     {
-        photonView = GetComponent<PhotonView>();
-        if (photonView)
-        {
-            photonID = photonView.viewID.ToString().Substring(0, 1);
-            this.name = "Player_" + photonID;
-            FindObjectOfType<PhotonHealthMoniter>().Register(gameObject);
-        }
+      photonID = photonView.viewID.ToString().Substring(0, 1);
+      this.name = "Player_" + photonID;
+      FindObjectOfType<PhotonHealthMoniter>().Register(gameObject);
     }
+  }
 
-    // Takes damage from various bullet/projectile scripts and runs 'CheckDie()'.
-    [PunRPC]
-    public override void ChangeHealth(int value, Vector3 shotDir)
+  // Takes damage from various bullet/projectile scripts and runs 'CheckDie()'.
+  [PunRPC]
+  public override void ChangeHealth(int value, Vector3 shotDir)
+  {
+    if (currentHealth > 0)
     {
-        if (currentHealth > 0)
-        {
-            currentHealth -= value;
+      currentHealth -= value;
 
-            print(string.Format(""));
+      print(string.Format(""));
 
-            print(value > 0 ? string.Format("Health reduced by {0} and is now {1}", value, currentHealth) : string.Format("Health healed by {0} and is now {1}", -value, currentHealth));
+      print(value > 0 ? string.Format("Health reduced by {0} and is now {1}", value, currentHealth) : string.Format("Health healed by {0} and is now {1}", -value, currentHealth));
 
-            if (currentHealth > maxHealth)
-            {
-                currentHealth = maxHealth;
-            }
+      if (currentHealth > maxHealth)
+      {
+        currentHealth = maxHealth;
+      }
 
-            //If you're actually being damaged (negative means healing)
-            if (value > 0)
-            {
-                StopCoroutine(ShotDirectionActive(shotDir));
-                StartCoroutine(ShotDirectionActive(shotDir));
-            }
+      //If you're actually being damaged (negative means healing)
+      if (value > 0)
+      {
+        StopCoroutine(ShotDirectionActive(shotDir));
+        StartCoroutine(ShotDirectionActive(shotDir));
+      }
 
-            CheckDie();
-        }
+      CheckDie();
     }
+  }
 
-    void ShotDirection(Vector3 incoming)
+  void ShotDirection(Vector3 incoming)
+  {
+    // Angle between other pos vs player
+    Vector3 incomingDir = (transform.position - incoming).normalized;
+
+    // Flatten to plane
+    Vector3 otherDir = new Vector3(-incomingDir.x, 0f, -incomingDir.z);
+    var playerFwd = Vector3.ProjectOnPlane(transform.forward, Vector3.up);
+
+    // Direction between player fwd and incoming object
+    var angle = Vector3.SignedAngle(playerFwd, otherDir, Vector3.up);
+    shotDirectionArm.transform.rotation = Quaternion.Euler(0, 0, -angle);
+  }
+
+  IEnumerator ShotDirectionActive(Vector3 incoming)
+  {
+    shotDirectionArm.SetActive(true);
+    float timer = 0;
+    while (timer < shotIndicatorDelay)
     {
-        // Angle between other pos vs player
-        Vector3 incomingDir = (transform.position - incoming).normalized;
+      timer += Time.deltaTime;
 
-        // Flatten to plane
-        Vector3 otherDir = new Vector3(-incomingDir.x, 0f, -incomingDir.z);
-        var playerFwd = Vector3.ProjectOnPlane(transform.forward, Vector3.up);
+      // Angle between other pos vs player
+      Vector3 incomingDir = (transform.position - incoming).normalized;
 
-        // Direction between player fwd and incoming object
-        var angle = Vector3.SignedAngle(playerFwd, otherDir, Vector3.up);
-        shotDirectionArm.transform.rotation = Quaternion.Euler(0, 0, -angle);
+      // Flatten to plane
+      Vector3 otherDir = new Vector3(-incomingDir.x, 0f, -incomingDir.z);
+      var playerFwd = Vector3.ProjectOnPlane(transform.forward, Vector3.up);
+
+      // Direction between player fwd and incoming object
+      var angle = Vector3.SignedAngle(playerFwd, otherDir, Vector3.up);
+      shotDirectionArm.transform.rotation = Quaternion.Euler(0, 0, -angle);
+      yield return null;
     }
+    shotDirectionArm.SetActive(false);
+  }
 
-    IEnumerator ShotDirectionActive(Vector3 incoming)
+  // Self explanatory.
+  public override void CheckDie()
+  {
+    healthBar.UpdateBar();
+
+    if (currentHealth <= 0)
     {
-        shotDirectionArm.SetActive(true);
-        float timer = 0;
-        while (timer < shotIndicatorDelay)
-        {
-            timer += Time.deltaTime;
-
-            // Angle between other pos vs player
-            Vector3 incomingDir = (transform.position - incoming).normalized;
-
-            // Flatten to plane
-            Vector3 otherDir = new Vector3(-incomingDir.x, 0f, -incomingDir.z);
-            var playerFwd = Vector3.ProjectOnPlane(transform.forward, Vector3.up);
-
-            // Direction between player fwd and incoming object
-            var angle = Vector3.SignedAngle(playerFwd, otherDir, Vector3.up);
-            shotDirectionArm.transform.rotation = Quaternion.Euler(0, 0, -angle);
-            yield return null;
-        }
-        shotDirectionArm.SetActive(false);
+      this.gameObject.GetComponent<RigidCharacterMovement>().StartCoroutine("Respawn");
     }
+    base.CheckDie();
+  }
 
-    // Self explanatory.
-    public override void CheckDie()
+  public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+  {
+    //Send health data to network
+    if (stream.isWriting)
     {
-        healthBar.UpdateBar();
-
-        if (currentHealth <= 0)
-        {
-            this.gameObject.GetComponent<RigidCharacterMovement>().StartCoroutine("Respawn");
-        }
+      stream.SendNext(currentHealth);
+      //stream.SendNext()
     }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    // recieve health data from network (other player)
+    else if (stream.isReading)
     {
-        //Send health data to network
-        if (stream.isWriting)
-        {
-            stream.SendNext(currentHealth);
-            //stream.SendNext()
-        }
-        // recieve health data from network (other player)
-        else if (stream.isReading)
-        {
-            currentHealth = (int)stream.ReceiveNext();
-        }
+      currentHealth = (int)stream.ReceiveNext();
     }
+  }
 }

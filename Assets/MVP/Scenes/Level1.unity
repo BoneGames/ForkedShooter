@@ -2345,7 +2345,7 @@ GameObject:
   m_Layer: 2
   m_Name: CheckPoint (3)
   m_TagString: CheckPoint
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -2678,6 +2678,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9380d9eaca256b04abf11de0b3c59523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doorStartsOpen: 0
   doorAnim: {fileID: 491463493}
 --- !u!1001 &447247480
 PrefabInstance:
@@ -2753,8 +2754,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 452266622}
+  - component: {fileID: 452266623}
   m_Layer: 0
-  m_Name: SecondDoor
+  m_Name: DoorContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2775,6 +2777,20 @@ Transform:
   m_Father: {fileID: 582360728}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: -52.045002, z: 0}
+--- !u!114 &452266623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 452266621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9380d9eaca256b04abf11de0b3c59523, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorStartsOpen: 1
+  doorAnim: {fileID: 1421749396}
 --- !u!1001 &466529335
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3485,7 +3501,7 @@ GameObject:
   m_Component:
   - component: {fileID: 587127747}
   - component: {fileID: 587127749}
-  - component: {fileID: 587127748}
+  - component: {fileID: 587127750}
   m_Layer: 2
   m_Name: DoorTrigger
   m_TagString: Untagged
@@ -3508,31 +3524,6 @@ Transform:
   m_Father: {fileID: 582360728}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &587127748
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 114567886607473328, guid: ac17d428a901f9148868f42aa0936e15,
-    type: 3}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 587127746}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a54d54020028cea41b3600374c2240e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  doorFront: {fileID: 906449195}
-  doorBack: {fileID: 1421749396}
-  drone: {fileID: 1188078473502018, guid: 743310d68bad76e438b5ca22c733650d, type: 3}
-  droneCount: 2
-  enemy: {fileID: 1210148752958328, guid: bbb8b8f930a956f498f80738b829185f, type: 3}
-  enemyCount: 2
-  droneSpawnPoint: {fileID: 1938004009}
-  enemySpawnPoint: {fileID: 1657261761}
-  enemyParent: {fileID: 1336993686}
-  enemySpawned: 0
-  roomCleared: 0
-  waypointParent: {fileID: 640782264}
 --- !u!65 &587127749
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3547,6 +3538,78 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 17.569746, y: 10, z: 16.945534}
   m_Center: {x: 0.37632465, y: 0, z: 3.4727669}
+--- !u!114 &587127750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587127746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 712694fe41ab76a43b4898ab11104db0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitTag: Player
+  onEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1815391959}
+        m_MethodName: DoorOpen
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 452266623}
+        m_MethodName: DoorOpen
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1336993687}
+        m_MethodName: SpawnDrone
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1336993687}
+        m_MethodName: SpawnGuard
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onStay:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onExit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!4 &591955225 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 050908f7cffe0ca47ab0747e8d7a6266,
@@ -3604,25 +3667,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4d939732b2d4094c92da62e34a23d5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  quitKey: 27
-  holdTime: 3
-  startTime: 0
-  timer: 0
-  dark: {fileID: 0}
 --- !u!114 &614963264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3747,7 +3791,7 @@ GameObject:
   m_Layer: 2
   m_Name: CheckPoint
   m_TagString: CheckPoint
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -8016,8 +8060,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1336993686}
+  - component: {fileID: 1336993687}
   m_Layer: 0
-  m_Name: EnemyContainer
+  m_Name: EnemySpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8038,6 +8083,53 @@ Transform:
   m_Father: {fileID: 582360728}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1336993687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1336993685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f33207415ee47b4d870adacd79d4c79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onChildrenDead:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1815391959}
+        m_MethodName: DoorOpen
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 452266623}
+        m_MethodName: DoorOpen
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  waypointParent: {fileID: 640782264}
+  droneSpawnPoint: {fileID: 1938004009}
+  guardSpawnPoint: {fileID: 1657261761}
+  drone: {fileID: 1188078473502018, guid: 743310d68bad76e438b5ca22c733650d, type: 3}
+  guard: {fileID: 1210148752958328, guid: bbb8b8f930a956f498f80738b829185f, type: 3}
+  dronesSpawned: 0
+  guardsSpawned: 0
+  roomCleared: 0
 --- !u!1 &1343749095
 GameObject:
   m_ObjectHideFlags: 0
@@ -8105,8 +8197,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1344833553}
+  - component: {fileID: 1344833554}
   m_Layer: 0
-  m_Name: FirstDoor
+  m_Name: DoorContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8125,8 +8218,22 @@ Transform:
   m_Children:
   - {fileID: 36113175}
   m_Father: {fileID: 2007916707}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1344833554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344833552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9380d9eaca256b04abf11de0b3c59523, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorStartsOpen: 1
+  doorAnim: {fileID: 36113176}
 --- !u!4 &1348843493 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 406138, guid: e9abe8120d4e0e444b24bd651efc1b61,
@@ -8254,6 +8361,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: cfabcb91da2c90340aa095da91915135, type: 2}
+    - target: {fileID: 8595744859636527522, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8595744859092478947, guid: 1045f1e657c40d2438c8d8d302134ad6,
         type: 3}
       propertyPath: m_LocalScale.y
@@ -8292,7 +8404,272 @@ PrefabInstance:
     - target: {fileID: 6567252575622587287, guid: 1045f1e657c40d2438c8d8d302134ad6,
         type: 3}
       propertyPath: result.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: TriggerDoor
+      value: DoorOpen
+      objectReference: {fileID: 0}
+    - target: {fileID: 6567252575622587287, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: targetProgress
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6567252575622587287, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: result.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6567252575622587287, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: result.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744858486229262, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744859880671979, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744858226046941, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744858242167782, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744858314185042, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744858396589141, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744858409536456, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744858421275274, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744858448370591, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744858531220641, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744858603882637, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744858609604196, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744858670388914, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744858712168562, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744858755033045, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744858814800011, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744858818877020, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744858820232315, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744858917292976, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744858961020449, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744858965330244, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744858970514958, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744858995606105, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744859047787740, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744859092590209, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744859149687233, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744859195501323, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744859236366494, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744859256907249, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744859283098413, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744859341954447, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744859415225461, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744859456163769, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744859467160865, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744859513069250, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744859513275675, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744859579999192, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744859605890010, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744859692155856, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744859727992410, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744859757035999, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744859792861089, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744859843087538, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744859905984180, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744859992875182, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744859994741137, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744860057790013, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744860071849790, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744860098335901, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595744860247028319, guid: 1045f1e657c40d2438c8d8d302134ad6,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1045f1e657c40d2438c8d8d302134ad6, type: 3}
@@ -8450,6 +8827,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 747888434}
     m_Modifications:
+    - target: {fileID: 1188078473502018, guid: 743310d68bad76e438b5ca22c733650d, type: 3}
+      propertyPath: m_Name
+      value: Enemy_ScoutDrone_Mk3
+      objectReference: {fileID: 0}
     - target: {fileID: 4228566872078592, guid: 743310d68bad76e438b5ca22c733650d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -19.098328
@@ -8482,13 +8863,29 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4228566872078592, guid: 743310d68bad76e438b5ca22c733650d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4228566872078592, guid: 743310d68bad76e438b5ca22c733650d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4228566872078592, guid: 743310d68bad76e438b5ca22c733650d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114272049808185796, guid: 743310d68bad76e438b5ca22c733650d,
         type: 3}
       propertyPath: waypointParent
       value: 
       objectReference: {fileID: 826696335}
-    m_RemovedComponents:
-    - {fileID: 0}
+    - target: {fileID: 114857226843892834, guid: 743310d68bad76e438b5ca22c733650d,
+        type: 3}
+      propertyPath: UITarget
+      value: 
+      objectReference: {fileID: 425301875}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 743310d68bad76e438b5ca22c733650d, type: 3}
 --- !u!4 &1406827179 stripped
 Transform:
@@ -9053,8 +9450,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1429344068}
+  - component: {fileID: 1429344069}
   m_Layer: 0
-  m_Name: EnemyContainer
+  m_Name: EnemySpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9075,6 +9473,53 @@ Transform:
   m_Father: {fileID: 2007916707}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1429344069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429344067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f33207415ee47b4d870adacd79d4c79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onChildrenDead:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1344833554}
+        m_MethodName: DoorOpen
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 2023774346}
+        m_MethodName: DoorOpen
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  waypointParent: {fileID: 907499462}
+  droneSpawnPoint: {fileID: 8388325}
+  guardSpawnPoint: {fileID: 1494729568}
+  drone: {fileID: 1188078473502018, guid: 743310d68bad76e438b5ca22c733650d, type: 3}
+  guard: {fileID: 1210148752958328, guid: bbb8b8f930a956f498f80738b829185f, type: 3}
+  dronesSpawned: 0
+  guardsSpawned: 0
+  roomCleared: 0
 --- !u!1 &1433719921
 GameObject:
   m_ObjectHideFlags: 0
@@ -9947,7 +10392,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4643175267372752, guid: 35b75a7e54e19ed4c8268332205ff775, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35b75a7e54e19ed4c8268332205ff775, type: 3}
@@ -10303,15 +10748,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4551852106112836, guid: 77cf3b7ddff3f2b4c8786e4752b09e83, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.364052
+      value: -5.59
       objectReference: {fileID: 0}
     - target: {fileID: 4551852106112836, guid: 77cf3b7ddff3f2b4c8786e4752b09e83, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.8102736
+      value: -4.75
       objectReference: {fileID: 0}
     - target: {fileID: 4551852106112836, guid: 77cf3b7ddff3f2b4c8786e4752b09e83, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.4707794
+      value: 3.74
       objectReference: {fileID: 0}
     - target: {fileID: 4551852106112836, guid: 77cf3b7ddff3f2b4c8786e4752b09e83, type: 3}
       propertyPath: m_LocalRotation.x
@@ -10344,6 +10789,11 @@ PrefabInstance:
     - target: {fileID: 4551852106112836, guid: 77cf3b7ddff3f2b4c8786e4752b09e83, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 8.625
+      objectReference: {fileID: 0}
+    - target: {fileID: 136099046617553298, guid: 77cf3b7ddff3f2b4c8786e4752b09e83,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77cf3b7ddff3f2b4c8786e4752b09e83, type: 3}
@@ -10465,38 +10915,74 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1666321616}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 8.68, z: 6}
+  m_LocalRotation: {x: -0, y: 0.101611525, z: -0, w: 0.9948242}
+  m_LocalPosition: {x: -0, y: 8.68, z: 2}
   m_LocalScale: {x: 2.4326, y: 1.7777, z: 1}
   m_Children: []
   m_Father: {fileID: 2007916707}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 11.6640005, z: 0}
 --- !u!114 &1666321618
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 114567886607473328, guid: ac17d428a901f9148868f42aa0936e15,
-    type: 3}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1666321616}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a54d54020028cea41b3600374c2240e0, type: 3}
+  m_Script: {fileID: 11500000, guid: 712694fe41ab76a43b4898ab11104db0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorFront: {fileID: 36113176}
-  doorBack: {fileID: 1433719923}
-  drone: {fileID: 1188078473502018, guid: 743310d68bad76e438b5ca22c733650d, type: 3}
-  droneCount: 2
-  enemy: {fileID: 1210148752958328, guid: bbb8b8f930a956f498f80738b829185f, type: 3}
-  enemyCount: 2
-  droneSpawnPoint: {fileID: 8388325}
-  enemySpawnPoint: {fileID: 1494729568}
-  enemyParent: {fileID: 1429344068}
-  enemySpawned: 0
-  roomCleared: 0
-  waypointParent: {fileID: 907499462}
+  hitTag: Player
+  onEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1344833554}
+        m_MethodName: DoorOpen
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2023774346}
+        m_MethodName: DoorOpen
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1429344069}
+        m_MethodName: SpawnDrone
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onStay:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onExit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!65 &1666321619
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11145,8 +11631,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1815391958}
+  - component: {fileID: 1815391959}
   m_Layer: 0
-  m_Name: FirstDoor
+  m_Name: DoorContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11167,6 +11654,20 @@ Transform:
   m_Father: {fileID: 582360728}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1815391959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815391957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9380d9eaca256b04abf11de0b3c59523, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorStartsOpen: 1
+  doorAnim: {fileID: 906449195}
 --- !u!1 &1817158142
 GameObject:
   m_ObjectHideFlags: 0
@@ -12166,7 +12667,7 @@ GameObject:
   m_Layer: 2
   m_Name: CheckPoint (2)
   m_TagString: CheckPoint
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -12178,7 +12679,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1987680520}
   m_LocalRotation: {x: 1.179443e-14, y: 0.6771881, z: 0.000000080727084, w: 0.7358099}
-  m_LocalPosition: {x: 61.8, y: 6.85, z: -53}
+  m_LocalPosition: {x: 65.45, y: 6.85, z: -53}
   m_LocalScale: {x: 1.0000005, y: 1, z: 1.0000005}
   m_Children: []
   m_Father: {fileID: 1278767253}
@@ -12405,8 +12906,8 @@ Transform:
   - {fileID: 8388325}
   - {fileID: 1494729568}
   - {fileID: 1429344068}
-  - {fileID: 1344833553}
   - {fileID: 907499462}
+  - {fileID: 1344833553}
   - {fileID: 2023774345}
   m_Father: {fileID: 1351158321}
   m_RootOrder: 3
@@ -12462,8 +12963,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2023774345}
+  - component: {fileID: 2023774346}
   m_Layer: 0
-  m_Name: SecondDoor
+  m_Name: DoorContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12484,6 +12986,20 @@ Transform:
   m_Father: {fileID: 2007916707}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: -104.591, z: 0}
+--- !u!114 &2023774346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023774344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9380d9eaca256b04abf11de0b3c59523, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorStartsOpen: 1
+  doorAnim: {fileID: 1433719923}
 --- !u!1001 &2024177196
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12763,7 +13279,7 @@ GameObject:
   m_Layer: 2
   m_Name: CheckPoint (1)
   m_TagString: CheckPoint
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

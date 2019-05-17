@@ -33,23 +33,7 @@ public class DoorTrigger : MonoBehaviour
             print("Doors Activated");
         }
     }
-
-    //When player enters triggerbox
-    void OnTriggerEnter(Collider other)
-    {
-        if (enemySpawned == false)
-        {
-            //Only trigger is tag is player
-            if (other.gameObject.CompareTag("Player"))
-            {
-                Debug.Log("DoorTrigger PLayer Enter Collision detected");
-                //Set the trigger for the animator
-                doorFront.SetTrigger("Enter");
-                doorBack.SetTrigger("Enter");
-                StartCoroutine(SpawnTimer());
-            }
-        }
-    }
+    
     IEnumerator SpawnTimer()
     {
         for (int i = 0; i < droneCount; i++)
