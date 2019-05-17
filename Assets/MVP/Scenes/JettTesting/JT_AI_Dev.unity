@@ -167,6 +167,11 @@ PrefabInstance:
       propertyPath: moveSpeed.Array.data[1]
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114063992362631900, guid: bbb8b8f930a956f498f80738b829185f,
+        type: 3}
+      propertyPath: shootPoint
+      value: 
+      objectReference: {fileID: 640056450}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bbb8b8f930a956f498f80738b829185f, type: 3}
 --- !u!4 &135759363 stripped
@@ -402,6 +407,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
+--- !u!4 &640056450 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4686679147568946, guid: bbb8b8f930a956f498f80738b829185f,
+    type: 3}
+  m_PrefabInstance: {fileID: 59152034}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &739949508
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ using System.Linq;
 
 public class BehaviourAI : MonoBehaviour
 {
-    #region VARIABLES
+    #region ENUMs
     // Declaration
     public enum State // The behaviour states of the enemy AI.
     {
@@ -17,7 +17,9 @@ public class BehaviourAI : MonoBehaviour
         Totem = 4,
         Investigate = 5
     }
+    #endregion
 
+    #region VARIABLES
     [Header("Behaviours")]
     public State currentState = State.Patrol; // The default/start state set to Patrol.
 
@@ -29,7 +31,7 @@ public class BehaviourAI : MonoBehaviour
     // [AI_ScoutDrone_(new string[] { "Timer Patrol", "Timer Seek", "Timer Investigate" })]
     public float[] holdStateTimer = new float[3]; // Used to count how much time has passed since...
 
-    [AI_ScoutDrone_(new string[] { "Waypoint", "Seek Target", "Range Target", "Retreat" })]
+    [AI_ScoutDrone_(new string[] { "0-Waypoint", "1-Seek Target", "2-Range Target", "3-Retreat" })]
     public float[] stoppingDistance = new float[4]; // Stopping distance for different conditions.
 
     [Header("Components")]
@@ -43,12 +45,14 @@ public class BehaviourAI : MonoBehaviour
     public float inaccuracy;
     Vector3 strafeDir = Vector3.up;
 
-    float strafeTimer, strafeTimerMax;
+    float strafeTimer, strafeTime;
     [HideInInspector]
     public Quaternion startRotation;
     private Vector3 totemPos;
     public EnemyHealth healthRef;
 
+    //[HideInInspector]
+    public Transform shootPoint;
     Transform inspectionPoint;
     float wayPointAdded;
     int inspectionTime;
@@ -60,12 +64,12 @@ public class BehaviourAI : MonoBehaviour
     Transform wayPoint1;
     [HideInInspector]
     public int currentIndex = 1; // Counts sequential waypoints of array index.
-    //[HideInInspector]
-    //public Quaternion startRotation;
+                                 //[HideInInspector]
+                                 //public Quaternion startRotation;
     #endregion VARIABLES
 
-
-// Method to call upon FindVisibleTargets Method with a delay (0.2f from Coroutine argument).
+    #region HELPER FUNCTIONS
+    // Method to call upon FindVisibleTargets Method with a delay (0.2f from Coroutine argument).
     IEnumerator GetInspectionPoint(float delay)
     {
     // while running...
@@ -87,7 +91,7 @@ public class BehaviourAI : MonoBehaviour
     }
 
     // Returns closest obstacle collider to target
-    public Collider ClosestObstacle()
+    public Collider GetClosestObstacle()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, attackRange, obstacleMask);
         //Debug.Log("obstacles found: " + hits.Length);
@@ -115,13 +119,46 @@ public class BehaviourAI : MonoBehaviour
 
     public Vector3 GetAvoidanceWaypoint()
     {
-        Collider closest = ClosestObstacle();
+        Collider closest = GetClosestObstacle();
         Vector3 start = target.position;
         Vector3 end = closest.transform.position;
         Vector3 direction = end - start;
         Vector3 point = closest.ClosestPoint(start + direction * 2f);
         return point;
     }
+
+    public Transform GetClosestTarget()
+    {
+        float closestTargetDist = Mathf.Infinity;
+        int transformIndex = 0;
+        for(int index = 0; index < fov.visibleTargets.Count; index++)
+        {
+             if(Vector3.Distance(transform.position, fov.visibleTargets[index].position) < closestTargetDist)
+             {
+                 closestTargetDist = Vector3.Distance(transform.position, fov.visibleTargets[index].position);
+                 transformIndex = index;
+             }
+        }
+        return fov.visibleTargets[transformIndex];
+    }
+
+    void GetNearestTotem()
+    {
+        InvulTotem[] totemPoles = FindObjectsOfType<InvulTotem>();
+        float shortestDist = Mathf.Infinity;
+
+        foreach (InvulTotem tp in totemPoles)
+        {
+            float thisDist = Vector3.Distance(transform.position, tp.transform.position);
+            if (thisDist < shortestDist)
+            {
+                shortestDist = thisDist;
+                totemPos = tp.transform.position;
+            }
+        }
+    }
+
+    #endregion
 
     #region STATES
     // The contained variables for the Patrol state (what rules the enemy AI follows when in 'Patrol').
@@ -142,20 +179,7 @@ public class BehaviourAI : MonoBehaviour
         // If we're close enough to the waypoint...
         if (distance < stoppingDistance[0])
         {
-            // ... start counting down the waypoint timer.
-            holdStateTimer[0] -= Time.deltaTime;
-            // When the timer reaches zero...
-            if (holdStateTimer[0] <= 0)
-            {
-                // Reset the timer, and move to the next waypoint in the index.
-                holdStateTimer[0] = pauseDuration[0];
-                currentIndex++;
-                // Set waypoint currentIndex back to the start if we complete the last waypoint.
-                if (currentIndex >= waypoints.Count)
-                {
-                    currentIndex = 1;
-                }
-            }
+            WayPointTimer();
         }
         #endregion
         
@@ -168,9 +192,28 @@ public class BehaviourAI : MonoBehaviour
         }
     }
 
+    void WayPointTimer()
+    {
+        // ... start counting down the waypoint timer.
+        holdStateTimer[0] -= Time.deltaTime;
+        // When the timer reaches zero...
+        if (holdStateTimer[0] <= 0)
+        {
+            // Reset the timer, and move to the next waypoint in the index.
+            holdStateTimer[0] = pauseDuration[0];
+            currentIndex++;
+            // Set waypoint currentIndex back to the start if we complete the last waypoint.
+            if (currentIndex >= waypoints.Count)
+            {
+                currentIndex = 1;
+            }
+        }
+    }
+
     // The contained variables for the Seek state (what rules the enemy AI follows when in 'Seek').
     void Seek()
     {
+        // Retreat to totem if health is lower than 25
         if(healthRef.currentHealth < 25)
         {
             Debug.Log("Totem");
@@ -192,17 +235,11 @@ public class BehaviourAI : MonoBehaviour
             {
                 // Reset the timer, and go back to Patrol behaviour.
                 holdStateTimer[1] = pauseDuration[1];
-                currentState = State.Patrol;
-
-                // If we spot a player... set target to the first visible target.
-                if (fov.visibleTargets.Count > 0)
-                {
-                    target = fov.visibleTargets[0];
-                }
+                currentState = State.Survey;
             }
         }
-
         #endregion
+
         #region If Target is Seen...
         // If we see a target...
         if (fov.visibleTargets.Count > 0)
@@ -211,6 +248,8 @@ public class BehaviourAI : MonoBehaviour
             if (fov.visibleTargets.Count > 1)
             {
                 target = GetClosestTarget();
+            } else {
+                target = fov.visibleTargets[0];
             }
 
             // Aim at the target.
@@ -219,8 +258,8 @@ public class BehaviourAI : MonoBehaviour
             {
                 // Reset the Seek timer.
                 holdStateTimer[1] = pauseDuration[1];
-                Vector3 accuracyOffset = new Vector3(Random.Range(0, inaccuracy), Random.Range(0, inaccuracy), Random.Range(0, inaccuracy));
-                transform.LookAt(target.position + accuracyOffset);
+                Vector3 accuracyOffset = new Vector3(Random.Range(0, inaccuracy), Random.Range(0, inaccuracy), 0);
+                shootPoint.LookAt(target.position + accuracyOffset);
             }
             #endregion
 
@@ -229,6 +268,7 @@ public class BehaviourAI : MonoBehaviour
 
             // Move to specified position under set conditions.
             #region Agent Destinations
+            // if AI is
             if (seekDistance > stoppingDistance[1])
             {
                 agent.SetDestination(target.position);
@@ -237,8 +277,10 @@ public class BehaviourAI : MonoBehaviour
             if (seekDistance >= stoppingDistance[2] - 0.5f && seekDistance <= stoppingDistance[2] + 0.5f)
             {
                 Strafe();
-                agent.ResetPath();
-                //print("Hold");
+                if(agent.hasPath)
+                {
+                    agent.ResetPath();
+                }          
             }
             if (seekDistance < stoppingDistance[3])
             {
@@ -257,16 +299,7 @@ public class BehaviourAI : MonoBehaviour
 
         if (distance < stoppingDistance[0])
         {
-            holdStateTimer[0] -= Time.deltaTime;
-            if (holdStateTimer[0] <= 0)
-            {
-                holdStateTimer[0] = pauseDuration[0];
-                currentIndex++;
-                if (currentIndex >= waypoints.Count)
-                {
-                    currentIndex = 0;
-                }
-            }
+            WayPointTimer();
         }
         #endregion
     }
@@ -286,30 +319,17 @@ public class BehaviourAI : MonoBehaviour
     { 
         strafeTimer += Time.deltaTime;
         //Debug.Log("strafeTimer: " + strafeTimer);
-        if(strafeTimer > strafeTimerMax)
+        if(strafeTimer > strafeTime)
         {
+            // Change strafe Direction
             strafeDir *= -1;
-            strafeTimerMax = Random.Range(1f, 3f);
+            // Set Time to strafe in current direction
+            strafeTime = Random.Range(1f, 3f);
+        
             strafeTimer = 0;
-            //random strafeSpeed?
         }
+        
         transform.RotateAround(target.position, strafeDir, 10 * Time.deltaTime);
-    }
-
-    public Transform GetClosestTarget()
-    {
-        float closestTargetDist = Mathf.Infinity;
-        int transformIndex = 0;
-        for(int index = 0; index < fov.visibleTargets.Count; index++)
-        {
-             if(Vector3.Distance(transform.position, fov.visibleTargets[index].position) < closestTargetDist)
-             {
-                 closestTargetDist = Vector3.Distance(transform.position, fov.visibleTargets[index].position);
-                 transformIndex = index;
-             }
-        }
-       
-        return fov.visibleTargets[transformIndex];
     }
 
     public void Retreat()
@@ -356,22 +376,6 @@ public class BehaviourAI : MonoBehaviour
             agent.ResetPath();
             startRotation = transform.rotation;
             currentState = State.Survey;
-        }
-    }
-
-    void GetNearestTotem()
-    {
-        InvulTotem[] totemPoles = FindObjectsOfType<InvulTotem>();
-        float shortestDist = Mathf.Infinity;
-
-        foreach (InvulTotem tp in totemPoles)
-        {
-            float thisDist = Vector3.Distance(transform.position, tp.transform.position);
-            if (thisDist < shortestDist)
-            {
-                shortestDist = thisDist;
-                totemPos = tp.transform.position;
-            }
         }
     }
 

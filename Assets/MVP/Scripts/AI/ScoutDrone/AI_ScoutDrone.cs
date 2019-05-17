@@ -58,35 +58,20 @@ public class AI_ScoutDrone : BehaviourAI
             {
                 holdStateTimer[1] = pauseDuration[1];
                 currentState = State.Patrol;
-
-                if (fov.visibleTargets.Count > 0)
-                {
-                    target = fov.visibleTargets[0];
-                }
             }
         }
-        #region // DEFUNCT - Old Look (Wait) at Player
-        // // Makes AI wait after losing line of sight of the player. 'lookTime' instead of 'waitTime' to ensure AI still waits at next waypoint.
-        // if (fov.visibleTargets.Count < 1)
-        // {
-        //     if (lookTime == 0)
-        //         lookTime = Time.time;
-        // 
-        //     if ((Time.time - lookTime) >= pauseDuration)
-        //     {
-        //         lookTime = 0;
-        //         currentState = State.Patrol;
-        // 
-        //         if (fov.visibleTargets.Count > 0)
-        //             target = fov.visibleTargets[0];
-        //     }
-        // }
-        #endregion
+       
         #endregion
         #region If Target is Seen...
         if (fov.visibleTargets.Count > 0)
         {
-            target = GetClosestTarget();
+            if(fov.visibleTargets.Count > 1)
+            {
+                target = GetClosestTarget();
+            } else {
+                target = fov.visibleTargets[0];
+            }
+            
 
             // Switch to relative animations and aim
             #region Anims, Rotations (AIM GUN)
