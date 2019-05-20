@@ -52,13 +52,13 @@ public class AI_ScoutDrone : BehaviourAI
             // Reset rotation of SearchLight
             aim.transform.localRotation = startRotation;
 
-            holdStateTimer[1] -= Time.deltaTime;
+            //holdStateTimer[1] -= Time.deltaTime;
 
-            if (holdStateTimer[1] <= 0)
-            {
-                holdStateTimer[1] = pauseDuration[1];
-                currentState = State.Patrol;
-            }
+            //if (holdStateTimer[1] <= 0)
+            //{
+            //    holdStateTimer[1] = pauseDuration[1];
+            //    currentState = State.Patrol;
+            //}
         }
        
         #endregion
@@ -82,7 +82,7 @@ public class AI_ScoutDrone : BehaviourAI
                 anim.SetBool("isAlert", true);
                 searchLight.color = colorSeek;
 
-                holdStateTimer[1] = pauseDuration[1];
+                //holdStateTimer[1] = pauseDuration[1];
 
                 #region Aim at Player Position
                 // Direction of target (player) from the aim position.
@@ -126,16 +126,18 @@ public class AI_ScoutDrone : BehaviourAI
 
         if (distance < stoppingDistance[0])
         {
-            holdStateTimer[0] -= Time.deltaTime;
-            if (holdStateTimer[0] <= 0)
-            {
-                holdStateTimer[0] = pauseDuration[0];
-                currentIndex++;
-                if (currentIndex >= waypoints.Count)
+            //holdStateTimer[0] -= Time.deltaTime;
+            //if (holdStateTimer[0] <= 0)
+            //{
+            //    holdStateTimer[0] = pauseDuration[0];
+            //    currentIndex++;
+
+
+            //}
+            if (currentIndex >= waypoints.Count)
                 {
                     currentIndex = 1;
                 }
-            }
         }
         #endregion
     }

@@ -7,6 +7,8 @@ public class Bullet : MonoBehaviour
     public int damage = 50;
     public float speed = 5f;
     public Rigidbody rigid;
+    public float detectionRadius;
+    public LayerMask enemy;
 
     public GameObject sourceAgent;
 
@@ -26,8 +28,25 @@ public class Bullet : MonoBehaviour
             }
         }
 
+        AlertCloseEnemies();
+
+
         Destroy(gameObject);
     }
+
+    void AlertCloseEnemies()
+    {
+        Collider[] cols = Physics.OverlapSphere(transform.position, detectionRadius, enemy);
+        if(cols.Length > 0)
+        {
+            foreach (Collider col in cols)
+            {
+                col.GetComponent<BehaviourAI>().BulletAlert(transform.position);
+            }
+        }
+    }
+
+
 
     public enum SourceAgent
     {

@@ -6,7 +6,7 @@ using System.Linq;
 
 public class BehaviourAI : MonoBehaviour
 {
-    #region ENUMs
+    #region STATE ENUMs
     // Declaration
     public enum State // The behaviour states of the enemy AI.
     {
@@ -15,7 +15,9 @@ public class BehaviourAI : MonoBehaviour
         Retreat = 2,
         Survey = 3,
         Totem = 4,
-        Investigate = 5
+        Investigate = 5,
+        Hide = 6,
+        Snipe = 7
     }
     #endregion
 
@@ -25,11 +27,17 @@ public class BehaviourAI : MonoBehaviour
 
     [AI_ScoutDrone_(new string[] { "Speed Patrol", "Speed Seek", "Speed Investigate" })]
     public float[] moveSpeed = new float[3]; // Movement speeds for different states (up to you).
-    [AI_ScoutDrone_(new string[] { "Pause Patrol", "Pause Seek", "Pause Investigate" })]
-    public float[] pauseDuration = new float[3]; // Time to wait before doing next thing.
-    [HideInInspector]
-    // [AI_ScoutDrone_(new string[] { "Timer Patrol", "Timer Seek", "Timer Investigate" })]
-    public float[] holdStateTimer = new float[3]; // Used to count how much time has passed since...
+
+    // -- trying to eliminate these arrays and replace with 1 simple pause state that can be fed a float variable --
+
+    //[AI_ScoutDrone_(new string[] { "Pause Patrol", "Pause Seek", "Pause Investigate" })]
+    //public float[] pauseDuration = new float[3]; // Time to wait before doing next thing.
+    //[HideInInspector]
+    //// [AI_ScoutDrone_(new string[] { "Timer Patrol", "Timer Seek", "Timer Investigate" })]
+    //public float[] holdStateTimer = new float[3]; // Used to count how much time has passed since...
+
+    private float hideTimer;
+    public float hideTime;
 
     [AI_ScoutDrone_(new string[] { "0-Waypoint", "1-Seek Target", "2-Range Target", "3-Retreat" })]
     public float[] stoppingDistance = new float[4]; // Stopping distance for different conditions.
@@ -44,6 +52,8 @@ public class BehaviourAI : MonoBehaviour
     public LayerMask obstacleMask;
     public float inaccuracy;
     Vector3 strafeDir = Vector3.up;
+    Vector3 investigatePoint;
+    bool initVar = true;
 
     float strafeTimer, strafeTime;
     [HideInInspector]
@@ -179,7 +189,7 @@ public class BehaviourAI : MonoBehaviour
         // If we're close enough to the waypoint...
         if (distance < stoppingDistance[0])
         {
-            WayPointTimer();
+            SetNewWaypoint();
         }
         #endregion
         
@@ -192,22 +202,54 @@ public class BehaviourAI : MonoBehaviour
         }
     }
 
-    void WayPointTimer()
+    void Crouch(bool _crouch)
     {
-        // ... start counting down the waypoint timer.
-        holdStateTimer[0] -= Time.deltaTime;
-        // When the timer reaches zero...
-        if (holdStateTimer[0] <= 0)
+        if(_crouch)
         {
-            // Reset the timer, and move to the next waypoint in the index.
-            holdStateTimer[0] = pauseDuration[0];
-            currentIndex++;
-            // Set waypoint currentIndex back to the start if we complete the last waypoint.
-            if (currentIndex >= waypoints.Count)
-            {
-                currentIndex = 1;
-            }
+            // IMPLEMENT CROUCH MECHANIC
+            return;
         }
+        else
+        {
+            // IMPLEMENT STAND MECHANIC
+        }
+    }
+
+    public void BulletAlert(Vector3 impactPoint)
+    {
+        hideTimer = hideTime;
+        if(currentState != State.Hide)
+        {
+            investigatePoint = impactPoint;
+            currentState = State.Investigate; 
+        }
+    }
+
+    void Hide()
+    {
+        Crouch(true);
+        // set pauseTmer on entry only
+        if(initVar)
+        {
+            hideTimer = hideTime;
+        }
+
+        // count down timer
+        hideTimer -= Time.deltaTime;
+
+        // enter survey state
+        if(hideTimer <= 0)
+        {
+            currentState = State.Survey;
+            return;
+        }
+
+        initVar = false;
+    }
+
+    void SetNewWaypoint()
+    {
+        currentIndex = Random.Range(0, waypoints.Count-1);
     }
 
     // The contained variables for the Seek state (what rules the enemy AI follows when in 'Seek').
@@ -226,17 +268,20 @@ public class BehaviourAI : MonoBehaviour
         // If we can't see any targets...
         if (fov.visibleTargets.Count < 1)
         {
+            // IMPLEMENT INVESTIGATE LAST SEEN POSITION
+
+
             // Reset rotation of our aim.
             //aim.transform.localRotation = startRotation;
             // Start counting down the Seek timer.
-            holdStateTimer[1] -= Time.deltaTime;
-            // When the timer reaches zero...
-            if (holdStateTimer[1] <= 0)
-            {
-                // Reset the timer, and go back to Patrol behaviour.
-                holdStateTimer[1] = pauseDuration[1];
-                currentState = State.Survey;
-            }
+            //holdStateTimer[1] -= Time.deltaTime;
+            //// When the timer reaches zero...
+            //if (holdStateTimer[1] <= 0)
+            //{
+            //    // Reset the timer, and go back to Patrol behaviour.
+            //    holdStateTimer[1] = pauseDuration[1];
+            //    currentState = State.Survey;
+            //}
         }
         #endregion
 
@@ -257,7 +302,7 @@ public class BehaviourAI : MonoBehaviour
             if (target)
             {
                 // Reset the Seek timer.
-                holdStateTimer[1] = pauseDuration[1];
+               // holdStateTimer[1] = pauseDuration[1];
                 Vector3 accuracyOffset = new Vector3(Random.Range(0, inaccuracy), Random.Range(0, inaccuracy), 0);
                 shootPoint.LookAt(target.position + accuracyOffset);
             }
@@ -299,20 +344,27 @@ public class BehaviourAI : MonoBehaviour
 
         if (distance < stoppingDistance[0])
         {
-            WayPointTimer();
+            SetNewWaypoint();
         }
         #endregion
     }
 
     void Survey()
     {
+        if(initVar)
+        {
+            startRotation = transform.rotation;
+        }
         // spin to check surroundings
         transform.Rotate(Vector3.up * Time.deltaTime * 50);
         // after 1 full revolution
         if(transform.rotation.eulerAngles.y > startRotation.eulerAngles.y -5 && transform.rotation.eulerAngles.y < startRotation.eulerAngles.y +5)
         {
             currentState = State.Patrol;
+            initVar = true;
+            return;
         }
+        initVar = false;
     }
 
     void Strafe()
@@ -338,18 +390,20 @@ public class BehaviourAI : MonoBehaviour
         agent.SetDestination(retreatPoint);
         if(agent.remainingDistance < 0.5f)
         {
-            // Wait for a period of time
-            holdStateTimer[2] -= Time.deltaTime;
-            // when wait timer expires
-            if(holdStateTimer[2] <= 0)
-            {
-                // get initial rotation
-                startRotation = transform.rotation;
+            // Pause
 
-                currentState = State.Survey; 
-                // reset timer
-                holdStateTimer[2] = pauseDuration[2];
-            }
+
+            //// Wait for a period of time
+            //holdStateTimer[2] -= Time.deltaTime;
+            //// when wait timer expires
+            //if(holdStateTimer[2] <= 0)
+            //{
+
+
+            //    currentState = State.Survey; 
+            //    // reset timer
+            //    holdStateTimer[2] = pauseDuration[2];
+            //}
         }
     }
 
@@ -368,13 +422,14 @@ public class BehaviourAI : MonoBehaviour
         }
     }
 
+    
+
     public void Totem()
     {
         agent.SetDestination(totemPos);
         if(agent.remainingDistance < 5)
         {
             agent.ResetPath();
-            startRotation = transform.rotation;
             currentState = State.Survey;
         }
     }
@@ -389,9 +444,9 @@ public class BehaviourAI : MonoBehaviour
         healthRef = GetComponent<EnemyHealth>();
 
         // Set thisTimer to pauseDuration.
-        holdStateTimer[0] = pauseDuration[0];
-        holdStateTimer[1] = pauseDuration[1];
-        holdStateTimer[2] = pauseDuration[2];
+        //holdStateTimer[0] = pauseDuration[0];
+        //holdStateTimer[1] = pauseDuration[1];
+        //holdStateTimer[2] = pauseDuration[2];
 
         // Get children of waypointParent.
         //waypoints = waypointParent.GetComponentsInChildren<Transform>().ToList();

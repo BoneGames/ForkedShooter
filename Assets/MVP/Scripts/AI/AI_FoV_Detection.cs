@@ -259,7 +259,7 @@ public class AI_FoV_Detection : MonoBehaviour
     #endregion
 
     #region void METHOD - Draw Line to Target
-    /*private void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         // 3D GUI Drawing Colour.
         Gizmos.color = Color.red;
@@ -269,7 +269,7 @@ public class AI_FoV_Detection : MonoBehaviour
             // Draw a line from the script's transform position in 3D space to the target's position.
             Gizmos.DrawLine(transform.position, visibleTarget.position);
         }
-    }*/
+    }
     #endregion
 
     #region STRUCTS (or: 'The Rabbit Hole') - The Heart of Optimization
