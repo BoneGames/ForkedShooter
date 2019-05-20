@@ -3,88 +3,91 @@ using System.Collections.Generic;
 using UnityEngine;
 using GameSystems;
 
+using NaughtyAttributes;
+
 public class Shotgun : Weapon
 {
-    public int pellets = 6;
+  [BoxGroup("Weapon Stats")]
+  public int pellets = 6;
 
-    public override void Attack()
+  public override void Attack()
+  {
+    if (currentMag > 0)
     {
-        if (currentMag > 0)
-        {
-            SpawnMuzzleFlash();
+      SpawnMuzzleFlash();
 
-            UpdateAmmoDisplay();
+      UpdateAmmoDisplay();
 
-            spawnPoint.transform.rotation = AimAtCrosshair();
+      spawnPoint.transform.rotation = AimAtCrosshair();
 
-            for (int i = 0; i < pellets; i++)
-            {
-                Vector3 spread = Vector3.zero;
+      for (int i = 0; i < pellets; i++)
+      {
+        Vector3 spread = Vector3.zero;
 
-                spread += transform.up * Random.Range(-accuracy, accuracy);
-                spread += transform.right * Random.Range(-accuracy, accuracy);
+        spread += transform.up * Random.Range(-accuracy, accuracy);
+        spread += transform.right * Random.Range(-accuracy, accuracy);
 
-                Ray spreadRay = new Ray(spawnPoint.transform.position, spawnPoint.transform.forward + spread);
-                RaycastBullet(spreadRay);
-            }
-            currentMag--;
-            UpdateAmmoDisplay();
-        }
-        if (currentMag <= 0)
-        {
-            Reload();
-        }
+        Ray spreadRay = new Ray(spawnPoint.transform.position, spawnPoint.transform.forward + spread);
+        RaycastBullet(spreadRay);
+      }
+      currentMag--;
+      UpdateAmmoDisplay();
     }
-
-    public override Quaternion AimAtCrosshair()
+    if (currentMag <= 0)
     {
-        return base.AimAtCrosshair();
+      Reload();
     }
-   
+  }
 
-    void RaycastBullet(Ray bulletRay)
+  public override Quaternion AimAtCrosshair()
+  {
+    return base.AimAtCrosshair();
+  }
+
+
+  void RaycastBullet(Ray bulletRay)
+  {
+    RaycastHit hit;
+    if (Physics.Raycast(bulletRay, out hit))
     {
-        RaycastHit hit;
-        if (Physics.Raycast(bulletRay, out hit))
-        {
-            BulletTrail(hit.point, hit.distance);
+      BulletTrail(hit.point, hit.distance);
 
-            if (hit.collider.CompareTag("Player"))
-            {
-                if(GameManager.isOnline)
-                hit.transform.GetComponent<PhotonView>().RPC("ChangeHealth", PhotonTargets.All, damage);
-            }
+      if (hit.collider.CompareTag("Player"))
+      {
+        if (GameManager.isOnline)
+          hit.transform.GetComponent<PhotonView>().RPC("ChangeHealth", PhotonTargets.All, damage);
+      }
 
-            if(hit.collider.CompareTag("Enemy"))
-            {
-                hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position);
-            }
-        }
+      if (hit.collider.CompareTag("Enemy"))
+      {
+        hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position);
+      }
     }
+  }
 
-    void BulletTrail(Vector3 target, float distance)
+  void BulletTrail(Vector3 target, float distance)
+  {
+    GameObject bulletPath = Instantiate(lineRendPrefab, spawnPoint.position, spawnPoint.rotation);
+    bulletPath.transform.SetParent(null);
+    BulletPath script = bulletPath.GetComponent<BulletPath>();
+    script.target = target;
+    script.distance = distance;
+  }
+
+  public override void Reload()
+  {
+    StartCoroutine(GradualReload(reloadSpeed, 7));
+  }
+
+  IEnumerator GradualReload(float reloadSpeed, int seven)
+  {
+    while (currentMag < magSize)
     {
-        GameObject bulletPath = Instantiate(lineRendPrefab, spawnPoint.position, spawnPoint.rotation);
-        bulletPath.transform.SetParent(null);
-        BulletPath script = bulletPath.GetComponent<BulletPath>();
-        script.target = target;
-        script.distance = distance;
-    }
+      currentMag++;
+      currentReserves--;
+      UpdateAmmoDisplay();
 
-    public override void Reload()
-    {
-        StartCoroutine(GradualReload(reloadSpeed, 7));
+      yield return new WaitForSeconds(reloadSpeed);
     }
-
-    IEnumerator GradualReload(float reloadSpeed, int seven)
-    {
-        while (currentMag < magSize)
-        {
-            currentMag++;
-            currentReserves--;
-            UpdateAmmoDisplay();
-
-            yield return new WaitForSeconds(reloadSpeed);
-        }
-    }
+  }
 }

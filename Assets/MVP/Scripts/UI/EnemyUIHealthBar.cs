@@ -43,11 +43,11 @@ public class EnemyUIHealthBar : HealthBar
 
     if (viewPoint)
     {
-      if (GetComponent<Renderer>().IsVisibleFrom(Camera.main) && BaneRays.ViewNotObstructed(viewPoint, UITarget, true))
+      if (GetComponent<Renderer>().IsVisibleFrom(Camera.main) && BaneRays.ViewNotObstructed(viewPoint, UITarget, false))
       {
         healthBarContainer.SetActive(true);
       }
-      else if (!GetComponent<Renderer>().IsVisibleFrom(Camera.main) || !BaneRays.ViewNotObstructed(viewPoint, UITarget, true))
+      else if (!GetComponent<Renderer>().IsVisibleFrom(Camera.main) || !BaneRays.ViewNotObstructed(viewPoint, UITarget, false))
       {
         healthBarContainer.SetActive(false);
       }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using UnityEngine.Events;
+using NaughtyAttributes;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -12,20 +13,13 @@ public class EnemySpawner : MonoBehaviour
 
   public GameObject drone, guard;
 
-  public bool dronesSpawned, guardsSpawned;
+  bool dronesSpawned, guardsSpawned;
   public bool roomCleared;
-  // Start is called before the first frame update
-  void Start()
-  {
 
-  }
-
-  // Update is called once per frame
   void Update()
   {
     if (transform.childCount <= 0 && !roomCleared && (dronesSpawned || guardsSpawned))
     {
-      //roomCleared = true;
       print("Children of room died");
       ChildrenDied();
     }
@@ -66,5 +60,23 @@ public class EnemySpawner : MonoBehaviour
       }
       guardsSpawned = true;
     }
+  }
+
+  [Button]
+  public void ResetSpawner()
+  {
+    if (transform.childCount > 0)
+    {
+      while (transform.childCount > 0)
+      {
+        Transform child = transform.GetChild(0);
+        child.parent = null;
+        Destroy(child.gameObject);
+      }
+    }
+
+    dronesSpawned = false;
+    guardsSpawned = false;
+    roomCleared = false;
   }
 }

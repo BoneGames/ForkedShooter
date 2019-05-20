@@ -6,53 +6,50 @@ using BT;
 
 public class FadeToQuit : MonoBehaviour
 {
-    public KeyCode quitKey;
+  public KeyCode quitKey;
 
-    public float holdTime;
-    float startTime;
-    float timer;
+  public float timeToQuit = 5f;
+  float timer;
 
-    public Image dark;
+  public Image dark;
 
-    // Use this for initialization
-    void Start()
+  // Use this for initialization
+  void Start()
+  {
+    if (gameObject.name == "QuitFadeObject")
     {
-        startTime = 0;
+      dark = GetComponent<Image>();
+    }
+  }
 
-        if (gameObject.name == "QuitFadeObject")
-        {
-            dark = GetComponent<Image>();
-        }
+  // Update is called once per frame
+  void Update()
+  {
+    if (Input.GetKeyDown(quitKey))
+    {
+      timer = 0;
     }
 
-    // Update is called once per frame
-    void Update()
+    if (Input.GetKey(quitKey))
     {
-        if (Input.GetKeyDown(quitKey))
-        {
-            timer = 0;
-        }
+      timer += Time.deltaTime;
 
-        if (Input.GetKey(quitKey))
-        {
-            timer += Time.deltaTime;
+      var tempColor = dark.color;
+      tempColor.a = (timer / timeToQuit);
+      dark.color = tempColor;
 
-            var tempColor = dark.color;
-            tempColor.a = (timer/holdTime);
-            dark.color = tempColor;
-
-            if (timer > holdTime)
-            {
-            	print(BaneTools.ColorString("Quit Successfully", BaneTools.Color255(255,0,0)));
-                Application.Quit();
-            }
-        }
-
-        if (Input.GetKeyUp(quitKey))
-        {
-            var tempColor = dark.color;
-            tempColor.a = 0;
-            dark.color = tempColor;
-        }
+      if (timer > timeToQuit)
+      {
+        print(BaneTools.ColorString("Quit Successfully", BaneTools.Color255(255, 0, 0)));
+        Application.Quit();
+      }
     }
+
+    if (Input.GetKeyUp(quitKey))
+    {
+      var tempColor = dark.color;
+      tempColor.a = 0;
+      dark.color = tempColor;
+    }
+  }
 }

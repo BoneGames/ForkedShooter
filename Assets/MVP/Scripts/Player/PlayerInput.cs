@@ -2,80 +2,88 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using BT;
+using NaughtyAttributes;
+
 public class PlayerInput : Photon.PunBehaviour
 {
-    public RigidCharacterMovement player;
+  public RigidCharacterMovement player;
 
-    [Header("Motion Keys")]
-    public KeyCode sprintKey = KeyCode.LeftShift;
-    public KeyCode crouchKey = KeyCode.LeftControl;
-    public KeyCode jumpKey = KeyCode.Space;
+  public bool showMotionKeys;
 
-    [Header("Gun Keys")]
-    public KeyCode shootKey = KeyCode.Mouse0;
-    public KeyCode aimKey = KeyCode.Mouse1;
-    public KeyCode reloadKey = KeyCode.R;
+  [ShowIf("showMotionKeys")]
+  [BoxGroup("Motion Keys")]
+  public KeyCode sprintKey = KeyCode.LeftShift, crouchKey = KeyCode.LeftControl, jumpKey = KeyCode.Space;
 
-    [Header("Acion Keys")]
-    public KeyCode interactKey = KeyCode.E;
-    public KeyCode ammoKey = KeyCode.G;
+  public bool showGunKeys;
+  [ShowIf("showGunKeys")]
+  [BoxGroup("Gun Keys")]
+  public KeyCode shootKey = KeyCode.Mouse0, aimKey = KeyCode.Mouse1, reloadKey = KeyCode.R;
 
-    private int weaponIndex;
-    private int currentIndex;
+  public bool showActionKeys;
+  [ShowIf("showActionKeys")]
+  [BoxGroup("Action Keys")]
+  public KeyCode interactKey = KeyCode.E, ammoKey = KeyCode.G;
 
-    #region Unity Events
-    // Use this for initialization
-    void Start()
+  private int weaponIndex;
+  private int currentIndex;
+
+  #region Unity Events
+  // Use this for initialization
+  void Start()
+  {
+    player = GetComponent<RigidCharacterMovement>();
+  }
+  // Update is called once per frame
+  void Update()
+  {
+    if (photonView != null)
     {
-        player = GetComponent<RigidCharacterMovement>();
+      if (photonView.isMine)
+      {
+        ProcessInputs();
+      }
     }
-    // Update is called once per frame
-    void Update()
+    else //we nust not have the Photon stuff in the scene, so we don't care about networking
     {
-        if (photonView != null)
-        {
-            if (photonView.isMine)
-            {
-                ProcessInputs();
-            }
-        }
-        else //we nust not have the Photon stuff in the scene, so we don't care about networking
-        {
-            ProcessInputs();
-        }
+      ProcessInputs();
     }
-    #endregion
+  }
+  #endregion
 
-    private void ProcessInputs()
+  private void ProcessInputs()
+  {
+    if (!player.isDead)
     {
-        if (!player.isDead)
-        {
-            float inputH = Input.GetAxis("Horizontal");
-            float inputV = Input.GetAxis("Vertical");
-            player.Move(inputH, inputV);
+      float inputH = Input.GetAxis("Horizontal");
+      float inputV = Input.GetAxis("Vertical");
+      player.Move(inputH, inputV);
 
-            if (Input.GetKeyDown(jumpKey)) player.Jump();
-            if (Input.GetKeyDown(crouchKey)) player.Crouch();
-            if (Input.GetKey(sprintKey)) player.isSprinting = true;
-            if (Input.GetKeyUp(sprintKey)) player.isSprinting = false;
-            if (player.currentWeapon.rateOfFire == 0 && Input.GetKeyDown(shootKey)) player.Attack();
-            if (player.currentWeapon.rateOfFire != 0 && Input.GetKey(shootKey)) player.Attack();
-            if (Input.GetKeyUp(aimKey)) player.Aim(false);
-            if (Input.GetKeyDown(aimKey)) player.Aim(true);
-            if (Input.GetKeyDown(reloadKey)) player.Reload();
+      if (Input.GetKeyDown(jumpKey)) player.Jump();
+      if (Input.GetKeyDown(crouchKey)) player.Crouch();
+      if (Input.GetKey(sprintKey)) player.isSprinting = true;
+      if (Input.GetKeyUp(sprintKey)) player.isSprinting = false;
 
-            float inputScroll = Input.GetAxisRaw("Mouse ScrollWheel");
-            if (inputScroll != 0)
-            {
-                inputScroll = inputScroll < 0 ? -1 : 1;
+      if (player.currentWeapon.rateOfFire == 0 && Input.GetKeyDown(shootKey))
+        player.Attack();
+      if (player.currentWeapon.rateOfFire != 0 && Input.GetKey(shootKey))
+        player.Attack();
+      if (Input.GetKeyUp(aimKey)) player.Aim(false);
+      if (Input.GetKeyDown(aimKey)) player.Aim(true);
+      if (Input.GetKeyDown(reloadKey)) player.Reload();
 
-                // Note (Manny): Just changed this a bit.
-                int direction = (int)inputScroll;
-                player.SwitchWeapon(direction);
-            }
-        }
-       
-        if (Input.GetKeyDown(interactKey)) player.Interact();
-        if (Input.GetKeyDown(ammoKey)) player.FreeAmmo();
+      float inputScroll = Input.GetAxisRaw("Mouse ScrollWheel");
+      if (inputScroll != 0)
+      {
+        inputScroll = inputScroll < 0 ? -1 : 1;
+
+        // Note (Manny): Just changed this a bit.
+        int direction = (int)inputScroll;
+        player.SwitchWeapon(direction);
+      }
     }
+
+    if (Input.GetKeyDown(interactKey)) player.Interact();
+    if (Input.GetKeyDown(ammoKey)) player.FreeAmmo();
+  }
 }

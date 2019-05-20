@@ -94,8 +94,8 @@ public class PlayerHealth : Health
     if (currentHealth <= 0)
     {
       this.gameObject.GetComponent<RigidCharacterMovement>().StartCoroutine("Respawn");
+      base.CheckDie();
     }
-    base.CheckDie();
   }
 
   public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

@@ -3,113 +3,116 @@ using System.Collections.Generic;
 using UnityEngine;
 using GameSystems;
 
+using NaughtyAttributes;
+
 public class RocketLauncher : Weapon
 {
-    Quaternion startRotation;
-    public Transform rocketSpawn;
-    Transform lookOrigin;
+  Quaternion startRotation;
+  [BoxGroup("References")]
+  public Transform rocketSpawn;
+  Transform lookOrigin;
 
-    InsideCollider internalCheck;
+  InsideCollider internalCheck;
 
-    public override void Start()
+  public override void Start()
+  {
+    base.Start();
+    lookOrigin = Camera.main.transform;
+    startRotation = spawnPoint.localRotation;
+    rocketSpawn = spawnPoint;
+
+    internalCheck = rocketSpawn.GetComponent<InsideCollider>();
+  }
+
+  public override void Attack()
+  {
+    Debug.Log("ROCKET ATTACK");
+    if (currentMag > 0)
     {
-        base.Start();
-        lookOrigin = Camera.main.transform;
-        startRotation = spawnPoint.localRotation;
+      bool insideMesh = internalCheck.InsideMesh(lookOrigin, spawnPoint);
+      // if spawnPoint is inside mesh
+      if (insideMesh)
+      {
+        print("Rocket is inside ground, time to assplode");
+        rocketSpawn = GetExplosionPoint();
+      }
+      else
+      {
+        // set spawn point as standard point at end of gun
         rocketSpawn = spawnPoint;
+      }
 
-        internalCheck = rocketSpawn.GetComponent<InsideCollider>();
+      Quaternion hitRotation = GetTargetNormal();
+
+      SpawnMuzzleFlash();
+
+      GameObject clone;
+      if (GameManager.isOnline)
+      {
+        clone = PhotonNetwork.Instantiate("Explosive", rocketSpawn.position, rocketSpawn.rotation, 0);
+      }
+      else
+      {
+        clone = Instantiate(projectile, rocketSpawn.position, rocketSpawn.rotation);
+      }
+
+      Projectile newBullet = clone.GetComponent<Projectile>();
+
+      if (GameManager.isOnline)
+      {
+        newBullet.firedBy = GetComponentInParent<PhotonView>().gameObject.name;
+      }
+
+      newBullet.hitRotation = hitRotation;
+      newBullet.damage = damage;
+
+      spawnPoint.rotation = AimAtCrosshair();
+
+      newBullet.Fire(spawnPoint.transform.forward);
+
+      currentMag--;
+
+      UpdateAmmoDisplay();
     }
 
-    public override void Attack()
+    if (currentMag <= 0)
     {
-        Debug.Log("ROCKET ATTACK");
-        if (currentMag > 0)
-        {
-            bool insideMesh = internalCheck.InsideMesh(lookOrigin, spawnPoint);
-            // if spawnPoint is inside mesh
-            if (insideMesh)
-            {
-                print("Rocket is inside ground, time to assplode");
-                rocketSpawn = GetExplosionPoint();
-            }
-            else
-            {
-                // set spawn point as standard point at end of gun
-                rocketSpawn = spawnPoint;
-            }
-
-            Quaternion hitRotation = GetTargetNormal();
-
-            SpawnMuzzleFlash();
-
-            GameObject clone;
-            if (GameManager.isOnline)
-            {
-                clone = PhotonNetwork.Instantiate("Explosive", rocketSpawn.position, rocketSpawn.rotation, 0);
-            }
-            else
-            {
-                clone = Instantiate(projectile, rocketSpawn.position, rocketSpawn.rotation);
-            }
-
-            Projectile newBullet = clone.GetComponent<Projectile>();
-
-            if (GameManager.isOnline)
-            {
-                newBullet.firedBy = GetComponentInParent<PhotonView>().gameObject.name;
-            }
-
-            newBullet.hitRotation = hitRotation;
-            newBullet.damage = damage;
-
-            spawnPoint.rotation = AimAtCrosshair();
-
-            newBullet.Fire(spawnPoint.transform.forward);
-
-            currentMag--;
-
-            UpdateAmmoDisplay();
-        }
-
-        if (currentMag <= 0)
-        {
-            Reload();
-        }
+      Reload();
     }
+  }
 
-    public override Quaternion AimAtCrosshair()
+  public override Quaternion AimAtCrosshair()
+  {
+    return base.AimAtCrosshair();
+  }
+
+  Transform GetExplosionPoint()
+  {
+    RaycastHit hit;
+    if (Physics.Raycast(lookOrigin.position, lookOrigin.transform.forward, out hit))
     {
-        return base.AimAtCrosshair();
+      rocketSpawn = Camera.main.transform;
+      //GameObject bullet = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube), hit.point, Quaternion.identity);
     }
+    return rocketSpawn;
+  }
 
-    Transform GetExplosionPoint()
+  public override void Reload()
+  {
+    if (!(currentMag == magSize))
     {
-        RaycastHit hit;
-        if (Physics.Raycast(lookOrigin.position, lookOrigin.transform.forward, out hit))
-        {
-            rocketSpawn = Camera.main.transform;
-            //GameObject bullet = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube), hit.point, Quaternion.identity);
-        }
-        return rocketSpawn;
+      StartCoroutine(ReloadTimed());
     }
+  }
 
-    public override void Reload()
+  public override void SpawnMuzzleFlash()
+  {
+    if (muzzle)
     {
-        if (!(currentMag == magSize))
-        {
-            StartCoroutine(ReloadTimed());
-        }
+      GameObject _flash = Instantiate(muzzle, rocketSpawn.position, rocketSpawn.rotation);
+      _flash.transform.SetParent(null);
+      _flash.transform.localScale = new Vector3(4, 4, 4);
+      Destroy(_flash, 3);
     }
-
-    public override void SpawnMuzzleFlash()
-    {
-        if (muzzle)
-        {
-            GameObject _flash = Instantiate(muzzle, rocketSpawn.position, rocketSpawn.rotation);
-            _flash.transform.SetParent(null);
-            _flash.transform.localScale = new Vector3(4, 4, 4);
-            Destroy(_flash, 3);
-        }
-    }
+  }
 }

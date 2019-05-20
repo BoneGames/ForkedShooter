@@ -6,63 +6,63 @@ using System.Linq;
 
 public class Pistol : Weapon
 {
-    public override void Attack()
+  public override void Attack()
+  {
+    if (currentMag > 0)
     {
-        if (currentMag > 0)
+      RaycastHit hit;
+      spawnPoint.rotation = AimAtCrosshair();
+      Ray ray = new Ray(spawnPoint.position, spawnPoint.transform.forward);
+
+      SpawnMuzzleFlash();
+
+      if (Physics.Raycast(ray, out hit))
+      {
+        BulletTrail(hit.point, hit.distance);
+
+        if (GameManager.isOnline)
         {
-            RaycastHit hit;
-            spawnPoint.rotation = AimAtCrosshair();
-            Ray ray = new Ray(spawnPoint.position, spawnPoint.transform.forward);
-
-            SpawnMuzzleFlash();
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                BulletTrail(hit.point, hit.distance);
-
-                if (GameManager.isOnline)
-                {
-                    if (hit.collider.CompareTag("Enemy"))
-                    {
-                        hit.transform.GetComponent<PhotonView>().RPC("ChangeHealth", PhotonTargets.All, damage);
-                    }
-                }
-                else
-                {
-                    if (hit.collider.tag == "Enemy")
-                    {
-                        hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position);
-                        print("I hit an enemy");
-                    }
-
-                }
-            }
-            currentMag--;
-
-            UpdateAmmoDisplay();
+          if (hit.collider.CompareTag("Enemy"))
+          {
+            hit.transform.GetComponent<PhotonView>().RPC("ChangeHealth", PhotonTargets.All, damage);
+          }
         }
-        if (currentMag <= 0 )
+        else
         {
-            StartCoroutine(ReloadTimed());
+          if (hit.collider.tag == "Enemy")
+          {
+            hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position);
+            print("I hit an enemy");
+          }
+
         }
-    }
+      }
+      currentMag--;
 
-    public override Quaternion AimAtCrosshair()
-    {
-        return base.AimAtCrosshair();
+      UpdateAmmoDisplay();
     }
+    if (currentMag <= 0)
+    {
+      StartCoroutine(ReloadTimed());
+    }
+  }
 
-    void BulletTrail(Vector3 target, float distance)
-    {
-        GameObject bulletPath = Instantiate(lineRendPrefab, spawnPoint.position, spawnPoint.rotation);
-        bulletPath.transform.SetParent(spawnPoint);
-        BulletPath script = bulletPath.GetComponent<BulletPath>();
-        script.target = target;
-        script.distance = distance;
-    }
+  public override Quaternion AimAtCrosshair()
+  {
+    return base.AimAtCrosshair();
+  }
 
-    public override void Reload()
-    {
-        StartCoroutine(ReloadTimed());
-    }
+  void BulletTrail(Vector3 target, float distance)
+  {
+    GameObject bulletPath = Instantiate(lineRendPrefab, spawnPoint.position, spawnPoint.rotation);
+    bulletPath.transform.SetParent(spawnPoint);
+    BulletPath script = bulletPath.GetComponent<BulletPath>();
+    script.target = target;
+    script.distance = distance;
+  }
+
+  public override void Reload()
+  {
+    StartCoroutine(ReloadTimed());
+  }
 }

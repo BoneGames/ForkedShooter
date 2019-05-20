@@ -204,7 +204,10 @@ namespace BT
       {
         if (leftHit.collider.transform == _target)
         {
-          Debug.Log("The view is not obstructed!");
+          if (_debug)
+          {
+            Debug.Log("The view is not obstructed!");
+          }
           clearFlag = true;
         }
       }

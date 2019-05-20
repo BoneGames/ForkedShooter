@@ -549,6 +549,11 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   healthBar: {fileID: 0}
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   isGod: 0
   photonView: {fileID: 0}
   ammoBox: {fileID: 1861980455999006, guid: 81097656c3f3f474695c95c52ee785d7, type: 3}
@@ -594,6 +599,7 @@ MonoBehaviour:
   inaccuracy: 0
   startRotation: {x: 0, y: 0, z: 0, w: 0}
   healthRef: {fileID: 0}
+  shootPoint: {fileID: 0}
   waypoints: []
   currentIndex: 1
   anim: {fileID: 95049339517146008}
@@ -622,11 +628,11 @@ MonoBehaviour:
   rateOfFire: 5
   projectile: {fileID: 1874544804970178, guid: f5fad20bfebd88d46abe3e602f14fdaf, type: 3}
   spawnPoint: {fileID: 4076797023168174}
-  aimPoint: {fileID: 0}
+  aimPoint: {fileID: 4076797023168174}
   muzzle: {fileID: 0}
   lineRendPrefab: {fileID: 0}
   magSize: 7
-  currentReserves: 0
+  currentReserves: 500
   currentMag: 7
   tempMag: 0
   ammoDisplay: {fileID: 0}
