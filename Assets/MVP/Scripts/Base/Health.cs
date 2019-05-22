@@ -8,14 +8,19 @@ public abstract class Health : MonoBehaviour
   public int maxHealth = 100;
   public int currentHealth;
 
+  public int maxShield = 100;
+  public int currentShield;
+  public int carryOnDmg;
+
   [HideInInspector]
   public HealthBar healthBar;
 
   public UnityEvent onDeath;
 
-  private void Start()
+  public virtual void Start()
   {
     currentHealth = maxHealth;
+    currentShield = maxShield;
   }
 
   // Takes damage from various bullet/projectile scripts and runs 'CheckDie()'.

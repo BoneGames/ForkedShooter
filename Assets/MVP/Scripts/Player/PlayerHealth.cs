@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class PlayerHealth : Health
 {
+  public GameObject shieldGO;
+
   PhotonView photonView;
   string photonID;
   [HideInInspector]
   public GameObject shotDirectionArm;
   public float shotIndicatorDelay;
 
-  void Start()
+  public override void Start()
   {
+    base.Start();
+
     photonView = GetComponent<PhotonView>();
     if (photonView)
     {
@@ -23,29 +27,54 @@ public class PlayerHealth : Health
 
   // Takes damage from various bullet/projectile scripts and runs 'CheckDie()'.
   [PunRPC]
-  public override void ChangeHealth(int value, Vector3 shotDir)
+  public override void ChangeHealth(int _value, Vector3 _shotDir)
   {
-    if (currentHealth > 0)
+    if (currentShield > 0)
     {
-      currentHealth -= value;
+      shieldGO.SetActive(true);
 
-      print(string.Format(""));
-
-      print(value > 0 ? string.Format("Health reduced by {0} and is now {1}", value, currentHealth) : string.Format("Health healed by {0} and is now {1}", -value, currentHealth));
-
-      if (currentHealth > maxHealth)
+      if (currentShield > _value)
       {
-        currentHealth = maxHealth;
+        currentShield -= _value;
       }
-
-      //If you're actually being damaged (negative means healing)
-      if (value > 0)
+      else if (_value >= currentShield)
       {
-        StopCoroutine(ShotDirectionActive(shotDir));
-        StartCoroutine(ShotDirectionActive(shotDir));
-      }
+        carryOnDmg = _value - currentShield;
+        currentShield -= _value;
+        currentHealth -= carryOnDmg;
 
-      CheckDie();
+        currentShield = currentShield < 0 ? 0 : currentShield;
+
+        CheckDie();
+      }
+    }
+    else if (currentShield <= 0)
+    {
+      currentShield = 0;
+      shieldGO.SetActive(false);
+
+      if (currentHealth > 0)
+      {
+        currentHealth -= _value;
+
+        print(string.Format(""));
+
+        print(_value > 0 ? string.Format("Health reduced by {0} and is now {1}", _value, currentHealth) : string.Format("Health healed by {0} and is now {1}", -_value, currentHealth));
+
+        if (currentHealth > maxHealth)
+        {
+          currentHealth = maxHealth;
+        }
+
+        //If you're actually being damaged (negative means healing)
+        if (_value > 0)
+        {
+          StopCoroutine(ShotDirectionActive(_shotDir));
+          StartCoroutine(ShotDirectionActive(_shotDir));
+        }
+
+        CheckDie();
+      }
     }
   }
 
