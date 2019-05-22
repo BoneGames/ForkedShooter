@@ -134,7 +134,7 @@ public class AI_ScoutDrone : BehaviourAI
 
 
             //}
-            if (currentIndex >= waypoints.Count)
+            if (currentIndex >= waypoints.Length)
                 {
                     currentIndex = 1;
                 }

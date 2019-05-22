@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a7c8ca992f915438a96c2077353778, type: 3}
+  m_Name: Behaviour_AI
+  m_EditorClassIdentifier: 
+  brickName: Assets/Behaviour_AI.asset
+  xml: "\uFEFF<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<BehaviorBricks xmlns:ref=\"urn:padaone\"
+    version=\"1.0\">\r\n  <BehaviorTree id=\"0\" />\r\n  <runtimeInfo>\r\n    <BehaviorTree
+    id=\"0\" guid=\"d5ce96f634245c04ea904543f0b0d720\" nextId=\"12\">\r\n      <root>\r\n
+    \       <RepeatDecorator id=\"1\" />\r\n      </root>\r\n      <inputParams>\r\n
+    \       <inputValues>\r\n          <entry name=\"waypoint\" type=\"UnityEngine.Vector3\"
+    isBlackboard=\"False\" value=\"0 0 0\" />\r\n          <entry name=\"target\"
+    type=\"UnityEngine.GameObject\" isBlackboard=\"False\" />\r\n        </inputValues>\r\n
+    \     </inputParams>\r\n      <outputParams>\r\n        <outputValues>\r\n          <entry
+    name=\"newWaypoint\" type=\"UnityEngine.Vector3\" isBlackboard=\"True\" />\r\n
+    \       </outputValues>\r\n      </outputParams>\r\n      <localParams />\r\n
+    \   </BehaviorTree>\r\n    <RepeatDecorator id=\"1\" loops=\"-1\" policy=\"ContinueWhenChildFails\">\r\n
+    \     <child>\r\n        <SelectorNode id=\"9\" />\r\n      </child>\r\n      <inputParams
+    />\r\n      <outputParams />\r\n      <localParams />\r\n    </RepeatDecorator>\r\n
+    \   <SelectorNode id=\"9\">\r\n      <children>\r\n        <elem>\r\n          <ConditionNode
+    id=\"2\" />\r\n        </elem>\r\n        <elem>\r\n          <ActionNode id=\"10\"
+    />\r\n        </elem>\r\n      </children>\r\n      <inputParams />\r\n      <outputParams
+    />\r\n      <localParams />\r\n    </SelectorNode>\r\n    <ConditionNode id=\"2\">\r\n
+    \     <condition>\r\n        <ConditionEvalNode id=\"0\" />\r\n      </condition>\r\n
+    \     <inputParams>\r\n        <inputValues>\r\n          <entry name=\"target\"
+    type=\"UnityEngine.GameObject\" isBlackboard=\"True\" blackboard=\"target\" />\r\n
+    \         <entry name=\"angle\" type=\"System.Single\" isBlackboard=\"False\"
+    value=\"45\" />\r\n        </inputValues>\r\n      </inputParams>\r\n      <outputParams
+    />\r\n      <localParams />\r\n    </ConditionNode>\r\n    <ActionNode id=\"10\"
+    action=\"Navigation/MoveToPosition\">\r\n      <inputParams>\r\n        <inputValues>\r\n
+    \         <entry name=\"target\" type=\"UnityEngine.Vector3\" isBlackboard=\"True\"
+    blackboard=\"waypoint\" />\r\n        </inputValues>\r\n      </inputParams>\r\n
+    \     <outputParams />\r\n      <localParams />\r\n    </ActionNode>\r\n    <ConditionEvalNode
+    id=\"0\" policy=\"ATOMIC_CHECK\" name=\"Perception/IsTargetInSight\">\r\n      <inputParams
+    />\r\n      <outputParams />\r\n      <localParams />\r\n    </ConditionEvalNode>\r\n
+    \ </runtimeInfo>\r\n  <editorInfo>\r\n    <BehaviorTree id=\"0\" _name=\"Behaviour_AI\"
+    _description=\"\" _removeIfClosed=\"False\">\r\n      <_rootList>\r\n        <elem>\r\n
+    \         <RepeatDecorator id=\"1\" />\r\n        </elem>\r\n        <elem>\r\n
+    \         <ConditionNode id=\"2\" />\r\n        </elem>\r\n        <elem>\r\n
+    \         <SelectorNode id=\"9\" />\r\n        </elem>\r\n        <elem>\r\n          <ActionNode
+    id=\"10\" />\r\n        </elem>\r\n        <elem>\r\n          <ActionNode id=\"11\"
+    />\r\n        </elem>\r\n      </_rootList>\r\n      <_nodes>\r\n        <nodes>\r\n
+    \         <RepeatDecorator id=\"1\" />\r\n          <ConditionNode id=\"2\" />\r\n
+    \         <SelectorNode id=\"9\" />\r\n          <ActionNode id=\"10\" />\r\n
+    \         <ActionNode id=\"11\" />\r\n        </nodes>\r\n      </_nodes>\r\n
+    \   </BehaviorTree>\r\n    <RepeatDecorator id=\"1\">\r\n      <_data>\r\n        <data
+    breakpoint=\"0\" selected=\"False\" position=\"289.5044 119.23\" name=\"Repeat\"
+    description=\"Repeats the execution of its child node\" cardinality=\"1\" hasParent=\"False\">\r\n
+    \         <BehaviorTree id=\"0\" />\r\n          <RepeatDecorator id=\"1\" />\r\n
+    \       </data>\r\n      </_data>\r\n    </RepeatDecorator>\r\n    <SelectorNode
+    id=\"9\">\r\n      <_data>\r\n        <data breakpoint=\"0\" selected=\"False\"
+    position=\"147.5403 257.4445\" name=\"Selector\" description=\"Executes all its
+    children until one of them is successful\" cardinality=\"-1\" hasParent=\"True\">\r\n
+    \         <BehaviorTree id=\"0\" />\r\n          <SelectorNode id=\"9\" />\r\n
+    \         <RepeatDecorator id=\"1\" />\r\n        </data>\r\n      </_data>\r\n
+    \   </SelectorNode>\r\n    <ConditionNode id=\"2\">\r\n      <_data>\r\n        <data
+    breakpoint=\"0\" selected=\"False\" position=\"17.79061 376.778\" name=\"Perception/IsTargetInSight\"
+    description=\"Checks whether a target is in sight depending on a given angle\"
+    cardinality=\"0\" hasParent=\"True\">\r\n          <BehaviorTree id=\"0\" />\r\n
+    \         <ConditionNode id=\"2\" />\r\n          <SelectorNode id=\"9\" />\r\n
+    \       </data>\r\n      </_data>\r\n    </ConditionNode>\r\n    <ActionNode id=\"10\">\r\n
+    \     <_data>\r\n        <data breakpoint=\"0\" selected=\"True\" position=\"253.6171
+    392.3056\" name=\"Navigation/MoveToPosition\" description=\"Moves the game object
+    to a given position by using a NavMeshAgent\" cardinality=\"0\" hasParent=\"True\">\r\n
+    \         <BehaviorTree id=\"0\" />\r\n          <ActionNode id=\"10\" />\r\n
+    \         <SelectorNode id=\"9\" />\r\n        </data>\r\n      </_data>\r\n    </ActionNode>\r\n
+    \   <ConditionEvalNode id=\"0\">\r\n      <_data>\r\n        <data breakpoint=\"0\"
+    selected=\"False\" position=\"0 0\" name=\"AlwaysTrue\" description=\"Eval\" cardinality=\"1\"
+    hasParent=\"False\">\r\n          <BehaviorTree id=\"0\" />\r\n        </data>\r\n
+    \     </_data>\r\n    </ConditionEvalNode>\r\n  </editorInfo>\r\n  <runtimeInfo>\r\n
+    \   <ActionNode id=\"11\" action=\"Basic/SetVector3\">\r\n      <inputParams>\r\n
+    \       <inputValues>\r\n          <entry name=\"value\" type=\"UnityEngine.Vector3\"
+    isBlackboard=\"True\" blackboard=\"waypoint\" />\r\n        </inputValues>\r\n
+    \     </inputParams>\r\n      <outputParams>\r\n        <outputValues>\r\n          <entry
+    name=\"var\" type=\"UnityEngine.Vector3\" isBlackboard=\"True\" blackboard=\"newWaypoint\"
+    />\r\n        </outputValues>\r\n      </outputParams>\r\n      <localParams />\r\n
+    \   </ActionNode>\r\n  </runtimeInfo>\r\n  <editorInfo>\r\n    <ActionNode id=\"11\">\r\n
+    \     <_data>\r\n        <data breakpoint=\"0\" selected=\"False\" position=\"463.5095
+    234.5277\" name=\"Basic/SetVector3\" description=\"Sets a value to a Vector3 variable\"
+    cardinality=\"0\" hasParent=\"False\">\r\n          <BehaviorTree id=\"0\" />\r\n
+    \         <ActionNode id=\"11\" />\r\n        </data>\r\n      </_data>\r\n    </ActionNode>\r\n
+    \ </editorInfo>\r\n</BehaviorBricks>"
+  zoom: 0.6
+  subslist: []
+  _guid: d5ce96f634245c04ea904543f0b0d720

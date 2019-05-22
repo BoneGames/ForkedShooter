@@ -193,7 +193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxTasksPerTick: 500
-  behavior: {fileID: 0}
+  behavior: {fileID: 11400000, guid: d5ce96f634245c04ea904543f0b0d720, type: 2}
   paused: 0
   restartWhenFinished: 0
   blackboard:
@@ -212,8 +212,10 @@ MonoBehaviour:
     colorParams: []
     colorParamsNames: []
     colorParamsLostDefaultValue: 
-    objectParams: []
-    objectParamsNames: []
+    objectParams:
+    - {fileID: 561652943}
+    objectParamsNames:
+    - target
     objectParamsLostDefaultValue: 
     layerMaskParams: []
     layerMaskParamsNames: []
@@ -223,8 +225,10 @@ MonoBehaviour:
     vector2Params: []
     vector2ParamsNames: []
     vector2ParamsLostDefaultValue: 
-    vector3Params: []
-    vector3ParamsNames: []
+    vector3Params:
+    - {x: 0, y: 0, z: 0}
+    vector3ParamsNames:
+    - waypoint
     vector3ParamsLostDefaultValue: 
     vector4Params: []
     vector4ParamsNames: []
@@ -475,8 +479,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -149.2
       objectReference: {fileID: 0}
+    - target: {fileID: 114082195335734174, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: showMotionKeys
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
+--- !u!1 &561652943 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1710371407272564, guid: d4959bfe9c2bdde4ba18947f246452be,
+    type: 3}
+  m_PrefabInstance: {fileID: 561652942}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &640056450 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4686679147568946, guid: bbb8b8f930a956f498f80738b829185f,
