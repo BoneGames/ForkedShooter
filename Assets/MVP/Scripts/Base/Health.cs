@@ -3,19 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+using NaughtyAttributes;
+
 public abstract class Health : MonoBehaviour
 {
-  public int maxHealth = 100;
-  public int currentHealth;
+  public bool ShowHealth;
 
-  public int maxShield = 100;
-  public int currentShield;
-  public int carryOnDmg;
+  [ShowIf("ShowHealth")] [BoxGroup("Health")]
+  public int maxHealth = 100, currentHealth;
+
+  public bool ShowShields;
+  [ShowIf("ShowShields")] [BoxGroup("Shields")]
+  public int maxShield = 100, currentShield, carryOnDmg;
 
   [HideInInspector]
   public HealthBar healthBar;
 
-  public UnityEvent onDeath;
+  public bool ShowEvents;
+  [ShowIf("ShowEvents")] [BoxGroup("Events")]
+  public UnityEvent onDeath, onHeal, onDamage;
 
   public virtual void Start()
   {
@@ -27,6 +33,17 @@ public abstract class Health : MonoBehaviour
   [PunRPC]
   public virtual void ChangeHealth(int value, Vector3 shotDir)
   {
+    if (value != 0)
+    {
+      if (value < 0)
+      {
+        onHeal.Invoke();
+      }
+      if (value > 0)
+      {
+        onDamage.Invoke();
+      }
+    }
     currentHealth -= value;
     CheckDie();
   }

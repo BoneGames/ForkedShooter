@@ -3583,7 +3583,7 @@ Transform:
   - {fileID: 640782264}
   - {fileID: 123683205}
   m_Father: {fileID: 1351158321}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 90.00001, z: 0}
 --- !u!1 &587127746
 GameObject:
@@ -4586,7 +4586,7 @@ Transform:
   m_Children:
   - {fileID: 1423715616}
   m_Father: {fileID: 1351158321}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &695261070 stripped
 Transform:
@@ -4847,15 +4847,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 747888433}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1406827179}
   - {fileID: 1156407980}
   - {fileID: 826696335}
-  m_Father: {fileID: 1299928168}
-  m_RootOrder: 0
+  m_Father: {fileID: 1351158321}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &752350380
 PrefabInstance:
@@ -7887,8 +7887,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 747888434}
+  m_Children: []
   m_Father: {fileID: 199339761}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8333,6 +8332,7 @@ Transform:
   m_Children:
   - {fileID: 353203813}
   - {fileID: 199339761}
+  - {fileID: 747888434}
   - {fileID: 582360728}
   - {fileID: 2007916707}
   - {fileID: 694377207}
@@ -8933,6 +8933,21 @@ PrefabInstance:
         type: 3}
       propertyPath: maxShield
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114803733962968952, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: ShowHealth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114803733962968952, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: ShowShields
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114803733962968952, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: ShowEvents
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 425301876, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
       propertyPath: healthBarBG
@@ -13060,7 +13075,7 @@ Transform:
   - {fileID: 1344833553}
   - {fileID: 2023774345}
   m_Father: {fileID: 1351158321}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 90.00001, z: 0}
 --- !u!1 &2007930425 stripped
 GameObject:

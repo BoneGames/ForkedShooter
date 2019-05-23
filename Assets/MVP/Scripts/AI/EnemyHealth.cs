@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using NaughtyAttributes;
+
 public class EnemyHealth : Health
 {
   // Set damage immunity on/off (handled from InvulTotem.cs).
+  public bool ShowStates;
+  [ShowIf("ShowStates")] [BoxGroup("Enemy States")]
   public bool isGod = false;
-  public PhotonView photonView;
+  [HideInInspector] public PhotonView photonView;
 
-  [Header("Enemy Drops")]
-  public GameObject ammoBox;
-  public GameObject healthDrop;
+  public bool ShowDrops;
+  [ShowIf("ShowDrops")] [BoxGroup("Enemy Drops")]
+  public GameObject ammoBox, healthDrop;
   bool firstDrop = true;
 
   void Awake()

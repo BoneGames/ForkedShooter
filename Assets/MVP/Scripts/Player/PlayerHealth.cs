@@ -1,15 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
 
 public class PlayerHealth : Health
 {
+  [ShowIf("ShowShields")]
+  [BoxGroup("Shields")]
   public GameObject shieldGO;
 
   PhotonView photonView;
   string photonID;
-  [HideInInspector]
+
+  public bool ShowShotIndicator;
+  [ShowIf("ShowShotIndicator")] [BoxGroup("Shot Indicator")]
   public GameObject shotDirectionArm;
+  [ShowIf("ShowShotIndicator")] [BoxGroup("Shot Indicator")]
   public float shotIndicatorDelay;
 
   public override void Start()
