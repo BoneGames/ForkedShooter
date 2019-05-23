@@ -1627,7 +1627,7 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
         }
         else
         {
-            if (operationResponse.ReturnCode == ErrorCode.OperationNotAllowedInCurrentState)
+            if (operationResponse.ReturnCode == ErrorCode.OperationNotAllowedIncurrentState)
             {
                 Debug.LogError("Operation " + operationResponse.OperationCode + " could not be executed (yet). Wait for state JoinedLobby or ConnectedToMaster and their callbacks before calling operations. WebRPCs need a server-side configuration. Enum OperationCode helps identify the operation.");
             }

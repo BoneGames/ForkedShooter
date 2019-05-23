@@ -11,6 +11,13 @@ public class Bullet : MonoBehaviour
     public LayerMask enemy;
 
     public GameObject sourceAgent;
+    Vector3 firePoint;
+
+
+    void Start()
+    {
+        firePoint = transform.position;
+    }
 
     public void Fire(Vector3 direction)
     {
@@ -41,7 +48,7 @@ public class Bullet : MonoBehaviour
         {
             foreach (Collider col in cols)
             {
-                col.GetComponent<BehaviourAI>().BulletAlert(transform.position);
+                col.GetComponent<BehaviourAI>().BulletAlert(firePoint);
             }
         }
     }

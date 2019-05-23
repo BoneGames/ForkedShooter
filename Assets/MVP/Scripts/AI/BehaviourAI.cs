@@ -4,64 +4,42 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
 
-public class BehaviourAI : MonoBehaviour
+public abstract class BehaviourAI : MonoBehaviour
 {
     #region STATE ENUMs
     // Declaration
     public enum State // The behaviour states of the enemy AI.
     {
-        Patrol = 0,
-        Seek = 1,
-        Retreat = 2,
-        Survey = 3,
-        Totem = 4,
-        Investigate = 5,
-        Hide = 6,
-        Snipe = 7,
-        Melee = 8
+        Patrol,
+        Seek,
+        Retreat,
+        Survey,
+        Totem ,
+        Investigate,
+        Hide,
+        Fire,
     }
+
+    public enum Mode
+    {
+        Naive,
+        Suspicious,
+        Combat
+    }
+
     #endregion
 
     #region VARIABLES
-    
 
-    public State CurrentState
-    {
-        get
-        {
-            return currentState;
-        }
-        set
-        {
-            if(currentState != value)
-            {
-                target = null;
-                currentState = value;
-                Debug.Log("new state: " + currentState);
-            }
-        }
-    }
     [Header("Behaviours")]
-    private State currentState = State.Patrol;
+    public State currentState = State.Patrol;
+   //private Mode currentMode = Mode.Naive;
     
-
-
-
     [AI_ScoutDrone_(new string[] { "Speed Patrol", "Speed Seek", "Speed Investigate" })]
     public float[] moveSpeed = new float[3]; // Movement speeds for different states (up to you).
 
-    // -- trying to eliminate these arrays and replace with 1 simple pause state that can be fed a float variable --
-
-    //[AI_ScoutDrone_(new string[] { "Pause Patrol", "Pause Seek", "Pause Investigate" })]
-    //public float[] pauseDuration = new float[3]; // Time to wait before doing next thing.
-    //[HideInInspector]
-    //// [AI_ScoutDrone_(new string[] { "Timer Patrol", "Timer Seek", "Timer Investigate" })]
-    //public float[] holdStateTimer = new float[3]; // Used to count how much time has passed since...
-
     private float hideTimer;
     public float hideTime;
-
-    //public float shootTimer, shootDelay;
 
     public GameObject investigateTarget;
 
@@ -70,27 +48,29 @@ public class BehaviourAI : MonoBehaviour
 
     [Header("Components")]
     public NavMeshAgent agent; // Unity component reference
-    public Transform target; // Reference assigned target's Transform data (position/rotation/scale).
+    public Transform playerTarget; // Reference assigned target's Transform data (position/rotation/scale).
     public Transform waypointParent; // Reference one waypoint Parent (used to get children in array).
     public AI_FoV_Detection fov; // Reference FieldOfView Script (used for line of sight player detection).
     public AI_Weapon gun;
-    public Transform player;
+    public BehaviourAI[] Modes;
+    public int currentMode;
 
-    public float obstacleSearchRange = 5f;
     public LayerMask obstacleMask;
-    public float inaccuracy;
-    Vector3 strafeDir = Vector3.up;
-    bool initVar = true;
+    public bool initVar = true;
 
-    float strafeTimer, strafeTime, strafeSpeed;
+    public int intensity;
+
+    
+    
     [HideInInspector]
     public Quaternion startRotation;
+
     private Vector3 totemPos;
     public EnemyHealth healthRef;
 
     //[HideInInspector]
     public Transform hand;
-    public float shootTimer, shootTimerMax;
+    public float shootTimer, shootDelay;
 
 
     public Vector3 investigatePoint;
@@ -99,7 +79,7 @@ public class BehaviourAI : MonoBehaviour
     //[HideInInspector]
     public Transform[] waypoints; // Transform of (child) waypoints in array.
     [HideInInspector]
-    public int currentIndex = 1; // Counts sequential waypoints of array index.
+    public int waypointIndex = 1; // Counts sequential waypoints of array index.
                                  //[HideInInspector]
                                  //public Quaternion startRotation;
     #endregion VARIABLES
@@ -108,7 +88,7 @@ public class BehaviourAI : MonoBehaviour
     // Returns closest obstacle collider to target
     public Collider GetClosestObstacle()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position, obstacleSearchRange, obstacleMask);
+        Collider[] hits = Physics.OverlapSphere(transform.position, 100, obstacleMask);
         // Set closest to null
         Collider closest = null;
         // Set minValue to max value
@@ -131,10 +111,23 @@ public class BehaviourAI : MonoBehaviour
         return closest;
     }
 
+    public void ModeSwitch(bool up)
+    {
+        // set new Mode Index
+        currentMode = up ? currentMode++ : currentMode--;
+        // disable all Mode Scripts
+        foreach(BehaviourAI mode in Modes)
+        {
+            mode.enabled = false;
+        }
+        // enable new mode
+        Modes[currentMode].enabled = true;
+    }
+
     public Vector3 GetAvoidanceWaypoint()
     {
         Collider closest = GetClosestObstacle();
-        Vector3 start = target.position;
+        Vector3 start = playerTarget.position;
         Vector3 end = closest.transform.position;
         Vector3 direction = end - start;
         Vector3 point = closest.ClosestPoint(start + direction * 2f);
@@ -156,7 +149,7 @@ public class BehaviourAI : MonoBehaviour
         return fov.visibleTargets[transformIndex];
     }
 
-    void GetNearestTotem()
+    public void GetNearestTotem()
     {
         InvulTotem[] totemPoles = FindObjectsOfType<InvulTotem>();
         float shortestDist = float.MaxValue;
@@ -172,9 +165,9 @@ public class BehaviourAI : MonoBehaviour
         }
     }
 
-    void SetNewWaypoint()
+    public void SetNewWaypoint()
     {
-        currentIndex = Random.Range(0, waypoints.Length);
+        waypointIndex = Random.Range(0, waypoints.Length);
     }
 
     // This is accessed from the bullet - if it hits near the enemy
@@ -184,7 +177,7 @@ public class BehaviourAI : MonoBehaviour
     public virtual void Patrol()
     {
         // Transform(s) of the current waypoint in the waypoints array.
-        Transform point = waypoints[currentIndex];
+        Transform point = waypoints[waypointIndex];
 
         // Agent destination (move to current waypoint position).
         agent.SetDestination(point.position);
@@ -198,22 +191,12 @@ public class BehaviourAI : MonoBehaviour
         if (LookForPlayer())
         {
             // ... switch to Seek behaviour, and set target to the first visible target.
-            CurrentState = State.Seek;
+            currentState = State.Seek;
         }
     }
 
 
-    void Shoot()
-    {
-        shootTimer -= Time.deltaTime;
 
-        if(shootTimer < 0)
-        {
-            gun.Shoot();
-            shootTimer = shootTimerMax;
-        }
-        
-    }
     void Hide()
     {
         Crouch(true);
@@ -229,25 +212,25 @@ public class BehaviourAI : MonoBehaviour
         // enter survey state
         if(hideTimer <= 0)
         {
-            CurrentState = State.Survey;
+            currentState = State.Survey;
             return;
         }
         initVar = false;
     }
 
     // The contained variables for the Seek state (what rules the enemy AI follows when in 'Seek').
-    void SeekPlayer()
+    void Charge()
     {
         // Retreat to totem if health is lower than 25
         if (healthRef.currentHealth < 30)
         {
-            CurrentState = State.Totem;
+            currentState = State.Totem;
         }
 
         // If we can't see any targets...
         if (!LookForPlayer())
         {
-            CurrentState = State.Investigate;
+            currentState = State.Investigate;
         }
 
         #region If Target is Seen...
@@ -255,7 +238,7 @@ public class BehaviourAI : MonoBehaviour
         if (LookForPlayer())
         {
             // Aim gun at the target.
-            hand.LookAt(target.position);
+            hand.LookAt(playerTarget.position);
 
             //Debug.Log("innacuarcy: "+accuracyOffset);
 
@@ -264,11 +247,11 @@ public class BehaviourAI : MonoBehaviour
 
             // Move to specified position under set conditions.
             #region Agent Destinations
-            agent.SetDestination(target.position);
+            agent.SetDestination(playerTarget.position);
             if (seekDistance >= stoppingDistance[2] - 0.5f && seekDistance <= stoppingDistance[2] + 0.5f)
             {
                 Debug.Log("strafe");
-                Strafe();
+                //Strafe();
                 if(agent.hasPath)
                 {
                     agent.ResetPath();
@@ -284,7 +267,7 @@ public class BehaviourAI : MonoBehaviour
         #endregion
     }
 
-    void Survey()
+    public void Survey()
     {
         if(initVar)
         {
@@ -308,40 +291,40 @@ public class BehaviourAI : MonoBehaviour
         // after 1 full revolution
         if(transform.rotation.eulerAngles.y > startRotation.eulerAngles.y -5 && transform.rotation.eulerAngles.y < startRotation.eulerAngles.y)
         {
-            CurrentState = State.Patrol;
+            currentState = State.Patrol;
             return;
         }
         initVar = false;
     }
 
-    void Strafe()
-    {
-        strafeTimer += Time.deltaTime;
-        //Debug.Log("strafeTimer: " + strafeTimer);
-        if(strafeTimer > strafeTime)
-        {
-            // Change strafe Direction
-            strafeDir *= -1;
-            // Set Time to strafe in current direction
-            strafeTime = Random.Range(1f, 3f);
-            // Set Strafe speed
-            strafeSpeed = Random.Range(6f, 14f);
+    //public void Strafe()
+    //{
+    //    strafeTimer += Time.deltaTime;
+    //    //Debug.Log("strafeTimer: " + strafeTimer);
+    //    if(strafeTimer > strafeTime)
+    //    {
+    //        // Change strafe Direction
+    //        strafeDir *= -1;
+    //        // Set Time to strafe in current direction
+    //        strafeTime = Random.Range(1f, 3f);
+    //        // Set Strafe speed
+    //        strafeSpeed = Random.Range(6f, 14f);
 
-            strafeTimer = 0;
-        }
-        if(healthRef.currentHealth > 50)
-        {
-            transform.RotateAround(target.position, strafeDir, strafeSpeed * Time.deltaTime);
-        }
-        else
-        {
-            agent.updateRotation = false;
-            Vector3 waypoint = GetAvoidanceWaypoint();
-            agent.SetDestination(waypoint);
-            transform.LookAt(target.position);
-        }
-        agent.updateRotation = true;
-    }
+    //        strafeTimer = 0;
+    //    }
+    //    if(healthRef.currentHealth > 50)
+    //    {
+    //        transform.RotateAround(playerTarget.position, strafeDir, strafeSpeed * Time.deltaTime);
+    //    }
+    //    else
+    //    {
+    //        agent.updateRotation = false;
+    //        Vector3 waypoint = GetAvoidanceWaypoint();
+    //        agent.SetDestination(waypoint);
+    //        transform.LookAt(playerTarget.position);
+    //    }
+    //    agent.updateRotation = true;
+    //}
 
     void CoverShoot()
     {
@@ -364,7 +347,7 @@ public class BehaviourAI : MonoBehaviour
         agent.SetDestination(retreatPoint);
         if(agent.remainingDistance < 0.5f)
         {
-            CurrentState = State.Hide;
+            currentState = State.Hide;
         }
     }
 
@@ -374,11 +357,10 @@ public class BehaviourAI : MonoBehaviour
          
         if (DestinationReached(0.5f))
         {
-            CurrentState = State.Survey;
+            currentState = State.Survey;
         }
     }
 
-    
 
     public void SeekTotem()
     {
@@ -386,21 +368,21 @@ public class BehaviourAI : MonoBehaviour
         if(agent.remainingDistance < 5)
         {
             agent.ResetPath();
-            CurrentState = State.Survey;
+            currentState = State.Survey;
         }
     }
     #endregion
 
     #region ACTIONS
-    void MeleeAttack()
+    public void MeleeAttack()
     {
         if (LookForPlayer())
         {
-            agent.SetDestination(target.position);
+            agent.SetDestination(playerTarget.position);
         }
         else
         {
-            CurrentState = State.Investigate;
+            currentState = State.Investigate;
         }
 
         if (DestinationReached(1))
@@ -409,7 +391,19 @@ public class BehaviourAI : MonoBehaviour
         }
     }
 
-    void Crouch(bool _crouch)
+    // shoots gun a specific number of times
+    public void Shoot(int _shots)
+    {
+        shootTimer -= Time.deltaTime;
+
+        if (shootTimer < 0)
+        {
+            gun.Shoot(_shots);
+            shootTimer = shootDelay;
+        }
+    }
+
+    public void Crouch(bool _crouch)
     {
         if (_crouch)
         {
@@ -425,7 +419,7 @@ public class BehaviourAI : MonoBehaviour
 
     #region SENSES
 
-    bool LookForPlayer()
+    public virtual bool LookForPlayer()
     {
         if (fov.visibleTargets.Count > 0)
         {
@@ -434,10 +428,10 @@ public class BehaviourAI : MonoBehaviour
                 GetClosestTarget();
             }
 
-            target = fov.visibleTargets[0];
+            playerTarget = fov.visibleTargets[0];
 
             // Store investigate point in case target is lost (last seen target point) 
-            investigatePoint = target.position;
+            investigatePoint = playerTarget.position;
             investigateTarget.transform.position = investigatePoint;
 
             return true;
@@ -445,7 +439,7 @@ public class BehaviourAI : MonoBehaviour
         return false;
     }
 
-    bool DestinationReached(float desiredDistance)
+    public bool DestinationReached(float desiredDistance)
     {
         if (agent.remainingDistance < desiredDistance)
         {
@@ -454,13 +448,14 @@ public class BehaviourAI : MonoBehaviour
         return false;
     }
 
-    public void BulletAlert(Vector3 impactPoint)
+    public void BulletAlert(Vector3 shotOrigin)
     {
+        // reset Hide timer (if currently hiding)
         hideTimer = hideTime;
-        if (CurrentState != State.Hide)
+        if (currentState != State.Hide)
         {
-            investigatePoint = impactPoint;
-            CurrentState = State.Investigate;
+            investigatePoint = shotOrigin;
+            currentState = State.Investigate;
         }
     }
     #endregion
@@ -479,8 +474,6 @@ public class BehaviourAI : MonoBehaviour
 
         // Get weapon
         gun = GetComponentInChildren<AI_Weapon>();
-
-        player = FindObjectOfType<PlayerHealth>().transform;
     }
     #endregion Start
 
@@ -489,25 +482,17 @@ public class BehaviourAI : MonoBehaviour
     {
         shootTimer -= Time.deltaTime;
         
-        // if in "searching" states, && there is an inspectionn waypoint found
-        //if((currentState == State.Patrol || currentState == State.Survey) && investigatePoint != null)
-        //{
-        //    currentState = State.Investigate;
-        //}
+       
 
-        // Hide and survey count down a wait timer - this bool sets it's time on the first entry to state
-        if (CurrentState != State.Hide && CurrentState != State.Survey)
-        {
-            initVar = true;
-        }
+       
 
-        switch (CurrentState)
+        switch (currentState)
         {
             case State.Patrol:
                 Patrol();
                 break;
             case State.Seek:
-                SeekPlayer();
+                Charge();
                 break;
             case State.Retreat:
                 Retreat();
@@ -527,32 +512,32 @@ public class BehaviourAI : MonoBehaviour
         }
 
         // Set speed based on current state
-        SetSpeed();
+        //SetSpeed();
     }
 
     
-    void SetSpeed()
-    {
-        switch (CurrentState)
-        {
-            case State.Seek:
-                agent.speed = moveSpeed[1];
-                break;
-            case State.Retreat:
-                agent.speed = moveSpeed[1];
-                break;
-            case State.Totem:
-                agent.speed = moveSpeed[1];
-                break;
-            case State.Investigate:
-                agent.speed = moveSpeed[2];
-                break;
-            // patrol, survey
-            default:
-                agent.speed = moveSpeed[0];
-                break;
-        }
-    }
+    //void SetSpeed()
+    //{
+    //    switch (currentState)
+    //    {
+    //        case State.Seek:
+    //            agent.speed = moveSpeed[1];
+    //            break;
+    //        case State.Retreat:
+    //            agent.speed = moveSpeed[1];
+    //            break;
+    //        case State.Totem:
+    //            agent.speed = moveSpeed[1];
+    //            break;
+    //        case State.Investigate:
+    //            agent.speed = moveSpeed[2];
+    //            break;
+    //        // patrol, survey
+    //        default:
+    //            agent.speed = moveSpeed[0];
+    //            break;
+    //    }
+    //}
     #endregion Update
 }
 

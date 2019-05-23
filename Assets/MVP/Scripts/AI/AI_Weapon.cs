@@ -12,7 +12,7 @@ public class AI_Weapon : Weapon
     public GameObject hitParticle;
 
     [Header("Burst Fire")]
-    public int burstCount; // Number of shots fired per burst (1 = semi-automatic).
+    //public int burstCount; // Number of shots fired per burst (1 = semi-automatic).
     public float burstDelay; // Time between each shot fired in a burst.
     public float reloadTime; // Self explanatory.
     #endregion
@@ -32,9 +32,9 @@ public class AI_Weapon : Weapon
     }
 
     // Where we run BurstFire(). - accessed from Behaviour_AI
-    public void Shoot()
+    public void Shoot(int _shots)
     {
-       StartCoroutine(BurstFire(burstCount, burstDelay)); 
+       StartCoroutine(BurstFire(_shots, burstDelay)); 
     }
 
     // Where we define shooting.

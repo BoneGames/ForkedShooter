@@ -363,7 +363,7 @@ namespace ExitGames.Client.Photon.Chat
         /// Before you call any operations on the Cloud servers, the automated client workflow must complete its authorization.
         /// In PUN, wait until State is: JoinedLobby (with AutoJoinLobby = true) or ConnectedToMaster (AutoJoinLobby = false)
         /// </remarks>
-        public const int OperationNotAllowedInCurrentState = -3;
+        public const int OperationNotAllowedIncurrentState = -3;
 
         /// <summary>(-2) The operation you called is not implemented on the server (application) you connect to. Make sure you run the fitting applications.</summary>
         public const int InvalidOperationCode = -2;

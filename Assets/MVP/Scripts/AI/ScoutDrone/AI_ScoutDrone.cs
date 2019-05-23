@@ -38,7 +38,7 @@ public class AI_ScoutDrone : BehaviourAI
         // Agent navigation speed.
         agent.speed = moveSpeed[1];
 
-        float seekDistance = Vector3.Distance(transform.position, target.position);
+        float seekDistance = Vector3.Distance(transform.position, playerTarget.position);
 
         #region If Target is Lost...
         if (fov.visibleTargets.Count < 1)
@@ -67,15 +67,15 @@ public class AI_ScoutDrone : BehaviourAI
         {
             if(fov.visibleTargets.Count > 1)
             {
-                target = GetClosestTarget();
+                playerTarget = GetClosestTarget();
             } else {
-                target = fov.visibleTargets[0];
+                playerTarget = fov.visibleTargets[0];
             }
             
 
             // Switch to relative animations and aim
             #region Anims, Rotations (AIM GUN)
-            if (target)
+            if (playerTarget)
             {
                 // Current animation (Seek) and SearchLight Color.
                 anim.SetBool("hasTarget", true);
@@ -86,7 +86,7 @@ public class AI_ScoutDrone : BehaviourAI
 
                 #region Aim at Player Position
                 // Direction of target (player) from the aim position.
-                Vector3 aimDir = target.position - aim.position;
+                Vector3 aimDir = playerTarget.position - aim.position;
                 
                 if (aimDir.magnitude > 0)
                 {
@@ -98,10 +98,10 @@ public class AI_ScoutDrone : BehaviourAI
 
             // Move to specified point under set conditions.
             #region Agent Destinations
-            Vector3 targetDir = transform.position - target.position;
+            Vector3 targetDir = transform.position - playerTarget.position;
             if (seekDistance > stoppingDistance[1])
             {
-                agent.SetDestination(target.position);
+                agent.SetDestination(playerTarget.position);
                 //print("Chase");
             }
             if (seekDistance >= stoppingDistance[2] - 0.5f && seekDistance <= stoppingDistance[2] + 0.5f)
@@ -120,7 +120,7 @@ public class AI_ScoutDrone : BehaviourAI
 
         #region Waypoint Timer (Fix)
         // NOTE: Copy-paste from Patrol() - This is to keep the waitTimer counting down during Seek().
-        Transform point = waypoints[currentIndex];
+        Transform point = waypoints[waypointIndex];
 
         float distance = Vector3.Distance(transform.position, point.position);
 
@@ -134,9 +134,9 @@ public class AI_ScoutDrone : BehaviourAI
 
 
             //}
-            if (currentIndex >= waypoints.Length)
+            if (waypointIndex >= waypoints.Length)
                 {
-                    currentIndex = 1;
+                    waypointIndex = 1;
                 }
         }
         #endregion
@@ -163,7 +163,7 @@ public class AI_ScoutDrone : BehaviourAI
     void Update()
     {
         // Switch current state
-        switch (CurrentState)
+        switch (currentState)
         {
             case State.Patrol:
                 // Patrol state

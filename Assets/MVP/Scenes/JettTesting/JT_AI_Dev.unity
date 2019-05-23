@@ -187,6 +187,11 @@ PrefabInstance:
       propertyPath: hand
       value: 
       objectReference: {fileID: 274184725}
+    - target: {fileID: 114063992362631900, guid: bbb8b8f930a956f498f80738b829185f,
+        type: 3}
+      propertyPath: shootDelay
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4686679147568946, guid: bbb8b8f930a956f498f80738b829185f, type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.0017
@@ -207,80 +212,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bbb8b8f930a956f498f80738b829185f, type: 3}
---- !u!1 &59152035 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1210148752958328, guid: bbb8b8f930a956f498f80738b829185f,
-    type: 3}
-  m_PrefabInstance: {fileID: 59152034}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &59152036
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 59152035}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 422fb6956201c7944ae2113a1a53b0b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxTasksPerTick: 500
-  behavior: {fileID: 11400000, guid: d5ce96f634245c04ea904543f0b0d720, type: 2}
-  paused: 0
-  restartWhenFinished: 0
-  blackboard:
-    intParams: 
-    intParamsNames: []
-    intParamsLostDefaultValue: 
-    boolParams: 
-    boolParamsNames: []
-    boolParamsLostDefaultValue: 
-    floatParams: []
-    floatParamsNames: []
-    floatParamsLostDefaultValue: 
-    stringParams: []
-    stringParamsNames: []
-    stringParamsLostDefaultValue: 
-    colorParams: []
-    colorParamsNames: []
-    colorParamsLostDefaultValue: 
-    objectParams:
-    - {fileID: 561652943}
-    objectParamsNames:
-    - target
-    objectParamsLostDefaultValue: 
-    layerMaskParams: []
-    layerMaskParamsNames: []
-    layerMaskParamsLostDefaultValue: 
-    enumParamsNames: []
-    enumParamsLostDefaultValue: 
-    vector2Params: []
-    vector2ParamsNames: []
-    vector2ParamsLostDefaultValue: 
-    vector3Params:
-    - {x: 0, y: 0, z: 0}
-    vector3ParamsNames:
-    - waypoint
-    vector3ParamsLostDefaultValue: 
-    vector4Params: []
-    vector4ParamsNames: []
-    vector4ParamsLostDefaultValue: 
-    rectParams: []
-    rectParamsNames: []
-    rectParamsLostDefaultValue: 
-    animationCurveParams: []
-    animationCurveParamsNames: []
-    animationCurveParamsLostDefaultValue: 
-    boundsParams: []
-    boundsParamsNames: []
-    boundsParamsLostDefaultValue: 
-    gradientParams: []
-    gradientParamsNames: []
-    gradientParamsLostDefaultValue: 
-    quaternionParams: []
-    quaternionParamsNames: []
-    quaternionParamsLostDefaultValue: 
 --- !u!4 &135759363 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4228566872078592, guid: 743310d68bad76e438b5ca22c733650d,
@@ -523,6 +454,11 @@ PrefabInstance:
       propertyPath: showPlayerStats
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114131910670434340, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: showImportantStuff
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 114082195335734174, guid: d4959bfe9c2bdde4ba18947f246452be,
         type: 3}
       propertyPath: showMotionKeys
@@ -547,12 +483,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
---- !u!1 &561652943 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1710371407272564, guid: d4959bfe9c2bdde4ba18947f246452be,
-    type: 3}
-  m_PrefabInstance: {fileID: 561652942}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &561652952 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4276223126385402, guid: d4959bfe9c2bdde4ba18947f246452be,
@@ -1855,18 +1785,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34e2c89e7ca4ac4ebd55ded33532505, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowHealth: 0
   maxHealth: 100
   currentHealth: 0
+  ShowShields: 0
   maxShield: 100
   currentShield: 0
   carryOnDmg: 0
   healthBar: {fileID: 0}
+  ShowEvents: 0
   onDeath:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHeal:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onDamage:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   shieldGO: {fileID: 0}
+  ShowShotIndicator: 0
   shotDirectionArm: {fileID: 0}
   shotIndicatorDelay: 0
 --- !u!136 &1977245296

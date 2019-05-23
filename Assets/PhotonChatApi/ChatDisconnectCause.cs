@@ -29,7 +29,7 @@ namespace ExitGames.Client.Photon.Chat
         /// <summary>OnOperationResponse: Authenticate when the app's Photon Cloud subscription is locked to some (other) region(s). Update your subscription or master server address.</summary>
         InvalidRegion,
         /// <summary>OnOperationResponse: Operation that's (currently) not available for this client (not authorized usually). Only tracked for op Authenticate.</summary>
-        OperationNotAllowedInCurrentState,
+        OperationNotAllowedIncurrentState,
         /// <summary>OnOperationResponse: Authenticate in the Photon Cloud with invalid client values or custom authentication setup in Cloud Dashboard.</summary>
         CustomAuthenticationFailed,
     }

@@ -1180,8 +1180,8 @@ namespace ExitGames.Client.Photon.Chat
                     case ErrorCode.MaxCcuReached:
                         this.DisconnectedCause = ChatDisconnectCause.MaxCcuReached;
                         break;
-                    case ErrorCode.OperationNotAllowedInCurrentState:
-                        this.DisconnectedCause = ChatDisconnectCause.OperationNotAllowedInCurrentState;
+                    case ErrorCode.OperationNotAllowedIncurrentState:
+                        this.DisconnectedCause = ChatDisconnectCause.OperationNotAllowedIncurrentState;
                         break;
                 }
 
