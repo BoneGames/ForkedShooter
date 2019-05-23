@@ -23,8 +23,29 @@ public class BehaviourAI : MonoBehaviour
     #endregion
 
     #region VARIABLES
+    
+
+    public State CurrentState
+    {
+        get
+        {
+            return currentState;
+        }
+        set
+        {
+            if(currentState != value)
+            {
+                target = null;
+                currentState = value;
+                Debug.Log("new state: " + currentState);
+            }
+        }
+    }
     [Header("Behaviours")]
-    public State currentState = State.Patrol; // The default/start state set to Patrol.
+    private State currentState = State.Patrol;
+    
+
+
 
     [AI_ScoutDrone_(new string[] { "Speed Patrol", "Speed Seek", "Speed Investigate" })]
     public float[] moveSpeed = new float[3]; // Movement speeds for different states (up to you).
@@ -40,6 +61,10 @@ public class BehaviourAI : MonoBehaviour
     private float hideTimer;
     public float hideTime;
 
+    //public float shootTimer, shootDelay;
+
+    public GameObject investigateTarget;
+
     [AI_ScoutDrone_(new string[] { "0-Waypoint", "1-Seek Target", "2-Range Target", "3-Retreat" })]
     public float[] stoppingDistance = new float[4]; // Stopping distance for different conditions.
 
@@ -48,6 +73,8 @@ public class BehaviourAI : MonoBehaviour
     public Transform target; // Reference assigned target's Transform data (position/rotation/scale).
     public Transform waypointParent; // Reference one waypoint Parent (used to get children in array).
     public AI_FoV_Detection fov; // Reference FieldOfView Script (used for line of sight player detection).
+    public AI_Weapon gun;
+    public Transform player;
 
     public float obstacleSearchRange = 5f;
     public LayerMask obstacleMask;
@@ -62,10 +89,11 @@ public class BehaviourAI : MonoBehaviour
     public EnemyHealth healthRef;
 
     //[HideInInspector]
-    public Transform shootPoint;
+    public Transform hand;
+    public float shootTimer, shootTimerMax;
 
 
-    Vector3 investigatePoint;
+    public Vector3 investigatePoint;
 
     // Creates a collection of Transforms
     //[HideInInspector]
@@ -77,9 +105,6 @@ public class BehaviourAI : MonoBehaviour
     #endregion VARIABLES
 
     #region HELPER FUNCTIONS
-    // Method to call upon FindVisibleTargets Method with a delay (0.2f from Coroutine argument).
-   
-
     // Returns closest obstacle collider to target
     public Collider GetClosestObstacle()
     {
@@ -147,10 +172,15 @@ public class BehaviourAI : MonoBehaviour
         }
     }
 
+    void SetNewWaypoint()
+    {
+        currentIndex = Random.Range(0, waypoints.Length);
+    }
+
+    // This is accessed from the bullet - if it hits near the enemy
     #endregion
 
     #region STATES
-    // The contained variables for the Patrol state (what rules the enemy AI follows when in 'Patrol').
     public virtual void Patrol()
     {
         // Transform(s) of the current waypoint in the waypoints array.
@@ -164,106 +194,26 @@ public class BehaviourAI : MonoBehaviour
         {
             SetNewWaypoint();
         }
-        
         // If we spot a player...
         if (LookForPlayer())
         {
             // ... switch to Seek behaviour, and set target to the first visible target.
-            currentState = State.Seek;
+            CurrentState = State.Seek;
         }
     }
 
-    bool DestinationReached(float desiredDistance)
+
+    void Shoot()
     {
-        if(agent.stoppingDistance < desiredDistance)
+        shootTimer -= Time.deltaTime;
+
+        if(shootTimer < 0)
         {
-            return true;
+            gun.Shoot();
+            shootTimer = shootTimerMax;
         }
-        return false;
+        
     }
-
-    void MeleeAttack()
-    {
-        if(LookForPlayer())
-        {
-            agent.SetDestination(target.position);
-        }
-        else
-        {
-            currentState = State.Investigate;
-        }
-
-        if(DestinationReached(1))
-        {
-            // MELEE ATTACK
-        }
-    }
-
-    bool LookForPlayer()
-    {
-        if(fov.visibleTargets.Count > 0)
-        {
-            if(fov.visibleTargets.Count > 1)
-            {
-                GetClosestTarget();
-            }
-
-            target = fov.visibleTargets[0];
-
-            // Store investigate point in case target is lost (last seen target point) 
-            investigatePoint = target.position;
-
-            return true;
-        }
-        return false;
-    }
-
-    void SetSpeed()
-    {
-        switch (currentState)
-        {
-            case State.Seek:
-                agent.speed = moveSpeed[1];
-                break;
-            case State.Retreat:
-                agent.speed = moveSpeed[1];
-                break;
-            case State.Totem:
-                agent.speed = moveSpeed[1];
-                break;
-            case State.Investigate:
-                agent.speed = moveSpeed[2];
-                break;
-                // patrol, survey
-            default:
-                agent.speed = moveSpeed[0];
-                break;
-        }
-    }
-
-    void Crouch(bool _crouch)
-    {
-        if(_crouch)
-        {
-            // IMPLEMENT CROUCH MECHANIC
-            return;
-        }
-        else
-        {
-            // IMPLEMENT STAND MECHANIC
-        }
-    }
-
-    public void BulletAlert(Vector3 impactPoint)
-    {
-        hideTimer = hideTime;
-        if(currentState != State.Hide)
-        {
-            investigatePoint = impactPoint;
-            currentState = State.Investigate; 
-        }
-    }
-
     void Hide()
     {
         Crouch(true);
@@ -279,32 +229,25 @@ public class BehaviourAI : MonoBehaviour
         // enter survey state
         if(hideTimer <= 0)
         {
-            currentState = State.Survey;
+            CurrentState = State.Survey;
             return;
         }
-
         initVar = false;
     }
 
-    void SetNewWaypoint()
-    {
-        currentIndex = Random.Range(0, waypoints.Length);
-    }
-
     // The contained variables for the Seek state (what rules the enemy AI follows when in 'Seek').
-    void Seek()
+    void SeekPlayer()
     {
-        agent.SetDestination(target.position);
         // Retreat to totem if health is lower than 25
         if (healthRef.currentHealth < 30)
         {
-            currentState = State.Totem;
+            CurrentState = State.Totem;
         }
 
         // If we can't see any targets...
         if (!LookForPlayer())
         {
-            currentState = State.Investigate;
+            CurrentState = State.Investigate;
         }
 
         #region If Target is Seen...
@@ -312,27 +255,30 @@ public class BehaviourAI : MonoBehaviour
         if (LookForPlayer())
         {
             // Aim gun at the target.
-            Vector3 accuracyOffset = new Vector3(Random.Range(0, inaccuracy), Random.Range(0, inaccuracy), 0);
-            shootPoint.LookAt(target.position + accuracyOffset);
+            hand.LookAt(target.position);
+
+            //Debug.Log("innacuarcy: "+accuracyOffset);
 
             // Get distance between enemy and player/target.
             float seekDistance = agent.remainingDistance;
 
             // Move to specified position under set conditions.
             #region Agent Destinations
-         
+            agent.SetDestination(target.position);
             if (seekDistance >= stoppingDistance[2] - 0.5f && seekDistance <= stoppingDistance[2] + 0.5f)
             {
+                Debug.Log("strafe");
                 Strafe();
                 if(agent.hasPath)
                 {
                     agent.ResetPath();
                 }          
             }
-            if (DestinationReached(3))
+            else if (DestinationReached(1))
             {
-                currentState = State.Melee;
+                Debug.Log("Melee");
             }
+         
             #endregion
         }
         #endregion
@@ -362,16 +308,14 @@ public class BehaviourAI : MonoBehaviour
         // after 1 full revolution
         if(transform.rotation.eulerAngles.y > startRotation.eulerAngles.y -5 && transform.rotation.eulerAngles.y < startRotation.eulerAngles.y)
         {
-            currentState = State.Patrol;
-            initVar = true;
+            CurrentState = State.Patrol;
             return;
-
         }
         initVar = false;
     }
 
     void Strafe()
-    { 
+    {
         strafeTimer += Time.deltaTime;
         //Debug.Log("strafeTimer: " + strafeTimer);
         if(strafeTimer > strafeTime)
@@ -385,8 +329,33 @@ public class BehaviourAI : MonoBehaviour
 
             strafeTimer = 0;
         }
-        
-        transform.RotateAround(target.position, strafeDir, strafeSpeed * Time.deltaTime);
+        if(healthRef.currentHealth > 50)
+        {
+            transform.RotateAround(target.position, strafeDir, strafeSpeed * Time.deltaTime);
+        }
+        else
+        {
+            agent.updateRotation = false;
+            Vector3 waypoint = GetAvoidanceWaypoint();
+            agent.SetDestination(waypoint);
+            transform.LookAt(target.position);
+        }
+        agent.updateRotation = true;
+    }
+
+    void CoverShoot()
+    {
+        // after retreat - go to hide (for pause) - then go to shoot - return to hide
+
+        // move to side (beyond obstacle)
+
+        // turn to look at last player position (investigatePoint)
+
+        // if player there, Shoot()
+
+        // if enemy hit - return to cover (retreat?)
+
+        // repeat
     }
 
     public void Retreat()
@@ -395,7 +364,7 @@ public class BehaviourAI : MonoBehaviour
         agent.SetDestination(retreatPoint);
         if(agent.remainingDistance < 0.5f)
         {
-            currentState = State.Survey;
+            CurrentState = State.Hide;
         }
     }
 
@@ -405,23 +374,98 @@ public class BehaviourAI : MonoBehaviour
          
         if (DestinationReached(0.5f))
         {
-            currentState = State.Survey;
+            CurrentState = State.Survey;
         }
     }
 
-    public void Totem()
+    
+
+    public void SeekTotem()
     {
         agent.SetDestination(totemPos);
         if(agent.remainingDistance < 5)
         {
             agent.ResetPath();
-            currentState = State.Survey;
+            CurrentState = State.Survey;
+        }
+    }
+    #endregion
+
+    #region ACTIONS
+    void MeleeAttack()
+    {
+        if (LookForPlayer())
+        {
+            agent.SetDestination(target.position);
+        }
+        else
+        {
+            CurrentState = State.Investigate;
+        }
+
+        if (DestinationReached(1))
+        {
+            // MELEE ATTACK
         }
     }
 
+    void Crouch(bool _crouch)
+    {
+        if (_crouch)
+        {
+            // IMPLEMENT CROUCH MECHANIC
+            return;
+        }
+        else
+        {
+            // IMPLEMENT STAND MECHANIC
+        }
+    }
     #endregion
 
-    #region Start
+    #region SENSES
+
+    bool LookForPlayer()
+    {
+        if (fov.visibleTargets.Count > 0)
+        {
+            if (fov.visibleTargets.Count > 1)
+            {
+                GetClosestTarget();
+            }
+
+            target = fov.visibleTargets[0];
+
+            // Store investigate point in case target is lost (last seen target point) 
+            investigatePoint = target.position;
+            investigateTarget.transform.position = investigatePoint;
+
+            return true;
+        }
+        return false;
+    }
+
+    bool DestinationReached(float desiredDistance)
+    {
+        if (agent.remainingDistance < desiredDistance)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public void BulletAlert(Vector3 impactPoint)
+    {
+        hideTimer = hideTime;
+        if (CurrentState != State.Hide)
+        {
+            investigatePoint = impactPoint;
+            CurrentState = State.Investigate;
+        }
+    }
+    #endregion
+
+    #region START
     public virtual void Start()
     {
         GetNearestTotem();
@@ -432,26 +476,38 @@ public class BehaviourAI : MonoBehaviour
 
         // Get NavMeshAgent (failsafe).
         agent = GetComponent<NavMeshAgent>();
-    }
 
-    
+        // Get weapon
+        gun = GetComponentInChildren<AI_Weapon>();
+
+        player = FindObjectOfType<PlayerHealth>().transform;
+    }
     #endregion Start
 
     #region Update
     void Update()
     {
+        shootTimer -= Time.deltaTime;
+        
         // if in "searching" states, && there is an inspectionn waypoint found
-        if((currentState == State.Patrol || currentState == State.Survey) && investigatePoint != null)
+        //if((currentState == State.Patrol || currentState == State.Survey) && investigatePoint != null)
+        //{
+        //    currentState = State.Investigate;
+        //}
+
+        // Hide and survey count down a wait timer - this bool sets it's time on the first entry to state
+        if (CurrentState != State.Hide && CurrentState != State.Survey)
         {
-            Investigate();
+            initVar = true;
         }
-        switch (currentState)
+
+        switch (CurrentState)
         {
             case State.Patrol:
                 Patrol();
                 break;
             case State.Seek:
-                Seek();
+                SeekPlayer();
                 break;
             case State.Retreat:
                 Retreat();
@@ -460,7 +516,7 @@ public class BehaviourAI : MonoBehaviour
                 Survey();
                 break;
             case State.Totem:
-                Totem();
+                SeekTotem();
                 break;
             case State.Investigate:
                 Investigate();
@@ -470,7 +526,58 @@ public class BehaviourAI : MonoBehaviour
                 break;
         }
 
+        // Set speed based on current state
         SetSpeed();
+    }
+
+    
+    void SetSpeed()
+    {
+        switch (CurrentState)
+        {
+            case State.Seek:
+                agent.speed = moveSpeed[1];
+                break;
+            case State.Retreat:
+                agent.speed = moveSpeed[1];
+                break;
+            case State.Totem:
+                agent.speed = moveSpeed[1];
+                break;
+            case State.Investigate:
+                agent.speed = moveSpeed[2];
+                break;
+            // patrol, survey
+            default:
+                agent.speed = moveSpeed[0];
+                break;
+        }
     }
     #endregion Update
 }
+
+
+//IEnumerator LookAround()
+//{
+//    Vector3 curLeft = -transform.right;
+//    Vector3 curRight = transform.right;
+
+//    bool canRight = !Physics.Raycast(transform.position, curRight, 5);
+//    bool canLeft = !Physics.Raycast(transform.position, curLeft, 5);
+
+//    if(canRight)
+//    {
+//        Debug.Log("Look Right");
+//        // look here
+//        yield return new WaitForSeconds(2);
+//    }
+//    if (canLeft)
+//    {
+//        Debug.Log("Look Left");
+//        // look here
+//        yield return new WaitForSeconds(2);
+//    }
+
+
+
+//}

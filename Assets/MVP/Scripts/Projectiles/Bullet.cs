@@ -46,8 +46,6 @@ public class Bullet : MonoBehaviour
         }
     }
 
-
-
     public enum SourceAgent
     {
         Player,

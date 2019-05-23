@@ -163,7 +163,7 @@ public class AI_ScoutDrone : BehaviourAI
     void Update()
     {
         // Switch current state
-        switch (currentState)
+        switch (CurrentState)
         {
             case State.Patrol:
                 // Patrol state

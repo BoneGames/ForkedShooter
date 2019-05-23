@@ -5,7 +5,7 @@ using GameSystems;
 
 public class AI_Weapon : Weapon
 {
-    #region Variable
+    #region Variables
     // Check in AI_ScoutDrone.cs for visibleTargets.
     [Header("AI Weapon Variables")]
     public BehaviourAI contact; // Contact with the BehaviourAI conditions.
@@ -18,60 +18,23 @@ public class AI_Weapon : Weapon
     #endregion
 
     #region Functions 'n' Methods
-    // Where we initialize / Start things.
-    public override void Start()
-    {
-        // Grab 'contact's component, give full ammo, and start Coroutine.
-        contact = GetComponentInParent<BehaviourAI>();
-        StartCoroutine("Shoot");
-    }
 
-    // private void Update()
-    // {
-    //     Debug.DrawRay(spawnPoint.position, spawnPoint.transform.forward);
-    // }
 
     // Where we run Attack() multiple times.
     IEnumerator BurstFire(int burstCount, float burstDelay)
     {
-        //Rather than calling the same function three times successively, we do a loop calling them up to a given value
-        //This reduces hardcoding and allows the function to be modified more easily outside of the code, or when called.
+        // burst fire loop
         for (int i = 0; i < burstCount; i++)
         {
             Attack();
-
             yield return new WaitForSeconds(burstDelay);
         }
     }
 
-    // Where we run BurstFire().
-    IEnumerator Shoot()
+    // Where we run BurstFire(). - accessed from Behaviour_AI
+    public void Shoot()
     {
-        while (true)
-        {
-            //Debug.Log("shootroutine");
-            // Run BurstFire every 0.5 ↔ 1.0 seconds.
-
-            //This form of StartCoroutine doesn't use the string name to run it
-            //This makes it more consistent with other functions, and simplifies 
-            //passing in more paramaters 
-            StartCoroutine(BurstFire(burstCount, burstDelay));
-            yield return new WaitForSeconds(Random.Range(0.5f, 1f));
-        }
-    }
-
-    // Where we run Reload().
-    IEnumerator StartReload(float reloadTime)
-    {
-        while (true)
-        {
-            // Wait (reloadTime) seconds before reloading, then you can start shooting again.
-            yield return new WaitForSeconds(reloadTime);
-            Reload();
-            //currentAmmo = maxAmmo;
-            StartCoroutine("Shoot");
-            StopCoroutine("StartReload");
-        }
+       StartCoroutine(BurstFire(burstCount, burstDelay)); 
     }
 
     // Where we define shooting.
@@ -79,9 +42,8 @@ public class AI_Weapon : Weapon
     {
         //Debug.Log("Attack");
         // If there is a player in our line of sight, and we still have ammo to work with...
-        if (contact.fov.visibleTargets.Count > 0 && currentMag > 0)
+        if (currentMag > 0)
         {
-
             RaycastHit hit;
             Ray ray = new Ray(spawnPoint.position, spawnPoint.transform.forward);
 
@@ -110,19 +72,14 @@ public class AI_Weapon : Weapon
                 else
                 {
                     //print("I'm firing!");
-                    Debug.DrawRay(spawnPoint.position, spawnPoint.forward * 10, Color.red);
+                    Debug.DrawRay(spawnPoint.position, spawnPoint.forward * 10, Color.magenta, 1);
 
                     if (hit.collider.tag == "Player")
                     {
                         hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position);
-                        //print("I hit an enemy");
+                        print("I hit an enemy");
                     }
                 }
-                /// // Fire bullets at it.
-                /// GameObject clone = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation);
-                /// Bullet newBullet = clone.GetComponent<Bullet>();
-                /// 
-                /// newBullet.Fire(spawnPoint.transform.forward);
                 /// newBullet.sourceAgent = this.gameObject;
                 /// print("Firing.");
                 currentMag--;
@@ -130,20 +87,20 @@ public class AI_Weapon : Weapon
             }
         }
         // If we run out of ammo, start reloading and stop shooting.
-        if (currentMag == 0)
+        else
         {
-            StartCoroutine("StartReload", reloadTime);
-            StopCoroutine("Shoot");
+            StartCoroutine(ReloadTimed());
+            //StopCoroutine("Shoot");
         }
     }
 
-    void BulletTrail(Vector3 target, float distance)
+    void BulletTrail(Vector3 _target, float _dist)
     {
         GameObject bulletPath = Instantiate(lineRendPrefab, spawnPoint.position, spawnPoint.rotation);
         bulletPath.transform.SetParent(spawnPoint);
-        BulletPath script = bulletPath.GetComponent<BulletPath>();
-        script.target = target;
-        script.distance = distance;
+        BulletPath _bulletPath = bulletPath.GetComponent<BulletPath>();
+        _bulletPath.target = _target;
+        _bulletPath.distance = _dist;
     }
 
     void SpawnHitParticle(Vector3 hit)

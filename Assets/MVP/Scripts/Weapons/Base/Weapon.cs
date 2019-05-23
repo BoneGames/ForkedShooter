@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
 using BT;
 using NaughtyAttributes;
 
@@ -23,7 +22,7 @@ namespace GameSystems
     [BoxGroup("References")]
     public Text ammoDisplay;
 
-    //public Vector3 hitPoint;
+    public Vector3 hitPoint;
 
     Quaternion hitRotation;
 
@@ -65,7 +64,7 @@ namespace GameSystems
 
       if (Physics.Raycast(ray, out hit))
       {
-        //hitPoint = hit.point;
+        hitPoint = hit.point;
         hitRotation = hit.transform.rotation;
       }
       return hitRotation;
