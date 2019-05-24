@@ -18,6 +18,8 @@ public class Shotgun : Weapon
 
       UpdateAmmoDisplay();
 
+      audioWep.PlayOneShot(sfxShoot);
+
       spawnPoint.transform.rotation = AimAtCrosshair();
 
       for (int i = 0; i < pellets; i++)

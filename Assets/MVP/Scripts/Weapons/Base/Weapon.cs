@@ -21,6 +21,10 @@ namespace GameSystems
     public Transform spawnPoint, aimPoint;
     [BoxGroup("References")]
     public Text ammoDisplay;
+    [BoxGroup("References")]
+    public AudioSource audioWep;
+    [BoxGroup("References")]
+    public AudioClip[] sfx;
 
     public Vector3 hitPoint;
 
