@@ -22,7 +22,7 @@ public class InvulTotem : Health
     // Where we grab and set our Component References and our AoE size.
     #region Start()
     // Start is called just before any of the Update methods is called the first time
-    void Start()
+    public override void Start()
     {
         enemyMask = LayerMask.GetMask("Enemy");
 
@@ -36,7 +36,7 @@ public class InvulTotem : Health
     #endregion
 
     // Where we take damage and check if we can die.
-    public override void ChangeHealth(int value, Vector3 shotDir)
+    public override void ChangeHealth(float value, Vector3 shotDir)
     {
         currentHealth -= value;
         CheckDie();

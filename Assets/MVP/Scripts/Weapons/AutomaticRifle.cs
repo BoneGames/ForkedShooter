@@ -6,14 +6,35 @@ using System.Linq;
 
 public class AutomaticRifle : Weapon
 {
+    public float attackTimer;
+
+    //public bool canShoot;
+    public void Update()
+    {
+        attackTimer += Time.deltaTime;
+
+        if (attackTimer >= 1f / rateOfFire)
+        {
+            // Can shoot!
+            canShoot = true;
+        }
+    }
+
     public override void Attack()
     {
+
         if (currentMag > 0)
         {
+
             RaycastHit hit;
             Ray ray = new Ray(spawnPoint.position, spawnPoint.transform.forward);
 
             SpawnMuzzleFlash();
+            
+            Debug.Log("Reset shoot Timer");
+            attackTimer = 0;
+
+            canShoot = false;
 
             if (Physics.Raycast(ray, out hit))
             {
@@ -30,12 +51,13 @@ public class AutomaticRifle : Weapon
                 {
                     if (hit.collider.tag == "Enemy")
                     {
-                        hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position);
+                        hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position, weaponElement);
                         print("I hit an enemy");
                     }
 
                 }
             }
+
             currentMag--;
 
             UpdateAmmoDisplay();
@@ -45,6 +67,9 @@ public class AutomaticRifle : Weapon
             StartCoroutine(ReloadTimed());
         }
     }
+
+
+
 
     void BulletTrail(Vector3 target, float distance)
     {

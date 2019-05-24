@@ -13,8 +13,9 @@ namespace GameSystems
     public int damage = 100, maxReserves = 30, currentReserves, magSize, currentMag;
     [BoxGroup("Weapon Stats")]
     public float accuracy = 1f, scopeZoom = 75f, reloadSpeed, rateOfFire = 5f;
-    //public float range = 10f;
-
+    [BoxGroup("Weapon Stats")]
+    public Elements.Element weaponElement;
+    //public float range = 10f
     [BoxGroup("References")]
     public GameObject projectile, muzzle, lineRendPrefab;
     [BoxGroup("References")]
@@ -33,6 +34,8 @@ namespace GameSystems
     Quaternion hitRotation;
 
     public GradientAlphaKey[] startingAlphaKeys;
+
+    public bool canShoot;
 
     int tempMag;
 
