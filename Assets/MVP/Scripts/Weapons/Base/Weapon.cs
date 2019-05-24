@@ -22,6 +22,8 @@ namespace GameSystems
     [BoxGroup("References")]
     public Text ammoDisplay;
     [BoxGroup("References")]
+    public SfxPitchShifter pitchShifter;
+    [BoxGroup("References")]
     public AudioSource audioWep;
     [BoxGroup("References")]
     public AudioClip[] sfx;

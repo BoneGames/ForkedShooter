@@ -1543,6 +1543,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1389622838}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &278863393 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4425650814601440, guid: d4959bfe9c2bdde4ba18947f246452be,
+    type: 3}
+  m_PrefabInstance: {fileID: 1389622838}
+  m_PrefabAsset: {fileID: 0}
 --- !u!82 &278863394
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1552,7 +1558,8 @@ AudioSource:
   m_GameObject: {fileID: 278863392}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 243903997355108706, guid: 48736412b17689843a94ab8d7e1b9326,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -1639,6 +1646,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &278863396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278863392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 891e92ec69fd2534c9da6e0ca146994b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pitchBounds: {x: 0.95, y: 1.05}
+  tweetSource: {fileID: 278863393}
+  source: {fileID: 278863394}
+  mixer: {fileID: 24100000, guid: 48736412b17689843a94ab8d7e1b9326, type: 2}
 --- !u!1001 &286034627
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1776,7 +1799,8 @@ AudioSource:
   m_GameObject: {fileID: 291831279}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 243181843798459492, guid: 48736412b17689843a94ab8d7e1b9326,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 29eb543ade9f6d2458ab18d35f0e13c7, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -9159,6 +9183,11 @@ PrefabInstance:
       objectReference: {fileID: 2126387444}
     - target: {fileID: 114158151262044422, guid: d4959bfe9c2bdde4ba18947f246452be,
         type: 3}
+      propertyPath: sfx.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114158151262044422, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
       propertyPath: ammoDisplay
       value: 
       objectReference: {fileID: 1922551344}
@@ -9187,6 +9216,16 @@ PrefabInstance:
       propertyPath: sfxShoot
       value: 
       objectReference: {fileID: 8300000, guid: 2fb387a0fabbef64c951ae359b2e5853, type: 3}
+    - target: {fileID: 114158151262044422, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: sfx.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 2fb387a0fabbef64c951ae359b2e5853, type: 3}
+    - target: {fileID: 114158151262044422, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: pitchShifter
+      value: 
+      objectReference: {fileID: 278863396}
     - target: {fileID: 1748083688, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
       propertyPath: ammoDisplay
       value: 
@@ -9221,6 +9260,11 @@ PrefabInstance:
       objectReference: {fileID: 278863394}
     - target: {fileID: 114110289301231624, guid: d4959bfe9c2bdde4ba18947f246452be,
         type: 3}
+      propertyPath: sfx.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114110289301231624, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
       propertyPath: ammoDisplay
       value: 
       objectReference: {fileID: 1922551344}
@@ -9244,6 +9288,16 @@ PrefabInstance:
       propertyPath: sfxShoot
       value: 
       objectReference: {fileID: 8300000, guid: 5412cb17b9b71a14db17e9ac716f805e, type: 3}
+    - target: {fileID: 114110289301231624, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: sfx.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 5412cb17b9b71a14db17e9ac716f805e, type: 3}
+    - target: {fileID: 114110289301231624, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: pitchShifter
+      value: 
+      objectReference: {fileID: 278863396}
     - target: {fileID: 1610054995432940, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
       propertyPath: m_IsActive
       value: 0

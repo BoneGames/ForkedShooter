@@ -18,7 +18,8 @@ public class Shotgun : Weapon
 
       UpdateAmmoDisplay();
 
-      audioWep.PlayOneShot(sfxShoot);
+      audioWep.PlayOneShot(sfx[0]);
+      pitchShifter.Tweet();
 
       spawnPoint.transform.rotation = AimAtCrosshair();
 
