@@ -14,6 +14,9 @@ public class Pistol : Weapon
 
       SpawnMuzzleFlash();
 
+      audioWep.PlayOneShot(sfx[0]);
+      pitchShifter.Tweet();
+
       if (Physics.Raycast(ray, out hit))
       {
         BulletTrail(hit.point, hit.distance);

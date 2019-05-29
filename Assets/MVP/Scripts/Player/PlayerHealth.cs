@@ -18,6 +18,8 @@ public class PlayerHealth : Health
   [ShowIf("ShowShotIndicator")] [BoxGroup("Shot Indicator")]
   public float shotIndicatorDelay;
 
+    
+
   public override void Start()
   {
     base.Start();
@@ -33,7 +35,7 @@ public class PlayerHealth : Health
 
   // Takes damage from various bullet/projectile scripts and runs 'CheckDie()'.
   [PunRPC]
-  public override void ChangeHealth(int _value, Vector3 _shotDir)
+  public override void ChangeHealth(float _value, Vector3 _shotDir, Elements.Element ammoType)
   {
     if (currentShield > 0)
     {

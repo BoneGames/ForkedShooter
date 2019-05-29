@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : Projectile
 {
     public int damage = 50;
     public float speed = 5f;
@@ -14,59 +14,49 @@ public class Bullet : MonoBehaviour
     public GameObject sourceAgent;
     Vector3 fireOrigin;
 
+  void Start()
+  {
+    firePoint = transform.position;
+  }
 
     void Start()
     {
         fireOrigin = transform.position;
     }
 
-    public void Fire(Vector3 direction)
+  public override void OnCollisionEnter(Collision other)
+  {
+    if (other.gameObject != sourceAgent)
     {
-        rigid.AddForce(direction * speed, ForceMode.Impulse);
+      if (other.transform.GetComponent<Health>())
+      {
+        Health target = other.transform.GetComponent<Health>();
+        target.ChangeHealth(damage, transform.position, Elements.Element.Normal);
+      }
     }
 
-    public void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject != sourceAgent)
-        {
-            if (other.transform.GetComponent<Health>())
-            {
-                Health target = other.transform.GetComponent<Health>();
-                target.ChangeHealth(damage, transform.position);
-            }
-        }
+    AlertCloseEnemies();
 
         AlertCloseEnemies(other.contacts[0].point);
 
+    Destroy(gameObject);
+  }
 
-        Destroy(gameObject);
-    }
-
-    // NOTE: implement sound from gun alert, and impact of bullet alert, separately?
-    void AlertCloseEnemies(Vector3 _hitPoint)
+  void AlertCloseEnemies()
+  {
+    Collider[] cols = Physics.OverlapSphere(transform.position, detectionRadius, enemy);
+    if (cols.Length > 0)
     {
-        Debug.Log("hey");
-        float distance = Vector3.Distance(fireOrigin, _hitPoint);
-        Vector3 dir = (fireOrigin - _hitPoint).normalized;
-        Vector3 _newInspectionPoint = dir * (distance * 0.7f);
-
-        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        cube.transform.position = _newInspectionPoint;
-
-
-        Collider[] cols = Physics.OverlapSphere(transform.position, detectionRadius, enemy);
-        if(cols.Length > 0)
-        {
-            foreach (Collider col in cols)
-            {
-                col.GetComponent<BehaviourAI>().BulletAlert(_newInspectionPoint);
-            }
-        }
+      foreach (Collider col in cols)
+      {
+        col.GetComponent<BehaviourAI>().BulletAlert(firePoint);
+      }
     }
+  }
 
-    public enum SourceAgent
-    {
-        Player,
-        Enemy1
-    }
+  public enum SourceAgent
+  {
+    Player,
+    Enemy1
+  }
 }

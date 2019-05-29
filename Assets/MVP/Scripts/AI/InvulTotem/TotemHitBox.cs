@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class TotemHitBox : InvulTotem
 {
-    void Start()
-    {
-        currentHealth = maxHealth;
-    }
+  public override void Start()
+  {
+    currentHealth = maxHealth;
+  }
 
-    void OnDestroy()
-    {
-        Destroy(transform.parent.gameObject, 1);
-    }
+  void OnDestroy()
+  {
+    Destroy(transform.parent.gameObject, 1);
+  }
 }
