@@ -24,6 +24,9 @@ namespace GameSystems
 
     public Vector3 hitPoint;
 
+    public LayerMask enemy;
+    public float bulletDetectionRadius;
+
     Quaternion hitRotation;
 
     public GradientAlphaKey[] startingAlphaKeys;
@@ -126,5 +129,33 @@ namespace GameSystems
 
       UpdateAmmoDisplay();
     }
-  }
+
+
+    public void AlertCloseEnemies(Vector3 origin, Vector3 _hitPoint)
+        {
+            //float distance = Vector3.Distance(origin, _hitPoint);
+            //Vector3 dir = (origin - _hitPoint).normalized;
+            Vector3 dir = (origin - _hitPoint) * 0.7f;
+
+            Vector3 _newInspectionPoint = origin - dir;
+
+
+            GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            cube.transform.position = _newInspectionPoint;
+
+
+            Collider[] cols = Physics.OverlapSphere(transform.position, bulletDetectionRadius, enemy);
+            if (cols.Length > 0)
+            {
+                foreach (Collider col in cols)
+                {
+                    col.GetComponent<BehaviourAI>().BulletAlert(_newInspectionPoint);
+                }
+            }
+        }
+
+    }
+
+
+
 }

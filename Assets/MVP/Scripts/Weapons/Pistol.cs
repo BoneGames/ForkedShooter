@@ -18,6 +18,8 @@ public class Pistol : Weapon
       {
         BulletTrail(hit.point, hit.distance);
 
+        AlertCloseEnemies(transform.position, hit.point);
+
         if (GameManager.isOnline)
         {
           if (hit.collider.CompareTag("Enemy"))

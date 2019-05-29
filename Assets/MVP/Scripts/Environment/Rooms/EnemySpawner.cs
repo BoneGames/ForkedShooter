@@ -41,7 +41,7 @@ public class EnemySpawner : MonoBehaviour
         GameObject clone = Instantiate(drone, droneSpawnPoint.position, droneSpawnPoint.rotation, droneSpawnPoint);
         clone.transform.name += i.ToString();
         clone.transform.parent = transform;
-        clone.GetComponent<AI_ScoutDrone>().waypointParent = waypointParent;
+       // clone.GetComponent<AI_ScoutDrone>().waypointParent = waypointParent;
       }
       dronesSpawned = true;
     }

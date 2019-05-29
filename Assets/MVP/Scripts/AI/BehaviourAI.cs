@@ -4,8 +4,26 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
 
-public abstract class BehaviourAI : MonoBehaviour
+
+public class BehaviourAI : MonoBehaviour
 {
+    // Monobehavious Lists (later to become Pattern Type Lists) 
+     public List<MonoBehaviour> naivePatterns;
+     public List<MonoBehaviour> suspiciousPatterns;
+     public List<MonoBehaviour> combatPatterns;
+
+
+
+    public PatternManager pM;
+    public DecisionMachine dM;
+
+    public float ai_Update_Rate = 1;
+
+    public List<Pattern> patterns;
+
+    public List<Decider> deciders;
+
+
     #region STATE ENUMs
     // Declaration
     public enum State // The behaviour states of the enemy AI.
@@ -14,7 +32,7 @@ public abstract class BehaviourAI : MonoBehaviour
         Seek,
         Retreat,
         Survey,
-        Totem ,
+        Totem,
         Investigate,
         Hide,
         Fire,
@@ -27,14 +45,18 @@ public abstract class BehaviourAI : MonoBehaviour
         Combat
     }
 
+    public SenseMemoryFactory sMF;
+
     #endregion
 
     #region VARIABLES
 
     [Header("Behaviours")]
     public State currentState = State.Patrol;
-   //private Mode currentMode = Mode.Naive;
-    
+    //private Mode currentMode = Mode.Naive;
+
+    InvulTotem totem;
+
     [AI_ScoutDrone_(new string[] { "Speed Patrol", "Speed Seek", "Speed Investigate" })]
     public float[] moveSpeed = new float[3]; // Movement speeds for different states (up to you).
 
@@ -55,17 +77,18 @@ public abstract class BehaviourAI : MonoBehaviour
     public BehaviourAI[] Modes;
     public int currentMode;
 
+
+
     public LayerMask obstacleMask;
     public bool initVar = true;
 
     public int intensity;
 
-    
-    
+
+
     [HideInInspector]
     public Quaternion startRotation;
 
-    private Vector3 totemPos;
     public EnemyHealth healthRef;
 
     //[HideInInspector]
@@ -75,14 +98,8 @@ public abstract class BehaviourAI : MonoBehaviour
 
     public Vector3 investigatePoint;
 
-    // Creates a collection of Transforms
-    //[HideInInspector]
-    public Transform[] waypoints; // Transform of (child) waypoints in array.
-    [HideInInspector]
-    public int waypointIndex = 1; // Counts sequential waypoints of array index.
-                                 //[HideInInspector]
-                                 //public Quaternion startRotation;
     #endregion VARIABLES
+
 
     #region HELPER FUNCTIONS
     // Returns closest obstacle collider to target
@@ -116,7 +133,7 @@ public abstract class BehaviourAI : MonoBehaviour
         // set new Mode Index
         currentMode = up ? currentMode++ : currentMode--;
         // disable all Mode Scripts
-        foreach(BehaviourAI mode in Modes)
+        foreach (BehaviourAI mode in Modes)
         {
             mode.enabled = false;
         }
@@ -138,13 +155,13 @@ public abstract class BehaviourAI : MonoBehaviour
     {
         float closestTargetDist = Mathf.Infinity;
         int transformIndex = 0;
-        for(int index = 0; index < fov.visibleTargets.Count; index++)
+        for (int index = 0; index < fov.visibleTargets.Count; index++)
         {
-             if(Vector3.Distance(transform.position, fov.visibleTargets[index].position) < closestTargetDist)
-             {
-                 closestTargetDist = Vector3.Distance(transform.position, fov.visibleTargets[index].position);
-                 transformIndex = index;
-             }
+            if (Vector3.Distance(transform.position, fov.visibleTargets[index].position) < closestTargetDist)
+            {
+                closestTargetDist = Vector3.Distance(transform.position, fov.visibleTargets[index].position);
+                transformIndex = index;
+            }
         }
         return fov.visibleTargets[transformIndex];
     }
@@ -160,14 +177,14 @@ public abstract class BehaviourAI : MonoBehaviour
             if (thisDist < shortestDist)
             {
                 shortestDist = thisDist;
-                totemPos = tp.transform.position;
+                totem = tp;
             }
         }
     }
 
     public void SetNewWaypoint()
     {
-        waypointIndex = Random.Range(0, waypoints.Length);
+        //waypointIndex = Random.Range(0, waypoints.Length);
     }
 
     // This is accessed from the bullet - if it hits near the enemy
@@ -176,23 +193,23 @@ public abstract class BehaviourAI : MonoBehaviour
     #region STATES
     public virtual void Patrol()
     {
-        // Transform(s) of the current waypoint in the waypoints array.
-        Transform point = waypoints[waypointIndex];
+        //// Transform(s) of the current waypoint in the waypoints array.
+        //Transform point = waypoints[waypointIndex];
 
-        // Agent destination (move to current waypoint position).
-        agent.SetDestination(point.position);
+        //// Agent destination (move to current waypoint position).
+        //agent.SetDestination(point.position);
 
-        // If we're close enough to the waypoint...
-        if (DestinationReached(0.5f))
-        {
-            SetNewWaypoint();
-        }
-        // If we spot a player...
-        if (LookForPlayer())
-        {
-            // ... switch to Seek behaviour, and set target to the first visible target.
-            currentState = State.Seek;
-        }
+        //// If we're close enough to the waypoint...
+        //if (DestinationReached(0.5f))
+        //{
+        //    SetNewWaypoint();
+        //}
+        //// If we spot a player...
+        //if (LookForPlayer())
+        //{
+        //    // ... switch to Seek behaviour, and set target to the first visible target.
+        //    currentState = State.Seek;
+        //}
     }
 
 
@@ -201,7 +218,7 @@ public abstract class BehaviourAI : MonoBehaviour
     {
         Crouch(true);
         // set pauseTmer on entry only
-        if(initVar)
+        if (initVar)
         {
             hideTimer = hideTime;
         }
@@ -210,7 +227,7 @@ public abstract class BehaviourAI : MonoBehaviour
         hideTimer -= Time.deltaTime;
 
         // enter survey state
-        if(hideTimer <= 0)
+        if (hideTimer <= 0)
         {
             currentState = State.Survey;
             return;
@@ -252,16 +269,16 @@ public abstract class BehaviourAI : MonoBehaviour
             {
                 Debug.Log("strafe");
                 //Strafe();
-                if(agent.hasPath)
+                if (agent.hasPath)
                 {
                     agent.ResetPath();
-                }          
+                }
             }
-            else if (DestinationReached(1))
-            {
-                Debug.Log("Melee");
-            }
-         
+            //else if (DestinationReached(1))
+            //{
+            //    Debug.Log("Melee");
+            //}
+
             #endregion
         }
         #endregion
@@ -269,7 +286,7 @@ public abstract class BehaviourAI : MonoBehaviour
 
     public void Survey()
     {
-        if(initVar)
+        if (initVar)
         {
             startRotation = transform.rotation;
             // clear path
@@ -282,14 +299,14 @@ public abstract class BehaviourAI : MonoBehaviour
         float seeingDist = 1;
 
         // spin speed is relative to length of sightLine
-        if(Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity))
         {
-            seeingDist = Vector3.Distance(transform.position, hit.point)/4;
+            seeingDist = Vector3.Distance(transform.position, hit.point) / 4;
         }
         // spin to check surroundings
-        transform.Rotate(Vector3.up * Time.deltaTime * 300/seeingDist);
+        transform.Rotate(Vector3.up * Time.deltaTime * 300 / seeingDist);
         // after 1 full revolution
-        if(transform.rotation.eulerAngles.y > startRotation.eulerAngles.y -5 && transform.rotation.eulerAngles.y < startRotation.eulerAngles.y)
+        if (transform.rotation.eulerAngles.y > startRotation.eulerAngles.y - 5 && transform.rotation.eulerAngles.y < startRotation.eulerAngles.y)
         {
             currentState = State.Patrol;
             return;
@@ -345,7 +362,7 @@ public abstract class BehaviourAI : MonoBehaviour
     {
         Vector3 retreatPoint = GetAvoidanceWaypoint();
         agent.SetDestination(retreatPoint);
-        if(agent.remainingDistance < 0.5f)
+        if (agent.remainingDistance < 0.5f)
         {
             currentState = State.Hide;
         }
@@ -354,18 +371,18 @@ public abstract class BehaviourAI : MonoBehaviour
     public void Investigate()
     {
         agent.SetDestination(investigatePoint);
-         
-        if (DestinationReached(0.5f))
-        {
-            currentState = State.Survey;
-        }
+
+        //if (DestinationReached(0.5f))
+        //{
+        //    currentState = State.Survey;
+        //}
     }
 
 
     public void SeekTotem()
     {
-        agent.SetDestination(totemPos);
-        if(agent.remainingDistance < 5)
+        agent.SetDestination(totem.transform.position);
+        if (agent.remainingDistance < 5)
         {
             agent.ResetPath();
             currentState = State.Survey;
@@ -385,10 +402,10 @@ public abstract class BehaviourAI : MonoBehaviour
             currentState = State.Investigate;
         }
 
-        if (DestinationReached(1))
-        {
-            // MELEE ATTACK
-        }
+        //if (DestinationReached(1))
+        //{
+        //    // MELEE ATTACK
+        //}
     }
 
     // shoots gun a specific number of times
@@ -439,15 +456,7 @@ public abstract class BehaviourAI : MonoBehaviour
         return false;
     }
 
-    public bool DestinationReached(float desiredDistance)
-    {
-        if (agent.remainingDistance < desiredDistance)
-        {
-            return true;
-        }
-        return false;
-    }
-
+  
     public void BulletAlert(Vector3 shotOrigin)
     {
         // reset Hide timer (if currently hiding)
@@ -467,13 +476,42 @@ public abstract class BehaviourAI : MonoBehaviour
         healthRef = GetComponent<EnemyHealth>();
 
         // Get children of waypointParent.
-        waypoints = waypointParent.GetComponentsInChildren<Transform>();
+        // in patterns
+        //waypoints = waypointParent.GetComponentsInChildren<Transform>();
 
-        // Get NavMeshAgent (failsafe).
+        // Get NavMeshAgent
         agent = GetComponent<NavMeshAgent>();
-
         // Get weapon
         gun = GetComponentInChildren<AI_Weapon>();
+
+        // Initiate List of Decider Interfaces (Modes: Naive, Suspicious, Combat)
+        this.deciders = new List<Decider>();
+        // Create Pattern Lists, add the Monobehaviours (re-cast as patterns)
+        List<Pattern> _naivePatterns = new List<Pattern>(naivePatterns.Cast<Pattern>());
+        List<Pattern> _suspiciousPatterns = new List<Pattern>(suspiciousPatterns.Cast<Pattern>());
+        List<Pattern> _combatPatterns = new List<Pattern>(combatPatterns.Cast<Pattern>());
+        // Add converted (Monobehaviour => Pattern) lists to Deciders List
+        this.deciders.Add(new NaiveDecider(_naivePatterns));
+        this.deciders.Add(new SuspiciousDecider(_suspiciousPatterns));
+        this.deciders.Add(new CombatDecider(_combatPatterns));
+
+        // Pattern Manager Instance
+        pM = new PatternManager(this);
+        // Decision Machine Instance
+        dM = new DecisionMachine(totem, this.deciders, pM);
+        // Sense Memory factory Instance
+        sMF = new SenseMemoryFactory(fov);
+
+        // repeating method that gets world info and decides actions
+        InvokeRepeating("MakeDecisionBasedOnSenses", 0, ai_Update_Rate);
+    }
+
+    //
+    private void MakeDecisionBasedOnSenses()
+    {
+        // Decision Maker class, "Makes Decision From" Sense Memory Factory, which returns SMData class (basically a struct with
+        // target positions, and inspection Point positions)
+        dM.MakeDecisionFrom(sMF.GetSMData());
     }
     #endregion Start
 
