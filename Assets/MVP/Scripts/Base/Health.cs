@@ -37,17 +37,18 @@ public abstract class Health : MonoBehaviour
   [PunRPC]
   public virtual void ChangeHealth(float value, Vector3 shotDir, Elements.Element ammoType)
   {
-    //if (ammoType.ToString() == shieldElement.ToString())
-    //{
-    //    value += 5;
-    //}
+        Debug.Log(1);
+        //if (ammoType.ToString() == shieldElement.ToString())
+        //{
+        //    value += 5;
+        //}
 
-    //else if (ammoType.ToString() != shieldElement.ToString())
-    //{
-    //    return;
-    //}
+        //else if (ammoType.ToString() != shieldElement.ToString())
+        //{
+        //    return;
+        //}
 
-    if (ammoType.ToString() == "Fire" && shieldElement.ToString() == "Grass")
+        if (ammoType.ToString() == "Fire" && shieldElement.ToString() == "Grass")
     {
       value = Mathf.FloorToInt(value * 1.25f);
     }
@@ -79,6 +80,7 @@ public abstract class Health : MonoBehaviour
   }
   public virtual void ChangeHealth(float value, Vector3 shotDir)
   {
+        Debug.Log(2);
     if (value != 0)
     {
       currentHealth -= value;

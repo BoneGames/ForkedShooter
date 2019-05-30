@@ -29,6 +29,7 @@ public class EnemyHealth : Health
     if (!isGod)
     {
       currentHealth -= value;
+            Debug.Log("g");
       healthBar.UpdateBar();
       CheckDie();
     }
@@ -36,9 +37,22 @@ public class EnemyHealth : Health
     transform.LookAt(shotDir);
   }
 
+    public override void ChangeHealth(float value, Vector3 shotDir)
+    {
+        if (!isGod)
+        {
+            currentHealth -= value;
+            Debug.Log("g");
+            healthBar.UpdateBar();
+            CheckDie();
+        }
+        // Turn to look at attacker
+        transform.LookAt(shotDir);
+    }
 
-  // Self explanatory.
-  public override void CheckDie()
+
+    // Self explanatory.
+    public override void CheckDie()
   {
     if (currentHealth <= 0)
     {

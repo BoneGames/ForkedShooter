@@ -8,11 +8,9 @@ using System.Linq;
 public class BehaviourAI : MonoBehaviour
 {
     // Monobehavious Lists (later to become Pattern Type Lists) 
-     public List<MonoBehaviour> naivePatterns;
-     public List<MonoBehaviour> suspiciousPatterns;
-     public List<MonoBehaviour> combatPatterns;
-
-
+    public List<MonoBehaviour> naivePatterns;
+    public List<MonoBehaviour> suspiciousPatterns;
+    public List<MonoBehaviour> combatPatterns;
 
     public PatternManager pM;
     public DecisionMachine dM;
@@ -20,7 +18,6 @@ public class BehaviourAI : MonoBehaviour
     public float ai_Update_Rate = 1;
 
     public List<Pattern> patterns;
-
     public List<Decider> deciders;
 
 
@@ -510,7 +507,7 @@ public class BehaviourAI : MonoBehaviour
     private void MakeDecisionBasedOnSenses()
     {
         // Decision Maker class, "Makes Decision From" Sense Memory Factory, which returns SMData class (basically a struct with
-        // target positions, and inspection Point positions)
+        // target positions, and inspection Point positions - the basic inputs for ai behaviours)
         dM.MakeDecisionFrom(sMF.GetSMData());
     }
     #endregion Start
