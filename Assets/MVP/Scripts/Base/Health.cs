@@ -19,7 +19,7 @@ public abstract class Health : MonoBehaviour
   public float maxShield = 100, currentShield, carryOnDmg;
   public Elements.Element shieldElement;
 
-  [HideInInspector]
+  //[HideInInspector]
   public HealthBar healthBar;
 
   public bool ShowEvents;
@@ -47,7 +47,7 @@ public abstract class Health : MonoBehaviour
     //    return;
     //}
 
-    if (ammoType.ToString() == "Fire" && shieldElement.ToString() == "Metal")
+    if (ammoType.ToString() == "Fire" && shieldElement.ToString() == "Grass")
     {
       value = Mathf.FloorToInt(value * 1.25f);
     }
@@ -57,20 +57,12 @@ public abstract class Health : MonoBehaviour
       value = Mathf.FloorToInt(value * 1.25f);
     }
 
-    else if (ammoType.ToString() == "Earth" && shieldElement.ToString() == "Water")
+    else if (ammoType.ToString() == "Grass" && shieldElement.ToString() == "Water")
     {
       value = Mathf.FloorToInt(value * 1.25f);
     }
 
-    else if (ammoType.ToString() == "Air" && shieldElement.ToString() == "Earth")
-    {
-      value = Mathf.FloorToInt(value * 1.25f);
-    }
-
-    else if (ammoType.ToString() == "Metal" && shieldElement.ToString() == "Air")
-    {
-      value = Mathf.FloorToInt(value * 1.25f);
-    }
+    currentHealth -= value;
 
     if (value != 0)
     {
@@ -83,13 +75,14 @@ public abstract class Health : MonoBehaviour
         onDamage.Invoke();
       }
     }
-    currentHealth -= value;
     CheckDie();
   }
   public virtual void ChangeHealth(float value, Vector3 shotDir)
   {
     if (value != 0)
     {
+      currentHealth -= value;
+
       if (value < 0)
       {
         onHeal.Invoke();
@@ -99,14 +92,16 @@ public abstract class Health : MonoBehaviour
         onDamage.Invoke();
       }
     }
-    currentHealth -= value;
     CheckDie();
   }
 
   // Self explanatory.
   public virtual void CheckDie()
   {
-    onDeath.Invoke();
+    if (currentHealth <= 0)
+    {
+      onDeath.Invoke();
+    }
   }
 
   public enum Element
@@ -114,8 +109,6 @@ public abstract class Health : MonoBehaviour
     Normal,
     Fire,
     Water,
-    Earth,
-    Air,
-    Metal
+    Grass
   }
 }

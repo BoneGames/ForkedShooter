@@ -4,40 +4,27 @@ using UnityEngine;
 
 public class Bullet : Projectile
 {
-    public int damage = 50;
-    public float speed = 5f;
-    public Rigidbody rigid;
-    // Inherit bullet from weapon - pass detection radius down from relevant weapon
-    public float detectionRadius;
-    public LayerMask enemy;
+  public LayerMask enemy;
 
-    public GameObject sourceAgent;
-    Vector3 fireOrigin;
+  public GameObject sourceAgent;
 
   void Start()
   {
-    firePoint = transform.position;
+    fireOrigin = transform.position;
   }
-
-    void Start()
-    {
-        fireOrigin = transform.position;
-    }
 
   public override void OnCollisionEnter(Collision other)
   {
     if (other.gameObject != sourceAgent)
     {
-      if (other.transform.GetComponent<Health>())
+      Health target = other.transform.GetComponent<Health>();
+      if (target)
       {
-        Health target = other.transform.GetComponent<Health>();
         target.ChangeHealth(damage, transform.position, Elements.Element.Normal);
       }
     }
 
     AlertCloseEnemies();
-
-        AlertCloseEnemies(other.contacts[0].point);
 
     Destroy(gameObject);
   }
@@ -49,7 +36,7 @@ public class Bullet : Projectile
     {
       foreach (Collider col in cols)
       {
-        col.GetComponent<BehaviourAI>().BulletAlert(firePoint);
+        col.GetComponent<BehaviourAI>().BulletAlert(fireOrigin);
       }
     }
   }

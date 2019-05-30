@@ -7,6 +7,10 @@ public abstract class Projectile : MonoBehaviour
   public float damage;
   public float speed = 5f;
   public float range;
+
+  // Inherit bullet from weapon - pass detection radius down from relevant weapon
+  public float detectionRadius;
+
   public Elements bulletElement;
   public Vector3 scale;
   public Rigidbody rigid;
@@ -15,17 +19,8 @@ public abstract class Projectile : MonoBehaviour
   public GameObject impact;
   public Quaternion hitRotation;
 
-  // Use this for initialization
-  void Start()
-  {
-
-  }
-
-  // Update is called once per frame
-  void Update()
-  {
-
-  }
+  [HideInInspector]
+  public Vector3 fireOrigin;
 
   public virtual void Fire(Vector3 direction)
   {

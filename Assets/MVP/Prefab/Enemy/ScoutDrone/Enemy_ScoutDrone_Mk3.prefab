@@ -402,7 +402,6 @@ GameObject:
   - component: {fileID: 95049339517146008}
   - component: {fileID: 23623985816531344}
   - component: {fileID: 114366355171617984}
-  - component: {fileID: 114272049808185796}
   - component: {fileID: 114020886584632132}
   - component: {fileID: 114857226843892834}
   m_Layer: 10
@@ -546,68 +545,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6725446be083011448a92a108c98a8e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowHealth: 1
   maxHealth: 100
   currentHealth: 0
+  ShowShields: 1
+  maxShield: 0
+  currentShield: 0
+  carryOnDmg: 0
+  shieldElement: 0
   healthBar: {fileID: 0}
+  ShowEvents: 1
   onDeath:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHeal:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114857226843892834}
+        m_MethodName: UpdateBar
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onDamage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114857226843892834}
+        m_MethodName: UpdateBar
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  ShowStates: 0
   isGod: 0
   photonView: {fileID: 0}
+  ShowDrops: 0
   ammoBox: {fileID: 1861980455999006, guid: 81097656c3f3f474695c95c52ee785d7, type: 3}
   healthDrop: {fileID: 1770668066226042, guid: ef39cf02ff0e77243aef73b443f72843, type: 3}
---- !u!114 &114272049808185796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1188078473502018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a37c325277d297d44a11d8f129b52cb8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentState: 0
-  moveSpeed:
-  - 2
-  - 2
-  - 2
-  pauseDuration:
-  - 4
-  - 8
-  - 8
-  holdStateTimer:
-  - 0
-  - 0
-  - 0
-  stoppingDistance:
-  - 5
-  - 8
-  - 4
-  - 2
-  agent: {fileID: 195558518581967682}
-  target: {fileID: 0}
-  waypointParent: {fileID: 0}
-  fov: {fileID: 114553284607818792}
-  attackRange: 5
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 2097152
-  inaccuracy: 0
-  startRotation: {x: 0, y: 0, z: 0, w: 0}
-  healthRef: {fileID: 0}
-  shootPoint: {fileID: 0}
-  waypoints: []
-  currentIndex: 1
-  anim: {fileID: 95049339517146008}
-  searchLight: {fileID: 108193603917091660}
-  colorPatrol: {r: 1, g: 1, b: 1, a: 1}
-  colorSearch: {r: 0.8039216, g: 0.4019608, b: 0, a: 1}
-  colorSeek: {r: 0.8039216, g: 0, b: 0, a: 1}
-  aim: {fileID: 4772487962471540}
 --- !u!114 &114020886584632132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -622,24 +612,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   maxReserves: 30
+  currentReserves: 500
+  magSize: 7
+  currentMag: 7
   accuracy: 0.2
   scopeZoom: 75
   reloadSpeed: 0
   rateOfFire: 5
+  weaponElement: 0
   projectile: {fileID: 1874544804970178, guid: f5fad20bfebd88d46abe3e602f14fdaf, type: 3}
-  spawnPoint: {fileID: 4076797023168174}
-  aimPoint: {fileID: 4076797023168174}
   muzzle: {fileID: 0}
   lineRendPrefab: {fileID: 0}
-  magSize: 7
-  currentReserves: 500
-  currentMag: 7
-  tempMag: 0
+  spawnPoint: {fileID: 4076797023168174}
+  aimPoint: {fileID: 4076797023168174}
   ammoDisplay: {fileID: 0}
-  contact: {fileID: 114272049808185796}
+  pitchShifter: {fileID: 0}
+  audioWep: {fileID: 0}
+  sfx: []
+  hitPoint: {x: 0, y: 0, z: 0}
+  enemy:
+    serializedVersion: 2
+    m_Bits: 0
+  bulletDetectionRadius: 0
+  canShoot: 0
+  contact: {fileID: 0}
   hitParticle: {fileID: 1097464064478134, guid: 259a0b96acab2f749b11f8a6e18a8862,
     type: 3}
-  burstCount: 3
   burstDelay: 0.1
   reloadTime: 4
 --- !u!114 &114857226843892834
