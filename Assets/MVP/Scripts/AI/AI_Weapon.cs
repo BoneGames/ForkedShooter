@@ -15,6 +15,8 @@ public class AI_Weapon : Weapon
     //public int burstCount; // Number of shots fired per burst (1 = semi-automatic).
     public float burstDelay; // Time between each shot fired in a burst.
     public float reloadTime; // Self explanatory.
+
+    public Elements.Element element;
     #endregion
 
     #region Functions 'n' Methods
@@ -76,7 +78,7 @@ public class AI_Weapon : Weapon
 
                     if (hit.collider.tag == "Player")
                     {
-                        hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position);
+                        hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position, element);
                         print("I hit an enemy");
                     }
                 }

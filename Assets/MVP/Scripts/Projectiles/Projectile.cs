@@ -11,7 +11,7 @@ public abstract class Projectile : MonoBehaviour
   // Inherit bullet from weapon - pass detection radius down from relevant weapon
   public float detectionRadius;
 
-  public Elements bulletElement;
+  public Elements.Element bulletElement;
   public Vector3 scale;
   public Rigidbody rigid;
   public string firedBy;

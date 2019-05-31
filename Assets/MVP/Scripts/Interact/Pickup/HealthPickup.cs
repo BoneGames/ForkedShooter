@@ -19,7 +19,7 @@ public class HealthPickup : Pickup
 
             if (player.currentHealth < player.maxHealth)
             {
-                player.ChangeHealth(-healthAmount, transform.position);
+                player.ChangeHealth(-healthAmount, transform.position,Elements.Element.Normal);
 
                 if(player.currentHealth > player.maxHealth)
                 {
