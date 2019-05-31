@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GameSystems;
+
 public class AmmoPickup : Pickup
 {
     public int ammoAmount;

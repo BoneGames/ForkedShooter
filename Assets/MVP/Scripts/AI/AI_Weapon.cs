@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GameSystems;
+
 
 public class AI_Weapon : Weapon
 {

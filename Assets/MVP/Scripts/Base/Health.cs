@@ -107,22 +107,24 @@ public abstract class Health : MonoBehaviour
 
     public float CheckWeakness(float _val, Elements.Element ammoType)
     {
-        print("I am checking shield weakness!");
-        if (ammoType.ToString() == "Fire" && shieldElement.ToString() == "Grass")
+        if (ammoType != shieldElement || ammoType == Elements.Element.Normal)
         {
-            _val = _val * 1.25f;
-        }
+            print("I am checking shield weakness!");
+            if (ammoType.ToString() == "Fire" && shieldElement.ToString() == "Grass")
+            {
+                _val = _val * 1.25f;
+            }
+            else if (ammoType.ToString() == "Water" && shieldElement.ToString() == "Fire")
+            {
+                _val = _val * 1.25f;
+            }
 
-        else if (ammoType.ToString() == "Water" && shieldElement.ToString() == "Fire")
-        {
-            _val = _val * 1.25f;
+            else if (ammoType.ToString() == "Grass" && shieldElement.ToString() == "Water")
+            {
+                _val = _val * 1.25f;
+            }
+            print(_val);
         }
-
-        else if (ammoType.ToString() == "Grass" && shieldElement.ToString() == "Water")
-        {
-            _val = _val * 1.25f;
-        }
-        print(_val);
 
         return _val;
     }
