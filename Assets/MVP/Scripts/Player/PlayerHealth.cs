@@ -5,10 +5,6 @@ using NaughtyAttributes;
 
 public class PlayerHealth : Health
 {
-  [ShowIf("ShowShields")]
-  [BoxGroup("Shields")]
-  public GameObject shieldGO;
-
   PhotonView photonView;
   string photonID;
 
@@ -17,8 +13,6 @@ public class PlayerHealth : Health
   public GameObject shotDirectionArm;
   [ShowIf("ShowShotIndicator")] [BoxGroup("Shot Indicator")]
   public float shotIndicatorDelay;
-
-    
 
   public override void Start()
   {
@@ -39,7 +33,7 @@ public class PlayerHealth : Health
   {
     if (currentShield > 0)
     {
-      shieldGO.SetActive(true);
+      shield.gameObject.SetActive(true);
 
       if (currentShield > _value)
       {
@@ -59,7 +53,7 @@ public class PlayerHealth : Health
     else if (currentShield <= 0)
     {
       currentShield = 0;
-      shieldGO.SetActive(false);
+      shield.gameObject.SetActive(false);
 
       if (currentHealth > 0)
       {

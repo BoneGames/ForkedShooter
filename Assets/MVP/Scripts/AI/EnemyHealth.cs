@@ -8,18 +8,20 @@ public class EnemyHealth : Health
 {
   // Set damage immunity on/off (handled from InvulTotem.cs).
   public bool ShowStates;
-  [ShowIf("ShowStates")] [BoxGroup("Enemy States")]
+  [ShowIf("ShowStates")]
+  [BoxGroup("Enemy States")]
   public bool isGod = false;
-  [HideInInspector] public PhotonView photonView;
 
-  public bool ShowDrops;
-  [ShowIf("ShowDrops")] [BoxGroup("Enemy Drops")]
-  public GameObject ammoBox, healthDrop;
-  bool firstDrop = true;
+  [HideInInspector] public PhotonView photonView;
 
   void Awake()
   {
     photonView = GetComponent<PhotonView>();
+  }
+
+  public override void Start()
+  {
+    base.Start();
   }
 
   // Takes damage from various bullet/projectile scripts and runs 'CheckDie()'.
@@ -28,8 +30,10 @@ public class EnemyHealth : Health
   {
     if (!isGod)
     {
+      value = CheckWeakness(value, ammoType);
+
       currentHealth -= value;
-            Debug.Log("g");
+      Debug.Log("g");
       healthBar.UpdateBar();
       CheckDie();
     }
@@ -37,55 +41,15 @@ public class EnemyHealth : Health
     transform.LookAt(shotDir);
   }
 
-    public override void ChangeHealth(float value, Vector3 shotDir)
-    {
-        if (!isGod)
-        {
-            currentHealth -= value;
-            Debug.Log("g");
-            healthBar.UpdateBar();
-            CheckDie();
-        }
-        // Turn to look at attacker
-        transform.LookAt(shotDir);
-    }
 
-
-    // Self explanatory.
-    public override void CheckDie()
+  // Self explanatory.
+  public override void CheckDie()
   {
     if (currentHealth <= 0)
     {
-      DropItem();
-
+      base.CheckDie();
       Destroy(gameObject);
     }
-  }
-
-  void DropItem()
-  {
-    if (firstDrop)
-    {
-      firstDrop = false;
-      int dropRate = Random.Range(1, 5);
-      GameObject clone = null;
-
-      switch (dropRate)
-      {
-        case 1:
-        case 2:
-        case 3:
-          clone = Instantiate(ammoBox, transform.position + (Vector3.up * 3), transform.rotation);
-          break;
-        case 4:
-        case 5:
-          clone = Instantiate(healthDrop, transform.position + (Vector3.up * 3), transform.rotation);
-          break;
-        default:
-          break;
-      }
-    }
-
   }
 
   public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
