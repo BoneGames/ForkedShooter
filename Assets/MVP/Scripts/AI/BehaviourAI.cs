@@ -8,9 +8,9 @@ using System.Linq;
 public class BehaviourAI : MonoBehaviour
 {
     // Monobehavious Lists (later to become Pattern Type Lists) 
-    public List<MonoBehaviour> naivePatterns;
-    public List<MonoBehaviour> suspiciousPatterns;
-    public List<MonoBehaviour> combatPatterns;
+    //public List<MonoBehaviour> naivePatterns;
+    //public List<MonoBehaviour> suspiciousPatterns;
+    //public List<MonoBehaviour> combatPatterns;
 
     public PatternManager pM;
     public DecisionMachine dM;
@@ -138,10 +138,10 @@ public class BehaviourAI : MonoBehaviour
         Modes[currentMode].enabled = true;
     }
 
-    public Vector3 GetAvoidanceWaypoint()
+    public Vector3 GetAvoidanceWaypoint(Vector3 playerPosition)
     {
         Collider closest = GetClosestObstacle();
-        Vector3 start = playerTarget.position;
+        Vector3 start = playerPosition;
         Vector3 end = closest.transform.position;
         Vector3 direction = end - start;
         Vector3 point = closest.ClosestPoint(start + direction * 2f);
@@ -211,105 +211,105 @@ public class BehaviourAI : MonoBehaviour
 
 
 
-    void Hide()
-    {
-        Crouch(true);
-        // set pauseTmer on entry only
-        if (initVar)
-        {
-            hideTimer = hideTime;
-        }
+    //void Hide()
+    //{
+    //    Crouch(true);
+    //    // set pauseTmer on entry only
+    //    if (initVar)
+    //    {
+    //        hideTimer = hideTime;
+    //    }
 
-        // count down timer
-        hideTimer -= Time.deltaTime;
+    //    // count down timer
+    //    hideTimer -= Time.deltaTime;
 
-        // enter survey state
-        if (hideTimer <= 0)
-        {
-            currentState = State.Survey;
-            return;
-        }
-        initVar = false;
-    }
+    //    // enter survey state
+    //    if (hideTimer <= 0)
+    //    {
+    //        currentState = State.Survey;
+    //        return;
+    //    }
+    //    initVar = false;
+    //}
 
     // The contained variables for the Seek state (what rules the enemy AI follows when in 'Seek').
-    void Charge()
-    {
-        // Retreat to totem if health is lower than 25
-        if (healthRef.currentHealth < 30)
-        {
-            currentState = State.Totem;
-        }
+    //void Charge()
+    //{
+    //    // Retreat to totem if health is lower than 25
+    //    if (healthRef.currentHealth < 30)
+    //    {
+    //        currentState = State.Totem;
+    //    }
 
-        // If we can't see any targets...
-        if (!LookForPlayer())
-        {
-            currentState = State.Investigate;
-        }
+    //    // If we can't see any targets...
+    //    if (!LookForPlayer())
+    //    {
+    //        currentState = State.Investigate;
+    //    }
 
-        #region If Target is Seen...
-        // If we see a target...
-        if (LookForPlayer())
-        {
-            // Aim gun at the target.
-            hand.LookAt(playerTarget.position);
+    //    #region If Target is Seen...
+    //    // If we see a target...
+    //    if (LookForPlayer())
+    //    {
+    //        // Aim gun at the target.
+    //        hand.LookAt(playerTarget.position);
 
-            //Debug.Log("innacuarcy: "+accuracyOffset);
+    //        //Debug.Log("innacuarcy: "+accuracyOffset);
 
-            // Get distance between enemy and player/target.
-            float seekDistance = agent.remainingDistance;
+    //        // Get distance between enemy and player/target.
+    //        float seekDistance = agent.remainingDistance;
 
-            // Move to specified position under set conditions.
-            #region Agent Destinations
-            agent.SetDestination(playerTarget.position);
-            if (seekDistance >= stoppingDistance[2] - 0.5f && seekDistance <= stoppingDistance[2] + 0.5f)
-            {
-                Debug.Log("strafe");
-                //Strafe();
-                if (agent.hasPath)
-                {
-                    agent.ResetPath();
-                }
-            }
-            //else if (DestinationReached(1))
-            //{
-            //    Debug.Log("Melee");
-            //}
+    //        // Move to specified position under set conditions.
+    //        #region Agent Destinations
+    //        agent.SetDestination(playerTarget.position);
+    //        if (seekDistance >= stoppingDistance[2] - 0.5f && seekDistance <= stoppingDistance[2] + 0.5f)
+    //        {
+    //            Debug.Log("strafe");
+    //            //Strafe();
+    //            if (agent.hasPath)
+    //            {
+    //                agent.ResetPath();
+    //            }
+    //        }
+    //        //else if (DestinationReached(1))
+    //        //{
+    //        //    Debug.Log("Melee");
+    //        //}
 
-            #endregion
-        }
-        #endregion
-    }
+    //        #endregion
+    //    }
+    //    #endregion
+    //}
 
-    public void Survey()
-    {
-        if (initVar)
-        {
-            startRotation = transform.rotation;
-            // clear path
-            if (agent.hasPath)
-            {
-                agent.ResetPath();
-            }
-        }
-        RaycastHit hit;
-        float seeingDist = 1;
+    //public void Survey()
+    //{
+    //    if (initVar)
+    //    {
+    //        startRotation = transform.rotation;
+    //        // clear path
+    //        if (agent.hasPath)
+    //        {
+    //            agent.ResetPath();
+    //        }
+    //    }
+    //    RaycastHit hit;
+    //    float seeingDist = 1;
 
-        // spin speed is relative to length of sightLine
-        if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity))
-        {
-            seeingDist = Vector3.Distance(transform.position, hit.point) / 4;
-        }
-        // spin to check surroundings
-        transform.Rotate(Vector3.up * Time.deltaTime * 300 / seeingDist);
-        // after 1 full revolution
-        if (transform.rotation.eulerAngles.y > startRotation.eulerAngles.y - 5 && transform.rotation.eulerAngles.y < startRotation.eulerAngles.y)
-        {
-            currentState = State.Patrol;
-            return;
-        }
-        initVar = false;
-    }
+    //    // spin speed is relative to length of sightLine
+    //    if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity))
+    //    {
+    //        seeingDist = Vector3.Distance(transform.position, hit.point) / 4;
+    //    }
+    //    // spin to check surroundings
+    //    transform.Rotate(Vector3.up * Time.deltaTime * 300 / seeingDist);
+    //    // after 1 full revolution
+    //    if (transform.rotation.eulerAngles.y > startRotation.eulerAngles.y - 5 && transform.rotation.eulerAngles.y < startRotation.eulerAngles.y)
+    //    {
+    //        currentState = State.Patrol;
+    //        return;
+    //    }
+    //    initVar = false;
+    //}
 
     //public void Strafe()
     //{
@@ -355,15 +355,15 @@ public class BehaviourAI : MonoBehaviour
         // repeat
     }
 
-    public void Retreat()
-    {
-        Vector3 retreatPoint = GetAvoidanceWaypoint();
-        agent.SetDestination(retreatPoint);
-        if (agent.remainingDistance < 0.5f)
-        {
-            currentState = State.Hide;
-        }
-    }
+    //public void Retreat()
+    //{
+    //    Vector3 retreatPoint = GetAvoidanceWaypoint();
+    //    agent.SetDestination(retreatPoint);
+    //    if (agent.remainingDistance < 0.5f)
+    //    {
+    //        currentState = State.Hide;
+    //    }
+    //}
 
     public void Investigate()
     {
@@ -484,12 +484,12 @@ public class BehaviourAI : MonoBehaviour
         // Initiate List of Decider Interfaces (Modes: Naive, Suspicious, Combat)
         this.deciders = new List<Decider>();
         // Create Pattern Lists, add the Monobehaviours (re-cast as patterns)
-        List<Pattern> _naivePatterns = new List<Pattern>(naivePatterns.Cast<Pattern>());
-        List<Pattern> _suspiciousPatterns = new List<Pattern>(suspiciousPatterns.Cast<Pattern>());
-        List<Pattern> _combatPatterns = new List<Pattern>(combatPatterns.Cast<Pattern>());
+        List<Pattern> _naivePatterns = GetComponent<NaivePatterns>().patterns;
+        //List<Pattern> _suspiciousPatterns = new List<Pattern>(suspiciousPatterns.Cast<Pattern>());
+        List<Pattern> _combatPatterns = GetComponent<CombatPatterns>().patterns;
         // Add converted (Monobehaviour => Pattern) lists to Deciders List
         this.deciders.Add(new NaiveDecider(_naivePatterns));
-        this.deciders.Add(new SuspiciousDecider(_suspiciousPatterns));
+        //this.deciders.Add(new SuspiciousDecider(_suspiciousPatterns));
         this.deciders.Add(new CombatDecider(_combatPatterns));
 
         // Pattern Manager Instance
@@ -521,30 +521,30 @@ public class BehaviourAI : MonoBehaviour
 
        
 
-        switch (currentState)
-        {
-            case State.Patrol:
-                Patrol();
-                break;
-            case State.Seek:
-                Charge();
-                break;
-            case State.Retreat:
-                Retreat();
-                break;
-            case State.Survey:
-                Survey();
-                break;
-            case State.Totem:
-                SeekTotem();
-                break;
-            case State.Investigate:
-                Investigate();
-                break;
-            default:
-                Patrol();
-                break;
-        }
+        //switch (currentState)
+        //{
+        //    case State.Patrol:
+        //        Patrol();
+        //        break;
+        //    case State.Seek:
+        //        Charge();
+        //        break;
+        //    case State.Retreat:
+        //        Retreat();
+        //        break;
+        //    case State.Survey:
+        //        Survey();
+        //        break;
+        //    case State.Totem:
+        //        SeekTotem();
+        //        break;
+        //    case State.Investigate:
+        //        Investigate();
+        //        break;
+        //    default:
+        //        Patrol();
+        //        break;
+        //}
 
         // Set speed based on current state
         //SetSpeed();

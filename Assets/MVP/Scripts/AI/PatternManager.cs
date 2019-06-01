@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class PatternManager
 {
+    Pattern currentPattern;
     BehaviourAI ai;
 
     // initialise, get relevant AI class
@@ -14,6 +16,7 @@ public class PatternManager
 
     public Pattern SelectPattern(List<Pattern> _patterns)
     {
+        // currently just selects first pattern in group (decider)
         if(_patterns.Count == 0)
         {
             return null;
@@ -26,17 +29,81 @@ public class PatternManager
         return patternToReturn;
     }
 
-    public void ExecutePattern(Pattern _pattern)
+    // Includes interupt logic
+    public void ExecutePattern(Pattern incomingPattern, SenseMemoryFactory.SMData _data)
     {
-        if(_pattern == null)
+        Debug.Log("Execute Pattern");
+        Debug.Log(incomingPattern);
+        Debug.Log(currentPattern);
+
+        //remove currentPattern if it is not running
+        if (currentPattern != null && !currentPattern.isRunning)
         {
+            currentPattern = null;
+        }
+
+        //if incoming _pattern exists and start the incoming _pattern
+        if (incomingPattern != null)
+        {
+            // if there is no pattern running, or the incoming pattern can interupt the current pattern (higher importanceScore)
+            if (currentPattern == null || incomingPattern.patternType.importanceScore > currentPattern.patternType.importanceScore)
+            {
+                //prepare to interrupt currentPattern
+                if (currentPattern != null)
+                {
+                    currentPattern.PatternHasBeenInterrupted();
+                }
+                incomingPattern.StartPatternWith(ai, _data);
+                currentPattern = incomingPattern;
+                return;
+            }
+        }
+        
+
+        // once pattern has started (i.e. currentPattern is not null), keep calling UpdatePattern until currentPattern is not running 
+        if (currentPattern != null && currentPattern.isRunning )
+        {
+            currentPattern.UpdatePattern(ai, _data);
             return;
         }
-        _pattern.StartPatternWith(ai);
+
+        //
+    
+
+
+     
+
+     
+        Debug.Log("this makes no sense - no patterns executed");
     }
 }
 
-public interface Pattern
+public class Pattern : ScriptableObject
 {
-    void StartPatternWith(BehaviourAI ai);
+    public bool isRunning = false;
+    public Decider patternType = null;
+    public virtual void StartPatternWith(BehaviourAI ai, SenseMemoryFactory.SMData data)
+    {
+        isRunning = true;
+    }
+
+    public virtual void UpdatePattern(BehaviourAI ai, SenseMemoryFactory.SMData data)
+    {
+        
+    }
+
+    protected void StopPattern()
+    {
+        PatternHasEnded();
+    }
+
+    public virtual void PatternHasEnded()
+    {
+        isRunning = false;
+    }
+
+    public virtual void PatternHasBeenInterrupted()
+    {
+        isRunning = false;
+    }
 }

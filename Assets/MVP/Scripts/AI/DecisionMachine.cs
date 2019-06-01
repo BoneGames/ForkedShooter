@@ -19,46 +19,72 @@ public class DecisionMachine
     }
 
     // this lambda needs to be passed to pattern being executed (to constrain position to totem radius)
-    Func<Vector3, Vector3> MakeDestinationPointReduction()
-    {
-        Func<Vector3, Vector3> fn = (v) =>
-        {
-            if(localTotem == null)
-            {
-                return v;
-            }
-            Vector3 tPosition = localTotem.transform.position;
-            float destinationDist = Vector3.Distance(tPosition, v);
-            if (destinationDist > localTotem.radius)
-            {
-                return tPosition + (v - tPosition).normalized * localTotem.radius;
-            }
-            return v;
-        };
-        return fn;
-    }
+    //Func<Vector3, Vector3> MakeDestinationPointReduction()
+    //{
+    //    Func<Vector3, Vector3> fn = (v) =>
+    //    {
+    //        if(localTotem == null)
+    //        {
+    //            return v;
+    //        }
+    //        Vector3 tPosition = localTotem.transform.position;
+    //        float destinationDist = Vector3.Distance(tPosition, v);
+    //        if (destinationDist > localTotem.radius)
+    //        {
+    //            return tPosition + (v - tPosition).normalized * localTotem.radius;
+    //        }
+    //        return v;
+    //    };
+    //    return fn;
+    //}
    
     // Wrapper Method that allocates data to each of the AI Modes - Conditions for
     // execution are defined at the top of each respective Mode class
     public void MakeDecisionFrom(SenseMemoryFactory.SMData data)
     {
-        // 1st d is paramaters of lambda func, 2nd d is paramater used in lambda
-        // e.g. in the lambda (a => a + 5), first a is the parameter and second a in a + 5 is the parameter being used in lambda
+
+        // SelectMany() makes 1 list out of all the pattern lists (derived/transformed from deciders) that pass the condition (based on SMData)
         List<Pattern> relevantPatterns = deciders.SelectMany(d => d.PatternsBasedOn(data)).ToList();
+        // currently SelectPattern() just chooses the first pattern in the list
         Pattern pattern = pM.SelectPattern(relevantPatterns);
-        pM.ExecutePattern(pattern);
+        //pM.ExecutePattern(pattern,data);
+
+        
+        Debug.Log(relevantPatterns.Count);
+        //Pattern pattern = pM.SelectPattern(relevantPatterns);
+        pM.ExecutePattern(pattern,data);
+        //TurnOffDecidersBasedOn(pattern);
     }
+
+    //public void TurnOffDecidersBasedOn(Pattern pattern)
+    //{
+    //    foreach (var decider in deciders)
+    //    {
+    //        if(decider.importanceScore < pattern.patternType.importanceScore)
+    //        {
+    //            decider.isEnabled = false;
+    //        }
+    //    }
+    //}
+
+    //public void TurnAllDecidersOn()
+    //{
+    //    foreach (var decider in deciders)
+    //    {
+    //        decider.isEnabled = true;
+    //    }
+    //}
 }
 public class NaiveDecider: Decider
 {
-    List<Pattern> patterns;
-
-    public NaiveDecider(List<Pattern> _patterns)
+ 
+     public NaiveDecider(List<Pattern> _patterns): base(_patterns)
     {
-        this.patterns = _patterns;
-    }
+        
+        
+    } 
 
-    public List<Pattern> PatternsBasedOn(SenseMemoryFactory.SMData data)
+    override public List<Pattern> PatternsBasedOn(SenseMemoryFactory.SMData data)
     {
         bool condition = (data.inspectionPoints.Count == 0 && data.targets.Count == 0);
         if (condition)
@@ -77,13 +103,11 @@ public class NaiveDecider: Decider
 public class SuspiciousDecider: Decider
 {
 
-    List<Pattern> patterns;
-
-    public SuspiciousDecider(List<Pattern> _patterns)
+    public SuspiciousDecider(List<Pattern> _patterns) : base(_patterns)
     {
-        this.patterns = _patterns;
+        importanceScore = 1;
     }
-    public List<Pattern> PatternsBasedOn(SenseMemoryFactory.SMData _data)
+    override public List<Pattern> PatternsBasedOn(SenseMemoryFactory.SMData _data)
     {
         bool condition = (_data.inspectionPoints.Count > 0 && _data.targets.Count == 0);
         if (condition)
@@ -101,15 +125,14 @@ public class SuspiciousDecider: Decider
 }
 public class CombatDecider: Decider
 {
-    List<Pattern> patterns;
 
     // Add Combat Patterns to Combat Decider
-    public CombatDecider(List<Pattern> _patterns)
+    public CombatDecider(List<Pattern> _patterns) : base(_patterns)
     {
-        this.patterns = _patterns;
+        importanceScore = 2;
     }
 
-    public List<Pattern> PatternsBasedOn(SenseMemoryFactory.SMData _data)
+    override public List<Pattern> PatternsBasedOn(SenseMemoryFactory.SMData _data)
     {
         bool condition = (_data.targets.Count > 0);
         if (condition)
@@ -127,7 +150,18 @@ public class CombatDecider: Decider
 }
 
 
-public interface Decider
+public abstract class Decider
 {
-    List<Pattern> PatternsBasedOn(SenseMemoryFactory.SMData data);
+    public List<Pattern> patterns;
+    public Decider(List<Pattern> _patterns)
+    {
+        this.patterns = _patterns;
+        foreach (var p in this.patterns)
+        {
+            p.patternType = this;
+        }
+    }
+    public bool isEnabled = true;
+    public int importanceScore = 0;
+    public abstract List<Pattern> PatternsBasedOn(SenseMemoryFactory.SMData data);
 }

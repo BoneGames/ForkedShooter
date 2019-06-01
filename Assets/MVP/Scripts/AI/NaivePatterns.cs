@@ -5,11 +5,11 @@ using System;
 using NaughtyAttributes;
 
 [Serializable]
-public class CombatPatterns : MonoBehaviour
+public class NaivePatterns : MonoBehaviour
 {
 
-
     public List<Pattern> patterns;
+
 
 
 
