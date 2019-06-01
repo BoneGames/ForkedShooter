@@ -7,133 +7,127 @@ using NaughtyAttributes;
 
 public abstract class Health : MonoBehaviour
 {
-    public bool ShowHealth;
+  public bool ShowHealth;
 
-    [ShowIf("ShowHealth")]
-    [BoxGroup("Health")]
-    public float maxHealth = 100, currentHealth;
+  [ShowIf("ShowHealth"), BoxGroup("Health")]
+  public float maxHealth = 100, currentHealth;
 
-    public bool ShowShields;
-    [ShowIf("ShowShields")]
-    [BoxGroup("Shields")]
-    public float maxShield = 100, currentShield, carryOnDmg;
-    public Elements.Element shieldElement;
+  public bool ShowShields;
+  [ShowIf("ShowShields"), BoxGroup("Shields")]
+  public ShieldController shield;
+  [ShowIf("ShowShields"), BoxGroup("Shields")]
+  public float maxShield = 100, currentShield, carryOnDmg;
+  [ShowIf("ShowShields"), BoxGroup("Shields")]
+  public Elements.Element shieldElement;
 
-    //[HideInInspector]
-    public HealthBar healthBar;
 
-    public bool ShowEvents;
-    [ShowIf("ShowEvents")]
-    [BoxGroup("Events")]
-    public UnityEvent onDeath, onHeal, onDamage;
+  //[HideInInspector]
+  public HealthBar healthBar;
 
-    public virtual void Start()
-    {
-        currentHealth = maxHealth;
-        currentShield = maxShield;
-    }
+  public bool ShowEvents;
+  [ShowIf("ShowEvents"), BoxGroup("Events")]
+  public UnityEvent onDeath, onHeal, onDamage;
 
-    // Takes damage from various bullet/projectile scripts and runs 'CheckDie()'.
-    [PunRPC]
-    public virtual void ChangeHealth(float value, Vector3 shotDir, Elements.Element ammoType)
-    {
-        Debug.Log(1);
-        //if (ammoType.ToString() == shieldElement.ToString())
-        //{
-        //    value += 5;
-        //}
+  public virtual void Start()
+  {
+    currentHealth = maxHealth;
+    currentShield = maxShield;
 
-        //else if (ammoType.ToString() != shieldElement.ToString())
-        //{
-        //    return;
-        //}
+    SetShield();
+  }
 
-        if (ammoType.ToString() == "Fire" && shieldElement.ToString() == "Grass")
-        {
-            value = Mathf.FloorToInt(value * 1.25f);
-        }
-
-        else if (ammoType.ToString() == "Water" && shieldElement.ToString() == "Fire")
-        {
-            value = Mathf.FloorToInt(value * 1.25f);
-        }
-
-        else if (ammoType.ToString() == "Grass" && shieldElement.ToString() == "Water")
-        {
-            value = Mathf.FloorToInt(value * 1.25f);
-        }
-        currentHealth -= value;
-
-        if (value != 0)
-        {
-            if (value < 0)
-            {
-                onHeal.Invoke();
-            }
-            if (value > 0)
-            {
-                onDamage.Invoke();
-            }
-        }
-        CheckDie();
-    }
-    //public virtual void ChangeHealth(float value, Vector3 shotDir)
+  // Takes damage from various bullet/projectile scripts and runs 'CheckDie()'.
+  [PunRPC]
+  public virtual void ChangeHealth(float value, Vector3 shotDir, Elements.Element ammoType)
+  {
+    Debug.Log(1);
+    //if (ammoType.ToString() == shieldElement.ToString())
     //{
-    //    Debug.Log(2);
-    //    if (value != 0)
-    //    {
-    //        currentHealth -= value;
-
-    //        if (value < 0)
-    //        {
-    //            onHeal.Invoke();
-    //        }
-    //        if (value > 0)
-    //        {
-    //            onDamage.Invoke();
-    //        }
-    //    }
-    //    CheckDie();
+    //    value += 5;
     //}
 
-    //Self explanatory.
-    public virtual void CheckDie()
+    //else if (ammoType.ToString() != shieldElement.ToString())
+    //{
+    //    return;
+    //}
+
+    value = CheckWeakness(value, ammoType);
+
+    currentHealth -= value;
+
+    if (value != 0)
     {
-        if (currentHealth <= 0)
-        {
-            onDeath.Invoke();
-        }
+      if (value < 0)
+      {
+        onHeal.Invoke();
+      }
+      if (value > 0)
+      {
+        onDamage.Invoke();
+      }
+    }
+    CheckDie();
+  }
+  //public virtual void ChangeHealth(float value, Vector3 shotDir)
+  //{
+  //    Debug.Log(2);
+  //    if (value != 0)
+  //    {
+  //        currentHealth -= value;
+
+  //        if (value < 0)
+  //        {
+  //            onHeal.Invoke();
+  //        }
+  //        if (value > 0)
+  //        {
+  //            onDamage.Invoke();
+  //        }
+  //    }
+  //    CheckDie();
+  //}
+
+  //Self explanatory.
+  public virtual void CheckDie()
+  {
+    if (currentHealth <= 0)
+    {
+      onDeath.Invoke();
+    }
+  }
+
+  public float CheckWeakness(float _val, Elements.Element ammoType)
+  {
+    print("I am checking shield weakness!");
+    if (ammoType.ToString() == "Fire" && shieldElement.ToString() == "Grass")
+    {
+      _val = _val * 1.25f;
     }
 
-    public float CheckWeakness(float _val, Elements.Element ammoType)
+    else if (ammoType.ToString() == "Water" && shieldElement.ToString() == "Fire")
     {
-        if (ammoType != shieldElement || ammoType == Elements.Element.Normal)
-        {
-            print("I am checking shield weakness!");
-            if (ammoType.ToString() == "Fire" && shieldElement.ToString() == "Grass")
-            {
-                _val = _val * 1.25f;
-            }
-            else if (ammoType.ToString() == "Water" && shieldElement.ToString() == "Fire")
-            {
-                _val = _val * 1.25f;
-            }
-
-            else if (ammoType.ToString() == "Grass" && shieldElement.ToString() == "Water")
-            {
-                _val = _val * 1.25f;
-            }
-            print(_val);
-        }
-
-        return _val;
+      _val = _val * 1.25f;
     }
 
-    public enum Element
+    else if (ammoType.ToString() == "Grass" && shieldElement.ToString() == "Water")
     {
-        Normal,
-        Fire,
-        Water,
-        Grass
+      _val = _val * 1.25f;
     }
+    print(_val);
+
+    return _val;
+  }
+
+  public void SetShield()
+  {
+    shield.SetShieldElement(shieldElement);
+  }
+
+  public enum Element
+  {
+    Normal,
+    Fire,
+    Water,
+    Grass
+  }
 }

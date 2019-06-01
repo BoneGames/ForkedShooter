@@ -404,6 +404,7 @@ GameObject:
   - component: {fileID: 114366355171617984}
   - component: {fileID: 114020886584632132}
   - component: {fileID: 114857226843892834}
+  - component: {fileID: 2901919595628460976}
   m_Layer: 10
   m_Name: Enemy_ScoutDrone_Mk3
   m_TagString: Enemy
@@ -423,6 +424,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4248089437234074}
+  - {fileID: 7877896390683942229}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -549,6 +551,7 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   ShowShields: 1
+  shield: {fileID: 7253436655416111283}
   maxShield: 0
   currentShield: 0
   carryOnDmg: 0
@@ -557,7 +560,18 @@ MonoBehaviour:
   ShowEvents: 1
   onDeath:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2901919595628460976}
+        m_MethodName: DropRandomItem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   onHeal:
@@ -595,9 +609,6 @@ MonoBehaviour:
   ShowStates: 0
   isGod: 0
   photonView: {fileID: 0}
-  ShowDrops: 0
-  ammoBox: {fileID: 1861980455999006, guid: 81097656c3f3f474695c95c52ee785d7, type: 3}
-  healthDrop: {fileID: 1770668066226042, guid: ef39cf02ff0e77243aef73b443f72843, type: 3}
 --- !u!114 &114020886584632132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -640,6 +651,7 @@ MonoBehaviour:
     type: 3}
   burstDelay: 0.1
   reloadTime: 4
+  element: 0
 --- !u!114 &114857226843892834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -660,6 +672,21 @@ MonoBehaviour:
   offset: {x: 0, y: 4, z: 0}
   viewPoint: {fileID: 2067074759}
   UITarget: {fileID: 0}
+--- !u!114 &2901919595628460976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188078473502018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f383c2ed2842344da4608fec2a278f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drops:
+  - {fileID: 1861980455999006, guid: 81097656c3f3f474695c95c52ee785d7, type: 3}
+  - {fileID: 1770668066226042, guid: ef39cf02ff0e77243aef73b443f72843, type: 3}
 --- !u!1 &1216102068932778
 GameObject:
   m_ObjectHideFlags: 0
@@ -1988,3 +2015,90 @@ Transform:
   m_Father: {fileID: 4144810091662392}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &2621035109624823928
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4228566872078592}
+    m_Modifications:
+    - target: {fileID: 5263617853731347756, guid: f0d18c748b7af534f99741e90e2f1f71,
+        type: 3}
+      propertyPath: m_Name
+      value: DroneShield
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263617853731347757, guid: f0d18c748b7af534f99741e90e2f1f71,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263617853731347757, guid: f0d18c748b7af534f99741e90e2f1f71,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263617853731347757, guid: f0d18c748b7af534f99741e90e2f1f71,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263617853731347757, guid: f0d18c748b7af534f99741e90e2f1f71,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263617853731347757, guid: f0d18c748b7af534f99741e90e2f1f71,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263617853731347757, guid: f0d18c748b7af534f99741e90e2f1f71,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263617853731347757, guid: f0d18c748b7af534f99741e90e2f1f71,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263617853731347757, guid: f0d18c748b7af534f99741e90e2f1f71,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263617853731347757, guid: f0d18c748b7af534f99741e90e2f1f71,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263617853731347757, guid: f0d18c748b7af534f99741e90e2f1f71,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263617853731347757, guid: f0d18c748b7af534f99741e90e2f1f71,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f0d18c748b7af534f99741e90e2f1f71, type: 3}
+--- !u!4 &7877896390683942229 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5263617853731347757, guid: f0d18c748b7af534f99741e90e2f1f71,
+    type: 3}
+  m_PrefabInstance: {fileID: 2621035109624823928}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7253436655416111283 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4681117698247897291, guid: f0d18c748b7af534f99741e90e2f1f71,
+    type: 3}
+  m_PrefabInstance: {fileID: 2621035109624823928}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93aa1c5637d74ef4083ae54a776103e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
