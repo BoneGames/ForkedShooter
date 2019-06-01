@@ -26,7 +26,7 @@ public class RetreatPattern : Pattern
     {
         Debug.Log("retreat - UpdatePattern");
         base.UpdatePattern(ai, data);
-        if (AI_Helper.DestinationReached(ai, 0.5f))
+        if (ai.DestinationReached(0.2f))
         {
             StopPattern();
             Debug.Log("retreat pattern is stopped");

@@ -6,14 +6,14 @@ using System.Linq.Expressions;
 using System;
 public class DecisionMachine
 {
-    InvulTotem localTotem;
+    //InvulTotem localTotem;
     List<Decider> deciders;
     PatternManager pM;
 
     // Constructor (initialise values)
     public DecisionMachine(InvulTotem _totem, List<Decider> _deciders, PatternManager _patternManager)
     {
-        this.localTotem = _totem;
+        //this.localTotem = _totem;
         this.deciders = _deciders;
         this.pM = _patternManager;
     }
@@ -75,22 +75,41 @@ public class DecisionMachine
     //    }
     //}
 }
+
+public abstract class Decider
+{
+    public List<Pattern> patterns;
+    // Constructor tells each instance to get it's patterns from it's Mode List
+    public Decider(List<Pattern> _patterns)
+    {
+        this.patterns = _patterns;
+
+        // tell each pattern what Mode it is (Naive, Suspicious, Combat)
+        foreach (var p in this.patterns)
+        {
+            p.patternType = this;
+        }
+    }
+    public bool isEnabled = true;
+    public int precedence;
+    public abstract List<Pattern> PatternsBasedOn(SenseMemoryFactory.SMData data);
+}
+
 public class NaiveDecider: Decider
 {
- 
-     public NaiveDecider(List<Pattern> _patterns): base(_patterns)
-    {
-        
-        
-    } 
+     // Constructor - get patterns from list (in inspector)
+     public NaiveDecider(List<Pattern> patterns): base(patterns)
+     {
+        precedence = 0;
+     } 
 
     override public List<Pattern> PatternsBasedOn(SenseMemoryFactory.SMData data)
     {
+        // if no direct/indirect evidence of adversaries
         bool condition = (data.inspectionPoints.Count == 0 && data.targets.Count == 0);
         if (condition)
         {
             Debug.Log(this.GetType().Name + ", passed");
-            // return set of naive patterns
             return patterns;
         }
         else
@@ -100,16 +119,18 @@ public class NaiveDecider: Decider
         }
     }
 }
+
 public class SuspiciousDecider: Decider
 {
-
+    // Constructor - get patterns from list (in inspector)
     public SuspiciousDecider(List<Pattern> _patterns) : base(_patterns)
     {
-        importanceScore = 1;
+        precedence = 1;
     }
     override public List<Pattern> PatternsBasedOn(SenseMemoryFactory.SMData _data)
     {
-        bool condition = (_data.inspectionPoints.Count > 0 && _data.targets.Count == 0);
+        // if no direct evidence but some indirect evidence of enemies
+        bool condition = (_data.targets.Count == 0 && _data.inspectionPoints.Count > 0);
         if (condition)
         {
             Debug.Log(this.GetType().Name + ", passed");
@@ -125,15 +146,15 @@ public class SuspiciousDecider: Decider
 }
 public class CombatDecider: Decider
 {
-
-    // Add Combat Patterns to Combat Decider
+    // Constructor - get patterns from list (in inspector)
     public CombatDecider(List<Pattern> _patterns) : base(_patterns)
     {
-        importanceScore = 2;
+        precedence = 2;
     }
 
     override public List<Pattern> PatternsBasedOn(SenseMemoryFactory.SMData _data)
     {
+        // if direct evidence of enemies
         bool condition = (_data.targets.Count > 0);
         if (condition)
         {
@@ -150,18 +171,4 @@ public class CombatDecider: Decider
 }
 
 
-public abstract class Decider
-{
-    public List<Pattern> patterns;
-    public Decider(List<Pattern> _patterns)
-    {
-        this.patterns = _patterns;
-        foreach (var p in this.patterns)
-        {
-            p.patternType = this;
-        }
-    }
-    public bool isEnabled = true;
-    public int importanceScore = 0;
-    public abstract List<Pattern> PatternsBasedOn(SenseMemoryFactory.SMData data);
-}
+

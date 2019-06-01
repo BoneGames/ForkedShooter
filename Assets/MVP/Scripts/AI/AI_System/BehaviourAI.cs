@@ -3,98 +3,48 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
+using NaughtyAttributes;
 
 
 public class BehaviourAI : MonoBehaviour
 {
-    // Monobehavious Lists (later to become Pattern Type Lists) 
-    //public List<MonoBehaviour> naivePatterns;
-    //public List<MonoBehaviour> suspiciousPatterns;
-    //public List<MonoBehaviour> combatPatterns;
+    #region VARIABLES
+    // Control Flow Classes
+    [HideInInspector] public PatternManager pM;
+    [HideInInspector] public DecisionMachine dM;
+    [HideInInspector] public SenseMemoryFactory sMF;
 
-    public PatternManager pM;
-    public DecisionMachine dM;
-
-    public float ai_Update_Rate = 1;
-
+    // Behaviours and Modes
+    [HideInInspector]
     public List<Pattern> patterns;
     public List<Decider> deciders;
 
-
-    #region STATE ENUMs
-    // Declaration
-    public enum State // The behaviour states of the enemy AI.
-    {
-        Patrol,
-        Seek,
-        Retreat,
-        Survey,
-        Totem,
-        Investigate,
-        Hide,
-        Fire,
-    }
-
-    public enum Mode
-    {
-        Naive,
-        Suspicious,
-        Combat
-    }
-
-    public SenseMemoryFactory sMF;
-
-    #endregion
-
-    #region VARIABLES
-
-    [Header("Behaviours")]
-    public State currentState = State.Patrol;
-    //private Mode currentMode = Mode.Naive;
-
-    InvulTotem totem;
-
-    [AI_ScoutDrone_(new string[] { "Speed Patrol", "Speed Seek", "Speed Investigate" })]
+    public bool ShowSpecs;
+    [ShowIf("ShowSpecs")] [BoxGroup("Enemy Specs")] public float updateRate = 1;
+    [ShowIf("ShowSpecs")] [BoxGroup("Enemy Specs")] public float shootTimer;
+    [ShowIf("ShowSpecs")] [BoxGroup("Enemy Specs")] public float shootDelay;
+    [ShowIf("ShowSpecs")]
+    [BoxGroup("Enemy Specs")]
+    [AI_ScoutDrone_(new string[] { "Naive", "Suspicious", "Combat" })]
     public float[] moveSpeed = new float[3]; // Movement speeds for different states (up to you).
 
-    private float hideTimer;
-    public float hideTime;
 
-    public GameObject investigateTarget;
+    //[AI_ScoutDrone_(new string[] { "0-Waypoint", "1-Seek Target", "2-Range Target", "3-Retreat" })]
+    //public float[] stoppingDistance = new float[4]; // Stopping distance for different conditions.
 
-    [AI_ScoutDrone_(new string[] { "0-Waypoint", "1-Seek Target", "2-Range Target", "3-Retreat" })]
-    public float[] stoppingDistance = new float[4]; // Stopping distance for different conditions.
-
-    [Header("Components")]
-    public NavMeshAgent agent; // Unity component reference
-    public Transform playerTarget; // Reference assigned target's Transform data (position/rotation/scale).
-    public Transform waypointParent; // Reference one waypoint Parent (used to get children in array).
-    public AI_FoV_Detection fov; // Reference FieldOfView Script (used for line of sight player detection).
-    public AI_Weapon gun;
-    public BehaviourAI[] Modes;
-    public int currentMode;
+    public bool ShowComponents;
+    [ShowIf("ShowComponents")] [BoxGroup("Enemy Components")] public NavMeshAgent agent; // Unity component reference
+    [ShowIf("ShowComponents")] [BoxGroup("Enemy Components")] public AI_FoV_Detection fov; // Reference FieldOfView Script (used for line of sight player detection).
+    [ShowIf("ShowComponents")] [BoxGroup("Enemy Components")] public AI_Weapon gun;
+    [ShowIf("ShowComponents")] [BoxGroup("Enemy Components")] public EnemyHealth healthRef;
 
 
-
-    public LayerMask obstacleMask;
-    public bool initVar = true;
-
-    public int intensity;
-
-
-
-    [HideInInspector]
-    public Quaternion startRotation;
-
-    public EnemyHealth healthRef;
-
-    //[HideInInspector]
-    public Transform hand;
-    public float shootTimer, shootDelay;
-
-
-    public Vector3 investigatePoint;
-
+    public bool ShowMarkers;
+    [ShowIf("ShowMarkers")] [BoxGroup("Navigation Markers")] public Transform playerTarget; // Reference assigned target's Transform data (position/rotation/scale).
+    [ShowIf("ShowMarkers")] [BoxGroup("Navigation Markers")] public Transform waypointParent; // Reference one waypoint Parent (used to get children in array).
+    [ShowIf("ShowMarkers")] [BoxGroup("Navigation Markers")] public LayerMask obstacleMask; // Mask on all obstacles
+    [ShowIf("ShowMarkers")] [BoxGroup("Navigation Markers")] public Vector3 investigatePoint;
+    [ShowIf("ShowMarkers")] [BoxGroup("Navigation Markers")] public InvulTotem totem; // enemie's local totem
     #endregion VARIABLES
 
 
@@ -102,40 +52,26 @@ public class BehaviourAI : MonoBehaviour
     // Returns closest obstacle collider to target
     public Collider GetClosestObstacle()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position, 100, obstacleMask);
+        Collider[] obstacles = Physics.OverlapSphere(transform.position, 100, obstacleMask);
         // Set closest to null
         Collider closest = null;
-        // Set minValue to max value
-        float minValue = float.MaxValue;
+        // Init closest as max value
+        float closestDist = float.MaxValue;
         // Loop through all entities
-        foreach (var hit in hits)
+        foreach (var obstacle in obstacles)
         {
             // Set distance to entity distance
-            float distance = Vector3.Distance(transform.position, hit.transform.position);
+            float distance = Vector3.Distance(transform.position, obstacle.transform.position);
             // If distance < minValue
-            if (distance < minValue)
+            if (distance < closestDist)
             {
                 // Set minValue to distance
-                minValue = distance;
+                closestDist = distance;
                 // Set closest to entity
-                closest = hit;
+                closest = obstacle;
             }
         }
-        // Return closest
         return closest;
-    }
-
-    public void ModeSwitch(bool up)
-    {
-        // set new Mode Index
-        currentMode = up ? currentMode++ : currentMode--;
-        // disable all Mode Scripts
-        foreach (BehaviourAI mode in Modes)
-        {
-            mode.enabled = false;
-        }
-        // enable new mode
-        Modes[currentMode].enabled = true;
     }
 
     public Vector3 GetAvoidanceWaypoint(Vector3 playerPosition)
@@ -163,51 +99,35 @@ public class BehaviourAI : MonoBehaviour
         return fov.visibleTargets[transformIndex];
     }
 
-    public void GetNearestTotem()
+    public InvulTotem GetNearestTotem()
     {
         InvulTotem[] totemPoles = FindObjectsOfType<InvulTotem>();
         float shortestDist = float.MaxValue;
-
+        InvulTotem _totem = null; ;
         foreach (InvulTotem tp in totemPoles)
         {
             float thisDist = Vector3.Distance(transform.position, tp.transform.position);
             if (thisDist < shortestDist)
             {
                 shortestDist = thisDist;
-                totem = tp;
+                _totem = tp;
             }
         }
+        return _totem;
     }
 
-    public void SetNewWaypoint()
+    public bool DestinationReached(float desiredDistance)
     {
-        //waypointIndex = Random.Range(0, waypoints.Length);
+        if (agent.remainingDistance < desiredDistance)
+        {
+            return true;
+        }
+        return false;
     }
-
-    // This is accessed from the bullet - if it hits near the enemy
     #endregion
 
     #region STATES
-    public virtual void Patrol()
-    {
-        //// Transform(s) of the current waypoint in the waypoints array.
-        //Transform point = waypoints[waypointIndex];
 
-        //// Agent destination (move to current waypoint position).
-        //agent.SetDestination(point.position);
-
-        //// If we're close enough to the waypoint...
-        //if (DestinationReached(0.5f))
-        //{
-        //    SetNewWaypoint();
-        //}
-        //// If we spot a player...
-        //if (LookForPlayer())
-        //{
-        //    // ... switch to Seek behaviour, and set target to the first visible target.
-        //    currentState = State.Seek;
-        //}
-    }
 
 
 
@@ -355,16 +275,6 @@ public class BehaviourAI : MonoBehaviour
         // repeat
     }
 
-    //public void Retreat()
-    //{
-    //    Vector3 retreatPoint = GetAvoidanceWaypoint();
-    //    agent.SetDestination(retreatPoint);
-    //    if (agent.remainingDistance < 0.5f)
-    //    {
-    //        currentState = State.Hide;
-    //    }
-    //}
-
     public void Investigate()
     {
         agent.SetDestination(investigatePoint);
@@ -382,7 +292,7 @@ public class BehaviourAI : MonoBehaviour
         if (agent.remainingDistance < 5)
         {
             agent.ResetPath();
-            currentState = State.Survey;
+            //currentState = State.Survey;
         }
     }
     #endregion
@@ -396,7 +306,7 @@ public class BehaviourAI : MonoBehaviour
         }
         else
         {
-            currentState = State.Investigate;
+            // currentState = State.Investigate;
         }
 
         //if (DestinationReached(1))
@@ -446,64 +356,68 @@ public class BehaviourAI : MonoBehaviour
 
             // Store investigate point in case target is lost (last seen target point) 
             investigatePoint = playerTarget.position;
-            investigateTarget.transform.position = investigatePoint;
 
             return true;
         }
         return false;
     }
 
-  
+
     public void BulletAlert(Vector3 shotOrigin)
     {
         // reset Hide timer (if currently hiding)
-        hideTimer = hideTime;
-        if (currentState != State.Hide)
-        {
-            investigatePoint = shotOrigin;
-            currentState = State.Investigate;
-        }
+        //hideTimer = hideTime;
+        //if (currentState != State.Hide)
+        //{
+        //    investigatePoint = shotOrigin;
+        //    currentState = State.Investigate;
+        //}
     }
     #endregion
 
     #region START
-    public virtual void Start()
+
+    void GetReferences()
     {
-        GetNearestTotem();
+        totem = GetNearestTotem();
         healthRef = GetComponent<EnemyHealth>();
-
-        // Get children of waypointParent.
-        // in patterns
-        //waypoints = waypointParent.GetComponentsInChildren<Transform>();
-
+        fov = GetComponentInChildren<AI_FoV_Detection>();
         // Get NavMeshAgent
         agent = GetComponent<NavMeshAgent>();
         // Get weapon
         gun = GetComponentInChildren<AI_Weapon>();
-
-        // Initiate List of Decider Interfaces (Modes: Naive, Suspicious, Combat)
+    }
+    void PopulateLists()
+    {
+        // Initiate List of Decider Classes (Modes: Naive, Suspicious, Combat)
         this.deciders = new List<Decider>();
-        // Create Pattern Lists, add the Monobehaviours (re-cast as patterns)
-        List<Pattern> _naivePatterns = GetComponent<NaivePatterns>().patterns;
-        //List<Pattern> _suspiciousPatterns = new List<Pattern>(suspiciousPatterns.Cast<Pattern>());
-        List<Pattern> _combatPatterns = GetComponent<CombatPatterns>().patterns;
-        // Add converted (Monobehaviour => Pattern) lists to Deciders List
-        this.deciders.Add(new NaiveDecider(_naivePatterns));
-        //this.deciders.Add(new SuspiciousDecider(_suspiciousPatterns));
-        this.deciders.Add(new CombatDecider(_combatPatterns));
 
+        // Add converted each decider class (that comes with it's list of behaviours)
+        this.deciders.Add(new NaiveDecider(GetComponent<NaivePatterns>().patterns));
+        this.deciders.Add(new SuspiciousDecider(GetComponent<SuspiciousPatterns>().patterns));
+        this.deciders.Add(new CombatDecider(GetComponent<CombatPatterns>().patterns));
+    }
+    void InitialiseSystem()
+    {
         // Pattern Manager Instance
         pM = new PatternManager(this);
         // Decision Machine Instance
         dM = new DecisionMachine(totem, this.deciders, pM);
         // Sense Memory factory Instance
         sMF = new SenseMemoryFactory(fov);
+    }
+    public virtual void Start()
+    {
+        // Get Components
+        GetReferences();
+        PopulateLists();
+        InitialiseSystem();
 
         // repeating method that gets world info and decides actions
-        InvokeRepeating("MakeDecisionBasedOnSenses", 0, ai_Update_Rate);
+        InvokeRepeating("MakeDecisionBasedOnSenses", 0, updateRate);
     }
 
-    //
+    // Wrapper Function
     private void MakeDecisionBasedOnSenses()
     {
         // Decision Maker class, "Makes Decision From" Sense Memory Factory, which returns SMData class (basically a struct with
@@ -511,93 +425,4 @@ public class BehaviourAI : MonoBehaviour
         dM.MakeDecisionFrom(sMF.GetSMData());
     }
     #endregion Start
-
-    #region Update
-    void Update()
-    {
-        shootTimer -= Time.deltaTime;
-        
-       
-
-       
-
-        //switch (currentState)
-        //{
-        //    case State.Patrol:
-        //        Patrol();
-        //        break;
-        //    case State.Seek:
-        //        Charge();
-        //        break;
-        //    case State.Retreat:
-        //        Retreat();
-        //        break;
-        //    case State.Survey:
-        //        Survey();
-        //        break;
-        //    case State.Totem:
-        //        SeekTotem();
-        //        break;
-        //    case State.Investigate:
-        //        Investigate();
-        //        break;
-        //    default:
-        //        Patrol();
-        //        break;
-        //}
-
-        // Set speed based on current state
-        //SetSpeed();
-    }
-
-    
-    //void SetSpeed()
-    //{
-    //    switch (currentState)
-    //    {
-    //        case State.Seek:
-    //            agent.speed = moveSpeed[1];
-    //            break;
-    //        case State.Retreat:
-    //            agent.speed = moveSpeed[1];
-    //            break;
-    //        case State.Totem:
-    //            agent.speed = moveSpeed[1];
-    //            break;
-    //        case State.Investigate:
-    //            agent.speed = moveSpeed[2];
-    //            break;
-    //        // patrol, survey
-    //        default:
-    //            agent.speed = moveSpeed[0];
-    //            break;
-    //    }
-    //}
-    #endregion Update
 }
-
-
-//IEnumerator LookAround()
-//{
-//    Vector3 curLeft = -transform.right;
-//    Vector3 curRight = transform.right;
-
-//    bool canRight = !Physics.Raycast(transform.position, curRight, 5);
-//    bool canLeft = !Physics.Raycast(transform.position, curLeft, 5);
-
-//    if(canRight)
-//    {
-//        Debug.Log("Look Right");
-//        // look here
-//        yield return new WaitForSeconds(2);
-//    }
-//    if (canLeft)
-//    {
-//        Debug.Log("Look Left");
-//        // look here
-//        yield return new WaitForSeconds(2);
-//    }
-
-
-
-//}

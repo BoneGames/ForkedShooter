@@ -34,7 +34,7 @@ public class PatrolPattern : Pattern
     {
         base.UpdatePattern(ai, data);
         // If we're close enough to the waypoint...
-        if (AI_Helper.DestinationReached(ai, 0.5f))
+        if (ai.DestinationReached(0.2f))
         {
             waypointIndex = Random.Range(0, waypoints.Length);
 

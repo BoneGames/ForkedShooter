@@ -202,6 +202,31 @@ PrefabInstance:
       propertyPath: naivePatterns.Array.data[0]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 114063992362631900, guid: bbb8b8f930a956f498f80738b829185f,
+        type: 3}
+      propertyPath: ShowComponents
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114063992362631900, guid: bbb8b8f930a956f498f80738b829185f,
+        type: 3}
+      propertyPath: ShowSpecs
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114063992362631900, guid: bbb8b8f930a956f498f80738b829185f,
+        type: 3}
+      propertyPath: ShowMarkers
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114063992362631900, guid: bbb8b8f930a956f498f80738b829185f,
+        type: 3}
+      propertyPath: ShowBehaviours
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114063992362631900, guid: bbb8b8f930a956f498f80738b829185f,
+        type: 3}
+      propertyPath: fov
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4686679147568946, guid: bbb8b8f930a956f498f80738b829185f, type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.0017
@@ -593,7 +618,7 @@ PrefabInstance:
     - target: {fileID: 114131910670434340, guid: d4959bfe9c2bdde4ba18947f246452be,
         type: 3}
       propertyPath: showImportantStuff
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114082195335734174, guid: d4959bfe9c2bdde4ba18947f246452be,
         type: 3}
@@ -2032,6 +2057,7 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   ShowShields: 0
+  shield: {fileID: 0}
   maxShield: 100
   currentShield: 0
   carryOnDmg: 0
@@ -2053,7 +2079,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  shieldGO: {fileID: 0}
   ShowShotIndicator: 0
   shotDirectionArm: {fileID: 0}
   shotIndicatorDelay: 0

@@ -46,7 +46,7 @@ public class PatternManager
         if (incomingPattern != null)
         {
             // if there is no pattern running, or the incoming pattern can interupt the current pattern (higher importanceScore)
-            if (currentPattern == null || incomingPattern.patternType.importanceScore > currentPattern.patternType.importanceScore)
+            if (currentPattern == null || incomingPattern.patternType.precedence > currentPattern.patternType.precedence)
             {
                 //prepare to interrupt currentPattern
                 if (currentPattern != null)
