@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InvestigatePattern : MonoBehaviour
+[CreateAssetMenu(fileName = "Investigate Pattern", menuName = "Patterns/Investigate")]
+public class InvestigatePattern : Pattern
 {
     // Start is called before the first frame update
     void Start()

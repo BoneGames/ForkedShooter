@@ -27,6 +27,8 @@ public class BehaviourAI : MonoBehaviour
     [BoxGroup("Enemy Specs")]
     [AI_ScoutDrone_(new string[] { "Naive", "Suspicious", "Combat" })]
     public float[] moveSpeed = new float[3]; // Movement speeds for different states (up to you).
+    public int maxBurstFire;
+    Quaternion handStartRot;
 
 
     //[AI_ScoutDrone_(new string[] { "0-Waypoint", "1-Seek Target", "2-Range Target", "3-Retreat" })]
@@ -37,6 +39,7 @@ public class BehaviourAI : MonoBehaviour
     [ShowIf("ShowComponents")] [BoxGroup("Enemy Components")] public AI_FoV_Detection fov; // Reference FieldOfView Script (used for line of sight player detection).
     [ShowIf("ShowComponents")] [BoxGroup("Enemy Components")] public AI_Weapon gun;
     [ShowIf("ShowComponents")] [BoxGroup("Enemy Components")] public EnemyHealth healthRef;
+    [ShowIf("ShowComponents")] [BoxGroup("Enemy Components")] public Transform hand;
 
 
     public bool ShowMarkers;
@@ -52,6 +55,7 @@ public class BehaviourAI : MonoBehaviour
     // Returns closest obstacle collider to target
     public Collider GetClosestObstacle()
     {
+        
         Collider[] obstacles = Physics.OverlapSphere(transform.position, 100, obstacleMask);
         // Set closest to null
         Collider closest = null;
@@ -118,7 +122,7 @@ public class BehaviourAI : MonoBehaviour
 
     public bool DestinationReached(float desiredDistance)
     {
-        if (agent.remainingDistance < desiredDistance)
+        if (agent.remainingDistance <= desiredDistance)
         {
             return true;
         }
@@ -300,14 +304,7 @@ public class BehaviourAI : MonoBehaviour
     #region ACTIONS
     public void MeleeAttack()
     {
-        if (LookForPlayer())
-        {
-            agent.SetDestination(playerTarget.position);
-        }
-        else
-        {
-            // currentState = State.Investigate;
-        }
+       
 
         //if (DestinationReached(1))
         //{
@@ -315,14 +312,25 @@ public class BehaviourAI : MonoBehaviour
         //}
     }
 
-    // shoots gun a specific number of times
-    public void Shoot(int _shots)
+    public void OnDrawGizmos()
     {
-        shootTimer -= Time.deltaTime;
+        Debug.DrawRay(gun.transform.position, gun.transform.forward * 5, Color.red);
+    }
 
-        if (shootTimer < 0)
+    public void ResetAI()
+    {
+        hand.transform.localRotation = handStartRot;
+        agent.updateRotation = true;
+    }
+
+    // shoots gun a specific number of times
+    public void Shoot(Vector3 target)
+    {
+        if (shootTimer <= 0)
         {
-            gun.Shoot(_shots);
+            int shots = Random.Range(1, maxBurstFire);
+            hand.LookAt(target);
+            gun.Shoot(shots);
             shootTimer = shootDelay;
         }
     }
@@ -343,23 +351,32 @@ public class BehaviourAI : MonoBehaviour
 
     #region SENSES
 
-    public virtual bool LookForPlayer()
+   
+   
+    public void RotateToward(Vector3 target)
     {
-        if (fov.visibleTargets.Count > 0)
+        StopAllCoroutines();
+        StartCoroutine(FaceTargetRotation(target));
+    }
+    public IEnumerator FaceTargetRotation(Vector3 target)
+    {
+        
+        Vector3 targetDir;
+        float angle = 10;
+        // while AI isn't looking at target
+        while (angle > 1)
         {
-            if (fov.visibleTargets.Count > 1)
-            {
-                GetClosestTarget();
-            }
-
-            playerTarget = fov.visibleTargets[0];
-
-            // Store investigate point in case target is lost (last seen target point) 
-            investigatePoint = playerTarget.position;
-
-            return true;
+            Debug.Log("rotating");
+            // get target direction
+            targetDir = target - transform.position;
+            // get angle still to turn
+            angle = Vector3.Angle(targetDir, transform.forward);
+            // get look rotation
+            Quaternion lookRot = Quaternion.LookRotation(targetDir);
+            // Slerp angle from current to lookRotation
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, Time.deltaTime * angle/2);
+            yield return null;
         }
-        return false;
     }
 
 
@@ -375,12 +392,20 @@ public class BehaviourAI : MonoBehaviour
     }
     #endregion
 
+    private void Update()
+    {
+        if(shootTimer > 0)
+        shootTimer -= Time.deltaTime;
+    }
+
     #region START
 
     void GetReferences()
     {
         totem = GetNearestTotem();
+        // get health
         healthRef = GetComponent<EnemyHealth>();
+        // Get sight detection
         fov = GetComponentInChildren<AI_FoV_Detection>();
         // Get NavMeshAgent
         agent = GetComponent<NavMeshAgent>();
@@ -392,17 +417,17 @@ public class BehaviourAI : MonoBehaviour
         // Initiate List of Decider Classes (Modes: Naive, Suspicious, Combat)
         this.deciders = new List<Decider>();
 
-        // Add converted each decider class (that comes with it's list of behaviours)
-        this.deciders.Add(new NaiveDecider(GetComponent<NaivePatterns>().patterns));
-        this.deciders.Add(new SuspiciousDecider(GetComponent<SuspiciousPatterns>().patterns));
-        this.deciders.Add(new CombatDecider(GetComponent<CombatPatterns>().patterns));
+        // Add behaviours matching each decider type
+        this.deciders.Add(new NaiveDecider(GetComponent<Naive>().behaviours, healthRef));
+        this.deciders.Add(new SuspiciousDecider(GetComponent<Suspicious>().behaviours, healthRef));
+        this.deciders.Add(new CombatDecider(GetComponent<Combat>().behaviours, healthRef));
     }
     void InitialiseSystem()
     {
         // Pattern Manager Instance
         pM = new PatternManager(this);
         // Decision Machine Instance
-        dM = new DecisionMachine(totem, this.deciders, pM);
+        dM = new DecisionMachine(totem, this.deciders, pM, healthRef);
         // Sense Memory factory Instance
         sMF = new SenseMemoryFactory(fov);
     }
@@ -412,6 +437,7 @@ public class BehaviourAI : MonoBehaviour
         GetReferences();
         PopulateLists();
         InitialiseSystem();
+        handStartRot = hand.transform.localRotation;
 
         // repeating method that gets world info and decides actions
         InvokeRepeating("MakeDecisionBasedOnSenses", 0, updateRate);

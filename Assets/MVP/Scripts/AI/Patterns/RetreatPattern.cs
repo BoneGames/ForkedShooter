@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 [CreateAssetMenu(fileName = "Retreat Pattern", menuName = "Patterns/Retreat")]
 public class RetreatPattern : Pattern
 {
-
-
     public override void StartPatternWith(BehaviourAI ai, SenseMemoryFactory.SMData data)
     {
         base.StartPatternWith(ai, data);
@@ -18,20 +15,17 @@ public class RetreatPattern : Pattern
         }
             Vector3 retreatPoint = ai.GetAvoidanceWaypoint(data.targets[0]);
             ai.agent.SetDestination(retreatPoint);
-        Debug.Log("retreat pattern has started");
 
     }
 
     public override void UpdatePattern(BehaviourAI ai, SenseMemoryFactory.SMData data)
     {
         Debug.Log("retreat - UpdatePattern");
-        base.UpdatePattern(ai, data);
-        if (ai.DestinationReached(0.2f))
+        if (ai.DestinationReached(0.1f))
         {
-            StopPattern();
-            Debug.Log("retreat pattern is stopped");
+            Debug.Log("co-routine rotate");
+            ai.RotateToward(data.targetLastSeen);
+            //PatternHasEnded();
         }
     }
-
-
 }

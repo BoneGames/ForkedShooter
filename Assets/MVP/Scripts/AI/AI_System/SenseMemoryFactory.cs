@@ -12,20 +12,26 @@ public class SenseMemoryFactory
         public List<Vector3> targets;
         // Positions where strange activity detected
         public List<Vector3> inspectionPoints;
+        // lst seen position of target
+        public Vector3 targetLastSeen;
+        // distance to closest Target
+        public float distance;
 
         // Constructor
-        public SMData(List<Vector3> targets, List<Vector3> inspectionPoints)
+        public SMData(List<Vector3> _targets, List<Vector3> _inspectionPoints, float _distance, Vector3 _targetLastSeen)
         {
-            this.targets = targets;
-            this.inspectionPoints = inspectionPoints;
+            this.targets = _targets;
+            this.inspectionPoints = _inspectionPoints;
+            this.distance = _distance;
+            this.targetLastSeen = _targetLastSeen;
         }
     }
     // AI sees with this class - sight.visibleTargets is the targets list
     AI_FoV_Detection sight;
     // Ai investigates points with this list
-    List<Vector3> inspectionPoints = new List<Vector3>(); 
-   
-    EnemyHealth health;
+    List<Vector3> inspectionPoints = new List<Vector3>();
+    // stores last seen position of target
+    public Vector3 targetLastSeen;
 
     public SenseMemoryFactory(AI_FoV_Detection sight)
     {
@@ -45,11 +51,6 @@ public class SenseMemoryFactory
         this.inspectionPoints[0] = inspectionPoint;
     }
 
-    public List<Transform> GetTargets()
-    {
-        return sight.visibleTargets;
-    }
-
     public SMData GetSMData()
     {
         // create temporary(copied )list to return
@@ -57,8 +58,13 @@ public class SenseMemoryFactory
         // clear the inspectionPoints list
         inspectionPoints.Clear();
         // get visual targets list and assign Vector3 from Transform conversion (linq)
-        List<Vector3> targets = sight.visibleTargets.Select(t => t.position).ToList();
+        List<Vector3> _targets = sight.visibleTargets.Select(t => t.position).ToList();
         // return Sense Memory Data
-        return new SMData(targets, _inspectionPoints);
+        float _distance = sight.distance2Target;
+        if(_targets.Count > 0)
+        {
+            targetLastSeen = _targets[0];
+        }
+        return new SMData(_targets, _inspectionPoints, _distance, targetLastSeen);
     }
 }

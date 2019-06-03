@@ -6,6 +6,8 @@ using UnityEditor;
 public class PatternManager
 {
     Pattern currentPattern;
+       
+    
     BehaviourAI ai;
 
     // initialise, get relevant AI class
@@ -14,96 +16,65 @@ public class PatternManager
         this.ai = ai;
     }
 
-    public Pattern SelectPattern(List<Pattern> _patterns)
-    {
-        // currently just selects first pattern in group (decider)
-        if(_patterns.Count == 0)
-        {
-            return null;
-        }
-        // put probabilistic pattern selection in later
+    //public Pattern SelectPattern(List<Pattern> _patterns)
+    //public Pattern SelectPattern(Decider d)
+    //{
+    //    //// currently just selects first pattern in group (decider)
+    //    //if(_patterns.Count == 0)
+    //    //{
+    //    //    return null;
+    //    //}
 
-        Pattern patternToReturn;
-        // get first pattern in list
-        patternToReturn = _patterns[0];
-        return patternToReturn;
-    }
+    //    // put probabilistic pattern selection in later
+
+    //    Pattern patternToReturn;
+    //    // get first pattern in list
+    //    //patternToReturn = _patterns[0];
+    //    return patternToReturn;
+    //}
 
     // Includes interupt logic
-    public void ExecutePattern(Pattern incomingPattern, SenseMemoryFactory.SMData _data)
+    public void TryExecutePattern(Pattern incomingPattern, SenseMemoryFactory.SMData _data)
     {
-        Debug.Log("Execute Pattern");
-        Debug.Log(incomingPattern);
-        Debug.Log(currentPattern);
-
-        //remove currentPattern if it is not running
-        if (currentPattern != null && !currentPattern.isRunning)
+        //remove currentPattern if it has stopped
+        if (currentPattern && !currentPattern.isRunning)
         {
             currentPattern = null;
         }
 
-        //if incoming _pattern exists and start the incoming _pattern
-        if (incomingPattern != null)
+
+        // if there is no pattern running
+        if (!currentPattern)
         {
-            // if there is no pattern running, or the incoming pattern can interupt the current pattern (higher importanceScore)
-            if (currentPattern == null || incomingPattern.patternType.precedence > currentPattern.patternType.precedence)
-            {
-                //prepare to interrupt currentPattern
-                if (currentPattern != null)
-                {
-                    currentPattern.PatternHasBeenInterrupted();
-                }
-                incomingPattern.StartPatternWith(ai, _data);
-                currentPattern = incomingPattern;
-                return;
-            }
+            Debug.Log("NEW Pattern: " + incomingPattern + ", OLD Pattern: " + currentPattern);
+            incomingPattern.StartPatternWith(ai, _data);
+            currentPattern = incomingPattern;
+            return;
         }
+        // if incoming pattern can interupt the current pattern(higher precedence)
+        if (incomingPattern.patternType.precedence >= currentPattern.patternType.precedence && currentPattern != incomingPattern)
+        {
+            ai.ResetAI();
+            Debug.Log("NEW Pattern: " + incomingPattern + ", OLD Pattern: " + currentPattern);
+            currentPattern.PatternHasBeenInterrupted();
+            incomingPattern.StartPatternWith(ai, _data);
+            currentPattern = incomingPattern;
+        }
+        else
+        {
+            //Debug.Log("pattern not important enough to run");
+        }
+
         
 
         // once pattern has started (i.e. currentPattern is not null), keep calling UpdatePattern until currentPattern is not running 
-        if (currentPattern != null && currentPattern.isRunning )
-        {
+        //if (incomingPattern == currentPattern)
+        //{
             currentPattern.UpdatePattern(ai, _data);
             return;
-        }
-
-        //
-    
-
+       // }
 
      
-
-     
-        Debug.Log("this makes no sense - no patterns executed");
-    }
-}
-
-public class Pattern : ScriptableObject
-{
-    public bool isRunning = false;
-    public Decider patternType = null;
-    public virtual void StartPatternWith(BehaviourAI ai, SenseMemoryFactory.SMData data)
-    {
-        isRunning = true;
-    }
-
-    public virtual void UpdatePattern(BehaviourAI ai, SenseMemoryFactory.SMData data)
-    {
         
-    }
-
-    protected void StopPattern()
-    {
-        PatternHasEnded();
-    }
-
-    public virtual void PatternHasEnded()
-    {
-        isRunning = false;
-    }
-
-    public virtual void PatternHasBeenInterrupted()
-    {
-        isRunning = false;
     }
 }

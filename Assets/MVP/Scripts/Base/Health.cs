@@ -120,6 +120,7 @@ public abstract class Health : MonoBehaviour
 
   public void SetShield()
   {
+        if(shield)
     shield.SetShieldElement(shieldElement);
   }
 
