@@ -17,7 +17,7 @@ public class PlayerHealth : Health
   public override void Start()
   {
     base.Start();
-
+        shield = GetComponentInChildren<ShieldController>();
     photonView = GetComponent<PhotonView>();
     if (photonView)
     {
@@ -118,7 +118,7 @@ public class PlayerHealth : Health
   // Self explanatory.
   public override void CheckDie()
   {
-    healthBar.UpdateBar();
+    //healthBar.UpdateBar();
 
     if (currentHealth <= 0)
     {

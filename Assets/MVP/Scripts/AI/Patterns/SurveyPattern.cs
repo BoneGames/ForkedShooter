@@ -7,6 +7,7 @@ public class SurveyPattern : Pattern
 {
     public override void StartPatternWith(BehaviourAI ai, SenseMemoryFactory.SMData data)
     {
+        base.StartPatternWith(ai, data);
         //public void Survey()
         //{
         //    if (initVar)

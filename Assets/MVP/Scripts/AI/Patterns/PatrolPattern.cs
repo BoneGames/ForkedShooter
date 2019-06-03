@@ -6,24 +6,35 @@ using UnityEngine.Events;
 [CreateAssetMenu(fileName = "Patrol Pattern", menuName = "Patterns/Patrol")]
 public class PatrolPattern : Pattern
 {
-    public Transform[] waypoints; // Transform of (child) waypoints in array.
+    public List<Transform> wayPoints; // Transform of (child) waypoints in array.
     public int waypointIndex = 1; // Counts sequential waypoints of array index.
     
 
     public UnityEvent wayPointReached;
-   
+
+ 
+    void GetWaypoints(BehaviourAI ai)
+    {
+        Transform [] waypoints = ai.waypointParent.GetComponentsInChildren<Transform>();
+        foreach  (Transform t in waypoints)
+        {
+            if (t != ai.waypointParent)
+            {
+                wayPoints.Add(t);
+            }
+        }
+    }
 
     // Initialisation - runs once when pattern begins
     public override void StartPatternWith(BehaviourAI ai, SenseMemoryFactory.SMData data)
     {
         base.StartPatternWith(ai,data);
-        Debug.Log("What is the length - " + waypoints.Length);
-        if(waypoints.Length == 0)
-        {
-            waypoints = ai.waypointParent.GetComponentsInChildren<Transform>();
-        }
+
+        if (wayPoints.Count < 1) ;
+        GetWaypoints(ai);
+
         // Transform(s) of the current waypoint in the waypoints array.
-        Transform point = waypoints[waypointIndex];
+        Transform point = wayPoints[waypointIndex];
 
         // Agent destination (move to current waypoint position).
         ai.agent.SetDestination(point.position);
@@ -34,12 +45,12 @@ public class PatrolPattern : Pattern
     {
         base.UpdatePattern(ai, data);
         // If we're close enough to the waypoint...
-        if (ai.DestinationReached(0.2f))
+        if (ai.DestinationReached(0.1f))
         {
-            waypointIndex = Random.Range(0, waypoints.Length);
+            waypointIndex = Random.Range(0, wayPoints.Count);
 
             // Transform(s) of the current waypoint in the waypoints array.
-            Transform point = waypoints[waypointIndex];
+            Transform point = wayPoints[waypointIndex];
 
             // Agent destination (move to current waypoint position).
             ai.agent.SetDestination(point.position);

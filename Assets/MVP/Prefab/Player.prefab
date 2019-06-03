@@ -927,7 +927,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   glitch: {fileID: 0}
-  lerpTime: 0.25
+  lerpTime: 1
   startLevel: 0.4
   endLevel: 0
   lerpTimer: 0
@@ -1431,7 +1431,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   glitch: {fileID: 0}
-  lerpTime: 0.5
+  lerpTime: 1
   startLevel: 0.4
   endLevel: 0
   lerpTimer: 0
@@ -1560,7 +1560,7 @@ MonoBehaviour:
   scopeZoom: 60
   reloadSpeed: 0.5
   rateOfFire: 0
-  weaponElement: 0
+  weaponElement: 1
   projectile: {fileID: 1874544804970178, guid: f5fad20bfebd88d46abe3e602f14fdaf, type: 3}
   muzzle: {fileID: 1474961396079312, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
   lineRendPrefab: {fileID: 1832311583618776, guid: 1cb6f47bab6be4ddc9cdc473d8b3c35a,
@@ -1569,7 +1569,7 @@ MonoBehaviour:
   aimPoint: {fileID: 1991217696}
   ammoDisplay: {fileID: 0}
   pitchShifter: {fileID: 278863396}
-  audioWep: {fileID: 278863394}
+  audioWep: {fileID: 291831281}
   sfx:
   - {fileID: 8300000, guid: 2fb387a0fabbef64c951ae359b2e5853, type: 3}
   hitPoint: {x: 0, y: 0, z: 0}
@@ -1673,7 +1673,7 @@ MonoBehaviour:
   aimPoint: {fileID: 1487045326}
   ammoDisplay: {fileID: 0}
   pitchShifter: {fileID: 0}
-  audioWep: {fileID: 278863394}
+  audioWep: {fileID: 0}
   sfx: []
   hitPoint: {x: 0, y: 0, z: 0}
   enemy:
@@ -1811,7 +1811,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showPlayerStats: 0
   playerSpeed: 5
-  jumpHeight: 10
+  jumpHeight: 5
   crouchMultiplier: 0.5
   sprintMultiplier: 2
   showPlayerStates: 0
@@ -1851,7 +1851,7 @@ MonoBehaviour:
   sprintKey: 304
   crouchKey: 306
   jumpKey: 32
-  showGunKeys: 1
+  showGunKeys: 0
   shootKey: 323
   aimKey: 324
   reloadKey: 114
@@ -1870,16 +1870,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34e2c89e7ca4ac4ebd55ded33532505, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowHealth: 0
+  ShowHealth: 1
   maxHealth: 100
   currentHealth: 0
-  ShowShields: 0
+  ShowShields: 1
+  shield: {fileID: 0}
   maxShield: 10
   currentShield: 0
   carryOnDmg: 0
   shieldElement: 0
   healthBar: {fileID: 0}
-  ShowEvents: 0
+  ShowEvents: 1
   onDeath:
     m_PersistentCalls:
       m_Calls:
@@ -1906,7 +1907,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  shieldGO: {fileID: 39063640}
   ShowShotIndicator: 0
   shotDirectionArm: {fileID: 0}
   shotIndicatorDelay: 1
@@ -2251,6 +2251,79 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1001 &1833611844
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 39063641}
+    m_Modifications:
+    - target: {fileID: 1474961396079312, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_Name
+      value: MuzzleFlash
+      objectReference: {fileID: 0}
+    - target: {fileID: 1474961396079312, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.279
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.817
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
 --- !u!1001 &5263617853769878900
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2318,14 +2391,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5263617853731347759, guid: f0d18c748b7af534f99741e90e2f1f71,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263617853731347759, guid: f0d18c748b7af534f99741e90e2f1f71,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0d18c748b7af534f99741e90e2f1f71, type: 3}
---- !u!1 &39063640 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5263617853731347756, guid: f0d18c748b7af534f99741e90e2f1f71,
-    type: 3}
-  m_PrefabInstance: {fileID: 5263617853769878900}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &39063641 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5263617853731347757, guid: f0d18c748b7af534f99741e90e2f1f71,

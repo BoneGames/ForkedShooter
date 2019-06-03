@@ -16,7 +16,7 @@ public class AI_FoV_Detection : MonoBehaviour
     public LayerMask obstacleMask;
 
     // List for adding found targets (player) to an index.
-    [HideInInspector] // Hide the List below in Unity (it needs to be public so that the 'FieldOfViewEditor' script can access it).
+    //[HideInInspector] // Hide the List below in Unity (it needs to be public so that the 'FieldOfViewEditor' script can access it).
     public List<Transform> visibleTargets = new List<Transform>(); // using System.Collections.Generic;
 
     // (advanced)
@@ -26,8 +26,9 @@ public class AI_FoV_Detection : MonoBehaviour
     // Used in 'FindEdge' Method.
     public int edgeResolveIterations = 4;
     public float edgeDstThreshold = 0.5f;
+    public float updateRate;
+    public float distance2Target;
 
-    
 
     // (advanced)
     // Used to visualize the Field of View arc.
@@ -41,20 +42,21 @@ public class AI_FoV_Detection : MonoBehaviour
         //viewMesh = new Mesh();
         //viewMesh.name = "View Mesh";
         //viewMeshFilter.mesh = viewMesh;
-
+        updateRate = transform.GetComponentInParent<BehaviourAI>().updateRate;
         // Start running the Coroutine that calls upon 'FindTargetsWithDelay' Method, with a call rate of 0.2f (five times a second).
-        StartCoroutine("FindTargetsWithDelay", .2f);
+        StartCoroutine("FindTargetsWithDelay", updateRate);
     }
 
     // Method to call upon FindVisibleTargets Method with a delay (0.2f from Coroutine argument).
     IEnumerator FindTargetsWithDelay(float delay)
     {
+        float timeStamp = Time.time;
         // while running...
         while (true)
         {
-            // Stop/Wait (delay) seconds, then run 'FindVisibleTargets' Method, and update information drawn from it.
-            yield return new WaitForSeconds(delay);
             FindVisibleTargets();
+            // Stop/Wait (delay) seconds, then run 'FindVisibleTargets' Method, and update information drawn from it.
+            yield return new WaitForSeconds(delay - (Time.time - timeStamp));
         }
     }
 
@@ -94,11 +96,37 @@ public class AI_FoV_Detection : MonoBehaviour
                 // Long story short: 'if' the Physics.Raycast to find the player/target does NOT hit an obstruction (LayerMask obstacleMask)...
                 if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
                 {
-                    // There are no obstructions in the way, so add the target/player to the array's index!
-                    visibleTargets.Add(target);
+                    if (visibleTargets.Count > 0)
+                    {
+
+
+                        // sorting method so targets are in order of closeness
+                        for (int x = 0; x < visibleTargets.Count; x++)
+                        {
+                            Debug.Log("FVT");
+                            // if there are targets to sort
+                            if (visibleTargets.Count != 0)
+                            {
+                                Debug.Log("FVT1");
+                                // if current targets distance is less than the current indexed target
+                                if (dstToTarget < Vector3.Distance(transform.position, visibleTargets[x].position))
+                                {
+                                    Debug.Log("FVT2");
+                                    // insert at that index
+                                    visibleTargets.Insert(x, target);
+
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        visibleTargets.Add(target);
+                    }
                 }
             }
         }
+        distance2Target = visibleTargets.Count > 0 ? Vector3.Distance(transform.position, visibleTargets[0].position) : 0;
     }
     #endregion
 
