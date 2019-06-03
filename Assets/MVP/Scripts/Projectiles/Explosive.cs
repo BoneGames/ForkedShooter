@@ -29,7 +29,8 @@ public class Explosive : Projectile
       Debug.Log(collision.transform.name + " just got hit by rocket. Now has: " + collision.transform.GetComponent<Health>().currentHealth + " health");
     }
     Explode();
-    Effects();
+    base.OnCollisionEnter(collision);
+    //Effects();
   }
 
   void Explode()

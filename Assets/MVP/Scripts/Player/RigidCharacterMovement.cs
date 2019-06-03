@@ -306,7 +306,14 @@ public class RigidCharacterMovement : Photon.PunBehaviour
 
   public void DeathActions()
   {
-    lastCheckpoint.GetComponent<CheckpointHandler>().ResetMyRoom();
+    if (lastCheckpoint)
+    {
+      lastCheckpoint.GetComponent<CheckpointHandler>().ResetMyRoom();
+    }
+    else
+    {
+      //Start at the beginning again
+    }
   }
   #endregion
 }

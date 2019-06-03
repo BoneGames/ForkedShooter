@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 135966765423459988}
   - component: {fileID: 54316705334612340}
   - component: {fileID: 114050756313496988}
+  - component: {fileID: 1502117062916633611}
+  - component: {fileID: 894758896552221826}
   m_Layer: 0
   m_Name: Explosive
   m_TagString: Weapon
@@ -121,16 +123,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b33025ae2d15eb94ba77ae1a6e3876b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 20
   speed: 20
   range: 0
-  damage: 20
-  element: 0
+  detectionRadius: 0
   scale: {x: 0, y: 0, z: 0}
   rigid: {fileID: 54316705334612340}
   firedBy: 
   impact: {fileID: 1035747932722630, guid: 337146cc44fdd6f459eeb0b9f26ed0cb, type: 3}
   hitRotation: {x: 0, y: 0, z: 0, w: 0}
+  onCollisionEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1502117062916633611}
+        m_MethodName: InstantiateObject
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  fireOrigin: {x: 0, y: 0, z: 0}
   explosionRadius: 5
   explosionDelay: 0
   explosionEffect: {fileID: 1035747932722630, guid: 337146cc44fdd6f459eeb0b9f26ed0cb,
     type: 3}
+--- !u!114 &1502117062916633611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1937224646689520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e7b6642b543f0d46a11009c80fee194, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1035747932722630, guid: 337146cc44fdd6f459eeb0b9f26ed0cb, type: 3}
+--- !u!114 &894758896552221826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1937224646689520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4363cb4c26dc2a4459e387361c9267f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
