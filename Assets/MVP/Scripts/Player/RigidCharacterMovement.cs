@@ -66,9 +66,11 @@ public class RigidCharacterMovement : Photon.PunBehaviour
   }
   void OnTriggerExit(Collider other)
   {
-    interactObject = null;
-    print("Should not be able to open");
-
+    if (interactObject)
+    {
+      interactObject = null;
+      print("Should not be able to open");
+    }
   }
   void Update()
   {

@@ -15,6 +15,6 @@ public class ShieldController : MonoBehaviour
   public void SetShieldElement(Elements.Element _shieldElement)
   {
     int elementIndex = (int)_shieldElement;
-    shieldMat.SetColor("_ShieldPatternColor", shieldColor[elementIndex - 1]);
+    shieldMat.SetColor("_ShieldPatternColor", shieldColor[elementIndex]);
   }
 }

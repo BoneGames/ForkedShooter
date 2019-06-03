@@ -88,6 +88,7 @@ public abstract class Health : MonoBehaviour
   //}
 
   //Self explanatory.
+
   public virtual void CheckDie()
   {
     if (currentHealth <= 0)
@@ -120,14 +121,23 @@ public abstract class Health : MonoBehaviour
 
   public void SetShield()
   {
-    shield.SetShieldElement(shieldElement);
+    if (shield)
+    {
+      shield.SetShieldElement(shieldElement);
+
+      if (currentShield <= 0)
+      {
+        currentShield = 0;
+        shield.gameObject.SetActive(false);
+      }
+    }
   }
 
   public enum Element
   {
-    Normal,
-    Fire,
-    Water,
-    Grass
+    Normal, //333333
+    Fire, //542C00
+    Water, //00676A
+    Grass //032B00
   }
 }

@@ -15,7 +15,7 @@ public abstract class Projectile : MonoBehaviour
   public float detectionRadius;
 
   [BoxGroup("Projectile References")]
-  public Elements bulletElement;
+  public Elements.Element bulletElement;
   [BoxGroup("Projectile References")]
   public Vector3 scale;
   [BoxGroup("Projectile References")]
@@ -35,11 +35,16 @@ public abstract class Projectile : MonoBehaviour
   [HideInInspector]
   public Vector3 fireOrigin;
 
+  public virtual void Fire(Vector3 direction)
+  {
+    rigid.AddForce(direction * speed, ForceMode.Impulse);
+  }
+
   public virtual void OnCollisionEnter(Collision collision)
   {
     onCollisionEnter.Invoke();
   }
-   
+
   public virtual void OnHit()
   {
 

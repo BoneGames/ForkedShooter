@@ -127,6 +127,7 @@ MonoBehaviour:
   speed: 20
   range: 0
   detectionRadius: 0
+  bulletElement: 0
   scale: {x: 0, y: 0, z: 0}
   rigid: {fileID: 54316705334612340}
   firedBy: 
@@ -138,6 +139,17 @@ MonoBehaviour:
       - m_Target: {fileID: 1502117062916633611}
         m_MethodName: InstantiateObject
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 894758896552221826}
+        m_MethodName: PlaySoundFromArrayAtPoint
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -165,7 +177,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e7b6642b543f0d46a11009c80fee194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1035747932722630, guid: 337146cc44fdd6f459eeb0b9f26ed0cb, type: 3}
+  prefabs:
+  - {fileID: 1035747932722630, guid: 337146cc44fdd6f459eeb0b9f26ed0cb, type: 3}
 --- !u!114 &894758896552221826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,3 +191,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4363cb4c26dc2a4459e387361c9267f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 432af9013fcf034408041758cd4a2842, type: 3}
+  source: {fileID: 0}
+  temporarySource: {fileID: 21305466175481622, guid: 8667bbb16eea6a445ba7f5161f7c4730,
+    type: 3}
+  mixer: {fileID: 243903997355108706, guid: 48736412b17689843a94ab8d7e1b9326, type: 2}
