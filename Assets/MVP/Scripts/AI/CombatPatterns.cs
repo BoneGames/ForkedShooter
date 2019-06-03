@@ -1,18 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using NaughtyAttributes;
 
-public class CombatPatterns
+[Serializable]
+public class CombatPatterns : MonoBehaviour
 {
-    public class ShootingPattern
-    {
-        public float shotDelay;
-        public int maxBurst;
+
+
+    public List<Pattern> patterns;
 
 
 
-    }
-
-    
-        
 }

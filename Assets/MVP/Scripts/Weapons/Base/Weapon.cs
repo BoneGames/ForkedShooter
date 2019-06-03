@@ -5,8 +5,7 @@ using UnityEngine.UI;
 using BT;
 using NaughtyAttributes;
 
-namespace GameSystems
-{
+
   public abstract class Weapon : MonoBehaviour
   {
     [BoxGroup("Weapon Stats")]
@@ -163,4 +162,4 @@ namespace GameSystems
     }
 
   }
-}
+

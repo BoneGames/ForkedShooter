@@ -6,10 +6,10 @@ public class Elements
 {
   public enum Element
   {
-    Normal,
-    Fire,
-    Water,
-    Grass
+    Normal = 0,
+    Fire = 1,
+    Water = 2,
+    Grass = 3
   }
 
   //Type - Weakness

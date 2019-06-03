@@ -8,7 +8,6 @@ public class Explosive : Projectile
   public float explosionDelay;
 
   public GameObject explosionEffect;
-
   public override void Fire(Vector3 direction)
   {
     base.Fire(direction);
@@ -25,7 +24,7 @@ public class Explosive : Projectile
     //}
     if (tag == "Enemy")
     {
-      collision.transform.GetComponent<Health>().ChangeHealth(damage, transform.position);
+      collision.transform.GetComponent<Health>().ChangeHealth(damage, transform.position, bulletElement);
       Debug.Log(collision.transform.name + " just got hit by rocket. Now has: " + collision.transform.GetComponent<Health>().currentHealth + " health");
     }
     Explode();
@@ -44,7 +43,7 @@ public class Explosive : Projectile
       Health h = hit.GetComponent<Health>();
       if (h)
       {
-        h.ChangeHealth(explosionDamage, transform.position);
+        h.ChangeHealth(explosionDamage, transform.position, bulletElement);
         Debug.Log(h.transform.name + " just got hit by rocket explosion and took +" + explosionDamage + " damage. It now has: " + h.transform.GetComponent<Health>().currentHealth + " health");
       }
     }

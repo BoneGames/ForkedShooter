@@ -14,6 +14,5 @@ public class ShieldControllerTest : MonoBehaviour
   }
   private void Update()
   {
-    shieldMat.SetColor("_ShieldPatternColor", shieldColor[elementNumber]);
   }
 }

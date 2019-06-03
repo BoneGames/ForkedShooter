@@ -35,16 +35,11 @@ public abstract class Projectile : MonoBehaviour
   [HideInInspector]
   public Vector3 fireOrigin;
 
-  public virtual void Fire(Vector3 direction)
-  {
-    rigid.AddForce(direction * speed, ForceMode.Impulse);
-  }
-
   public virtual void OnCollisionEnter(Collision collision)
   {
     onCollisionEnter.Invoke();
   }
-
+   
   public virtual void OnHit()
   {
 
@@ -54,6 +49,4 @@ public abstract class Projectile : MonoBehaviour
   {
 
   }
-
-
 }

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GameSystems;
 public class Pistol : Weapon
 {
   public override void Attack()
@@ -34,7 +33,7 @@ public class Pistol : Weapon
         {
           if (hit.collider.tag == "Enemy")
           {
-            hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position);
+            hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position, weaponElement);
             //print("I hit an enemy");
           }
 

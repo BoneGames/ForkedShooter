@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GameSystems;
+
 
 using NaughtyAttributes;
 
 public class RocketLauncher : Weapon
 {
-  Quaternion startRotation;
+  //Quaternion startRotation;
   [BoxGroup("References")]
   public Transform rocketSpawn;
   Transform lookOrigin;
@@ -18,7 +18,7 @@ public class RocketLauncher : Weapon
   {
     base.Start();
     lookOrigin = Camera.main.transform;
-    startRotation = spawnPoint.localRotation;
+    //startRotation = spawnPoint.localRotation;
     rocketSpawn = spawnPoint;
 
     internalCheck = rocketSpawn.GetComponent<InsideCollider>();

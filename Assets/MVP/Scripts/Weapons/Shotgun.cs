@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GameSystems;
 
 using NaughtyAttributes;
 
@@ -63,7 +62,7 @@ public class Shotgun : Weapon
 
       if (hit.collider.CompareTag("Enemy"))
       {
-        hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position);
+        hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position, weaponElement);
       }
     }
   }

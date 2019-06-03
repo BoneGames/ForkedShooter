@@ -6322,6 +6322,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1888017782}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1055068019 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 39063640, guid: d4959bfe9c2bdde4ba18947f246452be,
+    type: 3}
+  m_PrefabInstance: {fileID: 1389622838}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1058648265 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3578829110056194242, guid: 82757f85bb4f40349941b8b476febc6e,
@@ -7018,11 +7024,6 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114272049808185796, guid: 743310d68bad76e438b5ca22c733650d,
-        type: 3}
-      propertyPath: waypointParent
-      value: 
-      objectReference: {fileID: 826696335}
     - target: {fileID: 114366355171617984, guid: 743310d68bad76e438b5ca22c733650d,
         type: 3}
       propertyPath: onHeal.m_PersistentCalls.m_Calls.Array.size
@@ -7088,6 +7089,11 @@ PrefabInstance:
       propertyPath: onDamage.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 114272049808185796, guid: 743310d68bad76e438b5ca22c733650d,
+        type: 3}
+      propertyPath: waypointParent
+      value: 
+      objectReference: {fileID: 826696335}
     m_RemovedComponents:
     - {fileID: 114272049808185796, guid: 743310d68bad76e438b5ca22c733650d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 743310d68bad76e438b5ca22c733650d, type: 3}
@@ -8962,7 +8968,7 @@ PrefabInstance:
     - target: {fileID: 114131910670434340, guid: d4959bfe9c2bdde4ba18947f246452be,
         type: 3}
       propertyPath: showPlayerStats
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114131910670434340, guid: d4959bfe9c2bdde4ba18947f246452be,
         type: 3}
@@ -8987,7 +8993,7 @@ PrefabInstance:
     - target: {fileID: 114082195335734174, guid: d4959bfe9c2bdde4ba18947f246452be,
         type: 3}
       propertyPath: showGunKeys
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114082195335734174, guid: d4959bfe9c2bdde4ba18947f246452be,
         type: 3}
@@ -9033,7 +9039,7 @@ PrefabInstance:
         type: 3}
       propertyPath: shieldGO
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1055068019}
     - target: {fileID: 114803733962968952, guid: d4959bfe9c2bdde4ba18947f246452be,
         type: 3}
       propertyPath: maxShied
@@ -9113,6 +9119,11 @@ PrefabInstance:
       propertyPath: pitchShifter
       value: 
       objectReference: {fileID: 278863400}
+    - target: {fileID: 114158151262044422, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: weaponElement
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1748083688, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
       propertyPath: ammoDisplay
       value: 
@@ -9169,7 +9180,7 @@ PrefabInstance:
         type: 3}
       propertyPath: audioWep
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2020767139}
     - target: {fileID: 114110289301231624, guid: d4959bfe9c2bdde4ba18947f246452be,
         type: 3}
       propertyPath: sfxShoot
@@ -9184,7 +9195,7 @@ PrefabInstance:
         type: 3}
       propertyPath: pitchShifter
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 278863400}
     - target: {fileID: 1610054995432940, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -9302,16 +9313,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114272049808185796, guid: 743310d68bad76e438b5ca22c733650d,
+    - target: {fileID: 114366355171617984, guid: 743310d68bad76e438b5ca22c733650d,
         type: 3}
-      propertyPath: waypointParent
-      value: 
-      objectReference: {fileID: 826696335}
+      propertyPath: shieldElement
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 114857226843892834, guid: 743310d68bad76e438b5ca22c733650d,
         type: 3}
       propertyPath: UITarget
       value: 
       objectReference: {fileID: 425301875}
+    - target: {fileID: 114272049808185796, guid: 743310d68bad76e438b5ca22c733650d,
+        type: 3}
+      propertyPath: waypointParent
+      value: 
+      objectReference: {fileID: 826696335}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 743310d68bad76e438b5ca22c733650d, type: 3}
 --- !u!4 &1406827179 stripped
@@ -13352,6 +13368,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 464600, guid: db735a62c41bd6e4898ac65164e87c47,
     type: 3}
   m_PrefabInstance: {fileID: 2123138944}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &2020767139 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 278863394, guid: d4959bfe9c2bdde4ba18947f246452be,
+    type: 3}
+  m_PrefabInstance: {fileID: 1389622838}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2023774344
 GameObject:
