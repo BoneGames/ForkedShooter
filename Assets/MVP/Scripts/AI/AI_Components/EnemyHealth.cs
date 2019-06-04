@@ -26,16 +26,48 @@ public class EnemyHealth : Health
 
   // Takes damage from various bullet/projectile scripts and runs 'CheckDie()'.
   [PunRPC]
-  public override void ChangeHealth(float value, Vector3 shotDir, Elements.Element ammoType)
+  public override void ChangeHealth(float _value, Vector3 shotDir, Elements.Element ammoType)
   {
     if (!isGod)
     {
-      value = CheckWeakness(value, ammoType);
+      if (currentShield > 0)
+      {
+        shield.gameObject.SetActive(true);
 
-      currentHealth -= value;
-      Debug.Log("g");
-      healthBar.UpdateBar();
-      CheckDie();
+        _value = CheckWeakness(_value, ammoType);
+
+        if (currentShield > _value)
+        {
+          currentShield -= _value;
+        }
+        else if (_value >= currentShield)
+        {
+          carryOnDmg = _value - currentShield;
+          currentShield -= _value;
+          currentHealth -= carryOnDmg;
+
+          currentShield = currentShield < 0 ? 0 : currentShield;
+
+          CheckDie();
+        }
+      }
+      else if (currentShield <= 0)
+      {
+        currentShield = 0;
+        shield.gameObject.SetActive(false);
+
+        if (currentHealth > 0)
+        {
+          currentHealth -= _value;
+
+          if (currentHealth > maxHealth)
+          {
+            currentHealth = maxHealth;
+          }
+
+          CheckDie();
+        }
+      }
     }
     // Turn to look at attacker
     transform.LookAt(shotDir);
@@ -45,6 +77,8 @@ public class EnemyHealth : Health
   // Self explanatory.
   public override void CheckDie()
   {
+    healthBar.UpdateBar();
+
     if (currentHealth <= 0)
     {
       base.CheckDie();

@@ -66,9 +66,11 @@ public class RigidCharacterMovement : Photon.PunBehaviour
   }
   void OnTriggerExit(Collider other)
   {
-    interactObject = null;
-    print("Should not be able to open");
-
+    if (interactObject)
+    {
+      interactObject = null;
+      print("Should not be able to open");
+    }
   }
   void Update()
   {
@@ -304,7 +306,14 @@ public class RigidCharacterMovement : Photon.PunBehaviour
 
   public void DeathActions()
   {
-    lastCheckpoint.GetComponent<CheckpointHandler>().ResetMyRoom();
+    if (lastCheckpoint)
+    {
+      lastCheckpoint.GetComponent<CheckpointHandler>().ResetMyRoom();
+    }
+    else
+    {
+      //Start at the beginning again
+    }
   }
   #endregion
 }

@@ -11,10 +11,12 @@ public class Pistol : Weapon
       spawnPoint.rotation = AimAtCrosshair();
       Ray ray = new Ray(spawnPoint.position, spawnPoint.transform.forward);
 
-      SpawnMuzzleFlash();
+      OnFire();
 
-      audioWep.PlayOneShot(sfx[0]);
-      pitchShifter.Tweet();
+      //SpawnMuzzleFlash();
+
+      //audioWep.PlayOneShot(sfx[0]);
+      //pitchShifter.Tweet();
 
       if (Physics.Raycast(ray, out hit))
       {

@@ -1,45 +1,57 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-    public abstract class Projectile : MonoBehaviour
-    {
-        public float damage;
-        public float speed = 5f;
-        public float range;
+using NaughtyAttributes;
 
-        // Inherit bullet from weapon - pass detection radius down from relevant weapon
-        public float detectionRadius;
+public abstract class Projectile : MonoBehaviour
+{
+  [BoxGroup("Projectile Stats")]
+  public float damage, speed = 5f, range;
 
-        public Elements.Element bulletElement;
-        public Vector3 scale;
-        public Rigidbody rigid;
-        public string firedBy;
+  // Inherit bullet from weapon - pass detection radius down from relevant weapon
+  [BoxGroup("Projectile Stats")]
+  public float detectionRadius;
 
-        public GameObject impact;
-        public Quaternion hitRotation;
-        [HideInInspector]
-        public Vector3 fireOrigin;
+  [BoxGroup("Projectile References")]
+  public Elements.Element bulletElement;
+  [BoxGroup("Projectile References")]
+  public Vector3 scale;
+  [BoxGroup("Projectile References")]
+  public Rigidbody rigid;
+  [BoxGroup("Projectile References")]
+  public string firedBy;
 
-        public virtual void Fire(Vector3 direction)
-        {
-            rigid.AddForce(direction * speed, ForceMode.Impulse);
-        }
+  [BoxGroup("Projectile References")]
+  [Label("Impact Prefab")]
+  public GameObject impact;
+  [BoxGroup("Projectile References")]
+  public Quaternion hitRotation;
 
-        public virtual void OnCollisionEnter(Collision collision)
-        {
+  [BoxGroup("Events")]
+  public UnityEvent onCollisionEnter;
 
-        }
+  [HideInInspector]
+  public Vector3 fireOrigin;
 
-        public virtual void OnHit()
-        {
+  public virtual void Fire(Vector3 direction)
+  {
+    rigid.AddForce(direction * speed, ForceMode.Impulse);
+  }
 
-        }
+  public virtual void OnCollisionEnter(Collision collision)
+  {
+    onCollisionEnter.Invoke();
+  }
 
-        public virtual void OnKill()
-        {
+  public virtual void OnHit()
+  {
 
-        }
+  }
 
+  public virtual void OnKill()
+  {
 
-    }
+  }
+}

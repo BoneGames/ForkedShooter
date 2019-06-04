@@ -13,12 +13,14 @@ public class Shotgun : Weapon
   {
     if (currentMag > 0)
     {
-      SpawnMuzzleFlash();
+      //SpawnMuzzleFlash();
 
       UpdateAmmoDisplay();
 
-      audioWep.PlayOneShot(sfx[0]);
-      pitchShifter.Tweet();
+      //audioWep.PlayOneShot(sfx[0]);
+      //pitchShifter.Tweet();
+
+      OnFire();
 
       spawnPoint.transform.rotation = AimAtCrosshair();
 

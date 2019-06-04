@@ -29,6 +29,7 @@ public class RocketLauncher : Weapon
     Debug.Log("ROCKET ATTACK");
     if (currentMag > 0)
     {
+      
       bool insideMesh = internalCheck.InsideMesh(lookOrigin, spawnPoint);
       // if spawnPoint is inside mesh
       if (insideMesh)
@@ -44,7 +45,9 @@ public class RocketLauncher : Weapon
 
       Quaternion hitRotation = GetTargetNormal();
 
-      SpawnMuzzleFlash();
+      //SpawnMuzzleFlash();
+
+      OnFire();
 
       GameObject clone;
       if (GameManager.isOnline)
