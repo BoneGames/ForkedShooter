@@ -21,8 +21,8 @@ public class EnemyUIHealthBar : HealthBar
     healthBarContainer.transform.SetParent(GameObject.Find("Canvas").transform, false);
 
     healthBarDisplay = healthBarContainer.transform.GetChild(0).GetComponent<Image>();
-    health = target.GetComponent<Health>();
-    health.healthBar = this;
+    //health = target.GetComponent<Health>();
+    //health.healthBar = this;
 
     UITarget = Camera.main.transform.parent;
   }

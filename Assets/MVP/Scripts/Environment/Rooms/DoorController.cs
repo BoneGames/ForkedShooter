@@ -1,23 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using NaughtyAttributes;
 public class DoorController : MonoBehaviour
 {
-  public bool doorStartsOpen = false;
+    public bool doorStartsOpen = false;
+    public Animator doorAnim;
 
-  public Animator doorAnim;
-
-  private void Awake()
-  {
-    if (doorStartsOpen)
+    private void Awake()
     {
-      DoorOpen(true);
+        if (doorStartsOpen)
+        {
+            DoorOpen(true);
+        }
     }
-  }
 
-  public void DoorOpen(bool _openState)
-  {
-    doorAnim.SetBool("IsOpen", _openState);
-  }
+    public void DoorOpen(bool _openState)
+    {
+        doorAnim.SetBool("IsOpen", _openState);
+    }
+
+    [Button]
+    public void ToggleDoor()
+    {
+        doorAnim.SetBool("IsOpen", !doorAnim.GetBool("IsOpen"));
+    }
 }

@@ -16,7 +16,6 @@ public class RetreatPattern : Pattern
 
     public override void UpdatePattern(BehaviourAI ai, SenseMemoryFactory.SMData data)
     {
-        Debug.Log("retreat - UpdatePattern");
         if(data.targets.Count != 0)
         {
             retreatPoint = ai.GetAvoidanceWaypoint(data.targets[0].position);
@@ -32,7 +31,7 @@ public class RetreatPattern : Pattern
             }
             else
             {
-                PatternHasEnded();
+                KillPattern(ai);
                 rotated = false;
                 return;
             }

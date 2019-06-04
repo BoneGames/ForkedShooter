@@ -185,8 +185,9 @@ public class SuspiciousDecider: Decider
     public override Pattern ChoosePattern(SenseMemoryFactory.SMData senseData)
     {
         Pattern p = null;
-        // Return Investigate Pattern (Only Suspicious Pattern)
-        p = patterns[0];
+        // Randomize investigate and Survey Pattern execution
+        int random = UnityEngine.Random.Range(0, patterns.Count);
+        p = patterns[random];
         return p;
     }
 }
@@ -218,8 +219,12 @@ public class CombatDecider: Decider
 
     public override Pattern ChoosePattern(SenseMemoryFactory.SMData senseData)
     {
+        // NOTE: generate random number between 0 and currentHealth * 2;
+        // this number replaces health.currentHealth in all ifs below
+        // same for distance
+
         Pattern p = null;
-        if (health.currentHealth > 90)
+        if (health.currentHealth > 85)
         {
             if(senseData.distance < 20)
             {
@@ -228,12 +233,12 @@ public class CombatDecider: Decider
             }
             else
             {
-                // Charge
+                // Charge Fire
                 p = patterns[0];
             }
             
         }
-        else if (health.currentHealth > 40)
+        else if (health.currentHealth > 30)
         {
             // Cover shoot
             p = patterns[2];

@@ -378,6 +378,21 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  updateHealthBar:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114724907606451946}
+        m_MethodName: UpdateBar
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: Event2Floats, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ShowStates: 1
   isGod: 0
   photonView: {fileID: 0}
@@ -393,6 +408,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68685e1504e13284da7e0251dfa800fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowEvents: 1
+  updateAi:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114063992362631900}
+        m_MethodName: MakeDecisionBasedOnSenses
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   ShowSpecs: 0
   aiUpdateRate: 1
   shootDelay: 2

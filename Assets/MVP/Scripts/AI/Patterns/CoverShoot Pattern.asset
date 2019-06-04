@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c9a12db572fee64ab281b0ebfb0000f, type: 3}
   m_Name: CoverShoot Pattern
   m_EditorClassIdentifier: 
-  interuptable: 1
+  isInteruptable: 0
+  notePrecedence: 1
   isRunning: 0
+  playerChecks: 0

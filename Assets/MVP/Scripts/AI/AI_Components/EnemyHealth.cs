@@ -77,7 +77,8 @@ public class EnemyHealth : Health
   // Self explanatory.
   public override void CheckDie()
   {
-    healthBar.UpdateBar();
+    //healthBar.UpdateBar(currentHealth, maxHealth);
+        updateHealthBar.Invoke(currentHealth, maxHealth);
 
     if (currentHealth <= 0)
     {

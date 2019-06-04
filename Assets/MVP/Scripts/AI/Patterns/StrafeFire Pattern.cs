@@ -1,58 +1,49 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using NaughtyAttributes;
 
 [CreateAssetMenu(fileName = "StrafeFire Pattern", menuName = "Patterns/StrafeFire")]
 public class StrafeFirePattern : Pattern
 {
     public float strafeLength;
-    public bool looking = true;
-    public Transform target;
-    GameObject cube;
-    
+    Transform target;
+
     public override void StartPatternWith(BehaviourAI ai, SenseMemoryFactory.SMData data)
     {
         base.StartPatternWith(ai, data);
-        // get target
-        target = data.targets[0];
-
-        // stop navMesh from automating rotation
-        if(ai.agent.updateRotation)
+        // stop navMesh from setting rotation
         ai.agent.updateRotation = false;
+        // give target to AI
+        ai.playerTarget = target;
+        // tell ai to look at target
+        ai.lookAtTarget = true;
 
+        StrafeCycle(ai, data);
+    }
+
+    public void StrafeCycle(BehaviourAI ai, SenseMemoryFactory.SMData data)
+    {
+        // get target
+        target = ai.playerTarget = data.targets[0];
         // get strafe move-to position
         Vector3 moveTarget = ai.transform.position + Random.insideUnitSphere * strafeLength;
         moveTarget.y = 0;
-
         // move to position & start coroutine to rotate to player
         ai.agent.SetDestination(moveTarget);
-        ai.playerTarget = target;
-        ai.lookAtTarget = true;
-
         // shoot
         ai.ShootAt(target.position);
     }
-
-    
 
     public override void UpdatePattern(BehaviourAI ai, SenseMemoryFactory.SMData data)
     {
-        Vector3 moveTarget = ai.transform.position + Random.insideUnitSphere * strafeLength;
-        moveTarget.y = 0;
-        ai.agent.SetDestination(moveTarget);
-
-        target = ai.playerTarget = data.targets[0];
-        // shoot
-        ai.ShootAt(target.position);
+        StrafeCycle(ai, data);
     }
 
-    public override void PatternHasBeenInterrupted(BehaviourAI ai)
+    public override void KillPattern(BehaviourAI ai)
     {
-        base.PatternHasBeenInterrupted(ai);
-        ai.agent.updateRotation = true;
-        ai.playerTarget = null;
-        ai.lookAtTarget = false;
-        looking = false;
+        base.KillPattern(ai);
         target = null;
     }
 }

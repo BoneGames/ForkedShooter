@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Pattern : ScriptableObject
 {
-    public bool interuptable;
+    public bool isInteruptable;
+    public bool notePrecedence;
     public void OnEnable()
     {
         isRunning = false;
@@ -14,21 +13,18 @@ public class Pattern : ScriptableObject
     public virtual void StartPatternWith(BehaviourAI ai, SenseMemoryFactory.SMData data)
     {
         isRunning = true;
-       
+
     }
 
     public virtual void UpdatePattern(BehaviourAI ai, SenseMemoryFactory.SMData data)
     {
 
     }
-
-    public virtual void PatternHasEnded()
+    public virtual void KillPattern(BehaviourAI ai)
     {
         isRunning = false;
-    }
-
-    public virtual void PatternHasBeenInterrupted(BehaviourAI ai)
-    {
-        isRunning = false;
+        ai.playerTarget = null;
+        ai.agent.updateRotation = true;
+        ai.lookAtTarget = false;
     }
 }

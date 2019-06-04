@@ -11,12 +11,16 @@ public class PlayerUIHealthBar : HealthBar
     void Start()
     {
         healthBarDisplay = healthBarBG.transform.GetChild(0).GetComponent<Image>();
-        health = GetComponent<Health>();
-        health.healthBar = this;
+        //health = GetComponent<Health>();
+        //health.healthBar = this;
     }
 
-    public override void UpdateBar()
+    //public override void UpdateBar()
+    //{
+    //    healthBarDisplay.fillAmount = health.currentHealth / (float)health.maxHealth;
+    //}
+    public override void UpdateBar(float _currentHealth, float _maxHealth)
     {
-        healthBarDisplay.fillAmount = health.currentHealth / (float)health.maxHealth;
+        healthBarDisplay.fillAmount = _currentHealth / _maxHealth;
     }
 }

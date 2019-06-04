@@ -25,30 +25,24 @@ public class InvestigatePattern : Pattern
             {
                 Debug.Log("TLS set to Vector3.zero");
                 ai.sMF.targetLastSeen = Vector3.zero;
-                PatternHasEnded();
+                KillPattern(ai);
                 return;
             }
             else if (investigationPoint == data.inspectionPoints[0])
             {
-                Debug.Log("TLS set to Vector3.zero");
+                Debug.Log("inspectionPoint removed");
                 ai.sMF.inspectionPoints.RemoveAt(0);
                 if (ai.sMF.inspectionPoints.Count < 1)
                 {
-                    PatternHasEnded();
+                    KillPattern(ai);
                     return;
                 }
             }
         }
     }
-
-    public override void PatternHasEnded()
+    public override void KillPattern(BehaviourAI ai)
     {
-        base.PatternHasEnded();
-    }
-
-    public override void PatternHasBeenInterrupted(BehaviourAI ai)
-    {
-        base.PatternHasBeenInterrupted(ai);
-
+        investigationPoint = Vector3.zero;
+        base.KillPattern(ai);
     }
 }

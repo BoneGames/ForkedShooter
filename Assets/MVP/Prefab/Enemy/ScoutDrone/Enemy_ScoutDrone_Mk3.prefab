@@ -606,6 +606,21 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  updateHealthBar:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114857226843892834}
+        m_MethodName: UpdateBar
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: Event2Floats, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ShowStates: 0
   isGod: 0
   photonView: {fileID: 0}
@@ -640,6 +655,11 @@ MonoBehaviour:
   pitchShifter: {fileID: 0}
   audioWep: {fileID: 0}
   sfx: []
+  onFire:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   hitPoint: {x: 0, y: 0, z: 0}
   enemy:
     serializedVersion: 2
@@ -824,6 +844,8 @@ MonoBehaviour:
   meshResolution: 3
   edgeResolveIterations: 4
   edgeDstThreshold: 0.5
+  updateRate: 0
+  distance2Target: 0
   fovLight: {fileID: 108193603917091660}
 --- !u!1 &1332977140097902
 GameObject:

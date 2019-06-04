@@ -1,15 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using System.Linq;
 using NaughtyAttributes;
 using BT;
-
+using UnityEngine.Events;
 
 public class BehaviourAI : MonoBehaviour
 {
-    #region VARIABLES
+#region VARIABLES
+    public bool ShowEvents;
+    [ShowIf("ShowEvents")] [BoxGroup("Events")] public UnityEvent updateAi;
+
+    
     // Control Flow Classes
     [HideInInspector] public PatternManager pM;
     [HideInInspector] public DecisionMachine dM;
@@ -40,6 +42,8 @@ public class BehaviourAI : MonoBehaviour
     [ShowIf("ShowComponents")] [BoxGroup("Enemy Components")] public AI_Weapon gun;
     [ShowIf("ShowComponents")] [BoxGroup("Enemy Components")] public EnemyHealth healthRef;
     [ShowIf("ShowComponents")] [BoxGroup("Enemy Components")] public Transform hand;
+
+    
 
 
     public bool ShowMarkers;
@@ -196,7 +200,13 @@ public class BehaviourAI : MonoBehaviour
             else
             {
                 Debug.Log("trying to look at player with no target supplied");
+                // re-run ai selection for new behaviour that will run without player target
+                updateAi.Invoke();
             }
+        }
+        if(DestinationReached(0.1f))
+        {
+            updateAi.Invoke();
         }
     }
     void GetReferences()
@@ -243,7 +253,7 @@ public class BehaviourAI : MonoBehaviour
         // repeating method that gets world info and decides actions
         InvokeRepeating("MakeDecisionBasedOnSenses", 0, aiUpdateRate);
     }
-    private void MakeDecisionBasedOnSenses() // Wrapper Function
+    public void MakeDecisionBasedOnSenses() // Wrapper Function
     {
         // Decision Maker class, "Makes Decision From" Sense Memory Factory, which returns SMData class (basically a struct with
         // target positions, and inspection Point positions - the basic inputs for ai behaviours)

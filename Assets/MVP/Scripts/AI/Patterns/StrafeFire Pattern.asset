@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: StrafeFire Pattern
   m_EditorClassIdentifier: Assembly-CSharp::StrafeFirePattern
-  interuptable: 1
+  isInteruptable: 0
+  notePrecedence: 0
   isRunning: 0
   strafeLength: 5
-  looking: 1
-  target: {fileID: 0}
