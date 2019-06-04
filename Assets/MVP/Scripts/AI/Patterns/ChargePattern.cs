@@ -23,7 +23,7 @@ public class ChargePattern : Pattern
             Debug.Log("You need to asign the AI Hand Transform component to aim the gun");
         }
         // fire
-        ai.Shoot(target);
+        ai.ShootAt(target);
     }
 
 }

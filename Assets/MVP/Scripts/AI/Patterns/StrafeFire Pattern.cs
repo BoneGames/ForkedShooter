@@ -25,6 +25,6 @@ public class StrafeFirePattern : Pattern
         ai.RotateToward(target);
 
         // shoot
-        ai.Shoot(target);
+        ai.ShootAt(target);
     }
 }

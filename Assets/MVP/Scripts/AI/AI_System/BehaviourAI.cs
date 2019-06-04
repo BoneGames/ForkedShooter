@@ -16,7 +16,6 @@ public class BehaviourAI : MonoBehaviour
 
     // Behaviours and Modes
     [HideInInspector]
-    public List<Pattern> patterns;
     public List<Decider> deciders;
 
     public bool ShowSpecs;
@@ -46,16 +45,14 @@ public class BehaviourAI : MonoBehaviour
     [ShowIf("ShowMarkers")] [BoxGroup("Navigation Markers")] public Transform playerTarget; // Reference assigned target's Transform data (position/rotation/scale).
     [ShowIf("ShowMarkers")] [BoxGroup("Navigation Markers")] public Transform waypointParent; // Reference one waypoint Parent (used to get children in array).
     [ShowIf("ShowMarkers")] [BoxGroup("Navigation Markers")] public LayerMask obstacleMask; // Mask on all obstacles
-    [ShowIf("ShowMarkers")] [BoxGroup("Navigation Markers")] public Vector3 investigatePoint;
+    [ShowIf("ShowMarkers")] [BoxGroup("Navigation Markers")] public Vector3 investigatePoint; // 
     [ShowIf("ShowMarkers")] [BoxGroup("Navigation Markers")] public InvulTotem totem; // enemie's local totem
     #endregion VARIABLES
-
 
     #region HELPER FUNCTIONS
     // Returns closest obstacle collider to target
     public Collider GetClosestObstacle()
     {
-        
         Collider[] obstacles = Physics.OverlapSphere(transform.position, 100, obstacleMask);
         // Set closest to null
         Collider closest = null;
@@ -78,29 +75,14 @@ public class BehaviourAI : MonoBehaviour
         return closest;
     }
 
-    public Vector3 GetAvoidanceWaypoint(Vector3 playerPosition)
+    public Vector3 GetAvoidanceWaypoint(Vector3 _playerPosition)
     {
         Collider closest = GetClosestObstacle();
-        Vector3 start = playerPosition;
+        Vector3 start = _playerPosition;
         Vector3 end = closest.transform.position;
         Vector3 direction = end - start;
         Vector3 point = closest.ClosestPoint(start + direction * 2f);
         return point;
-    }
-
-    public Transform GetClosestTarget()
-    {
-        float closestTargetDist = Mathf.Infinity;
-        int transformIndex = 0;
-        for (int index = 0; index < fov.visibleTargets.Count; index++)
-        {
-            if (Vector3.Distance(transform.position, fov.visibleTargets[index].position) < closestTargetDist)
-            {
-                closestTargetDist = Vector3.Distance(transform.position, fov.visibleTargets[index].position);
-                transformIndex = index;
-            }
-        }
-        return fov.visibleTargets[transformIndex];
     }
 
     public InvulTotem GetNearestTotem()
@@ -119,6 +101,19 @@ public class BehaviourAI : MonoBehaviour
         }
         return _totem;
     }
+    public void MeleeAttack()
+    {
+    }
+
+    public void OnDrawGizmos()
+    {
+        Debug.DrawRay(gun.transform.position, gun.transform.forward * 5, Color.red);
+    }
+    public void ResetAI()
+    {
+        hand.transform.localRotation = handStartRot;
+        agent.updateRotation = true;
+    }
 
     public bool DestinationReached(float desiredDistance)
     {
@@ -130,201 +125,9 @@ public class BehaviourAI : MonoBehaviour
     }
     #endregion
 
-    #region STATES
-
-
-
-
-    //void Hide()
-    //{
-    //    Crouch(true);
-    //    // set pauseTmer on entry only
-    //    if (initVar)
-    //    {
-    //        hideTimer = hideTime;
-    //    }
-
-    //    // count down timer
-    //    hideTimer -= Time.deltaTime;
-
-    //    // enter survey state
-    //    if (hideTimer <= 0)
-    //    {
-    //        currentState = State.Survey;
-    //        return;
-    //    }
-    //    initVar = false;
-    //}
-
-    // The contained variables for the Seek state (what rules the enemy AI follows when in 'Seek').
-    //void Charge()
-    //{
-    //    // Retreat to totem if health is lower than 25
-    //    if (healthRef.currentHealth < 30)
-    //    {
-    //        currentState = State.Totem;
-    //    }
-
-    //    // If we can't see any targets...
-    //    if (!LookForPlayer())
-    //    {
-    //        currentState = State.Investigate;
-    //    }
-
-    //    #region If Target is Seen...
-    //    // If we see a target...
-    //    if (LookForPlayer())
-    //    {
-    //        // Aim gun at the target.
-    //        hand.LookAt(playerTarget.position);
-
-    //        //Debug.Log("innacuarcy: "+accuracyOffset);
-
-    //        // Get distance between enemy and player/target.
-    //        float seekDistance = agent.remainingDistance;
-
-    //        // Move to specified position under set conditions.
-    //        #region Agent Destinations
-    //        agent.SetDestination(playerTarget.position);
-    //        if (seekDistance >= stoppingDistance[2] - 0.5f && seekDistance <= stoppingDistance[2] + 0.5f)
-    //        {
-    //            Debug.Log("strafe");
-    //            //Strafe();
-    //            if (agent.hasPath)
-    //            {
-    //                agent.ResetPath();
-    //            }
-    //        }
-    //        //else if (DestinationReached(1))
-    //        //{
-    //        //    Debug.Log("Melee");
-    //        //}
-
-    //        #endregion
-    //    }
-    //    #endregion
-    //}
-
-    //public void Survey()
-    //{
-    //    if (initVar)
-    //    {
-    //        startRotation = transform.rotation;
-    //        // clear path
-    //        if (agent.hasPath)
-    //        {
-    //            agent.ResetPath();
-    //        }
-    //    }
-    //    RaycastHit hit;
-    //    float seeingDist = 1;
-
-    //    // spin speed is relative to length of sightLine
-    //    if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity))
-    //    {
-    //        seeingDist = Vector3.Distance(transform.position, hit.point) / 4;
-    //    }
-    //    // spin to check surroundings
-    //    transform.Rotate(Vector3.up * Time.deltaTime * 300 / seeingDist);
-    //    // after 1 full revolution
-    //    if (transform.rotation.eulerAngles.y > startRotation.eulerAngles.y - 5 && transform.rotation.eulerAngles.y < startRotation.eulerAngles.y)
-    //    {
-    //        currentState = State.Patrol;
-    //        return;
-    //    }
-    //    initVar = false;
-    //}
-
-    //public void Strafe()
-    //{
-    //    strafeTimer += Time.deltaTime;
-    //    //Debug.Log("strafeTimer: " + strafeTimer);
-    //    if(strafeTimer > strafeTime)
-    //    {
-    //        // Change strafe Direction
-    //        strafeDir *= -1;
-    //        // Set Time to strafe in current direction
-    //        strafeTime = Random.Range(1f, 3f);
-    //        // Set Strafe speed
-    //        strafeSpeed = Random.Range(6f, 14f);
-
-    //        strafeTimer = 0;
-    //    }
-    //    if(healthRef.currentHealth > 50)
-    //    {
-    //        transform.RotateAround(playerTarget.position, strafeDir, strafeSpeed * Time.deltaTime);
-    //    }
-    //    else
-    //    {
-    //        agent.updateRotation = false;
-    //        Vector3 waypoint = GetAvoidanceWaypoint();
-    //        agent.SetDestination(waypoint);
-    //        transform.LookAt(playerTarget.position);
-    //    }
-    //    agent.updateRotation = true;
-    //}
-
-    void CoverShoot()
-    {
-        // after retreat - go to hide (for pause) - then go to shoot - return to hide
-
-        // move to side (beyond obstacle)
-
-        // turn to look at last player position (investigatePoint)
-
-        // if player there, Shoot()
-
-        // if enemy hit - return to cover (retreat?)
-
-        // repeat
-    }
-
-    public void Investigate()
-    {
-        agent.SetDestination(investigatePoint);
-
-        //if (DestinationReached(0.5f))
-        //{
-        //    currentState = State.Survey;
-        //}
-    }
-
-
-    public void SeekTotem()
-    {
-        agent.SetDestination(totem.transform.position);
-        if (agent.remainingDistance < 5)
-        {
-            agent.ResetPath();
-            //currentState = State.Survey;
-        }
-    }
-    #endregion
-
     #region ACTIONS
-    public void MeleeAttack()
-    {
-       
-
-        //if (DestinationReached(1))
-        //{
-        //    // MELEE ATTACK
-        //}
-    }
-
-    public void OnDrawGizmos()
-    {
-        Debug.DrawRay(gun.transform.position, gun.transform.forward * 5, Color.red);
-    }
-
-    public void ResetAI()
-    {
-        hand.transform.localRotation = handStartRot;
-        agent.updateRotation = true;
-    }
-
-    // shoots gun a specific number of times
-    public void Shoot(Vector3 target)
+    // shoots at target random number of times (within range: maxBurstFire)
+    public void ShootAt(Vector3 target)
     {
         if (shootTimer <= 0)
         {
@@ -334,7 +137,6 @@ public class BehaviourAI : MonoBehaviour
             shootTimer = shootDelay;
         }
     }
-
     public void Crouch(bool _crouch)
     {
         if (_crouch)
@@ -347,12 +149,6 @@ public class BehaviourAI : MonoBehaviour
             // IMPLEMENT STAND MECHANIC
         }
     }
-    #endregion
-
-    #region SENSES
-
-   
-   
     public void RotateToward(Vector3 target)
     {
         StopAllCoroutines();
@@ -360,7 +156,7 @@ public class BehaviourAI : MonoBehaviour
     }
     public IEnumerator FaceTargetRotation(Vector3 target)
     {
-        
+
         Vector3 targetDir;
         float angle = 10;
         // while AI isn't looking at target
@@ -374,11 +170,14 @@ public class BehaviourAI : MonoBehaviour
             // get look rotation
             Quaternion lookRot = Quaternion.LookRotation(targetDir);
             // Slerp angle from current to lookRotation
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, Time.deltaTime * angle/2);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, Time.deltaTime * angle / 2);
             yield return null;
         }
     }
 
+    #endregion
+
+    #region SENSES
 
     public void BulletAlert(Vector3 shotOrigin)
     {
@@ -392,14 +191,14 @@ public class BehaviourAI : MonoBehaviour
     }
     #endregion
 
+    
+
+    #region START/UPDATE
     private void Update()
     {
         if(shootTimer > 0)
         shootTimer -= Time.deltaTime;
     }
-
-    #region START
-
     void GetReferences()
     {
         totem = GetNearestTotem();
@@ -431,20 +230,20 @@ public class BehaviourAI : MonoBehaviour
         // Sense Memory factory Instance
         sMF = new SenseMemoryFactory(fov);
     }
-    public virtual void Start()
+    private void Start()
     {
         // Get Components
         GetReferences();
+        // Create Deciders list give each decider it's behaviours
         PopulateLists();
+        // Create instances of AI architecture
         InitialiseSystem();
         handStartRot = hand.transform.localRotation;
 
         // repeating method that gets world info and decides actions
         InvokeRepeating("MakeDecisionBasedOnSenses", 0, updateRate);
     }
-
-    // Wrapper Function
-    private void MakeDecisionBasedOnSenses()
+    private void MakeDecisionBasedOnSenses() // Wrapper Function
     {
         // Decision Maker class, "Makes Decision From" Sense Memory Factory, which returns SMData class (basically a struct with
         // target positions, and inspection Point positions - the basic inputs for ai behaviours)
@@ -452,3 +251,87 @@ public class BehaviourAI : MonoBehaviour
     }
     #endregion Start
 }
+// Maybe Obsolete Code
+//public Transform GetClosestTarget()
+//{
+//    float closestTargetDist = Mathf.Infinity;
+//    int transformIndex = 0;
+//    for (int index = 0; index < fov.visibleTargets.Count; index++)
+//    {
+//        if (Vector3.Distance(transform.position, fov.visibleTargets[index].position) < closestTargetDist)
+//        {
+//            closestTargetDist = Vector3.Distance(transform.position, fov.visibleTargets[index].position);
+//            transformIndex = index;
+//        }
+//    }
+//    return fov.visibleTargets[transformIndex];
+//}
+
+//public void Survey()
+//{
+//    if (initVar)
+//    {
+//        startRotation = transform.rotation;
+//        // clear path
+//        if (agent.hasPath)
+//        {
+//            agent.ResetPath();
+//        }
+//    }
+//    RaycastHit hit;
+//    float seeingDist = 1;
+
+//    // spin speed is relative to length of sightLine
+//    if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity))
+//    {
+//        seeingDist = Vector3.Distance(transform.position, hit.point) / 4;
+//    }
+//    // spin to check surroundings
+//    transform.Rotate(Vector3.up * Time.deltaTime * 300 / seeingDist);
+//    // after 1 full revolution
+//    if (transform.rotation.eulerAngles.y > startRotation.eulerAngles.y - 5 && transform.rotation.eulerAngles.y < startRotation.eulerAngles.y)
+//    {
+//        currentState = State.Patrol;
+//        return;
+//    }
+//    initVar = false;
+//}
+
+//public void Strafe()
+//{
+//    strafeTimer += Time.deltaTime;
+//    //Debug.Log("strafeTimer: " + strafeTimer);
+//    if(strafeTimer > strafeTime)
+//    {
+//        // Change strafe Direction
+//        strafeDir *= -1;
+//        // Set Time to strafe in current direction
+//        strafeTime = Random.Range(1f, 3f);
+//        // Set Strafe speed
+//        strafeSpeed = Random.Range(6f, 14f);
+
+//        strafeTimer = 0;
+//    }
+//    if(healthRef.currentHealth > 50)
+//    {
+//        transform.RotateAround(playerTarget.position, strafeDir, strafeSpeed * Time.deltaTime);
+//    }
+//    else
+//    {
+//        agent.updateRotation = false;
+//        Vector3 waypoint = GetAvoidanceWaypoint();
+//        agent.SetDestination(waypoint);
+//        transform.LookAt(playerTarget.position);
+//    }
+//    agent.updateRotation = true;
+//}
+
+//public void SeekTotem()
+//{
+//    agent.SetDestination(totem.transform.position);
+//    if (agent.remainingDistance < 5)
+//    {
+//        agent.ResetPath();
+//        //currentState = State.Survey;
+//    }
+//}

@@ -173,6 +173,26 @@ PrefabInstance:
       propertyPath: waypointParent
       value: 
       objectReference: {fileID: 1239713287}
+    - target: {fileID: 114063992362631900, guid: bbb8b8f930a956f498f80738b829185f,
+        type: 3}
+      propertyPath: ShowComponents
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114063992362631900, guid: bbb8b8f930a956f498f80738b829185f,
+        type: 3}
+      propertyPath: gun
+      value: 
+      objectReference: {fileID: 2010371643}
+    - target: {fileID: 114063992362631900, guid: bbb8b8f930a956f498f80738b829185f,
+        type: 3}
+      propertyPath: ShowSpecs
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114063992362631900, guid: bbb8b8f930a956f498f80738b829185f,
+        type: 3}
+      propertyPath: ShowMarkers
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114724907606451946, guid: bbb8b8f930a956f498f80738b829185f,
         type: 3}
       propertyPath: UITarget
@@ -1825,6 +1845,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1883074906}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2010371643 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114154953750901988, guid: bbb8b8f930a956f498f80738b829185f,
+    type: 3}
+  m_PrefabInstance: {fileID: 59152034}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d226a0cd5dd188542a7ffa0f36407276, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2129034693
 GameObject:
   m_ObjectHideFlags: 0
