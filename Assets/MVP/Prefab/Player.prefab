@@ -1445,6 +1445,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4368222078556416}
   - component: {fileID: 114110289301231624}
+  - component: {fileID: 1252104210}
+  - component: {fileID: 1252104211}
   m_Layer: 28
   m_Name: Shotgun
   m_TagString: Weapon
@@ -1500,6 +1502,33 @@ MonoBehaviour:
   audioWep: {fileID: 278863394}
   sfx:
   - {fileID: 8300000, guid: 5412cb17b9b71a14db17e9ac716f805e, type: 3}
+  onFire:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1252104211}
+        m_MethodName: PlaySoundFromArrayAtSource
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1252104210}
+        m_MethodName: InstantiateObjectAtPoint
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 4581693211349760}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   hitPoint: {x: 0, y: 0, z: 0}
   enemy:
     serializedVersion: 2
@@ -1507,6 +1536,37 @@ MonoBehaviour:
   bulletDetectionRadius: 0
   canShoot: 0
   pellets: 6
+--- !u!114 &1252104210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1559291507601220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e7b6642b543f0d46a11009c80fee194, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabs:
+  - {fileID: 1474961396079312, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+--- !u!114 &1252104211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1559291507601220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4363cb4c26dc2a4459e387361c9267f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 5412cb17b9b71a14db17e9ac716f805e, type: 3}
+  source: {fileID: 278863394}
+  temporarySource: {fileID: 0}
+  mixer: {fileID: 0}
 --- !u!1 &1567153453301028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1517,6 +1577,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4750541728783076}
   - component: {fileID: 114158151262044422}
+  - component: {fileID: 363152908}
+  - component: {fileID: 363152909}
   m_Layer: 28
   m_Name: Pistol
   m_TagString: Weapon
@@ -1569,15 +1631,73 @@ MonoBehaviour:
   aimPoint: {fileID: 1991217696}
   ammoDisplay: {fileID: 0}
   pitchShifter: {fileID: 278863396}
-  audioWep: {fileID: 291831281}
+  audioWep: {fileID: 278863394}
   sfx:
   - {fileID: 8300000, guid: 2fb387a0fabbef64c951ae359b2e5853, type: 3}
+  onFire:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 363152908}
+        m_MethodName: PlaySoundFromArrayAtSource
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 363152909}
+        m_MethodName: InstantiateObjectAtPoint
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 4478692280217478}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   hitPoint: {x: 0, y: 0, z: 0}
   enemy:
     serializedVersion: 2
-    m_Bits: 0
-  bulletDetectionRadius: 0
+    m_Bits: 1024
+  bulletDetectionRadius: 20
   canShoot: 0
+--- !u!114 &363152908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567153453301028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4363cb4c26dc2a4459e387361c9267f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 2fb387a0fabbef64c951ae359b2e5853, type: 3}
+  source: {fileID: 278863394}
+  temporarySource: {fileID: 0}
+  mixer: {fileID: 0}
+--- !u!114 &363152909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567153453301028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e7b6642b543f0d46a11009c80fee194, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabs:
+  - {fileID: 1474961396079312, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
 --- !u!1 &1585246903618114
 GameObject:
   m_ObjectHideFlags: 0
@@ -1621,6 +1741,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4855080747290544}
   - component: {fileID: 1748083688}
+  - component: {fileID: 1958342126}
   m_Layer: 28
   m_Name: Rocket
   m_TagString: Weapon
@@ -1672,9 +1793,26 @@ MonoBehaviour:
   spawnPoint: {fileID: 4522203120360904}
   aimPoint: {fileID: 1487045326}
   ammoDisplay: {fileID: 0}
-  pitchShifter: {fileID: 0}
-  audioWep: {fileID: 0}
-  sfx: []
+  pitchShifter: {fileID: 278863396}
+  audioWep: {fileID: 278863394}
+  sfx:
+  - {fileID: 8300000, guid: 7872d519f168dc245bd83e611d6fe5f3, type: 3}
+  onFire:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1958342126}
+        m_MethodName: PlaySoundFromArrayAtSource
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   hitPoint: {x: 0, y: 0, z: 0}
   enemy:
     serializedVersion: 2
@@ -1682,6 +1820,23 @@ MonoBehaviour:
   bulletDetectionRadius: 0
   canShoot: 0
   rocketSpawn: {fileID: 4522203120360904}
+--- !u!114 &1958342126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1610054995432940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4363cb4c26dc2a4459e387361c9267f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 7872d519f168dc245bd83e611d6fe5f3, type: 3}
+  source: {fileID: 278863394}
+  temporarySource: {fileID: 0}
+  mixer: {fileID: 0}
 --- !u!1 &1710371407272564
 GameObject:
   m_ObjectHideFlags: 0
@@ -1874,7 +2029,7 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   ShowShields: 1
-  shield: {fileID: 0}
+  shield: {fileID: 719040139070258623}
   maxShield: 10
   currentShield: 0
   carryOnDmg: 0
@@ -1904,7 +2059,18 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   onDamage:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 425301876}
+        m_MethodName: UpdateBar
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   ShowShotIndicator: 0
@@ -2324,6 +2490,79 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+--- !u!1001 &3281809649272556795
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 39063641}
+    m_Modifications:
+    - target: {fileID: 1474961396079312, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_Name
+      value: MuzzleFlash
+      objectReference: {fileID: 0}
+    - target: {fileID: 1474961396079312, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.279
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.817
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777765936919074, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
 --- !u!1001 &5263617853769878900
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2391,16 +2630,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5263617853731347759, guid: f0d18c748b7af534f99741e90e2f1f71,
-        type: 3}
-      propertyPath: m_CastShadows
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5263617853731347759, guid: f0d18c748b7af534f99741e90e2f1f71,
-        type: 3}
-      propertyPath: m_ReceiveShadows
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0d18c748b7af534f99741e90e2f1f71, type: 3}
 --- !u!4 &39063641 stripped
@@ -2409,3 +2638,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5263617853769878900}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &719040139070258623 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4681117698247897291, guid: f0d18c748b7af534f99741e90e2f1f71,
+    type: 3}
+  m_PrefabInstance: {fileID: 5263617853769878900}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93aa1c5637d74ef4083ae54a776103e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

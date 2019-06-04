@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BT;
 public class Pistol : Weapon
 {
   public override void Attack()

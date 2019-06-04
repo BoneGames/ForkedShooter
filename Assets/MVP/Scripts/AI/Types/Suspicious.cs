@@ -6,5 +6,6 @@ using NaughtyAttributes;
 public class Suspicious : MonoBehaviour
 {
     [Expandable]
+    //public Dictionary<string, Pattern> behaviours;
     public List<Pattern> behaviours;
 }

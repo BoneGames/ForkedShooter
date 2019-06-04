@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ShieldController : MonoBehaviour
 {
-  Material shieldMat;
+  public Material shieldMat;
   public Color[] shieldColor;
 
   private void Start()
@@ -14,6 +14,10 @@ public class ShieldController : MonoBehaviour
 
   public void SetShieldElement(Elements.Element _shieldElement)
   {
+        if(!shieldMat)
+        {
+            shieldMat = GetComponent<Renderer>().material;
+        }
     int elementIndex = (int)_shieldElement;
     shieldMat.SetColor("_ShieldPatternColor", shieldColor[elementIndex]);
   }

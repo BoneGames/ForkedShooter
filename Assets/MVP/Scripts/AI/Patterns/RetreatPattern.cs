@@ -5,27 +5,37 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Retreat Pattern", menuName = "Patterns/Retreat")]
 public class RetreatPattern : Pattern
 {
+    Vector3 retreatPoint;
+    public bool rotated = false;
     public override void StartPatternWith(BehaviourAI ai, SenseMemoryFactory.SMData data)
     {
         base.StartPatternWith(ai, data);
-           if(data.targets.Count == 0)
-        {
-            Debug.Log("not enemey to hide from;");
-            return;
-        }
-            Vector3 retreatPoint = ai.GetAvoidanceWaypoint(data.targets[0]);
-            ai.agent.SetDestination(retreatPoint);
-
+        retreatPoint = ai.GetAvoidanceWaypoint(data.targets[0].position);
+        ai.agent.SetDestination(retreatPoint);
     }
 
     public override void UpdatePattern(BehaviourAI ai, SenseMemoryFactory.SMData data)
     {
         Debug.Log("retreat - UpdatePattern");
+        if(data.targets.Count != 0)
+        {
+            retreatPoint = ai.GetAvoidanceWaypoint(data.targets[0].position);
+            ai.agent.SetDestination(retreatPoint);
+        }
         if (ai.DestinationReached(0.1f))
         {
-            Debug.Log("co-routine rotate");
-            ai.RotateToward(data.targetLastSeen);
-            //PatternHasEnded();
+            if(!rotated)
+            {
+                retreatPoint = ai.transform.position + (data.targetLastSeen - ai.transform.position).normalized;
+                ai.agent.SetDestination(retreatPoint);
+                rotated = true;
+            }
+            else
+            {
+                PatternHasEnded();
+                rotated = false;
+                return;
+            }
         }
     }
 }

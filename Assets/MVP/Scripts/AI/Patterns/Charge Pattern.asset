@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be9fcd154dbb3e04ab5d815c65c47b85, type: 3}
   m_Name: Charge Pattern
   m_EditorClassIdentifier: 
+  interuptable: 1
   isRunning: 0

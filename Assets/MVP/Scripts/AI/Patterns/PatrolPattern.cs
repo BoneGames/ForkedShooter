@@ -10,14 +10,15 @@ public class PatrolPattern : Pattern
     public int waypointIndex = 1; // Counts sequential waypoints of array index.
     
 
-    public UnityEvent wayPointReached;
+    //public UnityEvent wayPointReached;
 
  
-    void GetWaypoints(BehaviourAI ai)
+    void GetWaypointsFrom(BehaviourAI ai)
     {
         Transform [] waypoints = ai.waypointParent.GetComponentsInChildren<Transform>();
         foreach  (Transform t in waypoints)
         {
+            Debug.Log("waypoint");
             if (t != ai.waypointParent)
             {
                 wayPoints.Add(t);
@@ -30,8 +31,8 @@ public class PatrolPattern : Pattern
     {
         base.StartPatternWith(ai,data);
 
-        if (wayPoints.Count < 1) ;
-        GetWaypoints(ai);
+        if (wayPoints.Count < 1)
+        GetWaypointsFrom(ai);
 
         // Transform(s) of the current waypoint in the waypoints array.
         Transform point = wayPoints[waypointIndex];

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
 using NaughtyAttributes;
+using BT;
 
 
 public class BehaviourAI : MonoBehaviour
@@ -19,15 +20,15 @@ public class BehaviourAI : MonoBehaviour
     public List<Decider> deciders;
 
     public bool ShowSpecs;
-    [ShowIf("ShowSpecs")] [BoxGroup("Enemy Specs")] public float updateRate = 1;
-    [ShowIf("ShowSpecs")] [BoxGroup("Enemy Specs")] public float shootTimer;
-    [ShowIf("ShowSpecs")] [BoxGroup("Enemy Specs")] public float shootDelay;
-    [ShowIf("ShowSpecs")]
-    [BoxGroup("Enemy Specs")]
+    [ShowIf("ShowSpecs")] [BoxGroup("Enemy Specs")] public float aiUpdateRate = 1;
+    [ShowIf("ShowSpecs")] [BoxGroup("Enemy Specs")] float shootTimer;
+    [SerializeField][ShowIf("ShowSpecs")] [BoxGroup("Enemy Specs")] float shootDelay;
+    [ShowIf("ShowSpecs")] [BoxGroup("Enemy Specs")]
     [AI_ScoutDrone_(new string[] { "Naive", "Suspicious", "Combat" })]
     public float[] moveSpeed = new float[3]; // Movement speeds for different states (up to you).
-    public int maxBurstFire;
+    [ShowIf("ShowSpecs")] [BoxGroup("Enemy Specs")] public int maxBurstFire;
     Quaternion handStartRot;
+    [ShowIf("ShowSpecs")] [BoxGroup("Enemy Specs")] public bool lookAtTarget;
 
 
     //[AI_ScoutDrone_(new string[] { "0-Waypoint", "1-Seek Target", "2-Range Target", "3-Retreat" })]
@@ -74,7 +75,6 @@ public class BehaviourAI : MonoBehaviour
         }
         return closest;
     }
-
     public Vector3 GetAvoidanceWaypoint(Vector3 _playerPosition)
     {
         Collider closest = GetClosestObstacle();
@@ -84,7 +84,6 @@ public class BehaviourAI : MonoBehaviour
         Vector3 point = closest.ClosestPoint(start + direction * 2f);
         return point;
     }
-
     public InvulTotem GetNearestTotem()
     {
         InvulTotem[] totemPoles = FindObjectsOfType<InvulTotem>();
@@ -112,8 +111,9 @@ public class BehaviourAI : MonoBehaviour
     public void ResetAI()
     {
         hand.transform.localRotation = handStartRot;
-        agent.updateRotation = true;
     }
+
+
 
     public bool DestinationReached(float desiredDistance)
     {
@@ -149,31 +149,8 @@ public class BehaviourAI : MonoBehaviour
             // IMPLEMENT STAND MECHANIC
         }
     }
-    public void RotateToward(Vector3 target)
-    {
-        StopAllCoroutines();
-        StartCoroutine(FaceTargetRotation(target));
-    }
-    public IEnumerator FaceTargetRotation(Vector3 target)
-    {
 
-        Vector3 targetDir;
-        float angle = 10;
-        // while AI isn't looking at target
-        while (angle > 1)
-        {
-            Debug.Log("rotating");
-            // get target direction
-            targetDir = target - transform.position;
-            // get angle still to turn
-            angle = Vector3.Angle(targetDir, transform.forward);
-            // get look rotation
-            Quaternion lookRot = Quaternion.LookRotation(targetDir);
-            // Slerp angle from current to lookRotation
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, Time.deltaTime * angle / 2);
-            yield return null;
-        }
-    }
+
 
     #endregion
 
@@ -181,13 +158,23 @@ public class BehaviourAI : MonoBehaviour
 
     public void BulletAlert(Vector3 shotOrigin)
     {
-        // reset Hide timer (if currently hiding)
-        //hideTimer = hideTime;
-        //if (currentState != State.Hide)
-        //{
-        //    investigatePoint = shotOrigin;
-        //    currentState = State.Investigate;
-        //}
+        Debug.Log(string.Format(BaneTools.ColorString("bullet allert ai", Color.magenta)));
+        // sort new inspection point into ordered list (from closest to player onward)
+        if (sMF.inspectionPoints.Count == 0)
+        {
+            sMF.inspectionPoints.Add(shotOrigin);
+        }
+        else
+        {
+            for (int i = 0; i < sMF.inspectionPoints.Count; i++)
+            {
+                if (Vector3.Distance(transform.position, shotOrigin) < Vector3.Distance(transform.position, sMF.inspectionPoints[i]))
+                {
+
+                    return;
+                }
+            }
+        }
     }
     #endregion
 
@@ -198,6 +185,19 @@ public class BehaviourAI : MonoBehaviour
     {
         if(shootTimer > 0)
         shootTimer -= Time.deltaTime;
+        if(lookAtTarget)
+        {
+            //Debug.Log("looking");
+            if(playerTarget)
+            {
+                Quaternion lookRot = Quaternion.LookRotation(playerTarget.position - transform.position);
+                transform.rotation = lookRot;
+            }
+            else
+            {
+                Debug.Log("trying to look at player with no target supplied");
+            }
+        }
     }
     void GetReferences()
     {
@@ -241,7 +241,7 @@ public class BehaviourAI : MonoBehaviour
         handStartRot = hand.transform.localRotation;
 
         // repeating method that gets world info and decides actions
-        InvokeRepeating("MakeDecisionBasedOnSenses", 0, updateRate);
+        InvokeRepeating("MakeDecisionBasedOnSenses", 0, aiUpdateRate);
     }
     private void MakeDecisionBasedOnSenses() // Wrapper Function
     {

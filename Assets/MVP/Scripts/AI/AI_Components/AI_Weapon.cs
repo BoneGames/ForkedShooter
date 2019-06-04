@@ -79,7 +79,7 @@ public class AI_Weapon : Weapon
                     if (hit.collider.tag == "Player")
                     {
                         hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position, element);
-                        print("I hit an enemy");
+                        //print("I hit an enemy");
                     }
                 }
                 /// newBullet.sourceAgent = this.gameObject;

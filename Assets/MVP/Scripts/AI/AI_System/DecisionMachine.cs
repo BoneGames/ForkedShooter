@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System;
 public class DecisionMachine
 {
-    //InvulTotem localTotem;
+    InvulTotem localTotem;
     List<Decider> deciders;
     PatternManager pM;
     public EnemyHealth health;
@@ -14,32 +14,33 @@ public class DecisionMachine
     // Constructor (initialise values)
     public DecisionMachine(InvulTotem _totem, List<Decider> _deciders, PatternManager _patternManager, EnemyHealth _health)
     {
-        //this.localTotem = _totem;
+        this.localTotem = _totem;
         this.deciders = _deciders;
         this.pM = _patternManager;
         this.health = _health;
     }
 
     // this lambda needs to be passed to pattern being executed (to constrain position to totem radius)
-    //Func<Vector3, Vector3> MakeDestinationPointReduction()
+    //Func<Vector3, Vector3> GetDestinationInTotem()
     //{
     //    Func<Vector3, Vector3> fn = (v) =>
     //    {
-    //        if(localTotem == null)
+    //        if (!localTotem)
     //        {
     //            return v;
     //        }
-    //        Vector3 tPosition = localTotem.transform.position;
-    //        float destinationDist = Vector3.Distance(tPosition, v);
+    //        Vector3 totemPos = localTotem.transform.position;
+    //        float destinationDist = Vector3.Distance(totemPos, v);
     //        if (destinationDist > localTotem.radius)
     //        {
-    //            return tPosition + (v - tPosition).normalized * localTotem.radius;
+    //            // position + direction.normalized * radius 0 shortens destination to point on totem radius
+    //            return totemPos + (v - totemPos).normalized * localTotem.radius;
     //        }
     //        return v;
     //    };
     //    return fn;
     //}
-   
+
     // Wrapper Method that allocates data to each of the AI Modes - Conditions for
     // execution are defined at the top of each respective Mode class
     public void MakeDecisionFrom(SenseMemoryFactory.SMData senseData)
@@ -100,9 +101,11 @@ public class DecisionMachine
 
 public abstract class Decider
 {
-    public List<Pattern> patterns;
+    //public Dictionary<string, Pattern> patterns;
+    public List<Pattern> patterns; 
     protected EnemyHealth health;
     // Constructor tells each instance to get it's patterns from it's Mode List
+    //public Decider(Dictionary<string, Pattern> _patterns, EnemyHealth _health)
     public Decider(List<Pattern> _patterns, EnemyHealth _health)
     {
         this.patterns = _patterns;
@@ -110,7 +113,7 @@ public abstract class Decider
         // tell each pattern what Mode it is (Naive, Suspicious, Combat)
         foreach (var p in this.patterns)
         {
-            p.patternType = this;
+            //p.patternType = this;
         }
     }
     public bool isEnabled = true;
@@ -123,6 +126,7 @@ public abstract class Decider
 public class NaiveDecider: Decider
 {
      // Constructor - get patterns from list (in inspector)
+     //public NaiveDecider(Dictionary<string, Pattern> patterns, EnemyHealth health): base(patterns, health)
      public NaiveDecider(List<Pattern> patterns, EnemyHealth health): base(patterns, health)
      {
         precedence = 0;
@@ -131,7 +135,7 @@ public class NaiveDecider: Decider
     public override Decider DeciderBasedOn(SenseMemoryFactory.SMData data)
     {
         // if no direct/indirect evidence of adversaries
-        bool condition = (data.inspectionPoints.Count == 0 && data.targets.Count == 0);
+        bool condition = (data.inspectionPoints.Count == 0 && data.targets.Count == 0 && data.targetLastSeen == Vector3.zero);
         if (condition)
         {
             //Debug.Log(this.GetType().Name + ", passed");
@@ -152,10 +156,10 @@ public class NaiveDecider: Decider
         return p;
     }
 }
-
 public class SuspiciousDecider: Decider
 {
     // Constructor - get patterns from list (in inspector)
+    //public SuspiciousDecider(Dictionary<string, Pattern> patterns, EnemyHealth health) : base(patterns, health)
     public SuspiciousDecider(List<Pattern> patterns, EnemyHealth health) : base(patterns, health)
     {
         precedence = 1;
@@ -164,7 +168,7 @@ public class SuspiciousDecider: Decider
     override public Decider DeciderBasedOn(SenseMemoryFactory.SMData _data)
     {
         // if no direct evidence but some indirect evidence of enemies
-        bool condition = (_data.targets.Count == 0 && _data.inspectionPoints.Count > 0);
+        bool condition = (_data.targets.Count == 0 && (_data.inspectionPoints.Count > 0 || (_data.targetLastSeen != Vector3.zero || _data.targetLastSeen != null)));
         if (condition)
         {
             //Debug.Log(this.GetType().Name + ", passed");
@@ -189,6 +193,7 @@ public class SuspiciousDecider: Decider
 public class CombatDecider: Decider
 {
     // Constructor - get patterns from list (in inspector)
+    //public CombatDecider(Dictionary<string, Pattern> patterns, EnemyHealth health) : base(patterns, health)
     public CombatDecider(List<Pattern> patterns, EnemyHealth health) : base(patterns, health)
     {
         precedence = 2;
@@ -214,29 +219,29 @@ public class CombatDecider: Decider
     public override Pattern ChoosePattern(SenseMemoryFactory.SMData senseData)
     {
         Pattern p = null;
-        if (health.currentHealth > 60)
+        if (health.currentHealth > 90)
         {
-            if(senseData.distance < 10)
+            if(senseData.distance < 20)
             {
-                // strafe shoot
+                // Strafe Fire
                 p = patterns[1];
             }
             else
             {
-                // Charge Behaviour
+                // Charge
                 p = patterns[0];
             }
             
         }
-        else if (health.currentHealth > 30)
+        else if (health.currentHealth > 40)
         {
             // Cover shoot
-            //p = patterns[2];
+            p = patterns[2];
         }
         else
         {
             // Retreat
-            //p = patterns[3];
+            p = patterns[3];
         }
         return p;
     }

@@ -114,7 +114,7 @@ public abstract class Health : MonoBehaviour
     {
       _val = _val * 1.25f;
     }
-    print(_val);
+    //print(_val);
 
     return _val;
   }

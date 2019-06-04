@@ -52,7 +52,7 @@ public class EnemySpawner : MonoBehaviour
     {
       for (int i = 0; i < _count; i++)
       {
-        print("I was called!");
+        //print("I was called!");
         GameObject clone = Instantiate(guard, guardSpawnPoint.position, guardSpawnPoint.rotation, guardSpawnPoint);
         clone.transform.name += i.ToString();
         clone.transform.parent = transform;

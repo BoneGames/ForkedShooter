@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using System.Linq.Expressions;
 using UnityEditor;
+using System;
+using BT;
 
 public class PatternManager
 {
     Pattern currentPattern;
-       
-    
     BehaviourAI ai;
 
     // initialise, get relevant AI class
@@ -16,65 +18,54 @@ public class PatternManager
         this.ai = ai;
     }
 
-    //public Pattern SelectPattern(List<Pattern> _patterns)
-    //public Pattern SelectPattern(Decider d)
+    //Func<Vector3, Vector3> GetDestinationInTotem()
     //{
-    //    //// currently just selects first pattern in group (decider)
-    //    //if(_patterns.Count == 0)
-    //    //{
-    //    //    return null;
-    //    //}
-
-    //    // put probabilistic pattern selection in later
-
-    //    Pattern patternToReturn;
-    //    // get first pattern in list
-    //    //patternToReturn = _patterns[0];
-    //    return patternToReturn;
+    //    Func<Vector3, Vector3> fn = (v) =>
+    //    {
+    //        if (!localTotem)
+    //        {
+    //            return v;
+    //        }
+    //        Vector3 totemPos = localTotem.transform.position;
+    //        float destinationDist = Vector3.Distance(totemPos, v);
+    //        if (destinationDist > localTotem.radius)
+    //        {
+    //            // position + direction.normalized * radius 0 shortens destination to point on totem radius
+    //            return totemPos + (v - totemPos).normalized * localTotem.radius;
+    //        }
+    //        return v;
+    //    };
+    //    return fn;
     //}
-
-    // Includes interupt logic
     public void TryExecutePattern(Pattern incomingPattern, SenseMemoryFactory.SMData _data)
     {
+        string debug = _data.inspectionPoints.Count > 0 ? string.Format(BaneTools.ColorString("iPs: " + _data.inspectionPoints.Count + ", tLS: " + _data.targetLastSeen + ", tars: " + _data.targets.Count, Color.yellow)): "iPs: " + _data.inspectionPoints.Count + ", tLS: " + _data.targetLastSeen + ", tars: " + _data.targets.Count;
+        Debug.Log(debug);
         //remove currentPattern if it has stopped
         if (currentPattern && !currentPattern.isRunning)
         {
             currentPattern = null;
         }
-
-
         // if there is no pattern running
         if (!currentPattern)
         {
-            Debug.Log("NEW Pattern: " + incomingPattern + ", OLD Pattern: " + currentPattern);
+            Debug.Log(string.Format(BaneTools.ColorString("NEW Pattern: " + incomingPattern + ", OLD Pattern ended", Color.red)));
             incomingPattern.StartPatternWith(ai, _data);
             currentPattern = incomingPattern;
             return;
         }
-        // if incoming pattern can interupt the current pattern(higher precedence)
-        if (incomingPattern.patternType.precedence >= currentPattern.patternType.precedence && currentPattern != incomingPattern)
+        // if incoming pattern is new and current pattern is interuptable
+        if (incomingPattern != currentPattern && currentPattern.interuptable)
         {
-            ai.ResetAI();
-            Debug.Log("NEW Pattern: " + incomingPattern + ", OLD Pattern: " + currentPattern);
-            currentPattern.PatternHasBeenInterrupted();
+            Debug.Log(string.Format(BaneTools.ColorString("NEW Pattern: " + incomingPattern + ", OLD Pattern: " + currentPattern, Color.green)));
+            currentPattern.PatternHasBeenInterrupted(ai);
             incomingPattern.StartPatternWith(ai, _data);
             currentPattern = incomingPattern;
         }
-        else
+        else // continue running current pattern
         {
-            //Debug.Log("pattern not important enough to run");
-        }
-
-        
-
-        // once pattern has started (i.e. currentPattern is not null), keep calling UpdatePattern until currentPattern is not running 
-        //if (incomingPattern == currentPattern)
-        //{
+            Debug.Log("Update Pattern: " + currentPattern);
             currentPattern.UpdatePattern(ai, _data);
-            return;
-       // }
-
-     
-        
+        }
     }
 }

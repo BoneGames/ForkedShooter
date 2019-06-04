@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d86d169fdb6364945bea6eb1747b77c7, type: 3}
-  m_Name: Investigate Pattern
+  m_Script: {fileID: 11500000, guid: 9c9a12db572fee64ab281b0ebfb0000f, type: 3}
+  m_Name: CoverShoot Pattern
   m_EditorClassIdentifier: 
   interuptable: 1
   isRunning: 0

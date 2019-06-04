@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Pattern : ScriptableObject
 {
+    public bool interuptable;
     public void OnEnable()
     {
         isRunning = false;
@@ -13,6 +14,7 @@ public class Pattern : ScriptableObject
     public virtual void StartPatternWith(BehaviourAI ai, SenseMemoryFactory.SMData data)
     {
         isRunning = true;
+       
     }
 
     public virtual void UpdatePattern(BehaviourAI ai, SenseMemoryFactory.SMData data)
@@ -25,7 +27,7 @@ public class Pattern : ScriptableObject
         isRunning = false;
     }
 
-    public virtual void PatternHasBeenInterrupted()
+    public virtual void PatternHasBeenInterrupted(BehaviourAI ai)
     {
         isRunning = false;
     }

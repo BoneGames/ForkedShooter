@@ -42,7 +42,7 @@ public class AI_FoV_Detection : MonoBehaviour
         //viewMesh = new Mesh();
         //viewMesh.name = "View Mesh";
         //viewMeshFilter.mesh = viewMesh;
-        updateRate = transform.GetComponentInParent<BehaviourAI>().updateRate;
+        updateRate = transform.GetComponentInParent<BehaviourAI>().aiUpdateRate;
         // Start running the Coroutine that calls upon 'FindTargetsWithDelay' Method, with a call rate of 0.2f (five times a second).
         StartCoroutine("FindTargetsWithDelay", updateRate);
     }

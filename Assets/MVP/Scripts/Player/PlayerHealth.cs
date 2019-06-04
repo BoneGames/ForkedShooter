@@ -59,7 +59,7 @@ public class PlayerHealth : Health
       {
         currentHealth -= _value;
 
-        print(_value > 0 ? string.Format("Health reduced by {0} and is now {1}", _value, currentHealth) : string.Format("Health healed by {0} and is now {1}", -_value, currentHealth));
+        //print(_value > 0 ? string.Format("Health reduced by {0} and is now {1}", _value, currentHealth) : string.Format("Health healed by {0} and is now {1}", -_value, currentHealth));
 
         if (currentHealth > maxHealth)
         {
@@ -118,7 +118,7 @@ public class PlayerHealth : Health
   // Self explanatory.
   public override void CheckDie()
   {
-    //healthBar.UpdateBar();
+    healthBar.UpdateBar();
 
     if (currentHealth <= 0)
     {

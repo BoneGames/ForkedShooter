@@ -9,7 +9,7 @@ public class SenseMemoryFactory
     public class SMData
     {
         // Sighted enemie's positions
-        public List<Vector3> targets;
+        public List<Transform> targets;
         // Positions where strange activity detected
         public List<Vector3> inspectionPoints;
         // lst seen position of target
@@ -18,7 +18,7 @@ public class SenseMemoryFactory
         public float distance;
 
         // Constructor
-        public SMData(List<Vector3> _targets, List<Vector3> _inspectionPoints, float _distance, Vector3 _targetLastSeen)
+        public SMData(List<Transform> _targets, List<Vector3> _inspectionPoints, float _distance, Vector3 _targetLastSeen)
         {
             this.targets = _targets;
             this.inspectionPoints = _inspectionPoints;
@@ -29,42 +29,30 @@ public class SenseMemoryFactory
     // AI sees with this class - sight.visibleTargets is the targets list
     AI_FoV_Detection sight;
     // Ai investigates points with this list
-    List<Vector3> inspectionPoints = new List<Vector3>();
+    public List<Vector3> inspectionPoints;
     // stores last seen position of target
     public Vector3 targetLastSeen;
 
+    // initialise variables
     public SenseMemoryFactory(AI_FoV_Detection sight)
     {
-        /*
-        eg: this.hearing = hearing - make dedicated audio alerts class that checks for 
-        sound radius of different world events - using inbuilt Unity sound
-       */
-        // -- the two lines below allow for adding multiple inspection 
-        // -- points later if the AI can maintain a list for subsequant checks
-        // inspectionPoints = new List<Vector3>();
-        // this.inspectionPoints.Add(inspectionPoint);
+        this.targetLastSeen = new Vector3();
+        this.inspectionPoints = new List<Vector3>();
         this.sight = sight;
-    }
-
-    public void BulletAlert(Vector3 inspectionPoint)
-    {
-        this.inspectionPoints[0] = inspectionPoint;
     }
 
     public SMData GetSMData()
     {
-        // create temporary(copied )list to return
-        List<Vector3> _inspectionPoints = new List<Vector3>(inspectionPoints);
-        // clear the inspectionPoints list
-        inspectionPoints.Clear();
         // get visual targets list and assign Vector3 from Transform conversion (linq)
-        List<Vector3> _targets = sight.visibleTargets.Select(t => t.position).ToList();
+        List<Transform> _targets = sight.visibleTargets.ToList();
         // return Sense Memory Data
         float _distance = sight.distance2Target;
         if(_targets.Count > 0)
         {
-            targetLastSeen = _targets[0];
+            targetLastSeen = _targets[0].position;
+            // clear the inspectionPoints list
+            inspectionPoints.Clear();
         }
-        return new SMData(_targets, _inspectionPoints, _distance, targetLastSeen);
+        return new SMData(_targets, inspectionPoints, _distance, targetLastSeen);
     }
 }

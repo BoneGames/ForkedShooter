@@ -12,11 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc8bec939d27aa74eb1bb4778dc38ba0, type: 3}
   m_Name: Patrol Pattern
   m_EditorClassIdentifier: 
+  interuptable: 1
   isRunning: 0
-  waypoints: []
-  waypointIndex: 1
-  wayPointReached:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+  wayPoints: []
+  waypointIndex: 0

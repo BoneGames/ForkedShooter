@@ -9,7 +9,7 @@ public class ChargePattern : Pattern
     {
         base.StartPatternWith(ai, data);
         // closest target (FoV script orders targets in list)
-        Vector3 target = data.targets[0];
+        Vector3 target = data.targets[0].position;
         // Go toward player target
         ai.agent.SetDestination(target);
         
@@ -24,6 +24,11 @@ public class ChargePattern : Pattern
         }
         // fire
         ai.ShootAt(target);
+    }
+
+    public override void UpdatePattern(BehaviourAI ai, SenseMemoryFactory.SMData data)
+    {
+        StartPatternWith(ai, data);
     }
 
 }
