@@ -10,23 +10,23 @@ using NaughtyAttributes;
 public class RigidCharacterMovement : Photon.PunBehaviour
 {
     public bool showPlayerStats;
-    [ShowIf("showPlayerStats")] [BoxGroup("Player Stats")] public float playerSpeed = 5f, jumpHeight = 10f, crouchMultiplier = .8f, sprintMultiplier = 1.5f;
+    [ShowIf("showPlayerStats"), BoxGroup("Player Stats")] public float playerSpeed = 5f, jumpHeight = 10f, crouchMultiplier = .8f, sprintMultiplier = 1.5f;
 
     public bool showPlayerStates;
-    [ShowIf("showPlayerStates")] [BoxGroup("Player States")] public bool isCrouching = false, isSprinting = false, isJumping = false, isDead = false, isAiming = false;
+    [ShowIf("showPlayerStates"), BoxGroup("Player States")] public bool isCrouching = false, isSprinting = false, isJumping = false, isDead = false, isAiming = false;
 
     [BoxGroup("Checkpoints")] public Transform lastCheckpoint;
 
     public bool showImportantStuff;
-    [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Rigidbody rigid;
-    [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public float rayDistance = 1f;
-    [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Camera myCamera;
-    [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Transform myHand;
-    [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Health myHealth;
-    [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Weapon[] weapons;
-    [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Weapon currentWeapon;
-    [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public bool rotateToMainCamera = false;
-    [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public int currentWeaponIndex;
+    [ShowIf("showImportantStuff"), BoxGroup("Important Stuff")] public Rigidbody rigid;
+    [ShowIf("showImportantStuff"), BoxGroup("Important Stuff")] public float rayDistance = 1f;
+    [ShowIf("showImportantStuff"), BoxGroup("Important Stuff")] public Camera myCamera;
+    [ShowIf("showImportantStuff"), BoxGroup("Important Stuff")] public Transform myHand;
+    [ShowIf("showImportantStuff"), BoxGroup("Important Stuff")] public Health myHealth;
+    [ShowIf("showImportantStuff"), BoxGroup("Important Stuff")] public Weapon[] weapons;
+    [ShowIf("showImportantStuff"), BoxGroup("Important Stuff")] public Weapon currentWeapon;
+    [ShowIf("showImportantStuff"), BoxGroup("Important Stuff")] public bool rotateToMainCamera = false;
+    [ShowIf("showImportantStuff"), BoxGroup("Important Stuff")] public int currentWeaponIndex;
 
     private GameObject shootPoint;
     private bool weaponRotationThing = false;

@@ -462,10 +462,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBarContainer: {fileID: 0}
   healthBarDisplay: {fileID: 0}
-  health: {fileID: 0}
   healthBarPrefab: {fileID: 1744921355771316, guid: 2a7c22fccbffa414c8a105b65e5aa1be,
     type: 3}
-  offset: {x: 0, y: 0, z: 0}
+  offset: {x: 0, y: 1.5, z: 0}
   viewPoint: {fileID: 4686679147568946}
   UITarget: {fileID: 0}
 --- !u!114 &4663158289691852680
@@ -861,11 +860,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4903510248585718}
     m_Modifications:
-    - target: {fileID: 5263617853731347756, guid: 07cc0839b880907499deb00f3ad4c2ed,
-        type: 3}
-      propertyPath: m_Name
-      value: GuardShield
-      objectReference: {fileID: 0}
     - target: {fileID: 5263617853731347757, guid: 07cc0839b880907499deb00f3ad4c2ed,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -920,6 +914,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263617853731347756, guid: 07cc0839b880907499deb00f3ad4c2ed,
+        type: 3}
+      propertyPath: m_Name
+      value: GuardShield
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07cc0839b880907499deb00f3ad4c2ed, type: 3}
