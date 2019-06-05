@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using NaughtyAttributes;
 
 public class PlayerHealth : Health
@@ -9,18 +10,23 @@ public class PlayerHealth : Health
     string photonID;
 
     public bool ShowShotIndicator;
-    [ShowIf("ShowShotIndicator")]
-    [BoxGroup("Shot Indicator")]
+    [ShowIf("ShowShotIndicator")] [BoxGroup("Shot Indicator")]
     public GameObject shotDirectionArm;
+    [ShowIf("ShowShotIndicator")] [BoxGroup("Shot Indicator")]
+    public float shotIndicatorDelay;
     [ShowIf("ShowShotIndicator")]
     [BoxGroup("Shot Indicator")]
-    public float shotIndicatorDelay;
+    public Color normal, fire, water, grass;
+    [ShowIf("ShowShotIndicator")]
+    [BoxGroup("Shot Indicator")]
+    Material shotDirMat;
 
     public override void Start()
     {
         base.Start();
         shield = GetComponentInChildren<ShieldController>();
         photonView = GetComponent<PhotonView>();
+        shotDirMat = shotDirectionArm.GetComponentInChildren<Image>().material;
         if (photonView)
         {
             photonID = photonView.viewID.ToString().Substring(0, 1);
@@ -71,8 +77,8 @@ public class PlayerHealth : Health
                 //If you're actually being damaged (negative means healing)
                 if (_value > 0)
                 {
-                    StopCoroutine(ShotDirectionActive(_shotDir));
-                    StartCoroutine(ShotDirectionActive(_shotDir));
+                    StopCoroutine(ShotDirectionActive(_shotDir, ammoType));
+                    StartCoroutine(ShotDirectionActive(_shotDir, ammoType));
                 }
 
                 CheckDie();
@@ -94,8 +100,26 @@ public class PlayerHealth : Health
         shotDirectionArm.transform.rotation = Quaternion.Euler(0, 0, -angle);
     }
 
-    IEnumerator ShotDirectionActive(Vector3 incoming)
+    IEnumerator ShotDirectionActive(Vector3 incoming, Elements.Element ammoType)
     {
+        switch(ammoType)
+        {
+            case Elements.Element.Normal:
+                shotDirMat.color = normal;
+                break;
+            case Elements.Element.Fire:
+                shotDirMat.color = fire;
+                break;
+            case Elements.Element.Water:
+                shotDirMat.color = water;
+                break;
+            case Elements.Element.Grass:
+                shotDirMat.color = grass;
+                break;
+            default:
+                Debug.Log("You Need to add a new material color to PlayerHealth to asign to shot indicator arm");
+                break;
+        }
         shotDirectionArm.SetActive(true);
         float timer = 0;
         while (timer < shotIndicatorDelay)

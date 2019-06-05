@@ -4,70 +4,75 @@ using UnityEngine;
 using BT;
 public class Pistol : Weapon
 {
-  public override void Attack()
-  {
-    if (currentMag > 0)
+    public override void Attack()
     {
-      RaycastHit hit;
-      spawnPoint.rotation = AimAtCrosshair();
-      Ray ray = new Ray(spawnPoint.position, spawnPoint.transform.forward);
-
-      OnFire();
-
-      //SpawnMuzzleFlash();
-
-      //audioWep.PlayOneShot(sfx[0]);
-      //pitchShifter.Tweet();
-
-      if (Physics.Raycast(ray, out hit))
-      {
-        BulletTrail(hit.point, hit.distance);
-
-        AlertCloseEnemies(transform.position, hit.point);
-
-        if (GameManager.isOnline)
+        if (currentMag > 0)
         {
-          if (hit.collider.CompareTag("Enemy"))
-          {
-            hit.transform.GetComponent<PhotonView>().RPC("ChangeHealth", PhotonTargets.All, damage);
-          }
+            RaycastHit hit;
+            spawnPoint.rotation = AimAtCrosshair();
+            Ray ray = new Ray(spawnPoint.position, spawnPoint.transform.forward + AccuracyOffset(accuracy));
+
+            OnFire();
+
+            //SpawnMuzzleFlash();
+
+            //audioWep.PlayOneShot(sfx[0]);
+            //pitchShifter.Tweet();
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                BulletTrail(hit.point, hit.distance);
+
+                BulletAlert(transform.position, hit.point, loudness);
+
+                GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                sphere.transform.position = hit.point;
+                sphere.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+
+                if (GameManager.isOnline)
+                {
+                    if (hit.collider.CompareTag("Enemy"))
+                    {
+                        hit.transform.GetComponent<PhotonView>().RPC("ChangeHealth", PhotonTargets.All, damage);
+                    }
+                }
+                else
+                {
+                    if (hit.collider.tag == "Enemy")
+                    {
+                        hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position, weaponElement);
+                        //print("I hit an enemy");
+                    }
+
+                }
+            }
+            BulletTrail(spawnPoint.transform.position + (spawnPoint.transform.forward + AccuracyOffset(accuracy)) * 200, 200);
+            currentMag--;
+
+            UpdateAmmoDisplay();
         }
-        else
+        if (currentMag <= 0)
         {
-          if (hit.collider.tag == "Enemy")
-          {
-            hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position, weaponElement);
-            //print("I hit an enemy");
-          }
-
+            StartCoroutine(ReloadTimed());
         }
-      }
-      currentMag--;
-
-      UpdateAmmoDisplay();
     }
-    if (currentMag <= 0)
+
+    public override Quaternion AimAtCrosshair()
     {
-      StartCoroutine(ReloadTimed());
+        return base.AimAtCrosshair();
     }
-  }
 
-  public override Quaternion AimAtCrosshair()
-  {
-    return base.AimAtCrosshair();
-  }
+    void BulletTrail(Vector3 target, float distance)
+    {
+        GameObject bulletPath = Instantiate(lineRendPrefab, spawnPoint.position, spawnPoint.rotation);
+        bulletPath.transform.SetParent(spawnPoint);
+        BulletPath script = bulletPath.GetComponent<BulletPath>();
+        script.target = target;
+        script.distance = distance;
+    }
 
-  void BulletTrail(Vector3 target, float distance)
-  {
-    GameObject bulletPath = Instantiate(lineRendPrefab, spawnPoint.position, spawnPoint.rotation);
-    bulletPath.transform.SetParent(spawnPoint);
-    BulletPath script = bulletPath.GetComponent<BulletPath>();
-    script.target = target;
-    script.distance = distance;
-  }
-
-  public override void Reload()
-  {
-    StartCoroutine(ReloadTimed());
-  }
+    public override void Reload()
+    {
+        StartCoroutine(ReloadTimed());
+    }
 }

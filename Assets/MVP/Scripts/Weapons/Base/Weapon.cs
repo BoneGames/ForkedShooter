@@ -13,7 +13,8 @@ public abstract class Weapon : MonoBehaviour
     [BoxGroup("Weapon Stats")]
     public int damage = 100, maxReserves = 30, currentReserves, magSize, currentMag;
     [BoxGroup("Weapon Stats")]
-    public float accuracy = 1f, scopeZoom = 75f, reloadSpeed, rateOfFire = 5f;
+    [Slider(0, 10)] public float accuracy = 1f, loudness, bulletDetectionRadius;
+    [BoxGroup("Weapon Stats")] public float scopeZoom = 75f, reloadSpeed, rateOfFire = 5f;
     [BoxGroup("Weapon Stats")]
     public Elements.Element weaponElement;
     //public float range = 10f
@@ -34,9 +35,9 @@ public abstract class Weapon : MonoBehaviour
     public UnityEvent onFire;
 
     public Vector3 hitPoint;
+    float startingAccuracy;
 
     public LayerMask enemy;
-    public float bulletDetectionRadius;
 
     Quaternion hitRotation;
 
@@ -51,6 +52,7 @@ public abstract class Weapon : MonoBehaviour
         currentReserves = maxReserves;
         currentMag = magSize;
         DefaultReload();
+        startingAccuracy = accuracy;
     }
 
     public abstract void Attack();
@@ -71,6 +73,30 @@ public abstract class Weapon : MonoBehaviour
         return spawnPoint.rotation;
     }
 
+    public virtual void OnAim(bool _aiming)
+    {
+        if(_aiming)
+        {
+            accuracy = startingAccuracy * 1.5f;
+        }
+        else
+        {
+            accuracy = startingAccuracy;
+        }
+    }
+
+    public virtual Vector3 AccuracyOffset(float accuracy)
+    {
+        // increase in order to keep slider friendly: 0-10 range
+        accuracy *= 10;
+        // generate random values within accuracy range
+        float x = Random.Range(-(1 / accuracy), 1 / accuracy);
+        float y = Random.Range(-(1 / accuracy), 1 / accuracy);
+        float z = Random.Range(-(1 / accuracy), 1 / accuracy);
+
+        // return offset modifer
+        return new Vector3(x, y, z);
+    }
     public Quaternion GetTargetNormal()
     {
         RaycastHit hit;
@@ -148,27 +174,30 @@ public abstract class Weapon : MonoBehaviour
         UpdateAmmoDisplay();
     }
 
-
-    public void AlertCloseEnemies(Vector3 origin, Vector3 _hitPoint)
+    public void BulletAlert(Vector3 origin, Vector3 _hitPoint, float loudness)
     {
-        //float distance = Vector3.Distance(origin, _hitPoint);
-        //Vector3 dir = (origin - _hitPoint).normalized;
+        // point 70% of the way from bit point to origin along trajectory
         Vector3 dir = (origin - _hitPoint) * 0.7f;
-
         Vector3 _newInspectionPoint = origin - dir;
 
+        // Find enemies within radius of bullet impact
+        Collider[] impactSearch = Physics.OverlapSphere(_hitPoint, bulletDetectionRadius, enemy);
+        TellEnemies(impactSearch, _newInspectionPoint);
 
-        //GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        //cube.transform.position = _newInspectionPoint;
-
-        Collider[] cols = Physics.OverlapSphere(_hitPoint, bulletDetectionRadius, enemy);
-        if (cols.Length > 0)
+        // Find enemies withing radius of fire point
+        Collider[] fireSearch = Physics.OverlapSphere(origin, loudness * 2, enemy);
+        TellEnemies(fireSearch, origin);
+    }
+    void TellEnemies(Collider[] enemies, Vector3 inspectionPoint)
+    {
+        if (enemies.Length > 0)
         {
-            foreach (Collider col in cols)
+            foreach (Collider col in enemies)
             {
                 if (col.GetComponent<BehaviourAI>())
                 {
-                    col.GetComponent<BehaviourAI>().BulletAlert(_newInspectionPoint);
+                    // send alert to enemy
+                    col.GetComponent<BehaviourAI>().BulletAlert(inspectionPoint);
                 }
             }
         }
