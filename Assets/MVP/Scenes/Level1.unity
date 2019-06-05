@@ -8821,15 +8821,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4276223126385402, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.1
+      value: -14.9
       objectReference: {fileID: 0}
     - target: {fileID: 4276223126385402, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.23
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4276223126385402, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.25
+      value: 146.4
       objectReference: {fileID: 0}
     - target: {fileID: 4276223126385402, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
       propertyPath: m_LocalRotation.x
@@ -8870,11 +8870,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114803733962968952, guid: d4959bfe9c2bdde4ba18947f246452be,
         type: 3}
-      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114803733962968952, guid: d4959bfe9c2bdde4ba18947f246452be,
-        type: 3}
       propertyPath: shotDirectionArm
       value: 
       objectReference: {fileID: 1576572623}
@@ -8907,21 +8902,6 @@ PrefabInstance:
         type: 3}
       propertyPath: updateHealthBar.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 114803733962968952, guid: d4959bfe9c2bdde4ba18947f246452be,
-        type: 3}
-      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114803733962968952, guid: d4959bfe9c2bdde4ba18947f246452be,
-        type: 3}
-      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114803733962968952, guid: d4959bfe9c2bdde4ba18947f246452be,
-        type: 3}
-      propertyPath: shieldElement
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 425301876, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
       propertyPath: healthBarBG
@@ -14023,11 +14003,6 @@ PrefabInstance:
         type: 3}
       propertyPath: quitKey
       value: 27
-      objectReference: {fileID: 0}
-    - target: {fileID: 3578829109691955275, guid: 82757f85bb4f40349941b8b476febc6e,
-        type: 3}
-      propertyPath: m_Color.a
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82757f85bb4f40349941b8b476febc6e, type: 3}
