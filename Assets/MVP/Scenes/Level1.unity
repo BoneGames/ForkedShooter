@@ -8903,6 +8903,76 @@ PrefabInstance:
       propertyPath: updateHealthBar.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 114803733962968952, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: ShowShotIndicator
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114803733962968952, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: normal.r
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114803733962968952, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: normal.g
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114803733962968952, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: normal.b
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114803733962968952, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: fire.r
+      value: 0.32941177
+      objectReference: {fileID: 0}
+    - target: {fileID: 114803733962968952, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: fire.g
+      value: 0.17254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 114803733962968952, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: fire.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114803733962968952, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: ice.b
+      value: 0.41568628
+      objectReference: {fileID: 0}
+    - target: {fileID: 114803733962968952, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: ice.g
+      value: 0.40392157
+      objectReference: {fileID: 0}
+    - target: {fileID: 114803733962968952, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: grass.g
+      value: 0.16862746
+      objectReference: {fileID: 0}
+    - target: {fileID: 114803733962968952, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: grass.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114803733962968952, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: grass.r
+      value: 0.011764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 114803733962968952, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: water.b
+      value: 0.41568628
+      objectReference: {fileID: 0}
+    - target: {fileID: 114803733962968952, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: water.g
+      value: 0.40392157
+      objectReference: {fileID: 0}
     - target: {fileID: 425301876, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
       propertyPath: healthBarBG
       value: 
@@ -8912,15 +8982,85 @@ PrefabInstance:
       propertyPath: ammoDisplay
       value: 
       objectReference: {fileID: 1922551344}
+    - target: {fileID: 114158151262044422, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: bulletDetectionRadius
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114158151262044422, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: loudness
+      value: 6.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114158151262044422, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: accuracy
+      value: 6.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1748083688, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
       propertyPath: ammoDisplay
       value: 
       objectReference: {fileID: 1922551344}
+    - target: {fileID: 1748083688, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
+      propertyPath: accuracy
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1748083688, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
+      propertyPath: loudness
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1748083688, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
+      propertyPath: bulletDetectionRadius
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1748083688, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
+      propertyPath: damage
+      value: 95
+      objectReference: {fileID: 0}
     - target: {fileID: 114110289301231624, guid: d4959bfe9c2bdde4ba18947f246452be,
         type: 3}
       propertyPath: ammoDisplay
       value: 
       objectReference: {fileID: 1922551344}
+    - target: {fileID: 114110289301231624, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: loudness
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 114110289301231624, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: bulletDetectionRadius
+      value: 7.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114110289301231624, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: accuracy
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114131910670434340, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: onAim.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114131910670434340, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: showPlayerStates
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114131910670434340, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: onAim.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114131910670434340, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: onAim.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876178582, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
+      propertyPath: m_Positions.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
 --- !u!114 &1389622839 stripped
@@ -12643,7 +12783,7 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 4f50cf17eaea09b48abc6e4eb099fc4e, type: 2}
   m_Color: {r: 1, g: 0, b: 0, a: 0.4}
   m_RaycastTarget: 1
   m_OnCullStateChanged:

@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895eab87cece34b47b1971237b22a984, type: 3}
   m_Name: Survey Pattern
   m_EditorClassIdentifier: 
-  interuptable: 1
+  isInteruptable: 1
+  notePrecedence: 0
   isRunning: 0

@@ -142,5 +142,5 @@ MonoBehaviour:
   target: {x: 0, y: 0, z: 0}
   distance: 0
   resolution: 10
-  bulletPathSpeed: 2
-  trailDuration: 8
+  bulletPathSpeed: 10
+  trailDuration: 2

@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc8bec939d27aa74eb1bb4778dc38ba0, type: 3}
   m_Name: Patrol Pattern
   m_EditorClassIdentifier: 
-  interuptable: 1
+  isInteruptable: 1
+  notePrecedence: 0
   isRunning: 0
-  wayPoints: []
+  wayPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   waypointIndex: 0

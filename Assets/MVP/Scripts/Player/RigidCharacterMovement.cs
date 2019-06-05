@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Interactions;
 
 using BT;
@@ -274,10 +275,12 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         if (_isAiming)
         {
             myHand.localPosition = currentWeapon.aimPoint.localPosition;
+            currentWeapon.OnAim(isAiming);
         }
         else
         {
             myHand.localPosition = handStartPos;
+            currentWeapon.OnAim(isAiming);
         }
 
         myCamera.fieldOfView = _isAiming ? currentWeapon.scopeZoom : 75;
