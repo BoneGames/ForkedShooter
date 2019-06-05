@@ -8,7 +8,6 @@ using NaughtyAttributes;
 public class StrafeFirePattern : Pattern
 {
     public float strafeLength;
-    Transform target;
 
     public override void StartPatternWith(BehaviourAI ai, SenseMemoryFactory.SMData data)
     {
@@ -16,7 +15,7 @@ public class StrafeFirePattern : Pattern
         // stop navMesh from setting rotation
         ai.agent.updateRotation = false;
         // give target to AI
-        ai.playerTarget = target;
+        ai.playerTarget = data.targets[0];
         // tell ai to look at target
         ai.lookAtTarget = true;
 
@@ -26,14 +25,14 @@ public class StrafeFirePattern : Pattern
     public void StrafeCycle(BehaviourAI ai, SenseMemoryFactory.SMData data)
     {
         // get target
-        target = ai.playerTarget = data.targets[0];
+        ai.playerTarget = data.targets[0];
         // get strafe move-to position
         Vector3 moveTarget = ai.transform.position + Random.insideUnitSphere * strafeLength;
         moveTarget.y = 0;
         // move to position & start coroutine to rotate to player
         ai.agent.SetDestination(moveTarget);
         // shoot
-        ai.ShootAt(target.position);
+        ai.ShootAt(data.targets[0].position);
     }
 
     public override void UpdatePattern(BehaviourAI ai, SenseMemoryFactory.SMData data)
@@ -44,7 +43,6 @@ public class StrafeFirePattern : Pattern
     public override void KillPattern(BehaviourAI ai)
     {
         base.KillPattern(ai);
-        target = null;
     }
 }
 

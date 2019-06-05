@@ -11,7 +11,8 @@ public class BehaviourAI : MonoBehaviour
     public bool ShowEvents;
     [ShowIf("ShowEvents")] [BoxGroup("Events")] public UnityEvent updateAi;
 
-    
+    public bool debugBehaviour;
+
     // Control Flow Classes
     [HideInInspector] public PatternManager pM;
     [HideInInspector] public DecisionMachine dM;
@@ -112,10 +113,6 @@ public class BehaviourAI : MonoBehaviour
     {
         Debug.DrawRay(gun.transform.position, gun.transform.forward * 5, Color.red);
     }
-    public void ResetAI()
-    {
-        hand.transform.localRotation = handStartRot;
-    }
 
 
 
@@ -204,9 +201,14 @@ public class BehaviourAI : MonoBehaviour
                 updateAi.Invoke();
             }
         }
-        if(DestinationReached(0.1f))
+        if(agent.hasPath && DestinationReached(0.1f))
         {
             updateAi.Invoke();
+        }
+        if(hand.transform.localRotation != handStartRot)
+        {
+            Debug.Log("correcting HandPos");
+            hand.transform.localRotation = Quaternion.Slerp(hand.transform.localRotation, handStartRot, Time.deltaTime);
         }
     }
     void GetReferences()

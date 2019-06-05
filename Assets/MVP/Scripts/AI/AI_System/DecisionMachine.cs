@@ -168,7 +168,7 @@ public class SuspiciousDecider: Decider
     override public Decider DeciderBasedOn(SenseMemoryFactory.SMData _data)
     {
         // if no direct evidence but some indirect evidence of enemies
-        bool condition = (_data.targets.Count == 0 && (_data.inspectionPoints.Count > 0 || (_data.targetLastSeen != Vector3.zero || _data.targetLastSeen != null)));
+        bool condition = (_data.targets.Count == 0 && (_data.inspectionPoints.Count > 0 || (_data.targetLastSeen != Vector3.zero || _data.targetLastSeen != Vector3.zero)));
         if (condition)
         {
             //Debug.Log(this.GetType().Name + ", passed");

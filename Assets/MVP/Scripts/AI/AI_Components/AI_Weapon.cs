@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class AI_Weapon : Weapon
 {
+    public int elementIndex = 0;
+    public Elements.Element[] elementArray = new Elements.Element[] { Elements.Element.Normal, Elements.Element.Fire, Elements.Element.Water, Elements.Element.Grass };
     #region Variables
     // Check in AI_ScoutDrone.cs for visibleTargets.
     [Header("AI Weapon Variables")]
@@ -16,7 +18,7 @@ public class AI_Weapon : Weapon
     public float burstDelay; // Time between each shot fired in a burst.
     public float reloadTime; // Self explanatory.
 
-    public Elements.Element element;
+    //public Elements.Element element;
     #endregion
 
     #region Functions 'n' Methods
@@ -78,7 +80,16 @@ public class AI_Weapon : Weapon
 
                     if (hit.collider.tag == "Player")
                     {
-                        hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position, element);
+                        elementIndex++;
+                        if(elementIndex >= elementArray.Length-1)
+                        {
+                            elementIndex = 0;
+                        }
+                        weaponElement = elementArray[elementIndex];
+
+
+                        Debug.Log("AI Element: "+weaponElement);
+                        hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position, weaponElement);
                         //print("I hit an enemy");
                     }
                 }

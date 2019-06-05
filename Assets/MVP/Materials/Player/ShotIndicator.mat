@@ -56,4 +56,4 @@ Material:
     - _HitPosition: {r: 0, g: 0, b: 0, a: 0}
     - _IntersectColor: {r: 1, g: 0.17609818, b: 0, a: 1}
     - _PanSpeed: {r: 0, g: 0.1, b: 0, a: 0}
-    - _ShieldPatternColor: {r: 0.1981132, g: 0.1981132, b: 0.1981132, a: 1}
+    - _ShieldPatternColor: {r: 0.2, g: 0.2, b: 0.2, a: 0}

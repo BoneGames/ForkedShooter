@@ -6,6 +6,7 @@ public class Pistol : Weapon
 {
     public override void Attack()
     {
+        Debug.Log("fire pistol");
         if (currentMag > 0)
         {
             RaycastHit hit;
@@ -21,13 +22,9 @@ public class Pistol : Weapon
 
             if (Physics.Raycast(ray, out hit))
             {
-                BulletTrail(hit.point, hit.distance);
+                BulletTrail(hit.point, hit.distance, weaponElement);
 
                 BulletAlert(transform.position, hit.point, loudness);
-
-                GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                sphere.transform.position = hit.point;
-                sphere.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 
                 if (GameManager.isOnline)
                 {
@@ -46,7 +43,12 @@ public class Pistol : Weapon
 
                 }
             }
-            BulletTrail(spawnPoint.transform.position + (spawnPoint.transform.forward + AccuracyOffset(accuracy)) * 200, 200);
+            else
+            {
+                // bullet trail shoots into sky
+                 BulletTrail(spawnPoint.transform.position + (spawnPoint.transform.forward + AccuracyOffset(accuracy)) * 200, 200, weaponElement);
+            }
+           
             currentMag--;
 
             UpdateAmmoDisplay();
@@ -62,10 +64,11 @@ public class Pistol : Weapon
         return base.AimAtCrosshair();
     }
 
-    void BulletTrail(Vector3 target, float distance)
+    void BulletTrail(Vector3 target, float distance, Elements.Element bulletType)
     {
         GameObject bulletPath = Instantiate(lineRendPrefab, spawnPoint.position, spawnPoint.rotation);
         bulletPath.transform.SetParent(spawnPoint);
+        bulletPath.GetComponent<LineRenderer>().materials[0].SetColor("_TintColor", GetTrailColorBasedOn(bulletType));
         BulletPath script = bulletPath.GetComponent<BulletPath>();
         script.target = target;
         script.distance = distance;

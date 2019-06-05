@@ -39,8 +39,11 @@ public class PatternManager
     //}
     public void TryExecutePattern(Pattern incomingPattern, SenseMemoryFactory.SMData _data)
     {
-        string debug = _data.inspectionPoints.Count > 0 ? string.Format(BaneTools.ColorString("iPs: " + _data.inspectionPoints.Count + ", tLS: " + _data.targetLastSeen + ", tars: " + _data.targets.Count, Color.yellow)) : "iPs: " + _data.inspectionPoints.Count + ", tLS: " + _data.targetLastSeen + ", tars: " + _data.targets.Count;
-        Debug.Log(debug);
+        if (ai.debugBehaviour)
+        {
+            string debug = _data.inspectionPoints.Count > 0 ? string.Format(BaneTools.ColorString("iPs: " + _data.inspectionPoints.Count + ", tLS: " + _data.targetLastSeen + ", tars: " + _data.targets.Count, Color.yellow)) : "iPs: " + _data.inspectionPoints.Count + ", tLS: " + _data.targetLastSeen + ", tars: " + _data.targets.Count;
+            Debug.Log(debug);
+        }
         //remove currentPattern if it has stopped
         if (currentPattern && !currentPattern.isRunning)
         {
@@ -49,7 +52,8 @@ public class PatternManager
         // if there is no pattern running
         if (!currentPattern)
         {
-            Debug.Log(string.Format(BaneTools.ColorString("NEW Pattern: " + incomingPattern + ", OLD Pattern ended", Color.red)));
+            if(ai.debugBehaviour)
+                Debug.Log(string.Format(BaneTools.ColorString("NEW Pattern: " + incomingPattern + ", OLD Pattern ended", Color.red)));
             incomingPattern.StartPatternWith(ai, _data);
             currentPattern = incomingPattern;
             return;
@@ -57,7 +61,8 @@ public class PatternManager
         // if incoming pattern is different and current pattern is interuptable
         if (incomingPattern != currentPattern && currentPattern.isInteruptable)
         {
-            Debug.Log(string.Format(BaneTools.ColorString("NEW Pattern: " + incomingPattern + ", OLD Pattern: " + currentPattern, Color.green)));
+            if (ai.debugBehaviour)
+                Debug.Log(string.Format(BaneTools.ColorString("NEW Pattern: " + incomingPattern + ", OLD Pattern: " + currentPattern, Color.green)));
             currentPattern.KillPattern(ai);
             incomingPattern.StartPatternWith(ai, _data);
             currentPattern = incomingPattern;
@@ -66,13 +71,15 @@ public class PatternManager
         // if precedence matters for current pattern && incoming has higher or equal precedence, run incoming
         if (currentPattern.notePrecedence && incomingPattern.patternType.precedence >= currentPattern.patternType.precedence)
         {
-            Debug.Log(string.Format(BaneTools.ColorString("NEW Pattern: " + incomingPattern + ", OLD Pattern: " + currentPattern, Color.green)));
+            if (ai.debugBehaviour)
+                Debug.Log(string.Format(BaneTools.ColorString("NEW Pattern: " + incomingPattern + ", OLD Pattern: " + currentPattern, Color.green)));
             currentPattern.KillPattern(ai);
             incomingPattern.StartPatternWith(ai, _data);
             currentPattern = incomingPattern;
             return;
         }
-        Debug.Log("Update Pattern: " + currentPattern);
+        if (ai.debugBehaviour)
+            Debug.Log("Update Pattern: " + currentPattern);
         currentPattern.UpdatePattern(ai, _data);
     }
 }

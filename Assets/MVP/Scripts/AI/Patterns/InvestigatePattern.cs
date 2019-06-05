@@ -11,7 +11,7 @@ public class InvestigatePattern : Pattern
         base.StartPatternWith(ai, data);
 
         // get target
-        investigationPoint = data.targetLastSeen != null ? data.targetLastSeen : data.inspectionPoints[0];
+        investigationPoint = data.targetLastSeen != Vector3.zero ? data.targetLastSeen : data.inspectionPoints[0];
 
         // move to position & start coroutine to rotate to player
         ai.agent.SetDestination(investigationPoint);

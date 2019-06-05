@@ -69,9 +69,7 @@ LineRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Positions:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
+  m_Positions: []
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -143,4 +141,4 @@ MonoBehaviour:
   distance: 0
   resolution: 10
   bulletPathSpeed: 10
-  trailDuration: 2
+  trailDuration: 100

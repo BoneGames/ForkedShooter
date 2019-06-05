@@ -11,6 +11,7 @@ public class Elements
     Water = 2,
     Grass = 3
   }
+    
 
   //Type - Weakness
   //Normal - normal

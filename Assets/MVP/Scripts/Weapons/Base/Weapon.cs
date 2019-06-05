@@ -34,6 +34,10 @@ public abstract class Weapon : MonoBehaviour
     [BoxGroup("Events")]
     public UnityEvent onFire;
 
+    public bool elementColor = true;
+    [BoxGroup("Element Colours")][ShowIf("elementColor")]
+    public Color normal, fire, water, grass;
+
     public Vector3 hitPoint;
     float startingAccuracy;
 
@@ -201,6 +205,30 @@ public abstract class Weapon : MonoBehaviour
                 }
             }
         }
+    }
+
+    public Color GetTrailColorBasedOn(Elements.Element ammoType)
+    {
+        // set shotDirArm color
+        switch (ammoType)
+        {
+            case Elements.Element.Normal:
+                Debug.Log("switch: " + ammoType);
+                return normal;
+            case Elements.Element.Fire:
+                Debug.Log("switch: " + ammoType);
+                return fire;
+            case Elements.Element.Water:
+                Debug.Log("switch: " + ammoType);
+                return water;
+            case Elements.Element.Grass:
+                Debug.Log("switch: " + ammoType);
+                return grass;
+            default:
+                Debug.Log("You Need to add a new Color/Element to Weapon to asign to bullet trail color");
+                return normal;
+        }
+
     }
 
 }

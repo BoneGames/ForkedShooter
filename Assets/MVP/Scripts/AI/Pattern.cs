@@ -4,7 +4,8 @@ public class Pattern : ScriptableObject
 {
     public bool isInteruptable;
     public bool notePrecedence;
-    public void OnEnable()
+    
+    public virtual void OnEnable()
     {
         isRunning = false;
     }
