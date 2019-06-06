@@ -21,7 +21,8 @@ public abstract class Weapon : MonoBehaviour
     [BoxGroup("References")]
     public GameObject projectile, muzzle, lineRendPrefab;
     [BoxGroup("References")]
-    public Transform spawnPoint, aimPoint;
+    public Transform spawnPoint, aimShootPos, hipShootPos;
+    public Vector3 aimOffset;
     [BoxGroup("References")]
     public Text ammoDisplay;
     [BoxGroup("References")]

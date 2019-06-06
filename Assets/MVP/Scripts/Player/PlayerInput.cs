@@ -80,7 +80,7 @@ public class PlayerInput : Photon.PunBehaviour
             {
                 player.Attack();
             }
-                if (Input.GetKeyUp(aimKey)) player.Aim(false);
+            if (Input.GetKeyUp(aimKey)) player.Aim(false); 
             if (Input.GetKeyDown(aimKey)) player.Aim(true);
             if (Input.GetKeyDown(reloadKey)) player.Reload();
 

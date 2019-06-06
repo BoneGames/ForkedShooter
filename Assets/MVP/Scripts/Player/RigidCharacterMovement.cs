@@ -36,6 +36,8 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     private float timeTillRespawn = 5;
     private Vector3 handStartPos;
 
+    public float aimLERPspeed;
+
     #region Unity Events
     void Awake()
     {
@@ -88,6 +90,34 @@ public class RigidCharacterMovement : Photon.PunBehaviour
             PerformMotion();
         }
     }
+
+    public void Aim(bool _isAiming)
+    {
+        Debug.Log("AIM: " + _isAiming);
+        // set script bool value from PLayerInput
+        isAiming = _isAiming;
+        // change weapon accuracy value
+        currentWeapon.OnAim(isAiming);
+        StopAllCoroutines();
+        // move hand to correct position
+        StartCoroutine(HandAimPos());
+    }
+
+    public IEnumerator HandAimPos()
+    {
+        // Set Lerp destination
+        Vector3 end = isAiming ? currentWeapon.aimShootPos.localPosition : currentWeapon.hipShootPos.localPosition;
+        Vector3 start = myHand.transform.localPosition;
+        // Initiate Lerp
+        float timer = 0;
+        while (myHand.transform.localPosition != end)
+        {
+            timer += Time.deltaTime;
+            myHand.transform.localPosition = Vector3.Lerp(start, end, timer * aimLERPspeed);
+            yield return null;
+        }
+    }
+
     #endregion
 
     #region Photon
@@ -269,22 +299,22 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         currentWeapon.Reload();
     }
 
-    public void Aim(bool _isAiming)
-    {
-        isAiming = _isAiming;
-        if (_isAiming)
-        {
-            myHand.localPosition = currentWeapon.aimPoint.localPosition;
-            currentWeapon.OnAim(isAiming);
-        }
-        else
-        {
-            myHand.localPosition = handStartPos;
-            currentWeapon.OnAim(isAiming);
-        }
+    //public void Aim(bool _isAiming)
+    //{
+    //    isAiming = _isAiming;
+    //    if (_isAiming)
+    //    {
+    //        //myHand.localPosition = currentWeapon.aimPoint.localPosition;
+    //        currentWeapon.OnAim(isAiming);
+    //    }
+    //    else
+    //    {
+    //       // myHand.localPosition = handStartPos;
+    //        currentWeapon.OnAim(isAiming);
+    //    }
 
-        myCamera.fieldOfView = _isAiming ? currentWeapon.scopeZoom : 75;
-    }
+    //    myCamera.fieldOfView = _isAiming ? currentWeapon.scopeZoom : 75;
+    //}
     public void SwitchWeapon(int direction)
     {
         currentWeaponIndex += direction;
