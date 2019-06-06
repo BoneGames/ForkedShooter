@@ -4,6 +4,10 @@ using UnityEngine;
 using BT;
 public class Pistol : Weapon
 {
+    private void Awake()
+    {
+        
+    }
     public override void Attack()
     {
         Debug.Log("fire pistol");

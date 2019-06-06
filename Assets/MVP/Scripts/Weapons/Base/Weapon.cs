@@ -49,6 +49,7 @@ public abstract class Weapon : MonoBehaviour
     public GradientAlphaKey[] startingAlphaKeys;
 
     public bool canShoot;
+    public bool isEquipped;
 
     int tempMag;
 

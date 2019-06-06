@@ -196,6 +196,15 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         DisableAllWeapons();
 
         // Note (Manny): Use the incoming 'index' instead of the changed 'currentWeaponIndex' this time.
+        while(!weapons[index].isEquipped)
+        {
+            index++;
+            if(index >= weapons.Length)
+            {
+                Debug.Log(BaneTools.ColorString("You Have Not Equipped Any Of The Weapons! (is Equipped bool)", Color.red));
+                return;
+            }
+        }
         currentWeapon = weapons[index];
         currentWeapon.gameObject.SetActive(true);
 
@@ -318,7 +327,6 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     public void SwitchWeapon(int direction)
     {
         currentWeaponIndex += direction;
-
         if (currentWeaponIndex < 0)
         {
             currentWeaponIndex = weapons.Length - 1;
@@ -326,6 +334,18 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         if (currentWeaponIndex >= weapons.Length)
         {
             currentWeaponIndex = 0;
+        }
+        while (!weapons[currentWeaponIndex].isEquipped)
+        {
+            currentWeaponIndex += direction;
+            if (currentWeaponIndex < 0)
+            {
+                currentWeaponIndex = weapons.Length - 1;
+            }
+            if (currentWeaponIndex >= weapons.Length)
+            {
+                currentWeaponIndex = 0;
+            }
         }
 
         SelectWeapon(currentWeaponIndex);
