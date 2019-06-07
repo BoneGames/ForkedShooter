@@ -14,6 +14,13 @@ public class PlaySound : MonoBehaviour
   public GameObject temporarySource;
   public AudioMixerGroup mixer;
 
+  private SfxPitchShifter shiftPitch; // Jett - This should work?
+
+  private void Awake()
+  {
+    shiftPitch = FindObjectOfType<SfxPitchShifter>().GetComponent<SfxPitchShifter>(); // Jett - Avoid Nulls.
+  }
+
   public void PlaySoundFromArrayAtPoint()
   {
     CheckSources();
@@ -28,6 +35,8 @@ public class PlaySound : MonoBehaviour
 
     AudioClip clip = clips[Random.Range(0, clips.Length - 1)];
     source.PlayOneShot(clip);
+
+    shiftPitch.Tweet(); // Jett - Call it here.
   }
 
   void CheckSources()
