@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class RocketPickup : Pickup
 {
-    public int weaponIndexPosition;
+    public int weaponIndexPosition, weaponID;
     Renderer[] rends;
     Collider[] cols;
+    
 
     public AudioClip pickupFX;
 

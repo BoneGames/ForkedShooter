@@ -36,6 +36,8 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     private float timeTillRespawn = 5;
     private Vector3 handStartPos;
 
+    public List<Weapon> weaponIds = new List<Weapon>();
+
 
     #region Unity Events
     void Awake()

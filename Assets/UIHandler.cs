@@ -13,10 +13,11 @@ public class UIHandler : MonoBehaviour
     [HideInInspector] public ShotDirection shotDirection;
     [HideInInspector] public DeathMessage deathMessage;
     [HideInInspector] public HealthBar healthBar;
+    public Text ammoDisplay;
 
     public GameObject healthBarPrefab;
 
-    public void SpawnEnemyHealthBars(Transform _enemy, Transform _viewPoint)
+    public void SpawnEnemyHealthBar(Transform _enemy, Transform _viewPoint)
     {
         // spawn health bar
         GameObject healthBarContainer = Instantiate(healthBarPrefab);
@@ -44,4 +45,15 @@ public class UIHandler : MonoBehaviour
         deathMessage = GetComponentInChildren<DeathMessage>();
         healthBar = GetComponentInChildren<HealthBar>();
     }
+
+    public void UpdateAmmoDisplay(int currentMag, int magSize, int currentReserves, int maxReserves)
+    {
+        if (ammoDisplay)
+            ammoDisplay.text = string.Format("{0}/{1} // {2}/{3}", currentMag, magSize, currentReserves, maxReserves);
+    }
+
+    //public void RegisterComponent(dynamic component)
+    //{
+    //    //components.Add(component);
+    //}
 }

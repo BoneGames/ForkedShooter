@@ -171,11 +171,12 @@ public class BehaviourAI : MonoBehaviour
             {
                 if (Vector3.Distance(transform.position, shotOrigin) < Vector3.Distance(transform.position, sMF.inspectionPoints[i]))
                 {
-
                     return;
                 }
             }
         }
+        // Re-reun refreshed Ai
+        MakeDecisionBasedOnSenses();
     }
     #endregion
 

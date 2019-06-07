@@ -25,6 +25,7 @@ public abstract class Weapon : MonoBehaviour
     public Vector3 aimOffset;
     [BoxGroup("References")]
     public Text ammoDisplay;
+    public UIHandler UI;
     [BoxGroup("References")]
     public SfxPitchShifter pitchShifter;
     [BoxGroup("References")]
@@ -43,13 +44,14 @@ public abstract class Weapon : MonoBehaviour
     float startingAccuracy;
 
     public LayerMask enemy;
-
+    
     Quaternion hitRotation;
 
     public GradientAlphaKey[] startingAlphaKeys;
 
     public bool canShoot;
     public bool isEquipped;
+    public WeaponStats stats;
 
     int tempMag;
 
@@ -143,8 +145,10 @@ public abstract class Weapon : MonoBehaviour
 
     public virtual void UpdateAmmoDisplay()
     {
-        if (ammoDisplay)
-            ammoDisplay.text = string.Format("{0}/{1} // {2}/{3}", currentMag, magSize, currentReserves, maxReserves);
+        if(UI)
+        UI.UpdateAmmoDisplay(currentMag, magSize, currentReserves, maxReserves);
+        //if (ammoDisplay)
+        //    ammoDisplay.text = string.Format("{0}/{1} // {2}/{3}", currentMag, magSize, currentReserves, maxReserves);
     }
     public IEnumerator ReloadTimed()
     {

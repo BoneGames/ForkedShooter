@@ -10,7 +10,6 @@ public class Event2Floats : UnityEvent<float, float> { }
 public abstract class Health : MonoBehaviour
 {
     public bool ShowHealth;
-
     [ShowIf("ShowHealth"), BoxGroup("Health")]
     public float maxHealth = 100, currentHealth;
 
@@ -24,10 +23,6 @@ public abstract class Health : MonoBehaviour
 
     public UIHandler UI;
 
-
-    //[HideInInspector]
-    public HealthBar healthBar;
-
     public bool ShowEvents;
     [ShowIf("ShowEvents"), BoxGroup("Events")]
     public UnityEvent onDeath, onHeal, onDamage;
@@ -38,14 +33,13 @@ public abstract class Health : MonoBehaviour
         currentHealth = maxHealth;
         currentShield = maxShield;
         SetShield();
-        UI = FindObjectOfType<UIHandler>();
+        UI = GameObject.FindGameObjectWithTag("UI").GetComponent<UIHandler>();
     }
 
     // Takes damage from various bullet/projectile scripts and runs 'CheckDie()'.
     [PunRPC]
     public virtual void ChangeHealth(float value, Vector3 shotDir, Elements.Element ammoType)
     {
-        Debug.Log(1);
         //if (ammoType.ToString() == shieldElement.ToString())
         //{
         //    value += 5;
@@ -88,17 +82,17 @@ public abstract class Health : MonoBehaviour
     public float CheckWeakness(float _val, Elements.Element ammoType)
     {
         print("I am checking shield weakness!");
-        if (ammoType.ToString() == "Fire" && shieldElement.ToString() == "Grass")
+        if (ammoType == Elements.Element.Fire && shieldElement == Elements.Element.Grass)
         {
             _val = _val * 1.25f;
         }
 
-        else if (ammoType.ToString() == "Water" && shieldElement.ToString() == "Fire")
+        else if (ammoType == Elements.Element.Water && shieldElement == Elements.Element.Fire)
         {
             _val = _val * 1.25f;
         }
 
-        else if (ammoType.ToString() == "Grass" && shieldElement.ToString() == "Water")
+        else if (ammoType == Elements.Element.Grass && shieldElement == Elements.Element.Water)
         {
             _val = _val * 1.25f;
         }

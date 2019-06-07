@@ -211,7 +211,6 @@ GameObject:
   - component: {fileID: 23674546893696670}
   - component: {fileID: 114170787183116192}
   - component: {fileID: 114063992362631900}
-  - component: {fileID: 114724907606451946}
   - component: {fileID: 4663158289691852680}
   - component: {fileID: 1031662080}
   - component: {fileID: 1031662088}
@@ -222,7 +221,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4903510248585718
 Transform:
   m_ObjectHideFlags: 0
@@ -451,25 +450,6 @@ MonoBehaviour:
     m_Bits: 2097152
   investigatePoint: {x: 0, y: 0, z: 0}
   totem: {fileID: 0}
---- !u!114 &114724907606451946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1210148752958328}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c600db55c398ae146aee35e4c9a3c7ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthBarContainer: {fileID: 0}
-  healthBarDisplay: {fileID: 0}
-  offset: {x: 0, y: 1.5, z: 0}
-  enemyTarget: {fileID: 0}
-  UITarget: {fileID: 0}
-  viewPoint: {fileID: 0}
-  healthBarStuff: []
 --- !u!114 &4663158289691852680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -893,11 +873,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4903510248585718}
     m_Modifications:
-    - target: {fileID: 5263617853731347756, guid: 07cc0839b880907499deb00f3ad4c2ed,
-        type: 3}
-      propertyPath: m_Name
-      value: GuardShield
-      objectReference: {fileID: 0}
     - target: {fileID: 5263617853731347757, guid: 07cc0839b880907499deb00f3ad4c2ed,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -952,6 +927,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263617853731347756, guid: 07cc0839b880907499deb00f3ad4c2ed,
+        type: 3}
+      propertyPath: m_Name
+      value: GuardShield
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07cc0839b880907499deb00f3ad4c2ed, type: 3}

@@ -10,6 +10,7 @@ TagManager:
   - OOB
   - CheckPoint
   - DoNotShootInside
+  - UI
   layers:
   - Default
   - TransparentFX
