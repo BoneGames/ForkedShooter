@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5263617853731347752}
   - component: {fileID: 5263617853731347759}
   - component: {fileID: 9025610429112587765}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: GuardShield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93aa1c5637d74ef4083ae54a776103e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shieldMat: {fileID: 0}
   shieldColor:
   - {r: 0.3301887, g: 0.17351092, b: 0, a: 1}
   - {r: 0, g: 0.40369955, b: 0.41509432, a: 1}
