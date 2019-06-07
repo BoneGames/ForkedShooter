@@ -32,7 +32,7 @@ Transform:
   m_Children:
   - {fileID: 4313377696951408}
   m_Father: {fileID: 4903510248585718}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &33350227459077404
 MeshFilter:
@@ -166,7 +166,9 @@ MonoBehaviour:
   lineRendPrefab: {fileID: 1832311583618776, guid: 1cb6f47bab6be4ddc9cdc473d8b3c35a,
     type: 3}
   spawnPoint: {fileID: 4686679147568946}
-  aimPoint: {fileID: 0}
+  aimShootPos: {fileID: 0}
+  hipShootPos: {fileID: 0}
+  aimOffset: {x: 0, y: 0, z: 0}
   ammoDisplay: {fileID: 0}
   pitchShifter: {fileID: 0}
   audioWep: {fileID: 0}
@@ -186,6 +188,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   canShoot: 0
+  isEquipped: 0
   elementIndex: 0
   elementArray: 00000000010000000200000003000000
   contact: {fileID: 114063992362631900}
@@ -219,7 +222,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4903510248585718
 Transform:
   m_ObjectHideFlags: 0
@@ -231,6 +234,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 6528656390782193817}
   - {fileID: 4247510713931996}
   - {fileID: 3379341357125896652}
   m_Father: {fileID: 0}
@@ -340,12 +344,13 @@ MonoBehaviour:
   ShowHealth: 0
   maxHealth: 100
   currentHealth: 0
-  ShowShields: 1
+  ShowShields: 0
   shield: {fileID: 1920958268379234580}
   maxShield: 100
   currentShield: 0
   carryOnDmg: 0
   shieldElement: 1
+  UI: {fileID: 0}
   healthBar: {fileID: 0}
   ShowEvents: 1
   onDeath:
@@ -385,23 +390,13 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  updateHealthBar:
+  updateHealthBarEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114724907606451946}
-        m_MethodName: UpdateBar
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: Event2Floats, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ShowStates: 1
   isGod: 0
+  viewPoint: {fileID: 6528656390782193817}
   photonView: {fileID: 0}
 --- !u!114 &114063992362631900
 MonoBehaviour:
@@ -463,18 +458,18 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1210148752958328}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c600db55c398ae146aee35e4c9a3c7ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   healthBarContainer: {fileID: 0}
   healthBarDisplay: {fileID: 0}
-  healthBarPrefab: {fileID: 1744921355771316, guid: 2a7c22fccbffa414c8a105b65e5aa1be,
-    type: 3}
   offset: {x: 0, y: 1.5, z: 0}
-  viewPoint: {fileID: 4686679147568946}
+  enemyTarget: {fileID: 0}
   UITarget: {fileID: 0}
+  viewPoint: {fileID: 0}
+  healthBarStuff: []
 --- !u!114 &4663158289691852680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -861,6 +856,36 @@ Transform:
   m_Father: {fileID: 4173469795848182}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!1 &3973279998646868434
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6528656390782193817}
+  m_Layer: 10
+  m_Name: ViewPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6528656390782193817
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3973279998646868434}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.015, y: 1.177, z: 0.001}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4903510248585718}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &7487785801074939105
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -868,6 +893,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4903510248585718}
     m_Modifications:
+    - target: {fileID: 5263617853731347756, guid: 07cc0839b880907499deb00f3ad4c2ed,
+        type: 3}
+      propertyPath: m_Name
+      value: GuardShield
+      objectReference: {fileID: 0}
     - target: {fileID: 5263617853731347757, guid: 07cc0839b880907499deb00f3ad4c2ed,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -906,7 +936,7 @@ PrefabInstance:
     - target: {fileID: 5263617853731347757, guid: 07cc0839b880907499deb00f3ad4c2ed,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5263617853731347757, guid: 07cc0839b880907499deb00f3ad4c2ed,
         type: 3}
@@ -922,11 +952,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5263617853731347756, guid: 07cc0839b880907499deb00f3ad4c2ed,
-        type: 3}
-      propertyPath: m_Name
-      value: GuardShield
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07cc0839b880907499deb00f3ad4c2ed, type: 3}

@@ -9,11 +9,6 @@ public class PlayerHealth : Health
     PhotonView photonView;
     string photonID;
 
-    public bool ShowShotIndicator;
-    [ShowIf("ShowShotIndicator")] [BoxGroup("Shot Indicator")]
-    public Color normal, fire, water, grass;
-
-
     public override void Start()
     {
         base.Start();
@@ -70,8 +65,6 @@ public class PlayerHealth : Health
                 if (_value > 0)
                 {
                     UI.shotDirection.ShotIndicator(_shotDir, ammoType);
-                    //StopCoroutine(ShotDirectionActive(_shotDir, ammoType));
-                    //StartCoroutine(ShotDirectionActive(_shotDir, ammoType));
                 }
 
                 CheckDie();
@@ -83,8 +76,7 @@ public class PlayerHealth : Health
     // Self explanatory.
     public override void CheckDie()
     {
-        //healthBar.UpdateBar(currentHealth, maxHealth);
-        updateHealthBar.Invoke(currentHealth, maxHealth);
+        updateHealthBarEvent.Invoke(currentHealth, maxHealth);
 
         if (currentHealth <= 0)
         {

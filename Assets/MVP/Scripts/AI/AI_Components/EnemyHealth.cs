@@ -11,6 +11,7 @@ public class EnemyHealth : Health
   [ShowIf("ShowStates")]
   [BoxGroup("Enemy States")]
   public bool isGod = false;
+  public Transform viewPoint;
 
   [HideInInspector] public PhotonView photonView;
 
@@ -22,6 +23,8 @@ public class EnemyHealth : Health
   public override void Start()
   {
     base.Start();
+        UI.SpawnEnemyHealthBars(transform, viewPoint);
+
   }
 
   // Takes damage from various bullet/projectile scripts and runs 'CheckDie()'.
@@ -78,7 +81,7 @@ public class EnemyHealth : Health
   public override void CheckDie()
   {
     //healthBar.UpdateBar(currentHealth, maxHealth);
-    updateHealthBar.Invoke(currentHealth, maxHealth);
+    updateHealthBarEvent.Invoke(currentHealth, maxHealth);
 
     if (currentHealth <= 0)
     {

@@ -31,14 +31,14 @@ public abstract class Health : MonoBehaviour
     public bool ShowEvents;
     [ShowIf("ShowEvents"), BoxGroup("Events")]
     public UnityEvent onDeath, onHeal, onDamage;
-    public Event2Floats updateHealthBar;
+    public Event2Floats updateHealthBarEvent;
 
     public virtual void Start()
     {
         currentHealth = maxHealth;
         currentShield = maxShield;
-
         SetShield();
+        UI = FindObjectOfType<UIHandler>();
     }
 
     // Takes damage from various bullet/projectile scripts and runs 'CheckDie()'.
@@ -65,12 +65,12 @@ public abstract class Health : MonoBehaviour
             if (value < 0)
             {
                 onHeal.Invoke();
-                updateHealthBar.Invoke(currentHealth, maxHealth);
+                updateHealthBarEvent.Invoke(currentHealth, maxHealth);
             }
             if (value > 0)
             {
                 onDamage.Invoke();
-                updateHealthBar.Invoke(currentHealth, maxHealth);
+                updateHealthBarEvent.Invoke(currentHealth, maxHealth);
             }
         }
         CheckDie();

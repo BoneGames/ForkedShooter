@@ -11,7 +11,7 @@ using NaughtyAttributes;
 public class RigidCharacterMovement : Photon.PunBehaviour
 {
     public bool showPlayerStats;
-    [ShowIf("showPlayerStats")] [BoxGroup("Player Stats")] public float playerSpeed = 5f, jumpHeight = 10f, crouchMultiplier = .8f, sprintMultiplier = 1.5f;
+    [ShowIf("showPlayerStats")] [BoxGroup("Player Stats")] public float playerSpeed = 5f, jumpHeight = 10f, crouchMultiplier = .8f, sprintMultiplier = 1.5f, aimLerpSpeed;
 
     public bool showPlayerStates;
     [ShowIf("showPlayerStates")] [BoxGroup("Player States")] public bool isCrouching = false, isSprinting = false, isJumping = false, isDead = false, isAiming = false;
@@ -36,7 +36,6 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     private float timeTillRespawn = 5;
     private Vector3 handStartPos;
 
-    public float aimLERPspeed;
 
     #region Unity Events
     void Awake()
@@ -113,7 +112,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         while (myHand.transform.localPosition != end)
         {
             timer += Time.deltaTime;
-            myHand.transform.localPosition = Vector3.Lerp(start, end, timer * aimLERPspeed);
+            myHand.transform.localPosition = Vector3.Lerp(start, end, timer * aimLerpSpeed);
             yield return null;
         }
     }
@@ -275,7 +274,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         myHealth.currentHealth = myHealth.maxHealth;
 
         //myHealth.healthBar.UpdateBar();
-        myHealth.updateHealthBar.Invoke(myHealth.currentHealth, myHealth.maxHealth);
+        myHealth.updateHealthBarEvent.Invoke(myHealth.currentHealth, myHealth.maxHealth);
     }
     public void FreeAmmo()
     {

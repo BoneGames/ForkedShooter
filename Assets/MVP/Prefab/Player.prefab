@@ -590,9 +590,7 @@ LineRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Positions:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
+  m_Positions: []
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -738,8 +736,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.3078399, y: 1.3078384, z: 1.3078399}
   m_Children:
-  - {fileID: 2922052762176080968}
   - {fileID: 4571742149388566}
+  - {fileID: 2922052762176080968}
   m_Father: {fileID: 4627326395718598}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -964,7 +962,7 @@ Transform:
   - {fileID: 4368222078556416}
   - {fileID: 4855080747290544}
   m_Father: {fileID: 4425650814601440}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: -90}
 --- !u!212 &212525946822793976
 SpriteRenderer:
@@ -1487,9 +1485,9 @@ MonoBehaviour:
   currentReserves: 0
   magSize: 6
   currentMag: 0
-  accuracy: 0.15
-  loudness: 0
-  bulletDetectionRadius: 0
+  accuracy: 1.5
+  loudness: 9
+  bulletDetectionRadius: 7.5
   scopeZoom: 70
   reloadSpeed: 1
   rateOfFire: 0
@@ -1499,8 +1497,8 @@ MonoBehaviour:
   lineRendPrefab: {fileID: 1832311583618776, guid: 1cb6f47bab6be4ddc9cdc473d8b3c35a,
     type: 3}
   spawnPoint: {fileID: 4581693211349760}
-  aimShootPos: {fileID: 0}
-  hipShootPos: {fileID: 0}
+  aimShootPos: {fileID: 477305350}
+  hipShootPos: {fileID: 2922052762176080968}
   aimOffset: {x: 0, y: 0, z: 0}
   ammoDisplay: {fileID: 0}
   pitchShifter: {fileID: 278863396}
@@ -1535,15 +1533,16 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   elementColor: 1
-  normal: {r: 0, g: 0, b: 0, a: 0}
-  fire: {r: 0, g: 0, b: 0, a: 0}
-  water: {r: 0, g: 0, b: 0, a: 0}
-  grass: {r: 0, g: 0, b: 0, a: 0}
+  normal: {r: 0.4, g: 0.4, b: 0.4, a: 0.8509804}
+  fire: {r: 0.8, g: 0, b: 0, a: 0.7490196}
+  water: {r: 0, g: 0.7, b: 0.7, a: 0.7490196}
+  grass: {r: 0.2, g: 0.7, b: 0.2, a: 0.69803923}
   hitPoint: {x: 0, y: 0, z: 0}
   enemy:
     serializedVersion: 2
     m_Bits: 0
   canShoot: 0
+  isEquipped: 0
   pellets: 6
 --- !u!114 &1252104210
 MonoBehaviour:
@@ -1627,9 +1626,9 @@ MonoBehaviour:
   currentReserves: 0
   magSize: 7
   currentMag: 0
-  accuracy: 1
-  loudness: 0
-  bulletDetectionRadius: 20
+  accuracy: 6.5
+  loudness: 6.5
+  bulletDetectionRadius: 5
   scopeZoom: 60
   reloadSpeed: 0.5
   rateOfFire: 0
@@ -1639,8 +1638,8 @@ MonoBehaviour:
   lineRendPrefab: {fileID: 1832311583618776, guid: 1cb6f47bab6be4ddc9cdc473d8b3c35a,
     type: 3}
   spawnPoint: {fileID: 4478692280217478}
-  aimShootPos: {fileID: 0}
-  hipShootPos: {fileID: 0}
+  aimShootPos: {fileID: 1487045326}
+  hipShootPos: {fileID: 2922052762176080968}
   aimOffset: {x: 0, y: 0, z: 0}
   ammoDisplay: {fileID: 0}
   pitchShifter: {fileID: 278863396}
@@ -1674,16 +1673,17 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  elementColor: 1
-  normal: {r: 0, g: 0, b: 0, a: 0}
-  fire: {r: 0, g: 0, b: 0, a: 0}
-  water: {r: 0, g: 0, b: 0, a: 0}
-  grass: {r: 0, g: 0, b: 0, a: 0}
+  elementColor: 0
+  normal: {r: 0.4, g: 0.4, b: 0.4, a: 0.8509804}
+  fire: {r: 0.8, g: 0, b: 0, a: 0.7490196}
+  water: {r: 0, g: 0.69803923, b: 0.69803923, a: 0.7490196}
+  grass: {r: 0.2, g: 0.69803923, b: 0.2, a: 0.69803923}
   hitPoint: {x: 0, y: 0, z: 0}
   enemy:
     serializedVersion: 2
     m_Bits: 1024
   canShoot: 0
+  isEquipped: 1
 --- !u!114 &363152908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1730,7 +1730,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4376163003330780
 Transform:
   m_ObjectHideFlags: 0
@@ -1793,14 +1793,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e337bbe8ce7f434590fcd6a69daa0ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 100
+  damage: 95
   maxReserves: 5
   currentReserves: 0
   magSize: 1
   currentMag: 0
-  accuracy: 1
-  loudness: 0
-  bulletDetectionRadius: 0
+  accuracy: 5
+  loudness: 10
+  bulletDetectionRadius: 10
   scopeZoom: 75
   reloadSpeed: 2
   rateOfFire: 0
@@ -1810,8 +1810,8 @@ MonoBehaviour:
   lineRendPrefab: {fileID: 1832311583618776, guid: 1cb6f47bab6be4ddc9cdc473d8b3c35a,
     type: 3}
   spawnPoint: {fileID: 4522203120360904}
-  aimShootPos: {fileID: 0}
-  hipShootPos: {fileID: 0}
+  aimShootPos: {fileID: 1487045326}
+  hipShootPos: {fileID: 2922052762176080968}
   aimOffset: {x: 0, y: 0, z: 0}
   ammoDisplay: {fileID: 0}
   pitchShifter: {fileID: 278863396}
@@ -1844,6 +1844,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   canShoot: 0
+  isEquipped: 0
   rocketSpawn: {fileID: 4522203120360904}
 --- !u!114 &1958342126
 MonoBehaviour:
@@ -1994,6 +1995,7 @@ MonoBehaviour:
   jumpHeight: 5
   crouchMultiplier: 0.5
   sprintMultiplier: 2
+  aimLerpSpeed: 5
   showPlayerStates: 0
   isCrouching: 0
   isSprinting: 0
@@ -2001,7 +2003,7 @@ MonoBehaviour:
   isDead: 0
   isAiming: 0
   lastCheckpoint: {fileID: 0}
-  showImportantStuff: 0
+  showImportantStuff: 1
   rigid: {fileID: 54207557068954026}
   rayDistance: 1.5
   myCamera: {fileID: 20071795935591440}
@@ -2014,7 +2016,6 @@ MonoBehaviour:
   currentWeapon: {fileID: 0}
   rotateToMainCamera: 1
   currentWeaponIndex: 0
-  aimLERPspeed: 0
 --- !u!114 &114082195335734174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2051,15 +2052,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34e2c89e7ca4ac4ebd55ded33532505, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowHealth: 1
+  ShowHealth: 0
   maxHealth: 100
   currentHealth: 0
-  ShowShields: 1
+  ShowShields: 0
   shield: {fileID: 719040139070258623}
   maxShield: 10
   currentShield: 0
   carryOnDmg: 0
   shieldElement: 0
+  UI: {fileID: 0}
   healthBar: {fileID: 0}
   ShowEvents: 1
   onDeath:
@@ -2099,17 +2101,21 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  updateHealthBar:
+  updateHealthBarEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: UpdateBar
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: Event2Floats, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  ShowShotIndicator: 0
-  shotDirectionArm: {fileID: 0}
-  shotIndicatorDelay: 1
-  normal: {r: 0, g: 0, b: 0, a: 0}
-  fire: {r: 0, g: 0, b: 0, a: 0}
-  water: {r: 0, g: 0, b: 0, a: 0}
-  grass: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &425301876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2117,14 +2123,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1710371407272564}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f05d5f436da57e41b1d5cf0b9c177ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   healthBarContainer: {fileID: 0}
   healthBarDisplay: {fileID: 0}
-  healthBarBG: {fileID: 0}
+  playerHealthBar: {fileID: 0}
 --- !u!1 &1780982707304572
 GameObject:
   m_ObjectHideFlags: 0
@@ -2310,7 +2316,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1944917554851588}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2478,7 +2484,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4425650814601440}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: -90}
 --- !u!1001 &1833611844
 PrefabInstance:

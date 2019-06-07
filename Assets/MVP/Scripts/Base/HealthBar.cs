@@ -23,7 +23,7 @@ public class HealthBar : MonoBehaviour
     {
         if (healthBarDisplay)
         {
-            healthBarDisplay.fillAmount = _currentHealth / _maxHealth;
+            healthBarDisplay.fillAmount = _currentHealth/_maxHealth;
         }
     }
 }

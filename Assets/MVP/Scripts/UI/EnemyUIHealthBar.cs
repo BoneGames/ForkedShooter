@@ -6,59 +6,68 @@ using UnityEngine.UI;
 using BT;
 public class EnemyUIHealthBar : HealthBar
 {
-  public GameObject healthBarPrefab;
-  public Vector3 offset;
+    // public GameObject healthBarPrefab;
+    public Vector3 offset;
+    public Transform enemyTarget, UITarget, viewPoint;
+    Image healthBarBG;
+    public List<Image> healthBarStuff = new List<Image>();
 
-  Transform target;
-
-  public Transform viewPoint;
-  public Transform UITarget;
-
-  // Use this for initialization
-  void Start()
-  {
-    healthBarContainer = Instantiate(healthBarPrefab);
-    healthBarContainer.transform.SetParent(GameObject.Find("Canvas").transform, false);
-
-    healthBarDisplay = healthBarContainer.transform.GetChild(0).GetComponent<Image>();
-    //health = target.GetComponent<Health>();
-    //health.healthBar = this;
-
-    UITarget = Camera.main.transform.parent;
-  }
-
-  private void Awake()
-  {
-    target = gameObject.transform;
-  }
-
-  // Update is called once per frame
-  void Update()
-  {
-    healthBarContainer.transform.position = Camera.main.WorldToScreenPoint(target.position + offset);
-    if (target == null)
+    void Start()
     {
-      print("My target died!");
+        healthBarBG = transform.parent.GetComponent<Image>();
+        healthBarContainer = transform.parent.gameObject;
+        healthBarDisplay = GetComponent<Image>();
+
+        healthBarStuff.Add(healthBarBG);
+        healthBarStuff.Add(healthBarDisplay);
+
+        UITarget = Camera.main.transform.parent;
     }
 
-    if (viewPoint)
+    //private void Awake()
+    //{
+    //    enemyTarget = gameObject.transform;
+    //}
+    void HealthBarSwitch(bool _switch)
     {
-      if (GetComponent<Renderer>().IsVisibleFrom(Camera.main) && BaneRays.ViewNotObstructed(viewPoint, UITarget, false))
-      {
-        healthBarContainer.SetActive(true);
-      }
-      else if (!GetComponent<Renderer>().IsVisibleFrom(Camera.main) || !BaneRays.ViewNotObstructed(viewPoint, UITarget, false))
-      {
-        healthBarContainer.SetActive(false);
-      }
+        for (int i = 0; i < healthBarStuff.Count; i++)
+        {
+            healthBarStuff[i].enabled = _switch;
+        }
+    }
+    void Update()
+    {
+        Debug.Log(1);
+        healthBarContainer.transform.position = Camera.main.WorldToScreenPoint(enemyTarget.position + offset);
+        if (enemyTarget == null)
+        {
+            print("My target died! I will destroy myself now");
+            Destroy(gameObject);
+        }
+
+        if (enemyTarget)
+        {
+            if (enemyTarget.GetComponent<Renderer>().IsVisibleFrom(Camera.main))
+                {
+                Debug.Log("isVisibleFrom");
+                if (BaneRays.ViewNotObstructed(viewPoint, UITarget, false))
+                    {
+                    Debug.Log("Bane");
+                        healthBarContainer.SetActive(true);
+                    HealthBarSwitch(true);
+                    }
+                }
+            else if (!enemyTarget.GetComponent<Renderer>().IsVisibleFrom(Camera.main) || !BaneRays.ViewNotObstructed(viewPoint, UITarget, true))
+            {
+                //healthBarContainer.SetActive(false);
+                HealthBarSwitch(false);
+            }
+        }
+        //healthBarContainer.SetActive(GetComponent<Renderer>().IsVisibleFrom(Camera.main) ? true : false);
     }
 
-    //healthBarContainer.SetActive(GetComponent<Renderer>().IsVisibleFrom(Camera.main) ? true : false);
-
-  }
-
-  void OnDestroy()
-  {
-    Destroy(healthBarContainer);
-  }
+    //void OnDestroy()
+    //{
+    //  Destroy(healthBarContainer);
+    //}
 }
