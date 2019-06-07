@@ -283,16 +283,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         currentWeapon.UpdateAmmoDisplay();
     }
 
-    void OnGUI()
-    {
-        if (isDead)
-        {
-            GUIStyle style = new GUIStyle();
-            style.alignment = TextAnchor.MiddleCenter;
-            style.fontSize = 35;
-            GUI.Box(new Rect(0, 0, Screen.width, Screen.height), "You died and will respawn in \n" + timeTillRespawn + " seconds", style);
-        }
-    }
+
     // Combat
     public void Attack()
     {

@@ -207,7 +207,7 @@ public class BehaviourAI : MonoBehaviour
         }
         if(hand.transform.localRotation != handStartRot)
         {
-            Debug.Log("correcting HandPos");
+            //Debug.Log("correcting HandPos");
             hand.transform.localRotation = Quaternion.Slerp(hand.transform.localRotation, handStartRot, Time.deltaTime);
         }
     }

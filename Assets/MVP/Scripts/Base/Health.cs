@@ -22,6 +22,8 @@ public abstract class Health : MonoBehaviour
     [ShowIf("ShowShields"), BoxGroup("Shields")]
     public Elements.Element shieldElement;
 
+    public UIHandler UI;
+
 
     //[HideInInspector]
     public HealthBar healthBar;
@@ -73,26 +75,7 @@ public abstract class Health : MonoBehaviour
         }
         CheckDie();
     }
-    //public virtual void ChangeHealth(float value, Vector3 shotDir)
-    //{
-    //    Debug.Log(2);
-    //    if (value != 0)
-    //    {
-    //        currentHealth -= value;
-
-    //        if (value < 0)
-    //        {
-    //            onHeal.Invoke();
-    //        }
-    //        if (value > 0)
-    //        {
-    //            onDamage.Invoke();
-    //        }
-    //    }
-    //    CheckDie();
-    //}
-
-    //Self explanatory.
+   
 
     public virtual void CheckDie()
     {

@@ -15,10 +15,6 @@ public class PlayerUIHealthBar : HealthBar
         //health.healthBar = this;
     }
 
-    //public override void UpdateBar()
-    //{
-    //    healthBarDisplay.fillAmount = health.currentHealth / (float)health.maxHealth;
-    //}
     public override void UpdateBar(float _currentHealth, float _maxHealth)
     {
         healthBarDisplay.fillAmount = _currentHealth / _maxHealth;
