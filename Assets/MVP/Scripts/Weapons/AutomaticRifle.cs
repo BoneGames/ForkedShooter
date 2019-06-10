@@ -84,4 +84,6 @@ public class AutomaticRifle : Weapon
     {
         StartCoroutine(ReloadTimed());
     }
+
+   
 }

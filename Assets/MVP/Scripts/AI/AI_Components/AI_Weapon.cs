@@ -121,5 +121,7 @@ public class AI_Weapon : Weapon
         GameObject _flash = Instantiate(hitParticle, hit, Quaternion.identity);
         Destroy(_flash, 3);
     }
+
+    
     #endregion
 }

@@ -37,6 +37,9 @@ public class EnemyHealth : Health
     [PunRPC]
     public override void ChangeHealth(float _value, Vector3 shotOrigin, Elements.Element ammoType)
     {
+        // tell AI it's been shot
+        ai.BulletAlert(shotOrigin);
+
         if (!isGod)
         {
             if (currentShield > 0)
@@ -78,8 +81,6 @@ public class EnemyHealth : Health
                 }
             }
         }
-        // tell AI it's been shot
-        ai.BulletAlert(shotOrigin);
     }
 
 

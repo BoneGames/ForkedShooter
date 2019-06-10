@@ -1,13 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using System;
+using System.Reflection;
 using BT;
 public class Pistol : Weapon
 {
     private void Awake()
     {
-        
+
     }
+   
+
     public override void Attack()
     {
         Debug.Log("fire pistol");
@@ -50,9 +55,9 @@ public class Pistol : Weapon
             else
             {
                 // bullet trail shoots into sky
-                 BulletTrail(spawnPoint.transform.position + (spawnPoint.transform.forward + AccuracyOffset(accuracy)) * 200, 200, weaponElement);
+                BulletTrail(spawnPoint.transform.position + (spawnPoint.transform.forward + AccuracyOffset(accuracy)) * 200, 200, weaponElement);
             }
-           
+
             currentMag--;
 
             UpdateAmmoDisplay();

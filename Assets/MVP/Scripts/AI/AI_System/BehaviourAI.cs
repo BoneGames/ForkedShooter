@@ -23,15 +23,16 @@ public class BehaviourAI : MonoBehaviour
     public List<Decider> deciders;
 
     public bool ShowSpecs;
-    [ShowIf("ShowSpecs")] [BoxGroup("Enemy Specs")] public float aiUpdateRate = 1;
-    [ShowIf("ShowSpecs")] [BoxGroup("Enemy Specs")] float shootTimer;
+    [ShowIf("ShowSpecs"), BoxGroup("Enemy Specs")] public float aiUpdateRate = 1;
+    [ShowIf("ShowSpecs"), BoxGroup("Enemy Specs")] float shootTimer;
     [SerializeField][ShowIf("ShowSpecs")] [BoxGroup("Enemy Specs")] float shootDelay;
-    [ShowIf("ShowSpecs")] [BoxGroup("Enemy Specs")]
-    [AI_ScoutDrone_(new string[] { "Naive", "Suspicious", "Combat" })]
+    [ShowIf("ShowSpecs"), BoxGroup("Enemy Specs"), AI_ScoutDrone_(new string[] { "Naive", "Suspicious", "Combat" })]
     public float[] moveSpeed = new float[3]; // Movement speeds for different states (up to you).
-    [ShowIf("ShowSpecs")] [BoxGroup("Enemy Specs")] public int maxBurstFire;
+    [ShowIf("ShowSpecs"), BoxGroup("Enemy Specs"), AI_ScoutDrone_(new string[] { "Naive", "Suspicious", "Combat" })]
+    public float[] turnSpeed = new float[3]; // Movement speeds for different states (up to you).
+    [ShowIf("ShowSpecs"), BoxGroup("Enemy Specs")] public int maxBurstFire;
     Quaternion handStartRot;
-    [ShowIf("ShowSpecs")] [BoxGroup("Enemy Specs")] public bool lookAtTarget;
+    [ShowIf("ShowSpecs"), BoxGroup("Enemy Specs")] public bool lookAtTarget;
 
 
     //[AI_ScoutDrone_(new string[] { "0-Waypoint", "1-Seek Target", "2-Range Target", "3-Retreat" })]
@@ -149,6 +150,12 @@ public class BehaviourAI : MonoBehaviour
         {
             // IMPLEMENT STAND MECHANIC
         }
+    }
+
+    public void SetSpeed(int _moveSpeedIndex)
+    {
+        agent.speed = moveSpeed[_moveSpeedIndex];
+        agent.angularSpeed = turnSpeed[_moveSpeedIndex];
     }
 
 

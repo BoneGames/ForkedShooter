@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 6465479855710561320}
   - component: {fileID: 6465479855710561330}
   - component: {fileID: 6465479855710561331}
-  - component: {fileID: 6571075444631537316}
   m_Layer: 28
   m_Name: Shotgun_Pickup
   m_TagString: Untagged
@@ -127,7 +126,7 @@ MonoBehaviour:
   beam: {fileID: 0}
   beamColour:
     serializedVersion: 2
-    rgba: 15532287
+    rgba: 2163015935
   aS: {fileID: 0}
   onPickup:
     m_PersistentCalls:
@@ -147,6 +146,7 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   weaponIndexPosition: 2
   pickupFX: {fileID: 8300000, guid: 05c2e1527bfd90749873afb923a53dd6, type: 3}
+  stats: {fileID: 0}
 --- !u!54 &6465479855710561330
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -259,30 +259,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &6571075444631537316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6465479855710561323}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dafd8d67f80eca540a15450601e3a2a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 0
-  maxReserves: 0
-  currentReserves: 0
-  magSize: 0
-  currentMag: 0
-  accuracy: 0
-  loudness: 0
-  bulletDetectionRadius: 0
-  scopeZoom: 0
-  reloadSpeed: 0
-  rateOfFire: 0
-  weaponElement: 0
 --- !u!1001 &6465479855349871645
 PrefabInstance:
   m_ObjectHideFlags: 0

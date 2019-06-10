@@ -116,4 +116,5 @@ public class RocketLauncher : Weapon
             Destroy(_flash, 3);
         }
     }
+
 }

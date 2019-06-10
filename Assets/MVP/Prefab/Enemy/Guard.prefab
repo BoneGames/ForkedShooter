@@ -170,6 +170,7 @@ MonoBehaviour:
   hipShootPos: {fileID: 0}
   aimOffset: {x: 0, y: 0, z: 0}
   ammoDisplay: {fileID: 0}
+  UI: {fileID: 0}
   pitchShifter: {fileID: 0}
   audioWep: {fileID: 0}
   sfx: []
@@ -189,6 +190,7 @@ MonoBehaviour:
     m_Bits: 0
   canShoot: 0
   isEquipped: 0
+  stats: {fileID: 0}
   elementIndex: 0
   elementArray: 00000000010000000200000003000000
   contact: {fileID: 114063992362631900}
@@ -350,7 +352,6 @@ MonoBehaviour:
   carryOnDmg: 0
   shieldElement: 1
   UI: {fileID: 0}
-  healthBar: {fileID: 0}
   ShowEvents: 1
   onDeath:
     m_PersistentCalls:
@@ -427,13 +428,17 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   debugBehaviour: 0
-  ShowSpecs: 0
+  ShowSpecs: 1
   aiUpdateRate: 1
   shootDelay: 2
   moveSpeed:
-  - 1
-  - 2
   - 3
+  - 5
+  - 8
+  turnSpeed:
+  - 120
+  - 240
+  - 360
   maxBurstFire: 3
   lookAtTarget: 0
   ShowComponents: 0
@@ -873,6 +878,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4903510248585718}
     m_Modifications:
+    - target: {fileID: 5263617853731347756, guid: 07cc0839b880907499deb00f3ad4c2ed,
+        type: 3}
+      propertyPath: m_Name
+      value: GuardShield
+      objectReference: {fileID: 0}
     - target: {fileID: 5263617853731347757, guid: 07cc0839b880907499deb00f3ad4c2ed,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -927,11 +937,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5263617853731347756, guid: 07cc0839b880907499deb00f3ad4c2ed,
-        type: 3}
-      propertyPath: m_Name
-      value: GuardShield
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07cc0839b880907499deb00f3ad4c2ed, type: 3}

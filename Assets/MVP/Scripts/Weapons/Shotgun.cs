@@ -95,4 +95,6 @@ public class Shotgun : Weapon
             yield return new WaitForSeconds(reloadSpeed);
         }
     }
+
+   
 }

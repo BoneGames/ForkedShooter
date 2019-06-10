@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using NaughtyAttributes;
 using UnityEngine;
 
 public class WeaponPickup : Pickup
@@ -7,14 +6,25 @@ public class WeaponPickup : Pickup
     public int weaponIndexPosition;
     Renderer rend;
     Collider col;
+    [Slider(0.1f,0.9f)]
+    public float statVariance;
 
     public AudioClip pickupFX;
+
+    public UniqueWeaponStats stats;
     
     public override void Awake()
     {
         base.Awake();
         rend = GetComponent<Renderer>();
         col = GetComponent<Collider>();
+
+        if (stats == null)
+        {
+            Debug.Log("setting ststa");
+            stats = new UniqueWeaponStats(statVariance);
+        }
+
     }
 
     private void Update()
@@ -31,6 +41,8 @@ public class WeaponPickup : Pickup
             {
                 // equip weapon
                 player.weapons[weaponIndexPosition].isEquipped = true;
+                // apply unique stats to weapon on pickup
+                player.weapons[weaponIndexPosition].SetUniqueWeaponStats(stats);
                 // Make object invisible and not interactable
                 this.rend.enabled = false;
                 this.col.enabled = false;

@@ -51,6 +51,7 @@ public class DecisionMachine
 
         Decider relevantDecider = null;
         Pattern pattern = null;
+        // run each decider through it's bool test for relevence based on senses
         foreach (Decider d in deciders)
         {
             if(d.DeciderBasedOn(senseData) != null)
@@ -62,8 +63,7 @@ public class DecisionMachine
 
         if (relevantDecider != null)
         {
-            // currently SelectPattern() just chooses the first pattern in the list
-            //Pattern pattern = pM.SelectPattern(relevantDecider);
+            // tell decider to run specific conditions to choose one of it's patterns
             pattern = relevantDecider.ChoosePattern(senseData);
         }
         else
@@ -113,7 +113,7 @@ public abstract class Decider
         // tell each pattern what Mode it is (Naive, Suspicious, Combat)
         foreach (var p in this.patterns)
         {
-            //p.patternType = this;
+            p.patternType = this;
         }
     }
     public bool isEnabled = true;

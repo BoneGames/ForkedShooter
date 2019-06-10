@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 6465479855710561320}
   - component: {fileID: 6465479855710561330}
   - component: {fileID: 6465479855710561331}
-  - component: {fileID: 2249305432920699108}
   m_Layer: 28
   m_Name: Pistol_Pickup
   m_TagString: Untagged
@@ -124,10 +123,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowVisuals: 1
   rotateSpeed: 45
-  beam: {fileID: 0}
+  beam: {fileID: 6467009009882006075}
   beamColour:
     serializedVersion: 2
-    rgba: 15532287
+    rgba: 2163015935
   aS: {fileID: 0}
   onPickup:
     m_PersistentCalls:
@@ -146,7 +145,9 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   weaponIndexPosition: 0
+  statVariance: 0.5
   pickupFX: {fileID: 8300000, guid: 4c76258b5f1aade40b40f9add0bd38a7, type: 3}
+  stats: {fileID: 0}
 --- !u!54 &6465479855710561330
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -259,30 +260,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &2249305432920699108
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6465479855710561323}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dafd8d67f80eca540a15450601e3a2a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 0
-  maxReserves: 0
-  currentReserves: 0
-  magSize: 0
-  currentMag: 0
-  accuracy: 0
-  loudness: 0
-  bulletDetectionRadius: 0
-  scopeZoom: 0
-  reloadSpeed: 0
-  rateOfFire: 0
-  weaponElement: 0
 --- !u!1001 &6465479855349871645
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -343,6 +320,12 @@ PrefabInstance:
 --- !u!4 &6464380665084039533 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4477603594265968, guid: ecbcf5f5cba24e84e9b492aa2bfc021b,
+    type: 3}
+  m_PrefabInstance: {fileID: 6465479855349871645}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6467009009882006075 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1849112434980390, guid: ecbcf5f5cba24e84e9b492aa2bfc021b,
     type: 3}
   m_PrefabInstance: {fileID: 6465479855349871645}
   m_PrefabAsset: {fileID: 0}

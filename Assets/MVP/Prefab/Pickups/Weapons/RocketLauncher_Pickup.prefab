@@ -193,7 +193,7 @@ MonoBehaviour:
   beam: {fileID: 6467009009882006075}
   beamColour:
     serializedVersion: 2
-    rgba: 12648703
+    rgba: 2160132351
   aS: {fileID: 0}
   onPickup:
     m_PersistentCalls:
@@ -226,6 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafd8d67f80eca540a15450601e3a2a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialized: 0
   damage: 0
   maxReserves: 0
   currentReserves: 0

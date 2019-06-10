@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
-
+using System.Linq;
 using BT;
 using NaughtyAttributes;
 
@@ -51,7 +51,7 @@ public abstract class Weapon : MonoBehaviour
 
     public bool canShoot;
     public bool isEquipped;
-    public WeaponStats stats;
+    public UniqueWeaponStats stats;
 
     int tempMag;
 
@@ -61,7 +61,52 @@ public abstract class Weapon : MonoBehaviour
         currentMag = magSize;
         DefaultReload();
         startingAccuracy = accuracy;
+        if(stats != null)
+        {
+            SetUniqueWeaponStats(stats);
+        }
     }
+
+    public void SetUniqueWeaponStats(UniqueWeaponStats uniqueStats)
+    {
+        // Get Array of all variable names in class
+        var weaponVariableNames = this.GetType()
+                     .GetFields()
+                     .Select(field => field.Name);
+
+        // Get Array of all stat multipliers in uniqueStats (paramater)
+        var uniqueVariableNames = uniqueStats.GetType()
+                     .GetFields()
+                     .Select(field => field.Name);
+
+        // Match variav\ble pairs with same name
+        foreach (var multi in uniqueVariableNames)
+        {
+            if (weaponVariableNames.Contains(multi))
+            {
+                var statField = this.GetType().GetField(multi);
+                var statMultiplier = uniqueStats.GetType().GetField(multi);
+
+                //Debug.Log("StatField: " + statField.GetValue(this) + ", statMulti: " + statMultiplier.GetValue(uniqueStats));
+
+                if (statField.GetValue(this) is int)
+                {
+                    int newValue = (int)((int)statField.GetValue(this) * (float)statMultiplier.GetValue(uniqueStats));
+                    statField.SetValue(this, newValue);
+                }
+                else
+                {
+                    float newValue = (float)statField.GetValue(this) * (float)statMultiplier.GetValue(uniqueStats);
+                    statField.SetValue(this, newValue);
+                }
+            }
+            else
+            {
+                Debug.Log("UniqueWeaponStats variable: " + multi + ", does not have a counterpart to mutate in weapon script");
+            }
+        }
+    }
+
 
     public abstract void Attack();
 
