@@ -26,6 +26,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Health myHealth;
     [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Weapon[] weapons;
     [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Weapon currentWeapon;
+    [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public GameObject[] pickups;
     [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public bool rotateToMainCamera = false;
     [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public int currentWeaponIndex;
 
@@ -183,6 +184,20 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         {
             Quaternion weaponRotation = Quaternion.AngleAxis(camEuler.x, Vector3.right);
             currentWeapon.transform.localRotation = weaponRotation;
+        }
+    }
+
+    public void DropWeapon()
+    {
+        if(currentWeapon)
+        {
+            currentWeapon.isEquipped = false;
+            
+            UniqueWeaponStats statsToDrop = currentWeapon.uniqueStats;
+            currentWeapon.ResetValues(statsToDrop.baseStats);
+            GameObject droppedWeapon = Instantiate(pickups[currentWeaponIndex], transform.position + (transform.forward*2), Quaternion.identity);
+            droppedWeapon.GetComponent<WeaponPickup>().stats = statsToDrop;
+            SelectWeapon(1);
         }
     }
     private void DisableAllWeapons()

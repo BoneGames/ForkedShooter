@@ -23,7 +23,7 @@ public class PlayerInput : Photon.PunBehaviour
     public bool showActionKeys;
     [ShowIf("showActionKeys")]
     [BoxGroup("Action Keys")]
-    public KeyCode interactKey = KeyCode.E, ammoKey = KeyCode.G;
+    public KeyCode interactKey = KeyCode.E, ammoKey = KeyCode.G, dropKey = KeyCode.D;
 
     private int weaponIndex;
     private int currentIndex;
@@ -83,6 +83,8 @@ public class PlayerInput : Photon.PunBehaviour
             if (Input.GetKeyUp(aimKey)) player.Aim(false); 
             if (Input.GetKeyDown(aimKey)) player.Aim(true);
             if (Input.GetKeyDown(reloadKey)) player.Reload();
+            if (Input.GetKeyDown(dropKey))player.DropWeapon();
+           
 
             float inputScroll = Input.GetAxisRaw("Mouse ScrollWheel");
             if (inputScroll != 0)

@@ -7,11 +7,10 @@ using System.Reflection;
 using BT;
 public class Pistol : Weapon
 {
-    private void Awake()
+    public override void Start()
     {
-
+        base.Start();
     }
-   
 
     public override void Attack()
     {
@@ -23,11 +22,6 @@ public class Pistol : Weapon
             Ray ray = new Ray(spawnPoint.position, spawnPoint.transform.forward + AccuracyOffset(accuracy));
 
             OnFire();
-
-            //SpawnMuzzleFlash();
-
-            //audioWep.PlayOneShot(sfx[0]);
-            //pitchShifter.Tweet();
 
             if (Physics.Raycast(ray, out hit))
             {

@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using System.Linq;
 using BT;
 using NaughtyAttributes;
+using System;
 
 
 public abstract class Weapon : MonoBehaviour
@@ -37,37 +38,41 @@ public abstract class Weapon : MonoBehaviour
     public UnityEvent onFire;
 
     public bool elementColor = true;
-    [BoxGroup("Element Colours")][ShowIf("elementColor")]
+    [BoxGroup("Element Colours")]
+    [ShowIf("elementColor")]
     public Color normal, fire, water, grass;
 
     public Vector3 hitPoint;
     float startingAccuracy;
 
     public LayerMask enemy;
-    
+
     Quaternion hitRotation;
 
     public GradientAlphaKey[] startingAlphaKeys;
 
     public bool canShoot;
     public bool isEquipped;
-    public UniqueWeaponStats stats;
+    public UniqueWeaponStats uniqueStats;
 
     int tempMag;
 
     public virtual void Start()
     {
+
         currentReserves = maxReserves;
         currentMag = magSize;
         DefaultReload();
         startingAccuracy = accuracy;
-        if(stats != null)
+        if (!uniqueStats)
         {
-            SetUniqueWeaponStats(stats);
+            UniqueWeaponStats setup = new UniqueWeaponStats(0.1f);
+            uniqueStats = setup;
+            ApplyUniqueWeaponStats(uniqueStats);
         }
     }
 
-    public void SetUniqueWeaponStats(UniqueWeaponStats uniqueStats)
+    public void ApplyUniqueWeaponStats(UniqueWeaponStats uniqueStats)
     {
         // Get Array of all variable names in class
         var weaponVariableNames = this.GetType()
@@ -78,31 +83,77 @@ public abstract class Weapon : MonoBehaviour
         var uniqueVariableNames = uniqueStats.GetType()
                      .GetFields()
                      .Select(field => field.Name);
-
+        uniqueStats.baseStats.Clear();
         // Match variav\ble pairs with same name
         foreach (var multi in uniqueVariableNames)
         {
             if (weaponVariableNames.Contains(multi))
             {
+                // Get field on weapon(as FieldInfo)
                 var statField = this.GetType().GetField(multi);
+                // Get matching field on UniqueWeaponStats class
                 var statMultiplier = uniqueStats.GetType().GetField(multi);
 
-                //Debug.Log("StatField: " + statField.GetValue(this) + ", statMulti: " + statMultiplier.GetValue(uniqueStats));
+                try
+                {
+                    // Collect weapon's base stats to reapply to it later (if weapon dropped)
+                    uniqueStats.baseStats.Add(multi, Convert.ToSingle(statField.GetValue(this)));
+                }
+                catch
+                {
+                    Debug.Log("catch: " + multi);
+                    uniqueStats.baseStats.Add(multi, 0);
+                }
+                
 
+                // if statfield is an int - cast it as such when applying value
                 if (statField.GetValue(this) is int)
                 {
                     int newValue = (int)((int)statField.GetValue(this) * (float)statMultiplier.GetValue(uniqueStats));
                     statField.SetValue(this, newValue);
                 }
-                else
+                else if (statField.GetValue(this) is float)// if statfield is an float - cast it as such when applying value
                 {
                     float newValue = (float)statField.GetValue(this) * (float)statMultiplier.GetValue(uniqueStats);
+                    statField.SetValue(this, newValue);
+                }
+                else
+                {
+                    Debug.Log("SETTING ENUM");
+                    Elements.Element newValue = (Elements.Element)statMultiplier.GetValue(this);
                     statField.SetValue(this, newValue);
                 }
             }
             else
             {
                 Debug.Log("UniqueWeaponStats variable: " + multi + ", does not have a counterpart to mutate in weapon script");
+            }
+        }
+    }
+
+    public void ResetValues(Dictionary<string, float> baseValues)
+    {
+        // Get Array of all variable names in class
+        var weaponVariableNames = this.GetType()
+                     .GetFields()
+                     .Select(field => field.Name);
+
+        foreach(KeyValuePair<string, float> field in baseValues)
+        {
+            // check if all weapon variable names have a match for current reset Value name
+            if(weaponVariableNames.Contains(field.Key))
+            {
+                // Get field on weapon(as FieldInfo)
+                var statField = this.GetType().GetField(field.Key);
+
+                try // apply base value as float
+                {
+                    statField.SetValue(this, field.Value);
+                }
+                catch // apply base value as int
+                {
+                    statField.SetValue(this, (int)field.Value);
+                }
             }
         }
     }
@@ -128,7 +179,7 @@ public abstract class Weapon : MonoBehaviour
 
     public virtual void OnAim(bool _aiming)
     {
-        if(_aiming)
+        if (_aiming)
         {
             accuracy = startingAccuracy * 1.5f;
         }
@@ -143,9 +194,9 @@ public abstract class Weapon : MonoBehaviour
         // increase in order to keep slider friendly: 0-10 range
         accuracy *= 10;
         // generate random values within accuracy range
-        float x = Random.Range(-(1 / accuracy), 1 / accuracy);
-        float y = Random.Range(-(1 / accuracy), 1 / accuracy);
-        float z = Random.Range(-(1 / accuracy), 1 / accuracy);
+        float x = UnityEngine.Random.Range(-(1 / accuracy), 1 / accuracy);
+        float y = UnityEngine.Random.Range(-(1 / accuracy), 1 / accuracy);
+        float z = UnityEngine.Random.Range(-(1 / accuracy), 1 / accuracy);
 
         // return offset modifer
         return new Vector3(x, y, z);
@@ -190,8 +241,8 @@ public abstract class Weapon : MonoBehaviour
 
     public virtual void UpdateAmmoDisplay()
     {
-        if(UI)
-        UI.UpdateAmmoDisplay(currentMag, magSize, currentReserves, maxReserves);
+        if (UI)
+            UI.UpdateAmmoDisplay(currentMag, magSize, currentReserves, maxReserves);
         //if (ammoDisplay)
         //    ammoDisplay.text = string.Format("{0}/{1} // {2}/{3}", currentMag, magSize, currentReserves, maxReserves);
     }

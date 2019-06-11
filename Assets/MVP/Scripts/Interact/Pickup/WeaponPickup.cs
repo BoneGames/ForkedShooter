@@ -24,7 +24,6 @@ public class WeaponPickup : Pickup
             Debug.Log("setting ststa");
             stats = new UniqueWeaponStats(statVariance);
         }
-
     }
 
     private void Update()
@@ -42,7 +41,7 @@ public class WeaponPickup : Pickup
                 // equip weapon
                 player.weapons[weaponIndexPosition].isEquipped = true;
                 // apply unique stats to weapon on pickup
-                player.weapons[weaponIndexPosition].SetUniqueWeaponStats(stats);
+                player.weapons[weaponIndexPosition].ApplyUniqueWeaponStats(stats);
                 // Make object invisible and not interactable
                 this.rend.enabled = false;
                 this.col.enabled = false;
