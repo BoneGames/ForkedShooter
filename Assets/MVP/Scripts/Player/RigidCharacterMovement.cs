@@ -115,7 +115,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         while (myHand.transform.localPosition != end)
         {
             timer += Time.deltaTime;
-            myHand.transform.localPosition = Vector3.Lerp(start, end, timer * aimLerpSpeed);
+            myHand.transform.localPosition = Vector3.Lerp(start, end, timer * currentWeapon.aimSpeed);
             yield return null;
         }
     }

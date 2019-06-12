@@ -8633,6 +8633,11 @@ PrefabInstance:
       propertyPath: rateOfFire
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 114158151262044422, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: spawnWithUniqueStats
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1748083688, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
       propertyPath: ammoDisplay
       value: 
@@ -8641,6 +8646,10 @@ PrefabInstance:
       propertyPath: UI
       value: 
       objectReference: {fileID: 143490476}
+    - target: {fileID: 1748083688, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
+      propertyPath: spawnWithUniqueStats
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 114110289301231624, guid: d4959bfe9c2bdde4ba18947f246452be,
         type: 3}
       propertyPath: ammoDisplay
@@ -8654,6 +8663,11 @@ PrefabInstance:
     - target: {fileID: 114110289301231624, guid: d4959bfe9c2bdde4ba18947f246452be,
         type: 3}
       propertyPath: isEquipped
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114110289301231624, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: spawnWithUniqueStats
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114131910670434340, guid: d4959bfe9c2bdde4ba18947f246452be,
@@ -8679,6 +8693,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6465479855710561323, guid: bd8776ae9b72421488b7a16e681be27e,
         type: 3}
+    - target: {fileID: 114082195335734174, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: showActionKeys
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114082195335734174, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: dropKey
+      value: 121
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
 --- !u!4 &1394936548 stripped
