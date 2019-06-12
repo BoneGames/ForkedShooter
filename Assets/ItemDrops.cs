@@ -9,7 +9,7 @@ public class ItemDrops : MonoBehaviour
   public void DropRandomItem()
   {
     print("Dropping a random item");
-    Instantiate(drops[Random.Range(0, drops.Count - 1)], transform.position, Quaternion.identity);
+    Instantiate(drops[Random.Range(0, drops.Count)], transform.position, Quaternion.identity);
   }
 
 }
