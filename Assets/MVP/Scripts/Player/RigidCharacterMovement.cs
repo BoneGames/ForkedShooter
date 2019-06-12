@@ -29,6 +29,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public GameObject[] pickups;
     [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public bool rotateToMainCamera = false;
     [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public int currentWeaponIndex;
+    [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public UIHandler UI;
 
     private GameObject shootPoint;
     private bool weaponRotationThing = false;
@@ -38,6 +39,9 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     private Vector3 handStartPos;
 
     public List<Weapon> weaponIds = new List<Weapon>();
+    public float rayDist = 2;
+
+    public LayerMask weaponPickup;
 
 
     #region Unity Events
@@ -48,6 +52,12 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         myHealth = GetComponent<PlayerHealth>();
 
     }
+
+    public void OnDrawGizmos()
+    {
+        Debug.DrawRay(Camera.main.transform.position, transform.forward * 10, Color.blue, rayDist);
+    }
+
     void Start()
     {
         handStartPos = myHand.localPosition;
@@ -56,6 +66,9 @@ public class RigidCharacterMovement : Photon.PunBehaviour
 
         currentWeapon.UpdateAmmoDisplay();
     }
+
+   
+
     void OnTriggerEnter(Collider other)
     {
         interactObject = other.GetComponent<Interactable>();
@@ -90,6 +103,29 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         else //we nust not have the Photon stuff in the scene, so we don't care about networking
         {
             PerformMotion();
+        }
+
+        CompareWeapons();
+    }
+
+    void CompareWeapons()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward * 10, out hit, rayDist, weaponPickup))
+        {
+            Debug.Log("raycast");
+            UniqueWeaponStats pickupStats = hit.transform.GetComponent<WeaponPickup>().stats;
+            string pickupName = hit.transform.name.Replace("_Pickup", "");
+            foreach (var weapon in weapons)
+            {
+                if (weapon.name == pickupName && weapon.isEquipped)
+                {
+                    Debug.Log("raycast2");
+                    UniqueWeaponStats currentStats = weapon.GetComponent<Weapon>().uniqueStats;
+                    UI.weaponStatCompare.ShowStatComparison(pickupStats, currentStats);
+                    return;
+                }
+            }
         }
     }
 
@@ -211,13 +247,14 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     {
         DisableAllWeapons();
 
-        // Note (Manny): Use the incoming 'index' instead of the changed 'currentWeaponIndex' this time.
+        // cycle through weapons until equipped weapon is selected
         while(!weapons[index].isEquipped)
         {
             index++;
             if(index >= weapons.Length)
             {
                 Debug.Log(BaneTools.ColorString("You Have Not Equipped Any Of The Weapons! (is Equipped bool)", Color.red));
+                currentWeapon = null;
                 return;
             }
         }

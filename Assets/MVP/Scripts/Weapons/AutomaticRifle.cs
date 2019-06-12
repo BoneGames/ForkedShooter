@@ -6,19 +6,9 @@ using System.Linq;
 
 public class AutomaticRifle : Weapon
 {
-    public float attackTimer;
+    
 
-    //public bool canShoot;
-    public void Update()
-    {
-        attackTimer += Time.deltaTime;
-
-        if (attackTimer >= 1f / rateOfFire)
-        {
-            // Can shoot!
-            canShoot = true;
-        }
-    }
+    
 
     public override void Attack()
     {

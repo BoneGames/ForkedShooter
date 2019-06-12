@@ -23,7 +23,7 @@ TagManager:
   - PostProcessing
   - Player
   - Enemy
-  - 
+  - Weapon_Pickup
   - 
   - KillBox
   - 

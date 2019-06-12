@@ -18,7 +18,7 @@ public class UniqueWeaponStats : MonoBehaviour
 
     public Dictionary<string, float> baseStats = new Dictionary<string, float>();
 
-    public Elements.Element weaponElement;
+    //public Elements.Element weaponElement;
 
     public UniqueWeaponStats(float variance)
     {
@@ -42,10 +42,10 @@ public class UniqueWeaponStats : MonoBehaviour
             {
 //                Debug.Log("SETTING ENUM");
                 int randomElement = UnityEngine.Random.Range(0, 4);
-                fields[i].SetValue(this, (Elements.Element.Water));
+                fields[i].SetValue(this, (Elements.Element)randomElement);
             }
         }
-        Debug.Log("WE: " + weaponElement);
+        //Debug.Log("WE: " + weaponElement);
     }
 
 }

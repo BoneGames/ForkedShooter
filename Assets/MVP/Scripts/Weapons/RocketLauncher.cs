@@ -14,9 +14,9 @@ public class RocketLauncher : Weapon
 
     InsideCollider internalCheck;
 
-    public override void Start()
+    public override void Awake()
     {
-        base.Start();
+        base.Awake();
         lookOrigin = Camera.main.transform;
         //startRotation = spawnPoint.localRotation;
         rocketSpawn = spawnPoint;

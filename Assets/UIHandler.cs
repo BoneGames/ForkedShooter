@@ -13,6 +13,7 @@ public class UIHandler : MonoBehaviour
     [HideInInspector] public ShotDirection shotDirection;
     [HideInInspector] public DeathMessage deathMessage;
     [HideInInspector] public HealthBar healthBar;
+    public WeaponStatCompare weaponStatCompare;
     public Text ammoDisplay;
 
     public GameObject healthBarPrefab;

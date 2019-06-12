@@ -7,16 +7,15 @@ using System.Reflection;
 using BT;
 public class Pistol : Weapon
 {
-    public override void Start()
-    {
-        base.Start();
-    }
+    
 
     public override void Attack()
     {
         Debug.Log("fire pistol");
         if (currentMag > 0)
         {
+            attackTimer = 0;
+            canShoot = false;
             RaycastHit hit;
             spawnPoint.rotation = AimAtCrosshair();
             Ray ray = new Ray(spawnPoint.position, spawnPoint.transform.forward + AccuracyOffset(accuracy));
