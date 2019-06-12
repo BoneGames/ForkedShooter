@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 6465479855710561330}
   - component: {fileID: 6465479855710561331}
   - component: {fileID: 8579479983028161535}
-  - component: {fileID: 2064873840527676286}
   m_Layer: 28
   m_Name: RocketLauncher_Pickup
   m_TagString: Untagged
@@ -214,31 +213,6 @@ MonoBehaviour:
   weaponIndexPosition: 1
   weaponID: 0
   pickupFX: {fileID: 8300000, guid: eaa8be128ac37fe4fb9b287572f6a9a6, type: 3}
---- !u!114 &2064873840527676286
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6465479855710561323}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dafd8d67f80eca540a15450601e3a2a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialized: 0
-  damage: 0
-  maxReserves: 0
-  currentReserves: 0
-  magSize: 0
-  currentMag: 0
-  accuracy: 0
-  loudness: 0
-  bulletDetectionRadius: 0
-  scopeZoom: 0
-  reloadSpeed: 0
-  rateOfFire: 0
-  weaponElement: 0
 --- !u!1001 &1003119079912495592
 PrefabInstance:
   m_ObjectHideFlags: 0

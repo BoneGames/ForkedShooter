@@ -19,6 +19,7 @@ public class EnemyHealth : Health
     void Awake()
     {
         photonView = GetComponent<PhotonView>();
+        ai = GetComponent<BehaviourAI>();
     }
 
     public override void Start()

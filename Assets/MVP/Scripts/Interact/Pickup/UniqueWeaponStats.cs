@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System;
 
-public class UniqueWeaponStats : MonoBehaviour
+public class UniqueWeaponStats : ScriptableObject
 {
 
     public float damage;
@@ -20,7 +20,7 @@ public class UniqueWeaponStats : MonoBehaviour
 
     //public Elements.Element weaponElement;
 
-    public UniqueWeaponStats(float variance)
+    public void Init(float variance)
     {
         FieldInfo[] fields = this.GetType().GetFields();
 

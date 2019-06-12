@@ -10,29 +10,46 @@ public class WeaponStatCompare : MonoBehaviour
 {
     Dictionary<string, GameObject> statCompareField = new Dictionary<string, GameObject>();
     public GameObject textPrefab;
+    public bool isComparing = false;
+    List<GameObject> textObjects = new List<GameObject>();
+    LayoutElement layout;
+
+    private void Awake()
+    {
+        layout = GetComponent<LayoutElement>();
+    }
 
     public void ShowStatComparison(UniqueWeaponStats _pickupStats, UniqueWeaponStats _currentStats)
     {
-        Debug.Log("raycast3");
-        Dictionary<string, List<float>> pickupStats = CalculateStats(_pickupStats, _currentStats);
-       // Dictionary<string, float> currentStats = CalculateStats(_currentStats);
+        // Create dictionary with: key(variable name) and Value 0: current stat, Value 1: pickup stat
+        Dictionary<string, List<float>> weaponStatsCollated = CalculateStats(_pickupStats, _currentStats);
 
-
-        // Get Text Fields for 
-        foreach (KeyValuePair<string, float> statField in _pickupStats.baseStats)
+        // Iterate through dictionary to fill instantiated text objects with correct display text
+        string text = "";
+        foreach (KeyValuePair<string, List<float>> statPair in weaponStatsCollated)
         {
-            //for (int i = 0; i < length; i++)
-            //{
-
-            //}
-            GameObject textField = Instantiate(textPrefab, transform.position, Quaternion.identity);
-            //statCompareField.Add(textField);
+            //GameObject textField = Instantiate(textPrefab, transform.position, Quaternion.identity);
+            //textField.transform.SetParent(this.transform);
+            //Text t = textField.GetComponent<Text>();
+            //t.text = statPair.Key + ": " + statPair.Value[0] + ", " + statPair.Value[1];
+            //textObjects.Add(textField);
+            text += statPair.Key + ": " + statPair.Value[0] + ", " + statPair.Value[1] + "\n";
         }
+        GameObject textField = Instantiate(textPrefab, transform.position, Quaternion.identity);
+        textField.transform.SetParent(this.transform);
+        Text t = textField.GetComponent<Text>();
+        t.text = text;
+        //t.GetComponent<RectTransform>().rect.height = Screen.height;
+        //t.GetComponent<RectTransform>().rect.width = Screen.width;
+        //layout.cellSize = new Vector2(Screen.width, Screen.height);
+        layout.preferredHeight = Screen.height;
+        layout.preferredWidth = Screen.width;
+
+        isComparing = true;
     }
 
     Dictionary<string, List<float>> CalculateStats(UniqueWeaponStats _pickupStats, UniqueWeaponStats _currentStats)
     {
-        Debug.Log("raycast4");
         Dictionary<string, List<float>> statsToReturn = new Dictionary<string, List<float>>();
 
         // Get Array of all variable names in class
@@ -42,19 +59,29 @@ public class WeaponStatCompare : MonoBehaviour
 
         foreach (var stat in weaponVariableNames)
         {
+            // skip dictionary variable
+            if(stat == "baseStats")
+            {
+                continue;
+            }
+            // dictionary Key
             string key = stat;
-
-            float baseValue_pick = _pickupStats.baseStats[stat];
+            // weapon stat base value (set in weapon inspector)
+            float baseValue = _currentStats.baseStats[stat];
+            
+            // FieldInfo reference to variable multipler in pickup object
             var multiplier_pick = _pickupStats.GetType().GetField(stat);
-            float finalValue_pick = baseValue_pick * (float)multiplier_pick.GetValue(this);
+            // multiplied value
+            float finalValue_pick = baseValue * (float)multiplier_pick.GetValue(_pickupStats);
 
-            float baseValue_curr = _currentStats.baseStats[stat];
+            // FieldInfo reference to variable multipler in current object
             var multiplier_curr = _currentStats.GetType().GetField(stat);
-            float finalValue_curr = baseValue_curr * (float)multiplier_curr.GetValue(this);
+            // multiplied value
+            float finalValue_curr = baseValue * (float)multiplier_curr.GetValue(_currentStats);
 
-
-            statsToReturn[key] = new List<float> { finalValue_pick, finalValue_curr };
-            Debug.Log(statsToReturn[key]);
+            // Add values to dictionary: Key, current val, pickup val
+            statsToReturn[key] = new List<float> { finalValue_curr, finalValue_pick};
+           
         }
         return statsToReturn;
     }

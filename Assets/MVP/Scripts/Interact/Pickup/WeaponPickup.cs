@@ -6,8 +6,7 @@ public class WeaponPickup : Pickup
     public int weaponIndexPosition;
     Renderer rend;
     Collider col;
-    [Slider(0.1f,0.9f)]
-    public float statVariance;
+    public float statVariation;
 
     public AudioClip pickupFX;
 
@@ -22,7 +21,8 @@ public class WeaponPickup : Pickup
         if (stats == null)
         {
             Debug.Log("setting ststa");
-            stats = new UniqueWeaponStats(statVariance);
+            stats = ScriptableObject.CreateInstance<UniqueWeaponStats>();
+            stats.Init(statVariation);
         }
     }
 

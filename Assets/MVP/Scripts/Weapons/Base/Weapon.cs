@@ -59,6 +59,9 @@ public abstract class Weapon : MonoBehaviour
     public bool spawnWithUniqueStats;
     public UniqueWeaponStats uniqueStats;
 
+    [Slider(0.1f, 0.9f)]
+    public float statVariation = 0.2f;
+
     int tempMag;
 
     public virtual void Awake()
@@ -67,7 +70,8 @@ public abstract class Weapon : MonoBehaviour
         {
             if (uniqueStats == null)
             {
-                UniqueWeaponStats setup = new UniqueWeaponStats(0.1f);
+                UniqueWeaponStats setup = ScriptableObject.CreateInstance<UniqueWeaponStats>();
+                setup.Init(statVariation);
                 uniqueStats = setup;
                 ApplyUniqueWeaponStats(uniqueStats);
             }

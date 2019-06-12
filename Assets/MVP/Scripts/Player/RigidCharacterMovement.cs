@@ -47,15 +47,14 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     #region Unity Events
     void Awake()
     {
-        // Note (Manny): Get into the habbit of getting components in Awake instead!
         rigid = GetComponent<Rigidbody>();
         myHealth = GetComponent<PlayerHealth>();
-
+        UI = GameObject.FindGameObjectWithTag("UI").GetComponent<UIHandler>();
     }
 
     public void OnDrawGizmos()
     {
-        Debug.DrawRay(Camera.main.transform.position, transform.forward * 10, Color.blue, rayDist);
+        Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * 10, Color.blue, rayDist);
     }
 
     void Start()
@@ -111,14 +110,14 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     void CompareWeapons()
     {
         RaycastHit hit;
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward * 10, out hit, rayDist, weaponPickup))
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward * 10, out hit, rayDist, weaponPickup, QueryTriggerInteraction.Collide))
         {
             Debug.Log("raycast");
             UniqueWeaponStats pickupStats = hit.transform.GetComponent<WeaponPickup>().stats;
             string pickupName = hit.transform.name.Replace("_Pickup", "");
             foreach (var weapon in weapons)
             {
-                if (weapon.name == pickupName && weapon.isEquipped)
+                if (weapon.name == pickupName && weapon.isEquipped && !UI.weaponStatCompare.isComparing)
                 {
                     Debug.Log("raycast2");
                     UniqueWeaponStats currentStats = weapon.GetComponent<Weapon>().uniqueStats;
