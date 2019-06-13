@@ -21,10 +21,12 @@ public class EnemyUIHealthBar : HealthBar
 
         // For rendering Health bars only when seen
         UITarget = Camera.main.transform.parent;
-        rend = enemyTarget.GetComponent<Renderer>();
+        
 
         // Register this Bar as the Enemies script to send Damage info to
         enemyTarget.GetComponent<EnemyHealth>().RegisterHealthBarEventDelegate(this);
+
+        rend = enemyTarget.GetComponent<Renderer>();
     }
 
     public void UpdateHealthBar(float _currentHealth, float _maxHealth)
@@ -47,12 +49,13 @@ public class EnemyUIHealthBar : HealthBar
             print("My target died! I will destroy myself now");
             Destroy(healthBarContainer);
         }
-        // Update HealthBar Position
-        healthBarContainer.transform.position = Camera.main.WorldToScreenPoint(enemyTarget.position + offset);
+       
         
         // Update HealthBar Canvas Rendering
         if (enemyTarget)
         {
+         // Update HealthBar Position
+        healthBarContainer.transform.position = Camera.main.WorldToScreenPoint(enemyTarget.position + offset);
             if (rend.IsVisibleFrom(Camera.main) && BaneRays.ViewNotObstructed(viewPoint, UITarget, false))
             {
                 HealthBarSwitch(true);

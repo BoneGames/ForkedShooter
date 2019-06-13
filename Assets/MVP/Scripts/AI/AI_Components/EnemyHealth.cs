@@ -20,13 +20,13 @@ public class EnemyHealth : Health
     {
         photonView = GetComponent<PhotonView>();
         ai = GetComponent<BehaviourAI>();
+
     }
 
     public override void Start()
     {
         base.Start();
         UI.SpawnEnemyHealthBar(transform, viewPoint);
-
     }
 
     public void RegisterHealthBarEventDelegate(EnemyUIHealthBar enemyBar)

@@ -12,6 +12,7 @@ public class WeaponStatCompare : MonoBehaviour
     public GameObject textPrefab;
     Text compareText;
     public GameObject backdrop;
+    public float cellScaler;
     public bool IsComparing
     {
         get
@@ -32,11 +33,11 @@ public class WeaponStatCompare : MonoBehaviour
     }
     bool isComparing;
     public List<GameObject> textObjects = new List<GameObject>();
-    LayoutElement layout;
+    GridLayoutGroup layout;
 
     private void Awake()
     {
-        layout = GetComponent<LayoutElement>();
+        layout = GetComponent<GridLayoutGroup>();
         compareText = GetComponent<Text>();
     }
 
@@ -89,16 +90,27 @@ public class WeaponStatCompare : MonoBehaviour
             // pickup stats
             NewText(statPair.Value[1].ToString(), val1);
         }
+        Vector2 cellSize = new Vector2(Screen.width / layout.constraintCount, Screen.height / (textObjects.Count / layout.constraintCount)) * cellScaler;
+        
+
+        layout.cellSize = cellSize;
+        layout.spacing = cellSize * 0.5f;
+
+        //Debug.Log("Screen.x: " + Screen.width + ", Screen.y: " + Screen.height + ", cell.x: " + cellWidth + ", cell.y: " + cellHeight);
+
+
+
+
         GameObject _backdrop = Instantiate(backdrop, transform.position, Quaternion.identity);
         textObjects.Add(_backdrop);
         _backdrop.transform.SetParent(this.transform.parent);
-        Vector2 bgSizeDelta = Vector2.zero;
-        foreach (var item in textObjects)
-        {
-            Debug.Log("sizeDelta");
-            bgSizeDelta += item.GetComponent<RectTransform>().sizeDelta;
-        }
-        
+        //Vector2 bgSizeDelta = Vector2.zero;
+        //foreach (var item in textObjects)
+        //{
+        //    Debug.Log("sizeDelta");
+        //    bgSizeDelta += item.GetComponent<RectTransform>().sizeDelta;
+        //}
+        //GetComponent<Image>().rectTransform.sizeDelta = bgSizeDelta;
     }
 
     void NewText(string textToDisplay, Color col)

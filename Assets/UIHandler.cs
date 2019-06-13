@@ -45,6 +45,7 @@ public class UIHandler : MonoBehaviour
         shotDirection = GetComponentInChildren<ShotDirection>();
         deathMessage = GetComponentInChildren<DeathMessage>();
         healthBar = GetComponentInChildren<HealthBar>();
+        weaponStatCompare = GetComponentInChildren<WeaponStatCompare>();
     }
 
     public void UpdateAmmoDisplay(int currentMag, int magSize, int currentReserves, int maxReserves)
