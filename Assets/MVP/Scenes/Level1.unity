@@ -13756,6 +13756,15 @@ PrefabInstance:
       propertyPath: weaponStatCompare
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8679751327874685144, guid: 5fd66ef16ada0104db8583b191c7e1e5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 689203310, guid: 5fd66ef16ada0104db8583b191c7e1e5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6188704443792762764, guid: 5fd66ef16ada0104db8583b191c7e1e5,
         type: 3}
       propertyPath: m_AnchorMin.x
@@ -13851,10 +13860,6 @@ PrefabInstance:
       propertyPath: m_RenderMode
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 689203310, guid: 5fd66ef16ada0104db8583b191c7e1e5, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 689203313, guid: 5fd66ef16ada0104db8583b191c7e1e5, type: 3}
       propertyPath: m_AnchorMin.x
       value: 0.5
@@ -13889,11 +13894,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 689203312, guid: 5fd66ef16ada0104db8583b191c7e1e5, type: 3}
       propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8679751327874685144, guid: 5fd66ef16ada0104db8583b191c7e1e5,
-        type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
