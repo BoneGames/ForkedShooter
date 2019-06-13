@@ -6,7 +6,10 @@ public class WeaponPickup : Pickup
     public int weaponIndexPosition;
     Renderer rend;
     Collider col;
+    Renderer[] rends;
+    Collider[] cols;
     public float statVariation;
+    bool isRocket;
 
     public AudioClip pickupFX;
 
@@ -14,9 +17,21 @@ public class WeaponPickup : Pickup
     
     public override void Awake()
     {
+        isRocket = name.Contains("Rocket") ? true : false;
+
         base.Awake();
-        rend = GetComponent<Renderer>();
-        col = GetComponent<Collider>();
+
+        if(isRocket)
+        {
+            rends = GetComponentsInChildren<Renderer>();
+            cols = GetComponentsInChildren<Collider>();
+        }
+        else
+        {
+            rend = GetComponent<Renderer>();
+            col = GetComponent<Collider>();
+        }
+        
 
         if (stats == null)
         {
@@ -44,8 +59,23 @@ public class WeaponPickup : Pickup
                 player.weapons[weaponIndexPosition].ApplyUniqueWeaponStats(stats);
                 player.weapons[weaponIndexPosition].uniqueStats = stats;
                 // Make object invisible and not interactable
-                this.rend.enabled = false;
-                this.col.enabled = false;
+                if(isRocket)
+                {
+                    for (int i = 0; i < rends.Length; i++)
+                    {
+                        rends[i].enabled = false;
+                    }
+                    for (int i = 0; i < cols.Length; i++)
+                    {
+                        cols[i].enabled = false;
+                    }
+                }
+                else
+                {
+                    this.rend.enabled = false;
+                    this.col.enabled = false;
+                }
+                
                 // run SFX
                 onPickup.Invoke();
                 // destroiy pickup object once clip has played (double time to be safe)
