@@ -54,7 +54,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
 
     public void OnDrawGizmos()
     {
-        Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * 10, Color.blue, rayDist);
+        //Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * 10, Color.blue, rayDist);
     }
 
     void Start()
