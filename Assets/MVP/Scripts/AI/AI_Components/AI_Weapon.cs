@@ -10,7 +10,6 @@ public class AI_Weapon : Weapon
     #region Variables
     // Check in AI_ScoutDrone.cs for visibleTargets.
     [Header("AI Weapon Variables")]
-    public BehaviourAI contact; // Contact with the BehaviourAI conditions.
     public GameObject hitParticle;
 
     [Header("Burst Fire")]

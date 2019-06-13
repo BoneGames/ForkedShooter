@@ -2097,9 +2097,10 @@ MonoBehaviour:
   elementIndex: 0
   elementArray: 00000000010000000200000003000000
   contact: {fileID: 0}
-  hitParticle: {fileID: 0}
-  burstDelay: 0
-  reloadTime: 0
+  hitParticle: {fileID: 1097464064478134, guid: 259a0b96acab2f749b11f8a6e18a8862,
+    type: 3}
+  burstDelay: 0.1
+  reloadTime: 1
 --- !u!1 &1966131457345112
 GameObject:
   m_ObjectHideFlags: 0
