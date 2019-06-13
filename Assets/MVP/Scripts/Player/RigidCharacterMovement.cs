@@ -234,6 +234,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
             UniqueWeaponStats statsToDrop = currentWeapon.uniqueStats;
             currentWeapon.ResetValues(statsToDrop.baseStats);
             GameObject droppedWeapon = Instantiate(pickups[currentWeaponIndex], transform.position + (transform.forward*2), Quaternion.identity);
+            droppedWeapon.name = droppedWeapon.name.Replace("(Clone)", "");
             droppedWeapon.GetComponent<WeaponPickup>().stats = statsToDrop;
             SelectWeapon(1);
         }

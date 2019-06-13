@@ -11049,6 +11049,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1685892376 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8679751327874685144, guid: 5fd66ef16ada0104db8583b191c7e1e5,
+    type: 3}
+  m_PrefabInstance: {fileID: 6188704445537434990}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1688574364 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4802985790247042, guid: 6b9a0bd56ddee1b43876a87547f52e99,
@@ -13767,17 +13773,54 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6188704443916050392, guid: 5fd66ef16ada0104db8583b191c7e1e5,
+        type: 3}
+      propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 689203310, guid: 5fd66ef16ada0104db8583b191c7e1e5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 689203313, guid: 5fd66ef16ada0104db8583b191c7e1e5, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 689203313, guid: 5fd66ef16ada0104db8583b191c7e1e5, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 689203313, guid: 5fd66ef16ada0104db8583b191c7e1e5, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 689203313, guid: 5fd66ef16ada0104db8583b191c7e1e5, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 689203313, guid: 5fd66ef16ada0104db8583b191c7e1e5, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 689203313, guid: 5fd66ef16ada0104db8583b191c7e1e5, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 450
+      objectReference: {fileID: 0}
     - target: {fileID: 689203311, guid: 5fd66ef16ada0104db8583b191c7e1e5, type: 3}
       propertyPath: backdrop
       value: 
-      objectReference: {fileID: 7683366073269668735, guid: b7de2f42960e1a94a93f4a3bef1f0de7,
-        type: 3}
+      objectReference: {fileID: 1685892376}
     - target: {fileID: 689203311, guid: 5fd66ef16ada0104db8583b191c7e1e5, type: 3}
       propertyPath: cellScaler
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 689203312, guid: 5fd66ef16ada0104db8583b191c7e1e5, type: 3}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8679751327874685144, guid: 5fd66ef16ada0104db8583b191c7e1e5,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:

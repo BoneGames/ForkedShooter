@@ -42,6 +42,7 @@ public class WeaponPickup : Pickup
                 player.weapons[weaponIndexPosition].isEquipped = true;
                 // apply unique stats to weapon on pickup
                 player.weapons[weaponIndexPosition].ApplyUniqueWeaponStats(stats);
+                player.weapons[weaponIndexPosition].uniqueStats = stats;
                 // Make object invisible and not interactable
                 this.rend.enabled = false;
                 this.col.enabled = false;

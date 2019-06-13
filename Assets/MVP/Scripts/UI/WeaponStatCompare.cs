@@ -13,6 +13,7 @@ public class WeaponStatCompare : MonoBehaviour
     Text compareText;
     public GameObject backdrop;
     public float cellScaler;
+    float canvasScaler;
     public bool IsComparing
     {
         get
@@ -39,10 +40,12 @@ public class WeaponStatCompare : MonoBehaviour
     {
         layout = GetComponent<GridLayoutGroup>();
         compareText = GetComponent<Text>();
+        canvasScaler = GetComponentInParent<Canvas>().GetComponent<RectTransform>().localScale.x;
     }
 
     public void EnableCompareText(bool textActive)
     {
+        backdrop.SetActive(false);
         foreach (var item in textObjects)
         {
             Destroy(item);
@@ -53,6 +56,7 @@ public class WeaponStatCompare : MonoBehaviour
     public void ShowStatComparison(UniqueWeaponStats _pickupStats, UniqueWeaponStats _currentStats)
     {
         IsComparing = true;
+        backdrop.SetActive(true);
         textObjects.Clear();
         textObjects.TrimExcess();
         // Create dictionary with: key(variable name) and Value 0: current stat, Value 1: pickup stat
@@ -90,27 +94,12 @@ public class WeaponStatCompare : MonoBehaviour
             // pickup stats
             NewText(statPair.Value[1].ToString(), val1);
         }
-        Vector2 cellSize = new Vector2(Screen.width / layout.constraintCount, Screen.height / (textObjects.Count / layout.constraintCount)) * cellScaler;
-        
+        Vector2 cellSize = new Vector2(Screen.width / layout.constraintCount, Screen.height / (textObjects.Count / layout.constraintCount)) * cellScaler * canvasScaler;
 
         layout.cellSize = cellSize;
-        layout.spacing = cellSize * 0.5f;
-
-        //Debug.Log("Screen.x: " + Screen.width + ", Screen.y: " + Screen.height + ", cell.x: " + cellWidth + ", cell.y: " + cellHeight);
-
-
-
-
-        GameObject _backdrop = Instantiate(backdrop, transform.position, Quaternion.identity);
-        textObjects.Add(_backdrop);
-        _backdrop.transform.SetParent(this.transform.parent);
-        //Vector2 bgSizeDelta = Vector2.zero;
-        //foreach (var item in textObjects)
-        //{
-        //    Debug.Log("sizeDelta");
-        //    bgSizeDelta += item.GetComponent<RectTransform>().sizeDelta;
-        //}
-        //GetComponent<Image>().rectTransform.sizeDelta = bgSizeDelta;
+        Vector2 cellDimensions = new Vector2(layout.constraintCount, (textObjects.Count / layout.constraintCount));
+       
+        backdrop.GetComponent<RectTransform>().sizeDelta = cellSize * cellDimensions;
     }
 
     void NewText(string textToDisplay, Color col)
