@@ -10,42 +10,107 @@ public class WeaponStatCompare : MonoBehaviour
 {
     Dictionary<string, GameObject> statCompareField = new Dictionary<string, GameObject>();
     public GameObject textPrefab;
-    public bool isComparing = false;
-    List<GameObject> textObjects = new List<GameObject>();
+    Text compareText;
+    public GameObject backdrop;
+    public bool IsComparing
+    {
+        get
+        {
+            return isComparing;
+        }
+        set
+        {
+            if(value != isComparing)
+            {
+                isComparing = value;
+                if(!isComparing)
+                {
+                    EnableCompareText(isComparing);
+                }             
+            }
+        }
+    }
+    bool isComparing;
+    public List<GameObject> textObjects = new List<GameObject>();
     LayoutElement layout;
 
     private void Awake()
     {
         layout = GetComponent<LayoutElement>();
+        compareText = GetComponent<Text>();
+    }
+
+    public void EnableCompareText(bool textActive)
+    {
+        foreach (var item in textObjects)
+        {
+            Destroy(item);
+        }
+        //compareText.enabled = textActive;
     }
 
     public void ShowStatComparison(UniqueWeaponStats _pickupStats, UniqueWeaponStats _currentStats)
     {
+        IsComparing = true;
+        textObjects.Clear();
+        textObjects.TrimExcess();
         // Create dictionary with: key(variable name) and Value 0: current stat, Value 1: pickup stat
         Dictionary<string, List<float>> weaponStatsCollated = CalculateStats(_pickupStats, _currentStats);
 
         // Iterate through dictionary to fill instantiated text objects with correct display text
         string text = "";
+        //compareText.GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width * 1/GetComponentInParent<Canvas>().transform.localScale.x, Screen.height * 1/GetComponentInParent<Canvas>().transform.localScale.y);
+        NewText("", Color.black);
+        NewText("Current", Color.black);
+        NewText("Pickup", Color.black);
+        Color val0, val1;
         foreach (KeyValuePair<string, List<float>> statPair in weaponStatsCollated)
         {
-            //GameObject textField = Instantiate(textPrefab, transform.position, Quaternion.identity);
-            //textField.transform.SetParent(this.transform);
-            //Text t = textField.GetComponent<Text>();
-            //t.text = statPair.Key + ": " + statPair.Value[0] + ", " + statPair.Value[1];
-            //textObjects.Add(textField);
-            text += statPair.Key + ": " + statPair.Value[0] + ", " + statPair.Value[1] + "\n";
+            if(statPair.Value[0] == statPair.Value[1])
+            {
+                val0 = Color.black;
+                val1 = Color.black;
+            }
+            else if(statPair.Value[0] > statPair.Value[1])
+            {
+                val0 = Color.green;
+                val1 = Color.red;
+            }
+            else
+            {
+                val0 = Color.red;
+                val1 = Color.green;
+            }
+
+            // variable name
+            NewText(statPair.Key + ":", Color.black);
+            // current stats
+            NewText(statPair.Value[0].ToString(), val0);
+            // pickup stats
+            NewText(statPair.Value[1].ToString(), val1);
         }
+        GameObject _backdrop = Instantiate(backdrop, transform.position, Quaternion.identity);
+        textObjects.Add(_backdrop);
+        _backdrop.transform.SetParent(this.transform.parent);
+        Vector2 bgSizeDelta = Vector2.zero;
+        foreach (var item in textObjects)
+        {
+            Debug.Log("sizeDelta");
+            bgSizeDelta += item.GetComponent<RectTransform>().sizeDelta;
+        }
+        
+    }
+
+    void NewText(string textToDisplay, Color col)
+    {
         GameObject textField = Instantiate(textPrefab, transform.position, Quaternion.identity);
         textField.transform.SetParent(this.transform);
         Text t = textField.GetComponent<Text>();
-        t.text = text;
-        //t.GetComponent<RectTransform>().rect.height = Screen.height;
-        //t.GetComponent<RectTransform>().rect.width = Screen.width;
-        //layout.cellSize = new Vector2(Screen.width, Screen.height);
-        layout.preferredHeight = Screen.height;
-        layout.preferredWidth = Screen.width;
+        t.text = textToDisplay;
+        
+            t.color = col;
 
-        isComparing = true;
+        textObjects.Add(textField);
     }
 
     Dictionary<string, List<float>> CalculateStats(UniqueWeaponStats _pickupStats, UniqueWeaponStats _currentStats)

@@ -112,12 +112,11 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward * 10, out hit, rayDist, weaponPickup, QueryTriggerInteraction.Collide))
         {
-            Debug.Log("raycast");
             UniqueWeaponStats pickupStats = hit.transform.GetComponent<WeaponPickup>().stats;
             string pickupName = hit.transform.name.Replace("_Pickup", "");
             foreach (var weapon in weapons)
             {
-                if (weapon.name == pickupName && weapon.isEquipped && !UI.weaponStatCompare.isComparing)
+                if (weapon.name == pickupName && weapon.isEquipped && !UI.weaponStatCompare.IsComparing)
                 {
                     Debug.Log("raycast2");
                     UniqueWeaponStats currentStats = weapon.GetComponent<Weapon>().uniqueStats;
@@ -125,6 +124,10 @@ public class RigidCharacterMovement : Photon.PunBehaviour
                     return;
                 }
             }
+        }
+        else
+        {
+            UI.weaponStatCompare.IsComparing = false;
         }
     }
 
