@@ -17,7 +17,7 @@ public class AutomaticRifle : Weapon
         {
 
             RaycastHit hit;
-            Ray ray = new Ray(spawnPoint.position, spawnPoint.transform.forward);
+            Ray ray = new Ray(shootPoint.position, shootPoint.transform.forward);
 
             SpawnMuzzleFlash();
             
@@ -63,8 +63,8 @@ public class AutomaticRifle : Weapon
 
     void BulletTrail(Vector3 target, float distance)
     {
-        GameObject bulletPath = Instantiate(lineRendPrefab, spawnPoint.position, spawnPoint.rotation);
-        bulletPath.transform.SetParent(spawnPoint);
+        GameObject bulletPath = Instantiate(lineRendPrefab, shootPoint.position, shootPoint.rotation);
+        bulletPath.transform.SetParent(shootPoint);
         BulletPath script = bulletPath.GetComponent<BulletPath>();
         script.target = target;
         script.distance = distance;

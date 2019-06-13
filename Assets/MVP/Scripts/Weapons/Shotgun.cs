@@ -22,11 +22,11 @@ public class Shotgun : Weapon
 
             //OnFire();
 
-            spawnPoint.transform.rotation = AimAtCrosshair();
+            shootPoint.transform.rotation = AimAtCrosshair();
 
             for (int i = 0; i < pellets; i++)
             {
-                Ray spreadRay = new Ray(spawnPoint.transform.position, spawnPoint.transform.forward + AccuracyOffset(accuracy));
+                Ray spreadRay = new Ray(shootPoint.transform.position, shootPoint.transform.forward + AccuracyOffset(accuracy));
                 RaycastBullet(spreadRay);
                 OnFire();
             }
@@ -66,13 +66,13 @@ public class Shotgun : Weapon
         } 
         else
         {
-            BulletTrail(spawnPoint.transform.position + (spawnPoint.transform.forward + AccuracyOffset(accuracy)) * 200, 200);
+            BulletTrail(shootPoint.transform.position + (shootPoint.transform.forward + AccuracyOffset(accuracy)) * 200, 200);
         }
     }
 
     void BulletTrail(Vector3 target, float distance)
     {
-        GameObject bulletPath = Instantiate(lineRendPrefab, spawnPoint.position, spawnPoint.rotation);
+        GameObject bulletPath = Instantiate(lineRendPrefab, shootPoint.position, shootPoint.rotation);
         bulletPath.transform.SetParent(null);
         BulletPath script = bulletPath.GetComponent<BulletPath>();
         script.target = target;

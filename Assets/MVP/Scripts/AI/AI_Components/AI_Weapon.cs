@@ -49,7 +49,7 @@ public class AI_Weapon : Weapon
         if (currentMag > 0)
         {
             RaycastHit hit;
-            Ray ray = new Ray(spawnPoint.position, spawnPoint.transform.forward);
+            Ray ray = new Ray(shootPoint.position, shootPoint.transform.forward);
 
             SpawnMuzzleFlash();
 
@@ -76,7 +76,7 @@ public class AI_Weapon : Weapon
                 else
                 {
                     //print("I'm firing!");
-                    Debug.DrawRay(spawnPoint.position, spawnPoint.forward * 10, Color.magenta, 1);
+                    Debug.DrawRay(shootPoint.position, shootPoint.forward * 10, Color.magenta, 1);
 
                     if (hit.collider.tag == "Player")
                     {
@@ -109,8 +109,8 @@ public class AI_Weapon : Weapon
 
     void BulletTrail(Vector3 _target, float _dist)
     {
-        GameObject bulletPath = Instantiate(lineRendPrefab, spawnPoint.position, spawnPoint.rotation);
-        bulletPath.transform.SetParent(spawnPoint);
+        GameObject bulletPath = Instantiate(lineRendPrefab, shootPoint.position, shootPoint.rotation);
+        bulletPath.transform.SetParent(shootPoint);
         BulletPath _bulletPath = bulletPath.GetComponent<BulletPath>();
         _bulletPath.target = _target;
         _bulletPath.distance = _dist;

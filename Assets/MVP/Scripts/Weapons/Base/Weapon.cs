@@ -22,7 +22,7 @@ public abstract class Weapon : MonoBehaviour
     [BoxGroup("References")]
     public GameObject projectile, muzzle, lineRendPrefab;
     [BoxGroup("References")]
-    public Transform spawnPoint, aimShootPos, hipShootPos;
+    public Transform shootPoint, aimShootPos, hipShootPos;
     public Vector3 aimOffset;
     [BoxGroup("References")]
     public Text ammoDisplay;
@@ -122,12 +122,13 @@ public abstract class Weapon : MonoBehaviour
                 // if statfield is an int - cast it as such when applying value
                 if (statField.GetValue(this) is int)
                 {
-                    int newValue = (int)((int)statField.GetValue(this) * (float)statMultiplier.GetValue(uniqueStats));
+                    int newValue = Mathf.RoundToInt(((int)statField.GetValue(this) * (float)statMultiplier.GetValue(uniqueStats)));
                     statField.SetValue(this, newValue);
                 }
                 else if (statField.GetValue(this) is float)// if statfield is an float - cast it as such when applying value
                 {
                     float newValue = (float)statField.GetValue(this) * (float)statMultiplier.GetValue(uniqueStats);
+                    newValue = (float)Math.Round((double)newValue, 2);
                     statField.SetValue(this, newValue);
                 }
                 else
@@ -180,14 +181,14 @@ public abstract class Weapon : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(crossHairRay, out hit, Mathf.Infinity))
         {
-            Vector3 direction = hit.point - spawnPoint.position;
-            spawnPoint.rotation = Quaternion.LookRotation(direction);
+            Vector3 direction = hit.point - shootPoint.position;
+            shootPoint.rotation = Quaternion.LookRotation(direction);
         }
         else
         {
-            spawnPoint.localRotation = Quaternion.Euler(0, 90, 0);
+            shootPoint.localRotation = Quaternion.Euler(0, 90, 0);
         }
-        return spawnPoint.rotation;
+        return shootPoint.rotation;
     }
 
     public virtual void OnAim(bool _aiming)
@@ -257,7 +258,7 @@ public abstract class Weapon : MonoBehaviour
     {
         if (muzzle)
         {
-            GameObject _flash = Instantiate(muzzle, spawnPoint.transform);
+            GameObject _flash = Instantiate(muzzle, shootPoint.transform);
             _flash.transform.SetParent(null);
 
             Destroy(_flash, 3);

@@ -45,7 +45,7 @@ public class BehaviourAI : MonoBehaviour
     [ShowIf("ShowComponents")] [BoxGroup("Enemy Components")] public EnemyHealth healthRef;
     [ShowIf("ShowComponents")] [BoxGroup("Enemy Components")] public Transform hand;
 
-    
+    [HideInInspector]public bool isGuard;
 
 
     public bool ShowMarkers;
@@ -112,7 +112,10 @@ public class BehaviourAI : MonoBehaviour
 
     public void OnDrawGizmos()
     {
-        Debug.DrawRay(gun.transform.position, gun.transform.forward * 5, Color.red);
+        if (debugBehaviour)
+        {
+            Debug.DrawRay(gun.transform.position, gun.transform.forward * 5, Color.red);
+        }
     }
 
 
@@ -134,7 +137,14 @@ public class BehaviourAI : MonoBehaviour
         if (shootTimer <= 0)
         {
             int shots = Random.Range(1, maxBurstFire);
-            hand.LookAt(target);
+            if(isGuard)
+            {
+                hand.LookAt(target);
+            }
+            if(!isGuard)
+            {
+                Debug.Log("drone shooting");
+            }
             gun.Shoot(shots);
             shootTimer = shootDelay;
         }
@@ -187,9 +197,13 @@ public class BehaviourAI : MonoBehaviour
     }
     #endregion
 
-    
+
 
     #region START/UPDATE
+    private void Awake()
+    {
+        isGuard = this.name.Contains("Guard") ? true : false;
+    }
     private void Update()
     {
         if(shootTimer > 0)
@@ -213,6 +227,8 @@ public class BehaviourAI : MonoBehaviour
         {
             updateAi.Invoke();
         }
+
+        if(isGuard)
         if(hand.transform.localRotation != handStartRot)
         {
             //Debug.Log("correcting HandPos");
@@ -258,6 +274,8 @@ public class BehaviourAI : MonoBehaviour
         PopulateLists();
         // Create instances of AI architecture
         InitialiseSystem();
+
+        if(isGuard)
         handStartRot = hand.transform.localRotation;
 
         // repeating method that gets world info and decides actions

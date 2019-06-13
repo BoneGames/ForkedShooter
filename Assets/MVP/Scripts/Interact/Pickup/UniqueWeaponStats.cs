@@ -34,7 +34,9 @@ public class UniqueWeaponStats : ScriptableObject
             }
             else if (t is float)
             {
+                // Generate random stat multiplier
                 float multiplier = UnityEngine.Random.Range(1f + variance, 1f - variance);
+                // set value to stat variable
                 fields[i].SetValue(this, multiplier);
                 continue;
             }

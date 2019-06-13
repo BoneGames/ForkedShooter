@@ -19,7 +19,7 @@ public class RocketLauncher : Weapon
         base.Awake();
         lookOrigin = Camera.main.transform;
         //startRotation = spawnPoint.localRotation;
-        rocketSpawn = spawnPoint;
+        rocketSpawn = shootPoint;
 
         internalCheck = rocketSpawn.GetComponent<InsideCollider>();
     }
@@ -30,7 +30,7 @@ public class RocketLauncher : Weapon
         if (currentMag > 0)
         {
 
-            bool insideMesh = internalCheck.InsideMesh(lookOrigin, spawnPoint);
+            bool insideMesh = internalCheck.InsideMesh(lookOrigin, shootPoint);
             // if spawnPoint is inside mesh
             if (insideMesh)
             {
@@ -40,7 +40,7 @@ public class RocketLauncher : Weapon
             else
             {
                 // set spawn point as standard point at end of gun
-                rocketSpawn = spawnPoint;
+                rocketSpawn = shootPoint;
             }
 
             //SpawnMuzzleFlash();
@@ -67,9 +67,9 @@ public class RocketLauncher : Weapon
             newBullet.hitRotation = GetTargetNormal();
             newBullet.damage = damage;
 
-            spawnPoint.rotation = AimAtCrosshair();
+            shootPoint.rotation = AimAtCrosshair();
 
-            newBullet.Fire(spawnPoint.transform.forward + AccuracyOffset(accuracy));
+            newBullet.Fire(shootPoint.transform.forward + AccuracyOffset(accuracy));
 
             currentMag--;
 

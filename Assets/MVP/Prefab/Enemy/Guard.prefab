@@ -158,6 +158,7 @@ MonoBehaviour:
   loudness: 0
   bulletDetectionRadius: 0
   scopeZoom: 75
+  aimSpeed: 5
   reloadSpeed: 0
   rateOfFire: 5
   weaponElement: 0
@@ -165,7 +166,7 @@ MonoBehaviour:
   muzzle: {fileID: 1474961396079312, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
   lineRendPrefab: {fileID: 1832311583618776, guid: 1cb6f47bab6be4ddc9cdc473d8b3c35a,
     type: 3}
-  spawnPoint: {fileID: 4686679147568946}
+  shootPoint: {fileID: 4686679147568946}
   aimShootPos: {fileID: 0}
   hipShootPos: {fileID: 0}
   aimOffset: {x: 0, y: 0, z: 0}
@@ -188,9 +189,12 @@ MonoBehaviour:
   enemy:
     serializedVersion: 2
     m_Bits: 0
+  attackTimer: 0
   canShoot: 0
   isEquipped: 0
-  stats: {fileID: 0}
+  spawnWithUniqueStats: 0
+  uniqueStats: {fileID: 0}
+  statVariation: 0.2
   elementIndex: 0
   elementArray: 00000000010000000200000003000000
   contact: {fileID: 114063992362631900}
@@ -215,8 +219,8 @@ GameObject:
   - component: {fileID: 114063992362631900}
   - component: {fileID: 4663158289691852680}
   - component: {fileID: 1031662080}
-  - component: {fileID: 1031662088}
   - component: {fileID: 1031662090}
+  - component: {fileID: 1031662088}
   m_Layer: 10
   m_Name: Guard
   m_TagString: Enemy
@@ -432,9 +436,9 @@ MonoBehaviour:
   aiUpdateRate: 1
   shootDelay: 2
   moveSpeed:
-  - 3
-  - 5
-  - 8
+  - 2
+  - 4
+  - 6
   turnSpeed:
   - 120
   - 240
@@ -484,6 +488,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   behaviours:
   - {fileID: 11400000, guid: d31b8518fa321644f9dd7564b55be9e5, type: 2}
+--- !u!114 &1031662090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210148752958328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98eebd447eb519f4c996daecfb0e4679, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  behaviours:
+  - {fileID: 11400000, guid: e73c0d574f9ab5e4ca207dd66e177149, type: 2}
+  - {fileID: 11400000, guid: f34a6d409c52b1c40a6b0a3468f2ac60, type: 2}
 --- !u!114 &1031662088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -501,21 +520,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ae4f7e57d3f31f94eb34f06cf9660cfc, type: 2}
   - {fileID: 11400000, guid: 6dfebb7011c20d747b98b855bbea7150, type: 2}
   - {fileID: 11400000, guid: 7bb7827383556054f81fb9b4ceb5bf74, type: 2}
---- !u!114 &1031662090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1210148752958328}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98eebd447eb519f4c996daecfb0e4679, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  behaviours:
-  - {fileID: 11400000, guid: e73c0d574f9ab5e4ca207dd66e177149, type: 2}
-  - {fileID: 11400000, guid: f34a6d409c52b1c40a6b0a3468f2ac60, type: 2}
 --- !u!1 &1503068766642988
 GameObject:
   m_ObjectHideFlags: 0

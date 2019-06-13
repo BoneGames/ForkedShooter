@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Text;
 
 public class WeaponStatCompare : MonoBehaviour
 {
@@ -63,11 +64,11 @@ public class WeaponStatCompare : MonoBehaviour
         Dictionary<string, List<float>> weaponStatsCollated = CalculateStats(_pickupStats, _currentStats);
 
         // Iterate through dictionary to fill instantiated text objects with correct display text
-        string text = "";
+
         //compareText.GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width * 1/GetComponentInParent<Canvas>().transform.localScale.x, Screen.height * 1/GetComponentInParent<Canvas>().transform.localScale.y);
-        NewText("", Color.black);
-        NewText("Current", Color.black);
-        NewText("Pickup", Color.black);
+        NewText("", Color.black, true);
+        NewText("Current", Color.black, false);
+        NewText("Pickup", Color.black, false);
         Color val0, val1;
         foreach (KeyValuePair<string, List<float>> statPair in weaponStatsCollated)
         {
@@ -88,13 +89,15 @@ public class WeaponStatCompare : MonoBehaviour
             }
 
             // variable name
-            NewText(statPair.Key + ":", Color.black);
+            NewText(statPair.Key + ":", Color.black, true);
             // current stats
-            NewText(statPair.Value[0].ToString(), val0);
+            NewText(statPair.Value[0].ToString(), val0, false);
             // pickup stats
-            NewText(statPair.Value[1].ToString(), val1);
+            NewText(statPair.Value[1].ToString(), val1, false);
         }
-        Vector2 cellSize = new Vector2(Screen.width / layout.constraintCount, Screen.height / (textObjects.Count / layout.constraintCount)) * cellScaler * canvasScaler;
+        Vector2 cellSize = new Vector2(Screen.width / layout.constraintCount, 
+                                       Screen.height / (textObjects.Count / layout.constraintCount)) 
+                                       * cellScaler * canvasScaler;
 
         layout.cellSize = cellSize;
         Vector2 cellDimensions = new Vector2(layout.constraintCount, (textObjects.Count / layout.constraintCount));
@@ -102,16 +105,41 @@ public class WeaponStatCompare : MonoBehaviour
         backdrop.GetComponent<RectTransform>().sizeDelta = cellSize * cellDimensions;
     }
 
-    void NewText(string textToDisplay, Color col)
+    // create and fill text component on GO
+    void NewText(string textToDisplay, Color col, bool alignment)
     {
+        // Instantiate text object, set parent
         GameObject textField = Instantiate(textPrefab, transform.position, Quaternion.identity);
         textField.transform.SetParent(this.transform);
+
+        // Set Text text, color, and alignment
         Text t = textField.GetComponent<Text>();
         t.text = textToDisplay;
-        
-            t.color = col;
+        t.color = col;
+        t.alignment = alignment ? TextAnchor.MiddleLeft : TextAnchor.MiddleCenter;
 
+        // add text gameObject to list to be destroyed later (when not needed)
         textObjects.Add(textField);
+    }
+
+    string AddSpacesAndCapitalize(string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return "";
+        StringBuilder newText = new StringBuilder(text.Length * 2);
+        newText.Append(text[0]);
+        for (int i = 1; i < text.Length; i++)
+        {
+            if (char.IsUpper(text[i]) && text[i - 1] != ' ')
+                newText.Append(' ');
+            newText.Append(text[i]);
+        }
+        string firstLetter = text.Substring(0, 1);
+        firstLetter = firstLetter.ToUpper();
+        string finalText = newText.ToString();
+        finalText = finalText.Remove(0, 1);
+        finalText = firstLetter + finalText;
+        return finalText;
     }
 
     Dictionary<string, List<float>> CalculateStats(UniqueWeaponStats _pickupStats, UniqueWeaponStats _currentStats)
@@ -132,6 +160,8 @@ public class WeaponStatCompare : MonoBehaviour
             }
             // dictionary Key
             string key = stat;
+
+            key = AddSpacesAndCapitalize(key);
             // weapon stat base value (set in weapon inspector)
             float baseValue = _currentStats.baseStats[stat];
             
@@ -145,9 +175,19 @@ public class WeaponStatCompare : MonoBehaviour
             // multiplied value
             float finalValue_curr = baseValue * (float)multiplier_curr.GetValue(_currentStats);
 
+            if(key.Contains("max") || key.Contains("mag"))
+            {
+                finalValue_curr = (float)Math.Round((double)finalValue_curr);
+                finalValue_pick = (float)Math.Round((double)finalValue_pick);
+            }
+            else
+            {
+                finalValue_curr = (float)Math.Round((double)finalValue_curr, 2);
+                finalValue_pick = (float)Math.Round((double)finalValue_pick, 2);
+            }
+
             // Add values to dictionary: Key, current val, pickup val
             statsToReturn[key] = new List<float> { finalValue_curr, finalValue_pick};
-           
         }
         return statsToReturn;
     }

@@ -17,8 +17,8 @@ public class Pistol : Weapon
             attackTimer = 0;
             canShoot = false;
             RaycastHit hit;
-            spawnPoint.rotation = AimAtCrosshair();
-            Ray ray = new Ray(spawnPoint.position, spawnPoint.transform.forward + AccuracyOffset(accuracy));
+            shootPoint.rotation = AimAtCrosshair();
+            Ray ray = new Ray(shootPoint.position, shootPoint.transform.forward + AccuracyOffset(accuracy));
 
             OnFire();
 
@@ -48,7 +48,7 @@ public class Pistol : Weapon
             else
             {
                 // bullet trail shoots into sky
-                BulletTrail(spawnPoint.transform.position + (spawnPoint.transform.forward + AccuracyOffset(accuracy)) * 200, 200, weaponElement);
+                BulletTrail(shootPoint.transform.position + (shootPoint.transform.forward + AccuracyOffset(accuracy)) * 200, 200, weaponElement);
             }
 
             currentMag--;
@@ -68,8 +68,8 @@ public class Pistol : Weapon
 
     void BulletTrail(Vector3 target, float distance, Elements.Element bulletType)
     {
-        GameObject bulletPath = Instantiate(lineRendPrefab, spawnPoint.position, spawnPoint.rotation);
-        bulletPath.transform.SetParent(spawnPoint);
+        GameObject bulletPath = Instantiate(lineRendPrefab, shootPoint.position, shootPoint.rotation);
+        bulletPath.transform.SetParent(shootPoint);
         bulletPath.GetComponent<LineRenderer>().materials[0].SetColor("_TintColor", GetTrailColorBasedOn(bulletType));
         BulletPath script = bulletPath.GetComponent<BulletPath>();
         script.target = target;

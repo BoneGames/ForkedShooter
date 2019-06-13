@@ -402,8 +402,11 @@ GameObject:
   - component: {fileID: 95049339517146008}
   - component: {fileID: 23623985816531344}
   - component: {fileID: 114366355171617984}
-  - component: {fileID: 114020886584632132}
   - component: {fileID: 2901919595628460976}
+  - component: {fileID: 857376030651185121}
+  - component: {fileID: 4571701303490112056}
+  - component: {fileID: 805260834465932743}
+  - component: {fileID: 6138848832642700488}
   m_Layer: 10
   m_Name: ScoutDrone
   m_TagString: Enemy
@@ -557,7 +560,6 @@ MonoBehaviour:
   carryOnDmg: 0
   shieldElement: 0
   UI: {fileID: 0}
-  healthBar: {fileID: 0}
   ShowEvents: 1
   onDeath:
     m_PersistentCalls:
@@ -615,64 +617,6 @@ MonoBehaviour:
   isGod: 0
   viewPoint: {fileID: 6164544979146843020}
   photonView: {fileID: 0}
---- !u!114 &114020886584632132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1188078473502018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d226a0cd5dd188542a7ffa0f36407276, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 10
-  maxReserves: 30
-  currentReserves: 500
-  magSize: 7
-  currentMag: 7
-  accuracy: 0.2
-  loudness: 0
-  bulletDetectionRadius: 0
-  scopeZoom: 75
-  reloadSpeed: 0
-  rateOfFire: 5
-  weaponElement: 0
-  projectile: {fileID: 1874544804970178, guid: f5fad20bfebd88d46abe3e602f14fdaf, type: 3}
-  muzzle: {fileID: 0}
-  lineRendPrefab: {fileID: 0}
-  spawnPoint: {fileID: 4076797023168174}
-  aimShootPos: {fileID: 0}
-  hipShootPos: {fileID: 0}
-  aimOffset: {x: 0, y: 0, z: 0}
-  ammoDisplay: {fileID: 0}
-  pitchShifter: {fileID: 0}
-  audioWep: {fileID: 0}
-  sfx: []
-  onFire:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  elementColor: 1
-  normal: {r: 0, g: 0, b: 0, a: 0}
-  fire: {r: 0, g: 0, b: 0, a: 0}
-  water: {r: 0, g: 0, b: 0, a: 0}
-  grass: {r: 0, g: 0, b: 0, a: 0}
-  hitPoint: {x: 0, y: 0, z: 0}
-  enemy:
-    serializedVersion: 2
-    m_Bits: 0
-  canShoot: 0
-  isEquipped: 0
-  elementIndex: 0
-  elementArray: 00000000010000000200000003000000
-  contact: {fileID: 0}
-  hitParticle: {fileID: 1097464064478134, guid: 259a0b96acab2f749b11f8a6e18a8862,
-    type: 3}
-  burstDelay: 0.1
-  reloadTime: 4
 --- !u!114 &2901919595628460976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -688,6 +632,110 @@ MonoBehaviour:
   drops:
   - {fileID: 1861980455999006, guid: 81097656c3f3f474695c95c52ee785d7, type: 3}
   - {fileID: 1770668066226042, guid: ef39cf02ff0e77243aef73b443f72843, type: 3}
+--- !u!114 &857376030651185121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188078473502018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68685e1504e13284da7e0251dfa800fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowEvents: 1
+  updateAi:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 857376030651185121}
+        m_MethodName: MakeDecisionBasedOnSenses
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  debugBehaviour: 0
+  ShowSpecs: 1
+  aiUpdateRate: 1
+  shootDelay: 2
+  moveSpeed:
+  - 2
+  - 5
+  - 6
+  turnSpeed:
+  - 120
+  - 240
+  - 360
+  maxBurstFire: 3
+  lookAtTarget: 0
+  ShowComponents: 0
+  agent: {fileID: 0}
+  fov: {fileID: 0}
+  gun: {fileID: 0}
+  healthRef: {fileID: 0}
+  hand: {fileID: 0}
+  isGuard: 0
+  ShowMarkers: 1
+  playerTarget: {fileID: 0}
+  waypointParent: {fileID: 0}
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 2097152
+  investigatePoint: {x: 0, y: 0, z: 0}
+  totem: {fileID: 0}
+--- !u!114 &4571701303490112056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188078473502018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8557757c22e18b4f9c4b3a60394659f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  behaviours:
+  - {fileID: 11400000, guid: d31b8518fa321644f9dd7564b55be9e5, type: 2}
+--- !u!114 &805260834465932743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188078473502018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98eebd447eb519f4c996daecfb0e4679, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  behaviours:
+  - {fileID: 11400000, guid: e73c0d574f9ab5e4ca207dd66e177149, type: 2}
+  - {fileID: 11400000, guid: f34a6d409c52b1c40a6b0a3468f2ac60, type: 2}
+--- !u!114 &6138848832642700488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188078473502018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6024059aeecd8c4986ecb3eb6dd3930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  behaviours:
+  - {fileID: 11400000, guid: 5cf8c586cf2b5164b828c32c75ad395b, type: 2}
+  - {fileID: 11400000, guid: ae4f7e57d3f31f94eb34f06cf9660cfc, type: 2}
+  - {fileID: 11400000, guid: 6dfebb7011c20d747b98b855bbea7150, type: 2}
+  - {fileID: 11400000, guid: 7bb7827383556054f81fb9b4ceb5bf74, type: 2}
 --- !u!1 &1216102068932778
 GameObject:
   m_ObjectHideFlags: 0
@@ -813,8 +861,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff828ec6eb5e64b4d95b42c10d0119d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 50
-  viewAngle: 70
+  viewRadius: 180
+  viewAngle: 120
   targetMask:
     serializedVersion: 2
     m_Bits: 512
@@ -1966,6 +2014,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4076797023168174}
+  - component: {fileID: 1016031995}
   m_Layer: 10
   m_Name: GUN
   m_TagString: Untagged
@@ -1987,6 +2036,70 @@ Transform:
   m_Father: {fileID: 4772487962471540}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1016031995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952018030409084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d226a0cd5dd188542a7ffa0f36407276, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 100
+  maxReserves: 30
+  currentReserves: 0
+  magSize: 7
+  currentMag: 0
+  accuracy: 1
+  loudness: 0
+  bulletDetectionRadius: 0
+  scopeZoom: 75
+  aimSpeed: 5
+  reloadSpeed: 0
+  rateOfFire: 5
+  weaponElement: 0
+  projectile: {fileID: 0}
+  muzzle: {fileID: 1474961396079312, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+  lineRendPrefab: {fileID: 1832311583618776, guid: 1cb6f47bab6be4ddc9cdc473d8b3c35a,
+    type: 3}
+  shootPoint: {fileID: 4076797023168174}
+  aimShootPos: {fileID: 0}
+  hipShootPos: {fileID: 0}
+  aimOffset: {x: 0, y: 0, z: 0}
+  ammoDisplay: {fileID: 0}
+  UI: {fileID: 0}
+  pitchShifter: {fileID: 0}
+  audioWep: {fileID: 0}
+  sfx: []
+  onFire:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  elementColor: 1
+  normal: {r: 0, g: 0, b: 0, a: 0}
+  fire: {r: 0, g: 0, b: 0, a: 0}
+  water: {r: 0, g: 0, b: 0, a: 0}
+  grass: {r: 0, g: 0, b: 0, a: 0}
+  hitPoint: {x: 0, y: 0, z: 0}
+  enemy:
+    serializedVersion: 2
+    m_Bits: 0
+  attackTimer: 0
+  canShoot: 0
+  isEquipped: 0
+  spawnWithUniqueStats: 0
+  uniqueStats: {fileID: 0}
+  statVariation: 0.2
+  elementIndex: 0
+  elementArray: 00000000010000000200000003000000
+  contact: {fileID: 0}
+  hitParticle: {fileID: 0}
+  burstDelay: 0
+  reloadTime: 0
 --- !u!1 &1966131457345112
 GameObject:
   m_ObjectHideFlags: 0

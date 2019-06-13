@@ -1452,7 +1452,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4368222078556416
 Transform:
   m_ObjectHideFlags: 0
@@ -1489,6 +1489,7 @@ MonoBehaviour:
   loudness: 9
   bulletDetectionRadius: 7.5
   scopeZoom: 70
+  aimSpeed: 5
   reloadSpeed: 1
   rateOfFire: 0
   weaponElement: 0
@@ -1496,11 +1497,12 @@ MonoBehaviour:
   muzzle: {fileID: 1474961396079312, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
   lineRendPrefab: {fileID: 1832311583618776, guid: 1cb6f47bab6be4ddc9cdc473d8b3c35a,
     type: 3}
-  spawnPoint: {fileID: 4581693211349760}
+  shootPoint: {fileID: 4581693211349760}
   aimShootPos: {fileID: 477305350}
   hipShootPos: {fileID: 2922052762176080968}
   aimOffset: {x: 0, y: 0, z: 0}
   ammoDisplay: {fileID: 0}
+  UI: {fileID: 0}
   pitchShifter: {fileID: 278863396}
   audioWep: {fileID: 278863394}
   sfx:
@@ -1541,8 +1543,12 @@ MonoBehaviour:
   enemy:
     serializedVersion: 2
     m_Bits: 0
+  attackTimer: 0
   canShoot: 0
-  isEquipped: 0
+  isEquipped: 1
+  spawnWithUniqueStats: 1
+  uniqueStats: {fileID: 0}
+  statVariation: 0.2
   pellets: 6
 --- !u!114 &1252104210
 MonoBehaviour:
@@ -1630,18 +1636,20 @@ MonoBehaviour:
   loudness: 6.5
   bulletDetectionRadius: 5
   scopeZoom: 60
+  aimSpeed: 5
   reloadSpeed: 0.5
-  rateOfFire: 0
+  rateOfFire: 2
   weaponElement: 1
   projectile: {fileID: 1874544804970178, guid: f5fad20bfebd88d46abe3e602f14fdaf, type: 3}
   muzzle: {fileID: 1474961396079312, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
   lineRendPrefab: {fileID: 1832311583618776, guid: 1cb6f47bab6be4ddc9cdc473d8b3c35a,
     type: 3}
-  spawnPoint: {fileID: 4478692280217478}
+  shootPoint: {fileID: 4478692280217478}
   aimShootPos: {fileID: 1487045326}
   hipShootPos: {fileID: 2922052762176080968}
   aimOffset: {x: 0, y: 0, z: 0}
   ammoDisplay: {fileID: 0}
+  UI: {fileID: 0}
   pitchShifter: {fileID: 278863396}
   audioWep: {fileID: 278863394}
   sfx:
@@ -1682,8 +1690,12 @@ MonoBehaviour:
   enemy:
     serializedVersion: 2
     m_Bits: 1024
-  canShoot: 0
+  attackTimer: 0
+  canShoot: 1
   isEquipped: 1
+  spawnWithUniqueStats: 1
+  uniqueStats: {fileID: 0}
+  statVariation: 0.2
 --- !u!114 &363152908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1765,7 +1777,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4855080747290544
 Transform:
   m_ObjectHideFlags: 0
@@ -1802,6 +1814,7 @@ MonoBehaviour:
   loudness: 10
   bulletDetectionRadius: 10
   scopeZoom: 75
+  aimSpeed: 5
   reloadSpeed: 2
   rateOfFire: 0
   weaponElement: 0
@@ -1809,11 +1822,12 @@ MonoBehaviour:
   muzzle: {fileID: 0}
   lineRendPrefab: {fileID: 1832311583618776, guid: 1cb6f47bab6be4ddc9cdc473d8b3c35a,
     type: 3}
-  spawnPoint: {fileID: 4522203120360904}
+  shootPoint: {fileID: 4522203120360904}
   aimShootPos: {fileID: 1487045326}
   hipShootPos: {fileID: 2922052762176080968}
   aimOffset: {x: 0, y: 0, z: 0}
   ammoDisplay: {fileID: 0}
+  UI: {fileID: 0}
   pitchShifter: {fileID: 278863396}
   audioWep: {fileID: 278863394}
   sfx:
@@ -1843,8 +1857,12 @@ MonoBehaviour:
   enemy:
     serializedVersion: 2
     m_Bits: 0
+  attackTimer: 0
   canShoot: 0
-  isEquipped: 0
+  isEquipped: 1
+  spawnWithUniqueStats: 1
+  uniqueStats: {fileID: 0}
+  statVariation: 0.2
   rocketSpawn: {fileID: 4522203120360904}
 --- !u!114 &1958342126
 MonoBehaviour:
@@ -2014,8 +2032,18 @@ MonoBehaviour:
   - {fileID: 1748083688}
   - {fileID: 114110289301231624}
   currentWeapon: {fileID: 0}
+  pickups:
+  - {fileID: 6465479855710561323, guid: cdc798ec4e4bafe4d90b99be134d3e1b, type: 3}
+  - {fileID: 6465479855710561323, guid: 53456b9ea1bac3b45a3759f0a9ae081d, type: 3}
+  - {fileID: 6465479855710561323, guid: bd8776ae9b72421488b7a16e681be27e, type: 3}
   rotateToMainCamera: 1
   currentWeaponIndex: 0
+  UI: {fileID: 0}
+  weaponIds: []
+  rayDist: 10
+  weaponPickup:
+    serializedVersion: 2
+    m_Bits: 268435456
 --- !u!114 &114082195335734174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2037,9 +2065,10 @@ MonoBehaviour:
   shootKey: 323
   aimKey: 324
   reloadKey: 114
-  showActionKeys: 0
+  showActionKeys: 1
   interactKey: 101
   ammoKey: 103
+  dropKey: 121
 --- !u!114 &114803733962968952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2062,7 +2091,6 @@ MonoBehaviour:
   carryOnDmg: 0
   shieldElement: 0
   UI: {fileID: 0}
-  healthBar: {fileID: 0}
   ShowEvents: 1
   onDeath:
     m_PersistentCalls:
@@ -2498,6 +2526,10 @@ PrefabInstance:
       value: MuzzleFlash
       objectReference: {fileID: 0}
     - target: {fileID: 1474961396079312, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1474961396079312, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -2569,6 +2601,10 @@ PrefabInstance:
     - target: {fileID: 1474961396079312, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
       propertyPath: m_Name
       value: MuzzleFlash
+      objectReference: {fileID: 0}
+    - target: {fileID: 1474961396079312, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1474961396079312, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
       propertyPath: m_IsActive
@@ -2643,6 +2679,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Shield
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263617853731347756, guid: f0d18c748b7af534f99741e90e2f1f71,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5263617853731347757, guid: f0d18c748b7af534f99741e90e2f1f71,
         type: 3}

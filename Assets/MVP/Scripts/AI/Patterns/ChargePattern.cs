@@ -13,10 +13,10 @@ public class ChargePattern : Pattern
         // Go toward player target
         ai.agent.SetDestination(target);
         
-        // aim gun at target
+        if(ai.isGuard)
         if(ai.hand)
         {
-            //ai.hand.LookAt(target);
+            ai.hand.LookAt(target);
         }
         else
         {
