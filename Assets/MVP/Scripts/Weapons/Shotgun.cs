@@ -9,6 +9,10 @@ public class Shotgun : Weapon
     [BoxGroup("Weapon Stats")]
     public int pellets = 6;
 
+    public void Start()
+    {
+        ammoType = AmmoType.AmmoTypes.Heavy;
+    }
     public override void Attack()
     {
         if (currentMag > 0)
