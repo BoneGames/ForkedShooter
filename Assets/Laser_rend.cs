@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
-public class Laser : AI_Weapon
+public class Laser_rend : AI_Weapon
 {
     LineRenderer lineRend;
     List<Vector3> positions = new List<Vector3>();
@@ -33,7 +33,7 @@ public class Laser : AI_Weapon
     }
 
 
-    public override void AiShoot(int _shots)
+    public override void AiShoot(int _shots, Transform target)
     {
         StopAllCoroutines();
         StartCoroutine(TrackingLaser());

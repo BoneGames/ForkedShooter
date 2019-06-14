@@ -149,7 +149,7 @@ public class BehaviourAI : MonoBehaviour
             {
                 Debug.Log("drone shooting");
             }
-            gun.AiShoot(shots);
+            gun.AiShoot(shots, target);
             shootTimer = shootDelay;
         }
     }
