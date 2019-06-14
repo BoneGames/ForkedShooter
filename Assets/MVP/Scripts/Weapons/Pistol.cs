@@ -7,8 +7,13 @@ using System.Reflection;
 using BT;
 public class Pistol : Weapon
 {
-    
 
+    public AmmoType.AmmoTypes ammotype;
+
+    private void Start()
+    {
+        ammotype = AmmoType.AmmoTypes.Normal;
+    }
     public override void Attack()
     {
         Debug.Log("fire pistol");

@@ -18,6 +18,8 @@ public abstract class Weapon : MonoBehaviour
     [BoxGroup("Weapon Stats")] public float scopeZoom = 75f, aimSpeed = 5f, reloadSpeed, rateOfFire = 5f;
     [BoxGroup("Weapon Stats")]
     public Elements.Element weaponElement;
+    [BoxGroup("Weapon Stats")]
+    public AmmoType.AmmoTypes ammoType;
     //public float range = 10f
     [BoxGroup("References")]
     public GameObject projectile, muzzle, lineRendPrefab;
