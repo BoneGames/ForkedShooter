@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5824902905562716940}
   - component: {fileID: 5824902905561717196}
   - component: {fileID: 4450499654223038209}
+  - component: {fileID: 141604751932692742}
   m_Layer: 0
   m_Name: WiredFenceAlt
   m_TagString: Untagged
@@ -91,3 +92,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.4796753, y: 3.139108, z: 0.2264994}
   m_Center: {x: 0.0018310547, y: 1.4992632, z: 0.0000009536743}
+--- !u!208 &141604751932692742
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5824902905559713548}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.7400001, y: 1.57, z: 0.24800001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.002, y: 1.4990001, z: 0}
+  m_TimeToStationary: 0.5
