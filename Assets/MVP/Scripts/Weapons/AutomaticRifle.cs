@@ -8,8 +8,6 @@ public class AutomaticRifle : Weapon
 {
     
 
-    
-
     public override void Attack()
     {
 

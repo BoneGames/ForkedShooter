@@ -118,7 +118,6 @@ public class RigidCharacterMovement : Photon.PunBehaviour
             {
                 if (weapon.name == pickupName && weapon.isEquipped && !UI.weaponStatCompare.IsComparing)
                 {
-                    Debug.Log("raycast2");
                     UniqueWeaponStats currentStats = weapon.GetComponent<Weapon>().uniqueStats;
                     UI.weaponStatCompare.ShowStatComparison(pickupStats, currentStats);
                     return;
@@ -232,7 +231,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
             currentWeapon.isEquipped = false;
             
             UniqueWeaponStats statsToDrop = currentWeapon.uniqueStats;
-            currentWeapon.ResetValues(statsToDrop.baseStats);
+            currentWeapon.ResetBaseWeaponStats(statsToDrop.baseStats);
             GameObject droppedWeapon = Instantiate(pickups[currentWeaponIndex], transform.position + (transform.forward*2), Quaternion.identity);
             droppedWeapon.name = droppedWeapon.name.Replace("(Clone)", "");
             droppedWeapon.GetComponent<WeaponPickup>().stats = statsToDrop;

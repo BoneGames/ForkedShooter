@@ -14,7 +14,7 @@ public class WeaponStatCompare : MonoBehaviour
     Text compareText;
     public GameObject backdrop;
     public float cellScaler;
-    float canvasScaler;
+    float canvasScaler, xStretch;
     public bool IsComparing
     {
         get
@@ -101,7 +101,9 @@ public class WeaponStatCompare : MonoBehaviour
 
         layout.cellSize = cellSize;
         Vector2 cellDimensions = new Vector2(layout.constraintCount, (textObjects.Count / layout.constraintCount));
-       
+
+      
+
         backdrop.GetComponent<RectTransform>().sizeDelta = cellSize * cellDimensions;
     }
 

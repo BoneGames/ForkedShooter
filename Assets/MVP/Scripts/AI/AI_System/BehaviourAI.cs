@@ -7,11 +7,15 @@ using UnityEngine.Events;
 
 public class BehaviourAI : MonoBehaviour
 {
-#region VARIABLES
+    #region VARIABLES
     public bool ShowEvents;
     [ShowIf("ShowEvents")] [BoxGroup("Events")] public UnityEvent updateAi;
 
     public bool debugBehaviour;
+    public float hoverHeight;
+    bool handCorrecting, startHover;
+
+    float finalModelHeight, startModelHeight, hoverTimer;
 
     // Control Flow Classes
     [HideInInspector] public PatternManager pM;
@@ -43,7 +47,7 @@ public class BehaviourAI : MonoBehaviour
     [ShowIf("ShowComponents")] [BoxGroup("Enemy Components")] public AI_FoV_Detection fov; // Reference FieldOfView Script (used for line of sight player detection).
     [ShowIf("ShowComponents")] [BoxGroup("Enemy Components")] public AI_Weapon gun;
     [ShowIf("ShowComponents")] [BoxGroup("Enemy Components")] public EnemyHealth healthRef;
-    [ShowIf("ShowComponents")] [BoxGroup("Enemy Components")] public Transform hand;
+    [ShowIf("ShowComponents")] [BoxGroup("Enemy Components")] public Transform hand, model;
 
     [HideInInspector]public bool isGuard;
 
@@ -132,23 +136,24 @@ public class BehaviourAI : MonoBehaviour
 
     #region ACTIONS
     // shoots at target random number of times (within range: maxBurstFire)
-    public void ShootAt(Vector3 target)
+    public void ShootAt(Transform target)
     {
         if (shootTimer <= 0)
         {
             int shots = Random.Range(1, maxBurstFire);
             if(isGuard)
             {
-                hand.LookAt(target);
+                hand.LookAt(target.position);
             }
             if(!isGuard)
             {
                 Debug.Log("drone shooting");
             }
-            gun.Shoot(shots);
+            gun.AiShoot(shots, target);
             shootTimer = shootDelay;
         }
     }
+
     public void Crouch(bool _crouch)
     {
         if (_crouch)
@@ -167,8 +172,6 @@ public class BehaviourAI : MonoBehaviour
         agent.speed = moveSpeed[_moveSpeedIndex];
         agent.angularSpeed = turnSpeed[_moveSpeedIndex];
     }
-
-
 
     #endregion
 
@@ -206,9 +209,12 @@ public class BehaviourAI : MonoBehaviour
     }
     private void Update()
     {
+        // Shoot Timer
         if(shootTimer > 0)
         shootTimer -= Time.deltaTime;
-        if(lookAtTarget)
+
+        // Look at target (strafing)
+        if(lookAtTarget && isGuard)
         {
             //Debug.Log("looking");
             if(playerTarget)
@@ -218,23 +224,52 @@ public class BehaviourAI : MonoBehaviour
             }
             else
             {
-                Debug.Log("trying to look at player with no target supplied");
+                Debug.Log("Lost target to Look at, finding new behaviour");
                 // re-run ai selection for new behaviour that will run without player target
                 updateAi.Invoke();
             }
         }
+
+        // Update AI when destination reached
         if(agent.hasPath && DestinationReached(0.1f))
         {
             updateAi.Invoke();
         }
 
         if(isGuard)
-        if(hand.transform.localRotation != handStartRot)
+        if(hand.transform.localRotation != handStartRot)// && !handCorrecting)
         {
             //Debug.Log("correcting HandPos");
             hand.transform.localRotation = Quaternion.Slerp(hand.transform.localRotation, handStartRot, Time.deltaTime);
         }
+
+        if(hoverTimer <= 1 && startHover)
+        {
+            hoverTimer += Time.deltaTime * 0.5f;
+            model.position = Vector3.Lerp(new Vector3(model.position.x, startModelHeight, model.position.z),
+                                          new Vector3(model.position.x, finalModelHeight, model.position.z),
+                                          hoverTimer);
+        }
     }
+
+    public void HoverHeight(float finish)
+    {
+        // if already at desired height, return
+        if(model.position.y == finish)
+        {
+            return;
+        }
+
+        // set lerp start and end
+        finalModelHeight = finish;
+        startModelHeight = model.position.y;
+        
+        hoverTimer = 0;
+        // tell update to start lerping height
+        startHover = true;
+    }
+
+
     void GetReferences()
     {
         totem = GetNearestTotem();
@@ -246,6 +281,9 @@ public class BehaviourAI : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         // Get weapon
         gun = GetComponentInChildren<AI_Weapon>();
+        // Get Object model
+        model = transform.GetChild(0).transform;
+    
     }
     void PopulateLists()
     {

@@ -33,7 +33,7 @@ public class CoverShootPattern : Pattern
         ai.agent.SetDestination(coverPoint);
 
         // fire while moving
-        ai.ShootAt(enemyTarget.position);
+        ai.ShootAt(enemyTarget);
     }
 
     public override void UpdatePattern(BehaviourAI ai, SenseMemoryFactory.SMData data)

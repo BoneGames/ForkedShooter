@@ -35,7 +35,6 @@ public class WeaponPickup : Pickup
 
         if (stats == null)
         {
-            Debug.Log("setting ststa");
             stats = ScriptableObject.CreateInstance<UniqueWeaponStats>();
             stats.Init(statVariation);
         }

@@ -8,6 +8,8 @@ using NaughtyAttributes;
 public class StrafeFirePattern : Pattern
 {
     public float strafeLength;
+    public float moveHeight;
+    float startHeight;
 
     public override void StartPatternWith(BehaviourAI ai, SenseMemoryFactory.SMData data)
     {
@@ -19,6 +21,8 @@ public class StrafeFirePattern : Pattern
         // tell ai to look at target
         ai.lookAtTarget = true;
 
+        startHeight = ai.model.position.y;
+
         StrafeCycle(ai, data);
     }
 
@@ -26,13 +30,22 @@ public class StrafeFirePattern : Pattern
     {
         // get target
         ai.playerTarget = data.targets[0];
-        // get strafe move-to position
+        // get destination
         Vector3 moveTarget = ai.transform.position + Random.insideUnitSphere * strafeLength;
-        moveTarget.y = 0;
-        // move to position & start coroutine to rotate to player
+        // set destination.y
+        moveTarget.y = ai.transform.position.y + moveHeight;
+        // start height lerp method
+        ai.HoverHeight(moveTarget.y);
+
+        //Debug.Log("Strafing");
+        //GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        //sphere.transform.position = moveTarget;
+        //sphere.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+
+
         ai.agent.SetDestination(moveTarget);
         // shoot
-        ai.ShootAt(data.targets[0].position);
+        ai.ShootAt(data.targets[0]);
     }
 
     public override void UpdatePattern(BehaviourAI ai, SenseMemoryFactory.SMData data)
@@ -43,6 +56,7 @@ public class StrafeFirePattern : Pattern
     public override void KillPattern(BehaviourAI ai)
     {
         base.KillPattern(ai);
+        ai.HoverHeight(startHeight);
     }
 }
 

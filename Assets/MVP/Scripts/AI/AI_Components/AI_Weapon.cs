@@ -35,9 +35,9 @@ public class AI_Weapon : Weapon
     }
 
     // Where we run BurstFire(). - accessed from Behaviour_AI
-    public void Shoot(int _shots)
+    public virtual void AiShoot(int _shots, Transform target)
     {
-       StartCoroutine(BurstFire(_shots, burstDelay)); 
+        StartCoroutine(BurstFire(_shots, burstDelay));
     }
 
     // Where we define shooting.
@@ -80,14 +80,14 @@ public class AI_Weapon : Weapon
                     if (hit.collider.tag == "Player")
                     {
                         elementIndex++;
-                        if(elementIndex >= elementArray.Length-1)
+                        if (elementIndex >= elementArray.Length - 1)
                         {
                             elementIndex = 0;
                         }
                         weaponElement = elementArray[elementIndex];
 
 
-                        Debug.Log("AI Element: "+weaponElement);
+                        Debug.Log("AI Element: " + weaponElement);
                         hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position, weaponElement);
                         //print("I hit an enemy");
                     }
@@ -121,6 +121,6 @@ public class AI_Weapon : Weapon
         Destroy(_flash, 3);
     }
 
-    
+
     #endregion
 }

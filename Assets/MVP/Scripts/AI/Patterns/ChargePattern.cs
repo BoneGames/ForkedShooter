@@ -9,14 +9,14 @@ public class ChargePattern : Pattern
     {
         base.StartPatternWith(ai, data);
         // closest target (FoV script orders targets in list)
-        Vector3 target = data.targets[0].position;
+        Transform target = data.targets[0];
         // Go toward player target
-        ai.agent.SetDestination(target);
+        ai.agent.SetDestination(target.position);
         
         if(ai.isGuard)
         if(ai.hand)
         {
-            ai.hand.LookAt(target);
+            ai.hand.LookAt(target.position);
         }
         else
         {
