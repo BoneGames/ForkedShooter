@@ -66,16 +66,6 @@ public class Pistol : Weapon
         return base.AimAtCrosshair();
     }
 
-    void BulletTrail(Vector3 target, float distance, Elements.Element bulletType)
-    {
-        GameObject bulletPath = Instantiate(lineRendPrefab, shootPoint.position, shootPoint.rotation);
-        bulletPath.transform.SetParent(shootPoint);
-        bulletPath.GetComponent<LineRenderer>().materials[0].SetColor("_TintColor", GetTrailColorBasedOn(bulletType));
-        BulletPath script = bulletPath.GetComponent<BulletPath>();
-        script.target = target;
-        script.distance = distance;
-    }
-
     public override void Reload()
     {
         StartCoroutine(ReloadTimed());

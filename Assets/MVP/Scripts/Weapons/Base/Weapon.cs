@@ -140,12 +140,12 @@ public abstract class Weapon : MonoBehaviour
             }
             else
             {
-                Debug.Log("UniqueWeaponStats variable: " + multi + ", does not have a counterpart to mutate in weapon script");
+                //Debug.Log("UniqueWeaponStats variable: " + multi + ", does not have a counterpart to mutate in weapon script");
             }
         }
     }
 
-    public void ResetValues(Dictionary<string, float> baseValues)
+    public void ResetBaseWeaponStats(Dictionary<string, float> baseValues)
     {
         // Get Array of all variable names in class
         var weaponVariableNames = this.GetType()
@@ -172,7 +172,7 @@ public abstract class Weapon : MonoBehaviour
         }
     }
 
-
+    //public abstract void AiShoot(int _shots);
     public abstract void Attack();
 
     public virtual Quaternion AimAtCrosshair()
@@ -314,13 +314,14 @@ public abstract class Weapon : MonoBehaviour
 
         // Find enemies within radius of bullet impact
         Collider[] impactSearch = Physics.OverlapSphere(_hitPoint, bulletDetectionRadius, enemy);
-        TellEnemies(impactSearch, _newInspectionPoint);
+        AlertEnemies(impactSearch, _newInspectionPoint);
 
         // Find enemies withing radius of fire point
         Collider[] fireSearch = Physics.OverlapSphere(origin, loudness * 2, enemy);
-        TellEnemies(fireSearch, origin);
+        AlertEnemies(fireSearch, origin);
     }
-    void TellEnemies(Collider[] enemies, Vector3 inspectionPoint)
+
+    void AlertEnemies(Collider[] enemies, Vector3 inspectionPoint)
     {
         if (enemies.Length > 0)
         {
@@ -359,5 +360,14 @@ public abstract class Weapon : MonoBehaviour
 
     }
 
+    public void BulletTrail(Vector3 target, float distance, Elements.Element bulletType)
+    {
+        GameObject bulletPath = Instantiate(lineRendPrefab, shootPoint.position, shootPoint.rotation);
+        bulletPath.transform.SetParent(shootPoint);
+        bulletPath.GetComponent<LineRenderer>().materials[0].SetColor("_TintColor", GetTrailColorBasedOn(bulletType));
+        BulletPath script = bulletPath.GetComponent<BulletPath>();
+        script.target = target;
+        script.distance = distance;
+    }
 }
 

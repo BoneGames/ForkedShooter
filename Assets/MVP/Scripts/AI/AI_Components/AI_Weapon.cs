@@ -35,7 +35,7 @@ public class AI_Weapon : Weapon
     }
 
     // Where we run BurstFire(). - accessed from Behaviour_AI
-    public void Shoot(int _shots)
+    public virtual void AiShoot(int _shots)
     {
        StartCoroutine(BurstFire(_shots, burstDelay)); 
     }

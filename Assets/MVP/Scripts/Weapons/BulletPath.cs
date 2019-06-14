@@ -58,6 +58,7 @@ public class BulletPath : MonoBehaviour
 	public void GeneratePositions()
     {
         // defines how many vertices the line has
+        // distance is provided by weapon raycast
         distance *= resolution;
         // set first position
         lastPos = transform.position;
