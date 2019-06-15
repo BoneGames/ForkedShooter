@@ -13,6 +13,9 @@ public class OnTriggerEvent : MonoBehaviour
   [BoxGroup("Trigger Events")]
   public UnityEvent onEnter, onStay, onExit;
 
+  [HideInInspector]
+  public Collider otherCollider;
+
   public virtual void Reset()
   {
     Collider col = GetComponent<Collider>();
@@ -30,6 +33,7 @@ public class OnTriggerEvent : MonoBehaviour
   {
     if (other.tag == hitTag || hitTag == "")
     {
+      otherCollider = other;
       onEnter.Invoke();
     }
   }
@@ -38,6 +42,7 @@ public class OnTriggerEvent : MonoBehaviour
   {
     if (other.tag == hitTag || hitTag == "")
     {
+      otherCollider = other;
       onStay.Invoke();
     }
   }
@@ -46,6 +51,7 @@ public class OnTriggerEvent : MonoBehaviour
   {
     if (other.tag == hitTag || hitTag == "")
     {
+      otherCollider = other;
       onExit.Invoke();
     }
   }
