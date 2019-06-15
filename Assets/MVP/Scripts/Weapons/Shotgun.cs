@@ -6,91 +6,103 @@ using NaughtyAttributes;
 
 public class Shotgun : Weapon
 {
-    [BoxGroup("Weapon Stats")]
-    public int pellets = 6;
+  [BoxGroup("Weapon Stats")]
+  public int pellets = 6;
 
-    public void Start()
+  public bool isReloading;
+
+  public override void Attack()
+  {
+    if (currentMag > 0)
     {
-        ammoType = AmmoType.AmmoTypes.Heavy;
+      if (isReloading)
+      {
+        isReloading = false;
+      }
+      //SpawnMuzzleFlash();
+
+      currentMag--;
+      UpdateAmmoDisplay();
+
+      //audioWep.PlayOneShot(sfx[0]);
+      //pitchShifter.Tweet();
+
+      //OnFire();
+
+      shootPoint.transform.rotation = AimAtCrosshair();
+
+      for (int i = 0; i < pellets; i++)
+      {
+        Ray spreadRay = new Ray(shootPoint.transform.position, shootPoint.transform.forward + AccuracyOffset(accuracy));
+        RaycastBullet(spreadRay);
+        OnFire();
+      }
     }
-    public override void Attack()
+    //if (currentMag <= 0)
+    //{
+    //  Reload();
+    //}
+  }
+
+  public override Quaternion AimAtCrosshair()
+  {
+    return base.AimAtCrosshair();
+  }
+
+  void RaycastBullet(Ray bulletRay)
+  {
+    RaycastHit hit;
+    if (Physics.Raycast(bulletRay, out hit))
     {
-        if (currentMag > 0)
-        {
-            //SpawnMuzzleFlash();
+      BulletTrail(hit.point, hit.distance);
+      BulletAlert(transform.position, hit.point, loudness);
 
-            UpdateAmmoDisplay();
+      if (hit.collider.CompareTag("Player"))
+      {
+        if (GameManager.isOnline)
+          hit.transform.GetComponent<PhotonView>().RPC("ChangeHealth", PhotonTargets.All, damage);
+      }
 
-            //audioWep.PlayOneShot(sfx[0]);
-            //pitchShifter.Tweet();
-
-            //OnFire();
-
-            shootPoint.transform.rotation = AimAtCrosshair();
-
-            for (int i = 0; i < pellets; i++)
-            {
-                Ray spreadRay = new Ray(shootPoint.transform.position, shootPoint.transform.forward + AccuracyOffset(accuracy));
-                RaycastBullet(spreadRay);
-                OnFire();
-            }
-            currentMag--;
-            UpdateAmmoDisplay();
-        }
-        if (currentMag <= 0)
-        {
-            Reload();
-        }
+      if (hit.collider.CompareTag("Enemy"))
+      {
+        hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position, weaponElement);
+      }
     }
-
-    public override Quaternion AimAtCrosshair()
+    else
     {
-        return base.AimAtCrosshair();
+      BulletTrail(shootPoint.transform.position + (shootPoint.transform.forward + AccuracyOffset(accuracy)) * 200, 200);
     }
+  }
 
+  void BulletTrail(Vector3 target, float distance)
+  {
+    GameObject bulletPath = Instantiate(lineRendPrefab, shootPoint.position, shootPoint.rotation);
+    bulletPath.transform.SetParent(null);
+    BulletPath script = bulletPath.GetComponent<BulletPath>();
+    script.target = target;
+    script.distance = distance;
+  }
 
-    void RaycastBullet(Ray bulletRay)
+  public override void Reload()
+  {
+    StartCoroutine(GradualReload(reloadSpeed));
+  }
+
+  IEnumerator GradualReload(float reloadSpeed)
+  {
+    isReloading = true;
+    while (currentMag < magSize && isReloading)
     {
-        RaycastHit hit;
-        if (Physics.Raycast(bulletRay, out hit))
-        {
-            BulletTrail(hit.point, hit.distance, weaponElement);
+      if (currentReserves > 0)
+      {
+        currentMag++;
+        currentReserves--;
+      }
 
-            BulletAlert(transform.position, hit.point, loudness);
+      UpdateAmmoDisplay();
 
-            if (hit.collider.CompareTag("Player"))
-            {
-                if (GameManager.isOnline)
-                    hit.transform.GetComponent<PhotonView>().RPC("ChangeHealth", PhotonTargets.All, damage);
-            }
-
-            if (hit.collider.CompareTag("Enemy"))
-            {
-                hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position, weaponElement);
-            }
-        } 
-        else
-        {
-            BulletTrail(shootPoint.transform.position + (shootPoint.transform.forward + AccuracyOffset(accuracy)) * 200, 200, weaponElement);
-        }
+      yield return new WaitForSeconds(reloadSpeed);
     }
-
-    public override void Reload()
-    {
-        StartCoroutine(GradualReload(reloadSpeed, 7));
-    }
-
-    IEnumerator GradualReload(float reloadSpeed, int seven)
-    {
-        while (currentMag < magSize)
-        {
-            currentMag++;
-            currentReserves--;
-            UpdateAmmoDisplay();
-
-            yield return new WaitForSeconds(reloadSpeed);
-        }
-    }
-
-   
+    isReloading = false;
+  }
 }
