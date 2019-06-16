@@ -45,6 +45,8 @@ public class BehaviourAI : MonoBehaviour
     public float hoverHeight;
     bool handCorrecting, startHover;
 
+    public EnemyUIHealthBar healthBarRef;
+
     float finalModelHeight, startModelHeight, hoverTimer;
 
     // Control Flow Classes
@@ -241,6 +243,7 @@ public class BehaviourAI : MonoBehaviour
         {
             // The step size is equal to speed times frame time.
             float rotSpeed = turnSpeed[turnSpeed.Length - 1] * Time.deltaTime;
+            //Debug.Log("rot:" + rotSpeed);
             if (isGuard)
             {
                 Vector3 targetDir = playerTarget.position - transform.position;
@@ -254,11 +257,11 @@ public class BehaviourAI : MonoBehaviour
             else
             {
                 Vector3 targetDir = playerTarget.position - hand.transform.position;
-                Vector3 newDir = Vector3.RotateTowards(hand.transform.forward, targetDir, rotSpeed, 0.0f);
+                Vector3 newDir = Vector3.RotateTowards(hand.transform.forward, targetDir, 1, 0.0f);
                 // Move our position a step closer to the target.
                 hand.transform.rotation = Quaternion.LookRotation(newDir);
 
-                Debug.DrawRay(hand.transform.position, newDir, Color.red);
+                //Debug.DrawRay(hand.transform.position, newDir, Color.red);
                 //Quaternion lookRot = Quaternion.LookRotation(playerTarget.position - hand.transform.position);
                 //hand.transform.rotation = lookRot;
             }
@@ -281,6 +284,15 @@ public class BehaviourAI : MonoBehaviour
         {
             LookAtTarget();
         }
+        else
+        {
+            if (hand.transform.localRotation != handStartRot)// && !handCorrecting)
+            {
+                //hand.transform.localRotation = Quaternion.Slerp(hand.transform.localRotation, handStartRot, Time.deltaTime);
+                hand.transform.localRotation = handStartRot;
+            }
+        }
+
 
         // Update AI when destination reached
         if (agent.hasPath && DestinationReached(0.1f))
@@ -288,21 +300,16 @@ public class BehaviourAI : MonoBehaviour
             updateAi.Invoke();
         }
 
-        if (isGuard)
-            if (hand.transform.localRotation != handStartRot)// && !handCorrecting)
-            {
-                //Debug.Log("correcting HandPos");
-                hand.transform.localRotation = Quaternion.Slerp(hand.transform.localRotation, handStartRot, Time.deltaTime);
-            }
 
-        if (hoverTimer <= 1 && startHover)
-        {
-            hoverTimer += Time.deltaTime * 0.5f;
-            model.localPosition = Vector3.Lerp(new Vector3(model.localPosition.x, startModelHeight, model.localPosition.z),
-                                          new Vector3(model.localPosition.x, finalModelHeight, model.localPosition.z),
-                                          hoverTimer);
-            ((SphereCollider)col).center = model.localPosition;
-        }
+            if (hoverTimer <= 1 && startHover)
+            {
+                hoverTimer += Time.deltaTime;
+                model.localPosition = Vector3.Lerp(new Vector3(model.localPosition.x, startModelHeight, model.localPosition.z),
+                                              new Vector3(model.localPosition.x, finalModelHeight, model.localPosition.z),
+                                              hoverTimer);
+                ((SphereCollider)col).center = model.localPosition;
+                healthBarRef.offset.y = model.localPosition.y + 2;
+            }
     }
 
     public void HoverHeight(float finish)
@@ -337,8 +344,8 @@ public class BehaviourAI : MonoBehaviour
         // Get Object model
         model = transform.GetChild(0).transform;
 
-        if(!isGuard)
-        col = GetComponent<SphereCollider>();
+        if (!isGuard)
+            col = GetComponent<SphereCollider>();
 
     }
     void PopulateLists()
@@ -369,8 +376,8 @@ public class BehaviourAI : MonoBehaviour
         // Create instances of AI architecture
         InitialiseSystem();
 
-        if (isGuard)
-            handStartRot = hand.transform.localRotation;
+
+        handStartRot = hand.transform.localRotation;
 
         // repeating method that gets world info and decides actions
         InvokeRepeating("MakeDecisionBasedOnSenses", 0, aiUpdateRate);

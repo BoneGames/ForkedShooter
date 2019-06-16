@@ -639,7 +639,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1188078473502018}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 68685e1504e13284da7e0251dfa800fd, type: 3}
   m_Name: 
@@ -669,6 +669,7 @@ MonoBehaviour:
   distance: 0
   debugBehaviour: 0
   hoverHeight: 0
+  healthBarRef: {fileID: 0}
   ShowSpecs: 0
   aiUpdateRate: 1
   shootDelay: 2
@@ -687,7 +688,7 @@ MonoBehaviour:
   fov: {fileID: 0}
   gun: {fileID: 0}
   healthRef: {fileID: 0}
-  hand: {fileID: 4076797023168174}
+  hand: {fileID: 4772487962471540}
   model: {fileID: 0}
   isGuard: 0
   ShowMarkers: 1
@@ -831,9 +832,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4772487962471540}
   - component: {fileID: 114553284607818792}
+  - component: {fileID: 1225739533183425}
   m_Layer: 10
   m_Name: SearchLight
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -884,6 +886,20 @@ MonoBehaviour:
   updateRate: 0
   distance2Target: 0
   fovLight: {fileID: 108193603917091660}
+--- !u!136 &1225739533183425
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225739533183424}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.2
+  m_Height: 0.5
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0.55}
 --- !u!1 &1332977140097902
 GameObject:
   m_ObjectHideFlags: 0

@@ -26,6 +26,9 @@ public class EnemyUIHealthBar : HealthBar
         // Register this Bar as the Enemies script to send Damage info to
         enemyTarget.GetComponent<EnemyHealth>().RegisterHealthBarEventDelegate(this);
 
+        // Give offset variable to Behaviour AI on agent to reset when it is changing height
+        enemyTarget.GetComponent<BehaviourAI>().healthBarRef = this;
+
         rend = enemyTarget.GetComponent<Renderer>();
     }
 

@@ -32,6 +32,12 @@ public class StrafeFirePattern : Pattern
         ai.playerTarget = data.targets[0];
         // get destination
         Vector3 moveTarget = ai.transform.position + Random.insideUnitSphere * strafeLength;
+
+        while (Vector3.Distance(moveTarget, data.targets[0].position) > Vector3.Distance(ai.transform.position, data.targets[0].position))
+        {
+            moveTarget = ai.transform.position + Random.insideUnitSphere * strafeLength;
+            Debug.Log("strafeMoveTargetChanged");
+        }
         // set destination.y
         moveTarget.y = moveHeight;
         // start height lerp method
