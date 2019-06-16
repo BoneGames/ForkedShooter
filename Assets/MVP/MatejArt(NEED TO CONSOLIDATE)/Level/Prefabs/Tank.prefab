@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 65922906477949280}
   - component: {fileID: 65114826284893512}
   - component: {fileID: 136869708859116002}
+  - component: {fileID: 2040545896291987944}
   m_Layer: 0
   m_Name: Tank
   m_TagString: Untagged
@@ -120,3 +121,19 @@ CapsuleCollider:
   m_Height: 4.764721
   m_Direction: 2
   m_Center: {x: -0.0000038146973, y: 2.6001754, z: 2.1502666}
+--- !u!208 &2040545896291987944
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1696707419986752}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.7580001, y: 1.4940001, z: 3.34}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.4940001, z: -0.87}
+  m_TimeToStationary: 0.5

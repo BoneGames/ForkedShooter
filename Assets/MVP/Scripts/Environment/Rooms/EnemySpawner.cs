@@ -41,6 +41,10 @@ public class EnemySpawner : MonoBehaviour
         GameObject clone = Instantiate(drone, droneSpawnPoint.position, droneSpawnPoint.rotation, droneSpawnPoint);
         clone.transform.name += i.ToString();
         clone.transform.parent = transform;
+        clone.transform.localScale = new Vector3(1, 1, 1);
+
+        print(string.Format("The spawned enemy's name is {0}, they are parented to {1}, and their scale is {2}", clone.transform.name, clone.transform.parent, clone.transform.localScale));
+        
         clone.GetComponent<BehaviourAI>().waypointParent = waypointParent;
       }
       dronesSpawned = true;
@@ -56,6 +60,10 @@ public class EnemySpawner : MonoBehaviour
         GameObject clone = Instantiate(guard, guardSpawnPoint.position, guardSpawnPoint.rotation, guardSpawnPoint);
         clone.transform.name += i.ToString();
         clone.transform.parent = transform;
+        clone.transform.localScale = new Vector3(1, 1, 1);
+
+        print(string.Format("The spawned enemy's name is {0}, they are parented to {1}, and their scale is {2}", clone.transform.name, clone.transform.parent, clone.transform.localScale));
+
         clone.GetComponent<BehaviourAI>().waypointParent = waypointParent;
       }
       guardsSpawned = true;
