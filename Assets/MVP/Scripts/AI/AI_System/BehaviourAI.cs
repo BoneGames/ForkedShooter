@@ -78,6 +78,7 @@ public class BehaviourAI : MonoBehaviour
     [ShowIf("ShowComponents")] [BoxGroup("Enemy Components")] public AI_Weapon gun;
     [ShowIf("ShowComponents")] [BoxGroup("Enemy Components")] public EnemyHealth healthRef;
     [ShowIf("ShowComponents")] [BoxGroup("Enemy Components")] public Transform hand, model;
+    Collider col;
 
     [HideInInspector] public bool isGuard;
 
@@ -297,9 +298,10 @@ public class BehaviourAI : MonoBehaviour
         if (hoverTimer <= 1 && startHover)
         {
             hoverTimer += Time.deltaTime * 0.5f;
-            model.position = Vector3.Lerp(new Vector3(model.position.x, startModelHeight, model.position.z),
-                                          new Vector3(model.position.x, finalModelHeight, model.position.z),
+            model.localPosition = Vector3.Lerp(new Vector3(model.localPosition.x, startModelHeight, model.localPosition.z),
+                                          new Vector3(model.localPosition.x, finalModelHeight, model.localPosition.z),
                                           hoverTimer);
+            ((SphereCollider)col).center = model.localPosition;
         }
     }
 
@@ -313,7 +315,7 @@ public class BehaviourAI : MonoBehaviour
 
         // set lerp start and end
         finalModelHeight = finish;
-        startModelHeight = model.position.y;
+        startModelHeight = model.localPosition.y;
 
         hoverTimer = 0;
         // tell update to start lerping height
@@ -334,6 +336,9 @@ public class BehaviourAI : MonoBehaviour
         gun = GetComponentInChildren<AI_Weapon>();
         // Get Object model
         model = transform.GetChild(0).transform;
+
+        if(!isGuard)
+        col = GetComponent<SphereCollider>();
 
     }
     void PopulateLists()

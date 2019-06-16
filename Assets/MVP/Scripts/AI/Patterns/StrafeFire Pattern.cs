@@ -33,7 +33,7 @@ public class StrafeFirePattern : Pattern
         // get destination
         Vector3 moveTarget = ai.transform.position + Random.insideUnitSphere * strafeLength;
         // set destination.y
-        moveTarget.y = ai.transform.position.y + moveHeight;
+        moveTarget.y = moveHeight;
         // start height lerp method
         ai.HoverHeight(moveTarget.y);
 

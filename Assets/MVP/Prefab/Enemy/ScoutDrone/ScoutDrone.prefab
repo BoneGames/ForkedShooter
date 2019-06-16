@@ -413,7 +413,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4228566872078592
 Transform:
   m_ObjectHideFlags: 0
@@ -661,6 +661,12 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  ShowAiStateData: 0
+  currentPattern: {fileID: 0}
+  targets: []
+  inspectionPoints: []
+  targetLastSeen: {x: 0, y: 0, z: 0}
+  distance: 0
   debugBehaviour: 0
   hoverHeight: 0
   ShowSpecs: 0
@@ -681,7 +687,7 @@ MonoBehaviour:
   fov: {fileID: 0}
   gun: {fileID: 0}
   healthRef: {fileID: 0}
-  hand: {fileID: 0}
+  hand: {fileID: 4076797023168174}
   model: {fileID: 0}
   isGuard: 0
   ShowMarkers: 1
@@ -2017,7 +2023,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4076797023168174}
   - component: {fileID: 5125664039883385301}
-  - component: {fileID: 1614543361408364745}
+  - component: {fileID: 646667167779302}
   m_Layer: 10
   m_Name: GUN
   m_TagString: Untagged
@@ -2134,7 +2140,7 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!114 &1614543361408364745
+--- !u!114 &646667167779302
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2143,7 +2149,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1952018030409084}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 536763edc7ac2b74cba96572d5188951, type: 3}
+  m_Script: {fileID: 11500000, guid: d226a0cd5dd188542a7ffa0f36407276, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 100
@@ -2198,9 +2204,6 @@ MonoBehaviour:
   hitParticle: {fileID: 0}
   burstDelay: 0
   reloadTime: 0
-  laserMeshPrefab: {fileID: 0}
-  laserMeshes: []
-  laserChunkLength: 0
 --- !u!1 &1966131457345112
 GameObject:
   m_ObjectHideFlags: 0
