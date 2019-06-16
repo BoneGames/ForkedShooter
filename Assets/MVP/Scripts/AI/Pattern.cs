@@ -16,6 +16,8 @@ public class Pattern : ScriptableObject
     {
         isRunning = true;
         ai.SetSpeed(patternType.precedence);
+        ai.currentPattern = this;
+        ai.CurrentData = data;
     }
 
     public virtual void UpdatePattern(BehaviourAI ai, SenseMemoryFactory.SMData data)

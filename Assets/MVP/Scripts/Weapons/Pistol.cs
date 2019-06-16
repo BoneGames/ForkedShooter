@@ -33,6 +33,8 @@ public class Pistol : Weapon
 
                 BulletAlert(transform.position, hit.point, loudness);
 
+                Debug.Log("I hit: "+hit.transform.name);
+
                 if (GameManager.isOnline)
                 {
                     if (hit.collider.CompareTag("Enemy"))
@@ -45,7 +47,7 @@ public class Pistol : Weapon
                     if (hit.collider.tag == "Enemy")
                     {
                         hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position, weaponElement);
-                        //print("I hit an enemy");
+                        print("I hit an enemy");
                     }
 
                 }

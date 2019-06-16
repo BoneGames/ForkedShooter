@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: Survey Pattern
   m_EditorClassIdentifier: 
   isInteruptable: 1
-  notePrecedence: 0
+  notePrecedence: 1
   isRunning: 0
+  spotChecks: 3
+  surveyLength: 3

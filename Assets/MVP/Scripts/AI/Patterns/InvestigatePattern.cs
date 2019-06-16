@@ -38,6 +38,10 @@ public class InvestigatePattern : Pattern
                     return;
                 }
             }
+            else
+            {
+                Debug.Log("InvestigationPoint is set to strange value... (InvestigatePattern)");
+            }
         }
     }
     public override void KillPattern(BehaviourAI ai)

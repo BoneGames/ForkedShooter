@@ -10,6 +10,36 @@ public class BehaviourAI : MonoBehaviour
     #region VARIABLES
     public bool ShowEvents;
     [ShowIf("ShowEvents")] [BoxGroup("Events")] public UnityEvent updateAi;
+    //public float turnSpeed;
+
+    public bool ShowAiStateData;
+    [ShowIf("ShowAiStateData"), BoxGroup("Ai State Data")] public Pattern currentPattern;
+
+    [SerializeField, ShowIf("ShowAiStateData"), BoxGroup("Ai State Data")] SenseMemoryFactory.SMData currentData;
+    public SenseMemoryFactory.SMData CurrentData
+    {
+        get
+        {
+            return currentData;
+        }
+        set
+        {
+            currentData = value;
+            targets = value.targets;
+            inspectionPoints = value.inspectionPoints;
+            targetLastSeen = value.targetLastSeen;
+            distance = value.distance;
+        }
+    }
+
+    // Sighted enemie's positions
+    [ShowIf("ShowAiStateData"), BoxGroup("Ai State Data")] public List<Transform> targets;
+    // Positions where strange activity detected
+    [ShowIf("ShowAiStateData"), BoxGroup("Ai State Data")] public List<Vector3> inspectionPoints;
+    // lst seen position of target
+    [ShowIf("ShowAiStateData"), BoxGroup("Ai State Data")] public Vector3 targetLastSeen;
+    // distance to closest Target
+    [ShowIf("ShowAiStateData"), BoxGroup("Ai State Data")] public float distance;
 
     public bool debugBehaviour;
     public float hoverHeight;
@@ -29,7 +59,7 @@ public class BehaviourAI : MonoBehaviour
     public bool ShowSpecs;
     [ShowIf("ShowSpecs"), BoxGroup("Enemy Specs")] public float aiUpdateRate = 1;
     [ShowIf("ShowSpecs"), BoxGroup("Enemy Specs")] float shootTimer;
-    [SerializeField][ShowIf("ShowSpecs")] [BoxGroup("Enemy Specs")] float shootDelay;
+    [SerializeField] [ShowIf("ShowSpecs")] [BoxGroup("Enemy Specs")] float shootDelay;
     [ShowIf("ShowSpecs"), BoxGroup("Enemy Specs"), AI_ScoutDrone_(new string[] { "Naive", "Suspicious", "Combat" })]
     public float[] moveSpeed = new float[3]; // Movement speeds for different states (up to you).
     [ShowIf("ShowSpecs"), BoxGroup("Enemy Specs"), AI_ScoutDrone_(new string[] { "Naive", "Suspicious", "Combat" })]
@@ -49,7 +79,7 @@ public class BehaviourAI : MonoBehaviour
     [ShowIf("ShowComponents")] [BoxGroup("Enemy Components")] public EnemyHealth healthRef;
     [ShowIf("ShowComponents")] [BoxGroup("Enemy Components")] public Transform hand, model;
 
-    [HideInInspector]public bool isGuard;
+    [HideInInspector] public bool isGuard;
 
 
     public bool ShowMarkers;
@@ -141,14 +171,9 @@ public class BehaviourAI : MonoBehaviour
         if (shootTimer <= 0)
         {
             int shots = Random.Range(1, maxBurstFire);
-            if(isGuard)
-            {
-                hand.LookAt(target.position);
-            }
-            if(!isGuard)
-            {
-                Debug.Log("drone shooting");
-            }
+
+            hand.LookAt(target.position);
+
             gun.AiShoot(shots, target);
             shootTimer = shootDelay;
         }
@@ -207,43 +232,69 @@ public class BehaviourAI : MonoBehaviour
     {
         isGuard = this.name.Contains("Guard") ? true : false;
     }
-    private void Update()
-    {
-        // Shoot Timer
-        if(shootTimer > 0)
-        shootTimer -= Time.deltaTime;
 
-        // Look at target (strafing)
-        if(lookAtTarget && isGuard)
+    void LookAtTarget()
+    {
+        //Debug.Log("looking");
+        if (playerTarget)
         {
-            //Debug.Log("looking");
-            if(playerTarget)
+            // The step size is equal to speed times frame time.
+            float rotSpeed = turnSpeed[turnSpeed.Length - 1] * Time.deltaTime;
+            if (isGuard)
             {
-                Quaternion lookRot = Quaternion.LookRotation(playerTarget.position - transform.position);
-                transform.rotation = lookRot;
+                Vector3 targetDir = playerTarget.position - transform.position;
+                Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, rotSpeed, 0.0f);
+                // Move our position a step closer to the target.
+                transform.rotation = Quaternion.LookRotation(newDir);
+                Debug.DrawRay(transform.position, newDir, Color.red);
+                //Quaternion lookRot = Quaternion.LookRotation(playerTarget.position - transform.position);
+                //transform.rotation = lookRot;
             }
             else
             {
-                Debug.Log("Lost target to Look at, finding new behaviour");
-                // re-run ai selection for new behaviour that will run without player target
-                updateAi.Invoke();
+                Vector3 targetDir = playerTarget.position - hand.transform.position;
+                Vector3 newDir = Vector3.RotateTowards(hand.transform.forward, targetDir, rotSpeed, 0.0f);
+                // Move our position a step closer to the target.
+                hand.transform.rotation = Quaternion.LookRotation(newDir);
+
+                Debug.DrawRay(hand.transform.position, newDir, Color.red);
+                //Quaternion lookRot = Quaternion.LookRotation(playerTarget.position - hand.transform.position);
+                //hand.transform.rotation = lookRot;
             }
+        }
+        else
+        {
+            Debug.Log("Lost target to Look at, finding new behaviour");
+            // re-run ai selection for new behaviour that will run without player target
+            updateAi.Invoke();
+        }
+    }
+    private void Update()
+    {
+        // Shoot Timer
+        if (shootTimer > 0)
+            shootTimer -= Time.deltaTime;
+
+        // Look at target (strafing)
+        if (lookAtTarget)
+        {
+            LookAtTarget();
         }
 
         // Update AI when destination reached
-        if(agent.hasPath && DestinationReached(0.1f))
+        if (agent.hasPath && DestinationReached(0.1f))
         {
             updateAi.Invoke();
         }
 
-        if(isGuard)
-        if(hand.transform.localRotation != handStartRot)// && !handCorrecting)
-        {
-            //Debug.Log("correcting HandPos");
-            hand.transform.localRotation = Quaternion.Slerp(hand.transform.localRotation, handStartRot, Time.deltaTime);
-        }
+        if (isGuard)
+            if (hand.transform.localRotation != handStartRot)// && !handCorrecting)
+            {
+                //Debug.Log("correcting HandPos");
+                hand.transform.localRotation = Quaternion.Slerp(hand.transform.localRotation, handStartRot, Time.deltaTime);
+            }
 
-        if(hoverTimer <= 1 && startHover)
+        if (hoverTimer <= 1 && startHover)
         {
             hoverTimer += Time.deltaTime * 0.5f;
             model.position = Vector3.Lerp(new Vector3(model.position.x, startModelHeight, model.position.z),
@@ -255,7 +306,7 @@ public class BehaviourAI : MonoBehaviour
     public void HoverHeight(float finish)
     {
         // if already at desired height, return
-        if(model.position.y == finish)
+        if (model.position.y == finish)
         {
             return;
         }
@@ -263,7 +314,7 @@ public class BehaviourAI : MonoBehaviour
         // set lerp start and end
         finalModelHeight = finish;
         startModelHeight = model.position.y;
-        
+
         hoverTimer = 0;
         // tell update to start lerping height
         startHover = true;
@@ -283,7 +334,7 @@ public class BehaviourAI : MonoBehaviour
         gun = GetComponentInChildren<AI_Weapon>();
         // Get Object model
         model = transform.GetChild(0).transform;
-    
+
     }
     void PopulateLists()
     {
@@ -313,8 +364,8 @@ public class BehaviourAI : MonoBehaviour
         // Create instances of AI architecture
         InitialiseSystem();
 
-        if(isGuard)
-        handStartRot = hand.transform.localRotation;
+        if (isGuard)
+            handStartRot = hand.transform.localRotation;
 
         // repeating method that gets world info and decides actions
         InvokeRepeating("MakeDecisionBasedOnSenses", 0, aiUpdateRate);

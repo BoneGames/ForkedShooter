@@ -29,7 +29,7 @@ public class AI_FoV_SearchLight : AI_FoV_Detection
         //viewMeshFilter.mesh = viewMesh;
 
         // Start running the Coroutine that calls upon 'FindTargetsWithDelay' Method, with a call rate of 0.2f (five times a second).
-        StartCoroutine("FindTargetsWithDelay", .2f);
+        StartCoroutine("FindTargetsWithDelay", updateRate);
     }
 
     // Method to call upon FindVisibleTargets Method with a delay (0.2f from Coroutine argument).
@@ -41,6 +41,14 @@ public class AI_FoV_SearchLight : AI_FoV_Detection
             // Stop/Wait (delay) seconds, then run 'FindVisibleTargets' Method, and update information drawn from it.
             yield return new WaitForSeconds(delay);
             FindVisibleTargets();
+            if(visibleTargets.Count > 0)
+            {
+                fovLight.color = Color.red;
+            }
+            else
+            {
+                fovLight.color = Color.green;
+            }
         }
     }
 

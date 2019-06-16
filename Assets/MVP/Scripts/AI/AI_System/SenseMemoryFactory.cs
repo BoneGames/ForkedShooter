@@ -53,6 +53,7 @@ public class SenseMemoryFactory
             // clear the inspectionPoints list
             inspectionPoints.Clear();
         }
+        
         return new SMData(_targets, inspectionPoints, _distance, targetLastSeen);
     }
 }

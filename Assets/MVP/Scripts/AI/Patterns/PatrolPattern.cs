@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "Patrol Pattern", menuName = "Patterns/Patrol")]
@@ -16,13 +17,13 @@ public class PatrolPattern : Pattern
     }
     void GetWaypointsFrom(BehaviourAI ai)
     {
-        Transform [] waypoints = ai.waypointParent.GetComponentsInChildren<Transform>();
-        foreach  (Transform t in waypoints)
+        Transform[] waypoints = ai.waypointParent.GetComponentsInChildren<Transform>();
+        foreach (Transform t in waypoints)
         {
             if (t != ai.waypointParent)
             {
                 wayPoints.Add(t);
-               // Debug.Log("add waypoint");
+                // Debug.Log("add waypoint");
             }
         }
     }
@@ -30,16 +31,30 @@ public class PatrolPattern : Pattern
     // Initialisation - runs once when pattern begins
     public override void StartPatternWith(BehaviourAI ai, SenseMemoryFactory.SMData data)
     {
-        base.StartPatternWith(ai,data);
+        base.StartPatternWith(ai, data);
 
-        if(wayPoints.Count == 0)
-        GetWaypointsFrom(ai);
+        if (wayPoints.Count == 0)
+            GetWaypointsFrom(ai);
 
         // Transform(s) of the current waypoint in the waypoints array.
-        Transform point = wayPoints[waypointIndex];
+        Vector3 point = GetRandomEnRoutePos(wayPoints[waypointIndex].position, ai);
 
         // Agent destination (move to current waypoint position).
-        ai.agent.SetDestination(point.position);
+        ai.agent.SetDestination(point);
+    }
+
+    Vector3 GetRandomEnRoutePos(Vector3 waypoint, BehaviourAI ai)
+    {
+        Vector3 midPoint = (waypoint + ai.transform.position) / 2;
+        float radius = Vector3.Distance(ai.transform.position, midPoint);
+        Vector3 seekPoint = midPoint + (Random.onUnitSphere * radius);
+        NavMeshHit hit;
+
+        if (NavMesh.SamplePosition(seekPoint, out hit, radius, NavMesh.AllAreas))
+        {
+            seekPoint = hit.position;
+        }
+        return seekPoint;
     }
 
     // Gets called when pattern is re-called (is cheaper due to if check)
@@ -49,16 +64,20 @@ public class PatrolPattern : Pattern
         // If we're close enough to the waypoint...
         if (ai.DestinationReached(0.1f))
         {
-            waypointIndex = Random.Range(0, wayPoints.Count);
+            // if agent has reached final destination waypoint pos
+            if (Vector3.Distance(wayPoints[waypointIndex].position, ai.transform.position) < 0.5f)
+            {
+                waypointIndex = Random.Range(0, wayPoints.Count);
 
+            }
             // Transform(s) of the current waypoint in the waypoints array.
-            Transform point = wayPoints[waypointIndex];
+            Vector3 point = GetRandomEnRoutePos(wayPoints[waypointIndex].position, ai);
 
             // Agent destination (move to current waypoint position).
-            ai.agent.SetDestination(point.position);
+            ai.agent.SetDestination(point);
         }
     }
 
 
-   
+
 }
