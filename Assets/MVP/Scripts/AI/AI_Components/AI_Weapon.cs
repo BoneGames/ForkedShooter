@@ -43,7 +43,7 @@ public class AI_Weapon : Weapon
     // Where we define shooting.
     public override void Attack()
     {
-        //Debug.Log("Attack");
+        Debug.Log("ai_Attack");
         // If there is a player in our line of sight, and we still have ammo to work with...
         if (currentMag > 0)
         {

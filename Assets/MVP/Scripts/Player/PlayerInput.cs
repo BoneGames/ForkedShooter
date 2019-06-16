@@ -64,22 +64,18 @@ public class PlayerInput : Photon.PunBehaviour
             if (Input.GetKey(sprintKey)) player.isSprinting = true;
             if (Input.GetKeyUp(sprintKey)) player.isSprinting = false;
 
-            if (player.currentWeapon.rateOfFire == 0 && Input.GetKeyDown(shootKey))
-                player.Attack();
+            //if (player.currentWeapon.rateOfFire == 0 && Input.GetKeyDown(shootKey))
+            //    player.Attack();
 
-            //if (player.currentWeapon.rateOfFire != 0 && Input.GetKey(shootKey))
-            //{
-            //    fire1 = true;
-            //    if (fire1)
-            //    {
-            //        player.Attack();
-            //    }
-            //}
+          
             bool fire1 = Input.GetButton("Fire1");
             if (fire1 && player.currentWeapon.currentMag > 0 && player.currentWeapon.canShoot == true)
             {
+                player.currentWeapon.holdShoot = true;
                 player.Attack();
             }
+            if (Input.GetButtonUp("Fire1")) { player.currentWeapon.holdShoot = false; }
+
             if (Input.GetKeyUp(aimKey)) player.Aim(false); 
             if (Input.GetKeyDown(aimKey)) player.Aim(true);
             if (Input.GetKeyDown(reloadKey)) player.Reload();

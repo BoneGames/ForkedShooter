@@ -77,6 +77,104 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &300550476
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 300550477}
+  - component: {fileID: 300550478}
+  m_Layer: 9
+  m_Name: Laser
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &300550477
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300550476}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4571742149388566}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &300550478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300550476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 536763edc7ac2b74cba96572d5188951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 100
+  maxReserves: 30
+  currentReserves: 0
+  magSize: 0
+  currentMag: 0
+  accuracy: 1
+  loudness: 0
+  bulletDetectionRadius: 0
+  scopeZoom: 75
+  aimSpeed: 5
+  reloadSpeed: 0
+  rateOfFire: 5
+  startScopeZoom: 75
+  weaponElement: 0
+  ammoType: 0
+  projectile: {fileID: 0}
+  muzzle: {fileID: 0}
+  lineRendPrefab: {fileID: 0}
+  shootPoint: {fileID: 0}
+  aimShootPos: {fileID: 0}
+  hipShootPos: {fileID: 0}
+  aimOffset: {x: 0, y: 0, z: 0}
+  ammoDisplay: {fileID: 0}
+  UI: {fileID: 0}
+  pitchShifter: {fileID: 0}
+  audioWep: {fileID: 0}
+  sfx: []
+  onFire:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  elementColor: 1
+  normal: {r: 0, g: 0, b: 0, a: 0}
+  fire: {r: 0, g: 0, b: 0, a: 0}
+  water: {r: 0, g: 0, b: 0, a: 0}
+  grass: {r: 0, g: 0, b: 0, a: 0}
+  hitPoint: {x: 0, y: 0, z: 0}
+  enemy:
+    serializedVersion: 2
+    m_Bits: 0
+  attackTimer: 0
+  canShoot: 0
+  isEquipped: 0
+  spawnWithUniqueStats: 0
+  uniqueStats: {fileID: 0}
+  statVariation: 0.2
+  elementIndex: 0
+  elementArray: 00000000010000000200000003000000
+  hitParticle: {fileID: 0}
+  burstDelay: 0
+  reloadTime: 0
+  laserMeshPrefab: {fileID: 0}
+  laserMeshes: []
+  laserChunkLength: 0
 --- !u!1 &477305349
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,7 +229,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1487045325}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.1, y: -0.35, z: 0.026}
+  m_LocalPosition: {x: 0, y: -0.35, z: 0.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4949311926386224}
@@ -560,7 +658,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1348840509089046}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -961,6 +1059,7 @@ Transform:
   - {fileID: 4750541728783076}
   - {fileID: 4368222078556416}
   - {fileID: 4855080747290544}
+  - {fileID: 300550477}
   m_Father: {fileID: 4425650814601440}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: -90}
@@ -1324,7 +1423,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 6.177429
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -1492,7 +1591,9 @@ MonoBehaviour:
   aimSpeed: 5
   reloadSpeed: 1
   rateOfFire: 0
+  startScopeZoom: 75
   weaponElement: 0
+  ammoType: 2
   projectile: {fileID: 1937224646689520, guid: df80fdd01a59531438707b06037913e1, type: 3}
   muzzle: {fileID: 1474961396079312, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
   lineRendPrefab: {fileID: 1832311583618776, guid: 1cb6f47bab6be4ddc9cdc473d8b3c35a,
@@ -1550,6 +1651,7 @@ MonoBehaviour:
   uniqueStats: {fileID: 0}
   statVariation: 0.2
   pellets: 6
+  isReloading: 0
 --- !u!114 &1252104210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1639,7 +1741,9 @@ MonoBehaviour:
   aimSpeed: 5
   reloadSpeed: 0.5
   rateOfFire: 2
+  startScopeZoom: 75
   weaponElement: 1
+  ammoType: 0
   projectile: {fileID: 1874544804970178, guid: f5fad20bfebd88d46abe3e602f14fdaf, type: 3}
   muzzle: {fileID: 1474961396079312, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
   lineRendPrefab: {fileID: 1832311583618776, guid: 1cb6f47bab6be4ddc9cdc473d8b3c35a,
@@ -1696,6 +1800,7 @@ MonoBehaviour:
   spawnWithUniqueStats: 1
   uniqueStats: {fileID: 0}
   statVariation: 0.2
+  ammotype: 0
 --- !u!114 &363152908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1817,7 +1922,9 @@ MonoBehaviour:
   aimSpeed: 5
   reloadSpeed: 2
   rateOfFire: 0
+  startScopeZoom: 75
   weaponElement: 0
+  ammoType: 1
   projectile: {fileID: 1937224646689520, guid: 5fa12ad5397e71545ba892dea7fc93db, type: 3}
   muzzle: {fileID: 0}
   lineRendPrefab: {fileID: 1832311583618776, guid: 1cb6f47bab6be4ddc9cdc473d8b3c35a,
@@ -1946,7 +2053,7 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1bcc8901f5ddd61459e59fa4e7258955, type: 2}
+  - {fileID: 2100000, guid: 18e1d3c607b9b0744bdbde0a211e1a70, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1973,7 +2080,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1710371407272564}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: af66a6edcad896a4380031919f765dee, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
@@ -2031,6 +2138,7 @@ MonoBehaviour:
   - {fileID: 114158151262044422}
   - {fileID: 1748083688}
   - {fileID: 114110289301231624}
+  - {fileID: 300550478}
   currentWeapon: {fileID: 0}
   pickups:
   - {fileID: 6465479855710561323, guid: cdc798ec4e4bafe4d90b99be134d3e1b, type: 3}

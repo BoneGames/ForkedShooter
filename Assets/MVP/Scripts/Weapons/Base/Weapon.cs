@@ -49,7 +49,7 @@ public abstract class Weapon : MonoBehaviour
   float startingAccuracy;
 
   public LayerMask enemy;
-
+    public bool holdShoot;
   Quaternion hitRotation;
 
   public float attackTimer;

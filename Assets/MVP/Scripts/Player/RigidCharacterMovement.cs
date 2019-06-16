@@ -350,6 +350,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     // Combat
     public void Attack()
     {
+        Debug.Log("attack");
         currentWeapon.Attack();
 
         // if (photonView)
