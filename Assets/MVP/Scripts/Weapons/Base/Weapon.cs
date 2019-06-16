@@ -16,6 +16,7 @@ public abstract class Weapon : MonoBehaviour
     [BoxGroup("Weapon Stats")]
     [Slider(0, 10)] public float accuracy = 1f, loudness, bulletDetectionRadius;
     [BoxGroup("Weapon Stats")] public float scopeZoom = 75f, aimSpeed = 5f, reloadSpeed, rateOfFire = 5f;
+    [BoxGroup("Weapon Stats"), HideInInspector] public float startScopeZoom = 75f;
     [BoxGroup("Weapon Stats")]
     public Elements.Element weaponElement;
     [BoxGroup("Weapon Stats")]
@@ -81,7 +82,7 @@ public abstract class Weapon : MonoBehaviour
 
         currentReserves = maxReserves;
         currentMag = magSize;
-
+        startScopeZoom = Camera.main.fieldOfView;
         DefaultReload();
 
         startingAccuracy = accuracy;

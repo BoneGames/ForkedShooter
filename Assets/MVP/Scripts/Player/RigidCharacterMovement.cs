@@ -144,15 +144,23 @@ public class RigidCharacterMovement : Photon.PunBehaviour
 
     public IEnumerator HandAimPos()
     {
-        // Set Lerp destination
-        Vector3 end = isAiming ? currentWeapon.aimShootPos.localPosition : currentWeapon.hipShootPos.localPosition;
-        Vector3 start = myHand.transform.localPosition;
+        // Set weapon Lerp destination
+        Vector3 endWeapon = isAiming ? currentWeapon.aimShootPos.localPosition : currentWeapon.hipShootPos.localPosition;
+        Vector3 startWeapon = myHand.transform.localPosition;
+
+        // Set view Lerp destination
+        float endView = isAiming ? currentWeapon.scopeZoom : currentWeapon.startScopeZoom;
+        float startView = myCamera.fieldOfView;
+
         // Initiate Lerp
         float timer = 0;
-        while (myHand.transform.localPosition != end)
+        //myCamera.fieldOfView = currentWeapon.scopeZoom;
+        while (myHand.transform.localPosition != endWeapon)
         {
+            
             timer += Time.deltaTime;
-            myHand.transform.localPosition = Vector3.Lerp(start, end, timer * currentWeapon.aimSpeed);
+            myHand.transform.localPosition = Vector3.Lerp(startWeapon, endWeapon, timer * currentWeapon.aimSpeed);
+            myCamera.fieldOfView = Mathf.Lerp(startView, endView, timer * currentWeapon.aimSpeed);
             yield return null;
         }
     }
