@@ -161,7 +161,9 @@ MonoBehaviour:
   aimSpeed: 5
   reloadSpeed: 0
   rateOfFire: 5
+  startScopeZoom: 75
   weaponElement: 0
+  ammoType: 0
   projectile: {fileID: 1874544804970178, guid: f5fad20bfebd88d46abe3e602f14fdaf, type: 3}
   muzzle: {fileID: 1474961396079312, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
   lineRendPrefab: {fileID: 1832311583618776, guid: 1cb6f47bab6be4ddc9cdc473d8b3c35a,
@@ -226,7 +228,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4903510248585718
 Transform:
   m_ObjectHideFlags: 0
@@ -884,6 +886,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4903510248585718}
     m_Modifications:
+    - target: {fileID: 5263617853731347756, guid: 07cc0839b880907499deb00f3ad4c2ed,
+        type: 3}
+      propertyPath: m_Name
+      value: GuardShield
+      objectReference: {fileID: 0}
     - target: {fileID: 5263617853731347757, guid: 07cc0839b880907499deb00f3ad4c2ed,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -938,11 +945,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5263617853731347756, guid: 07cc0839b880907499deb00f3ad4c2ed,
-        type: 3}
-      propertyPath: m_Name
-      value: GuardShield
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07cc0839b880907499deb00f3ad4c2ed, type: 3}

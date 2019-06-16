@@ -2146,6 +2146,61 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 536763edc7ac2b74cba96572d5188951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 100
+  maxReserves: 30
+  currentReserves: 0
+  magSize: 0
+  currentMag: 0
+  accuracy: 1
+  loudness: 0
+  bulletDetectionRadius: 0
+  scopeZoom: 75
+  aimSpeed: 5
+  reloadSpeed: 0
+  rateOfFire: 5
+  startScopeZoom: 75
+  weaponElement: 0
+  ammoType: 0
+  projectile: {fileID: 0}
+  muzzle: {fileID: 0}
+  lineRendPrefab: {fileID: 0}
+  shootPoint: {fileID: 0}
+  aimShootPos: {fileID: 0}
+  hipShootPos: {fileID: 0}
+  aimOffset: {x: 0, y: 0, z: 0}
+  ammoDisplay: {fileID: 0}
+  UI: {fileID: 0}
+  pitchShifter: {fileID: 0}
+  audioWep: {fileID: 0}
+  sfx: []
+  onFire:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  elementColor: 1
+  normal: {r: 0, g: 0, b: 0, a: 0}
+  fire: {r: 0, g: 0, b: 0, a: 0}
+  water: {r: 0, g: 0, b: 0, a: 0}
+  grass: {r: 0, g: 0, b: 0, a: 0}
+  hitPoint: {x: 0, y: 0, z: 0}
+  enemy:
+    serializedVersion: 2
+    m_Bits: 0
+  attackTimer: 0
+  canShoot: 0
+  isEquipped: 0
+  spawnWithUniqueStats: 0
+  uniqueStats: {fileID: 0}
+  statVariation: 0.2
+  elementIndex: 0
+  elementArray: 00000000010000000200000003000000
+  hitParticle: {fileID: 0}
+  burstDelay: 0
+  reloadTime: 0
+  laserMeshPrefab: {fileID: 0}
+  laserMeshes: []
+  laserChunkLength: 0
 --- !u!1 &1966131457345112
 GameObject:
   m_ObjectHideFlags: 0
@@ -2227,7 +2282,7 @@ PrefabInstance:
     - target: {fileID: 5263617853731347757, guid: f0d18c748b7af534f99741e90e2f1f71,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.675
+      value: 2.871
       objectReference: {fileID: 0}
     - target: {fileID: 5263617853731347757, guid: f0d18c748b7af534f99741e90e2f1f71,
         type: 3}
@@ -2273,6 +2328,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263617853731347757, guid: f0d18c748b7af534f99741e90e2f1f71,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.75
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0d18c748b7af534f99741e90e2f1f71, type: 3}
