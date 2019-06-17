@@ -65,6 +65,14 @@ public class Shotgun : Weapon
 
             if (hit.collider.CompareTag("Enemy"))
             {
+                //Debug.Log(hit.collider.name);
+                if (hit.collider.GetComponent<AI_FoV_SearchLight>())
+                {
+                    Debug.Log("hit Drone light - it should be off now");
+                    hit.collider.GetComponent<AI_FoV_SearchLight>().fovLight.enabled = false;
+                    hit.collider.enabled = false;
+                    hit.collider.GetComponent<AI_FoV_SearchLight>().viewRadius = 10;
+                }
                 hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position, weaponElement);
             }
         }

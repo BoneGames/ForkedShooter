@@ -45,7 +45,6 @@ public class WeaponStatCompare : MonoBehaviour
 
     public void EnableCompareText(bool textActive)
     {
-        Debug.Log("enable ba");
         backdrop.enabled = textActive;
         if (!textActive)
         {

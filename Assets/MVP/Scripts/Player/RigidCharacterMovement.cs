@@ -50,6 +50,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         rigid = GetComponent<Rigidbody>();
         myHealth = GetComponent<PlayerHealth>();
         UI = GameObject.FindGameObjectWithTag("UI").GetComponent<UIHandler>();
+        weapons = GetComponentsInChildren<Weapon>();
     }
 
     public void OnDrawGizmos()

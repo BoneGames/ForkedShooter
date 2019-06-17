@@ -45,39 +45,36 @@ public class Laser_Mesh : AI_Weapon
 
     public override void Attack()
     {
-        Debug.Log("shootLasewr");
+        //Debug.Log("shootLasewr");
         RaycastHit hit;
-
         Vector3 direction = transform.forward;
 
         if (Physics.Raycast(transform.position, direction, out hit))
         {
             distance = Vector3.Distance(transform.position, hit.point);
-            //direction = (impact - transform.position).normalized;
             Quaternion angle = Quaternion.LookRotation(direction);
             if (bits < 1)
             {
-                StopAllCoroutines();
-                StartCoroutine(HoldLaser());
-                for (int i = 0; i <= (int)distance / laserChunkLength; i++)
+                //StopAllCoroutines();
+                //StartCoroutine(HoldLaser());
+                for (int i = 0; i < (int)distance / laserChunkLength; i++)
                 {
                     NewLaserChunk(transform.position + (direction * (laserChunkLength * i)), angle * Quaternion.Euler(90, 0, 0));
-                    //(direction * (laserChunkLength * i)
                 }
             }
             else
             {
-                StopAllCoroutines();
-                StartCoroutine(HoldLaser());
-                if (distance > (bits * laserChunkLength))
+                //StopAllCoroutines();
+                //StartCoroutine(HoldLaser());
+                if (distance > ((bits * laserChunkLength) - laserChunkLength))
                 { 
                     AddLaserChunk(direction * laserChunkLength, angle * Quaternion.Euler(90, 0, 0));
-                    Debug.Log("distance: " + distance + ", count * length:" + bits * laserChunkLength);
+                    Debug.Log("distance: " + distance + ", bits:" + bits);
                     
                 }
                 else
                 {
-                    Debug.Log("Kill distance: " + distance + ", count * length:" + bits * laserChunkLength);
+                    Debug.Log("Kill distance: " + distance + ", count * length:" + bits);
                     bits--;
                     List<Transform> beams = this.GetComponentsInChildren<Transform>().ToList();
                     beams.RemoveAt(0); 

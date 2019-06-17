@@ -52,14 +52,13 @@ public class Pistol : Weapon
                 {
                     if (hit.collider.tag == "Enemy")
                     {
-                        Debug.Log(hit.collider.name);
+                        //Debug.Log(hit.collider.name);
                         if(hit.collider.GetComponent<AI_FoV_SearchLight>())
                         {
-                            Debug.Log("light");
+                            Debug.Log("hit Drone light - it should be off now");
                             hit.collider.GetComponent<AI_FoV_SearchLight>().fovLight.enabled = false;
                             hit.collider.enabled = false;
                             hit.collider.GetComponent<AI_FoV_SearchLight>().viewRadius = 10;
-                            //hit.transform.rotation.eulerAngles = new Vector3()
                         }
                         hit.transform.GetComponent<Health>().ChangeHealth(damage, transform.position, weaponElement);
                     }

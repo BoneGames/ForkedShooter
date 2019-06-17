@@ -173,7 +173,7 @@ public class BehaviourAI : MonoBehaviour
     {
         if (shootTimer <= 0)
         {
-            int shots = Random.Range(1, maxBurstFire);
+            int shots = isGuard? Random.Range(1, maxBurstFire) : 1;
 
             hand.LookAt(target.position);
 
