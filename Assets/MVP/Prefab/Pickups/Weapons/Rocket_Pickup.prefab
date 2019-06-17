@@ -210,7 +210,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  weaponIndexPosition: 1
+  weaponIndexPosition: 2
   statVariation: 0.1
   pickupFX: {fileID: 8300000, guid: eaa8be128ac37fe4fb9b287572f6a9a6, type: 3}
   stats: {fileID: 0}
@@ -284,6 +284,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6465479855710561325}
     m_Modifications:
+    - target: {fileID: 1066346448859442, guid: ecbcf5f5cba24e84e9b492aa2bfc021b, type: 3}
+      propertyPath: m_Name
+      value: GlowLocation
+      objectReference: {fileID: 0}
     - target: {fileID: 4477603594265968, guid: ecbcf5f5cba24e84e9b492aa2bfc021b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -327,10 +331,6 @@ PrefabInstance:
     - target: {fileID: 4477603594265968, guid: ecbcf5f5cba24e84e9b492aa2bfc021b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1066346448859442, guid: ecbcf5f5cba24e84e9b492aa2bfc021b, type: 3}
-      propertyPath: m_Name
-      value: GlowLocation
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ecbcf5f5cba24e84e9b492aa2bfc021b, type: 3}

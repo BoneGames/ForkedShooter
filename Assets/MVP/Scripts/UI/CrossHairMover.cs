@@ -6,7 +6,7 @@ public class CrossHairMover : MonoBehaviour
 {
     public GameObject[] cHairs = new GameObject[4];
     public Vector3[] directions = new Vector3[4];
-    //public Vector3[] offsets = new Vector3[4];
+    public float crossHairSpreadAmount;
     void Start()
     {
         for (int i = 0; i < cHairs.Length; i++)
@@ -19,7 +19,7 @@ public class CrossHairMover : MonoBehaviour
     {
         for (int i = 0; i < cHairs.Length; i++)
         {
-            cHairs[i].transform.position += (directions[i] * recoil);
+            cHairs[i].transform.position += (directions[i] * recoil * crossHairSpreadAmount);
         }
         StopAllCoroutines();
         for (int i = 0; i < cHairs.Length; i++)

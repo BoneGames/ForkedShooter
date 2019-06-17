@@ -187,7 +187,7 @@ public class WeaponStatCompare : MonoBehaviour
             // multiplied value
             float finalValue_curr = baseValue * (float)multiplier_curr.GetValue(_currentStats);
 
-            if (key.Contains("max") || key.Contains("mag"))
+            if (key.Contains("Max") || key.Contains("Mag"))
             {
                 finalValue_curr = (float)Math.Round((double)finalValue_curr);
                 finalValue_pick = (float)Math.Round((double)finalValue_pick);

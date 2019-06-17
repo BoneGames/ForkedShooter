@@ -949,6 +949,7 @@ MonoBehaviour:
   - {x: -1, y: 0, z: 0}
   - {x: 0, y: -1, z: 0}
   - {x: 1, y: 0, z: 0}
+  crossHairSpreadAmount: 3
 --- !u!1 &6188704444499283626
 GameObject:
   m_ObjectHideFlags: 0
@@ -1442,8 +1443,7 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5346113618775236996, guid: 2a7c22fccbffa414c8a105b65e5aa1be, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a7c22fccbffa414c8a105b65e5aa1be, type: 3}
 --- !u!1 &6189144201557619030 stripped
 GameObject:

@@ -2068,7 +2068,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1952018030409084}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2168,6 +2168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f92c5729542eb1c4db89be8699c54332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowWeaponStats: 0
   damage: 5
   maxReserves: 30
   currentReserves: 100
@@ -2176,6 +2177,8 @@ MonoBehaviour:
   accuracy: 1
   loudness: 0
   bulletDetectionRadius: 0
+  recoil: 0
+  recoilRecoverMulti: 0
   scopeZoom: 75
   aimSpeed: 5
   reloadSpeed: 0
@@ -2183,36 +2186,37 @@ MonoBehaviour:
   startScopeZoom: 75
   weaponElement: 0
   ammoType: 0
+  ShowReferences: 1
   projectile: {fileID: 0}
   muzzle: {fileID: 0}
   lineRendPrefab: {fileID: 0}
   shootPoint: {fileID: 0}
   aimShootPos: {fileID: 0}
   hipShootPos: {fileID: 0}
-  aimOffset: {x: 0, y: 0, z: 0}
-  ammoDisplay: {fileID: 0}
   UI: {fileID: 0}
   pitchShifter: {fileID: 0}
   audioWep: {fileID: 0}
   sfx: []
+  hand: {fileID: 4076797023168174}
+  ShowEvents: 0
   onFire:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  elementColor: 1
+  ShowElementColors: 0
   normal: {r: 0, g: 0, b: 0, a: 0}
   fire: {r: 0, g: 0, b: 0, a: 0}
   water: {r: 0, g: 0, b: 0, a: 0}
   grass: {r: 0, g: 0, b: 0, a: 0}
-  hitPoint: {x: 0, y: 0, z: 0}
   enemy:
     serializedVersion: 2
     m_Bits: 0
-  holdShoot: 0
+  ShowShootRules: 0
   attackTimer: 0
   canShoot: 0
   isEquipped: 0
+  ShowUniqueStats: 0
   spawnWithUniqueStats: 0
   uniqueStats: {fileID: 0}
   statVariation: 0.2

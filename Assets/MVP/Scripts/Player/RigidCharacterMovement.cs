@@ -111,7 +111,19 @@ public class RigidCharacterMovement : Photon.PunBehaviour
             {
                 if (weapon.name == pickupName && weapon.isEquipped && !UI.weaponStatCompare.IsComparing)
                 {
-                    UniqueWeaponStats currentStats = weapon.GetComponent<Weapon>().uniqueStats;
+                    UniqueWeaponStats currentStats;
+                    // If the weapon is spawned with unique stats
+                    if (weapon.GetComponent<Weapon>().uniqueStats)
+                    {
+                        // get those stats
+                        currentStats = weapon.GetComponent<Weapon>().uniqueStats;
+                    }
+                    else // create unique stats that mirror base stats
+                    {
+                        currentStats = ScriptableObject.CreateInstance<UniqueWeaponStats>();
+                        currentStats.Init(0);
+                    }
+                    
                     UI.weaponStatCompare.ShowStatComparison(pickupStats, currentStats);
                     return;
                 }

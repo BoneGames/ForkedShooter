@@ -234,7 +234,7 @@ MonoBehaviour:
   startScopeZoom: 75
   weaponElement: 0
   ammoType: 0
-  ShowReferences: 0
+  ShowReferences: 1
   projectile: {fileID: 0}
   muzzle: {fileID: 0}
   lineRendPrefab: {fileID: 0}
@@ -245,7 +245,7 @@ MonoBehaviour:
   pitchShifter: {fileID: 0}
   audioWep: {fileID: 0}
   sfx: []
-  hand: {fileID: 0}
+  hand: {fileID: 4571742149388566}
   ShowEvents: 0
   onFire:
     m_PersistentCalls:
@@ -2248,7 +2248,7 @@ MonoBehaviour:
   isDead: 0
   isAiming: 0
   lastCheckpoint: {fileID: 0}
-  showImportantStuff: 0
+  showImportantStuff: 1
   rigid: {fileID: 54207557068954026}
   groundRayDistance: 1
   myCamera: {fileID: 20071795935591440}
@@ -2262,8 +2262,10 @@ MonoBehaviour:
   currentWeapon: {fileID: 0}
   pickups:
   - {fileID: 6465479855710561323, guid: cdc798ec4e4bafe4d90b99be134d3e1b, type: 3}
-  - {fileID: 6465479855710561323, guid: 53456b9ea1bac3b45a3759f0a9ae081d, type: 3}
   - {fileID: 6465479855710561323, guid: bd8776ae9b72421488b7a16e681be27e, type: 3}
+  - {fileID: 6465479855710561323, guid: 53456b9ea1bac3b45a3759f0a9ae081d, type: 3}
+  - {fileID: 6465479855710561323, guid: 53456b9ea1bac3b45a3759f0a9ae081d, type: 3}
+  - {fileID: 9091923755798859537, guid: 33861f297c5a5fe4f86635cc5bed936a, type: 3}
   rotateToMainCamera: 1
   currentWeaponIndex: 0
   UI: {fileID: 0}
@@ -2708,7 +2710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1802e62b889e99d4b8514c16236085e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowWeaponStats: 1
+  ShowWeaponStats: 0
   damage: 15
   maxReserves: 120
   currentReserves: 100
@@ -2752,13 +2754,13 @@ MonoBehaviour:
   grass: {r: 0, g: 0, b: 0, a: 0}
   enemy:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   ShowShootRules: 1
   attackTimer: 0
   canShoot: 0
   isEquipped: 1
-  ShowUniqueStats: 0
-  spawnWithUniqueStats: 0
+  ShowUniqueStats: 1
+  spawnWithUniqueStats: 1
   uniqueStats: {fileID: 0}
   statVariation: 0.2
 --- !u!1 &5777536934957942499
@@ -2955,7 +2957,7 @@ PrefabInstance:
     - target: {fileID: 5085694103335283751, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
         type: 3}
       propertyPath: m_Name
-      value: Auto_Rifle
+      value: AutoRifle
       objectReference: {fileID: 0}
     - target: {fileID: 1316499639284903133, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
         type: 3}
@@ -3114,11 +3116,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8373829857323183944, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
         type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 8373829857323183944, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
-        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.079
       objectReference: {fileID: 0}
@@ -3131,6 +3128,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.0007
+      objectReference: {fileID: 0}
+    - target: {fileID: 8373829857323183944, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 8342620111334891356, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
         type: 3}

@@ -107,7 +107,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
+  m_Radius: 0.35
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6465479855710561320
 MonoBehaviour:
@@ -145,7 +145,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   weaponIndexPosition: 0
-  statVariance: 0.5
+  statVariation: 0.1
   pickupFX: {fileID: 8300000, guid: 4c76258b5f1aade40b40f9add0bd38a7, type: 3}
   stats: {fileID: 0}
 --- !u!54 &6465479855710561330
