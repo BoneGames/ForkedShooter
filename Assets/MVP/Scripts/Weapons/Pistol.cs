@@ -38,7 +38,7 @@ public class Pistol : Weapon
                 {
 
                 }
-    
+                RecoilMethod();
                 //Debug.Log("I hit: "+hit.transform.name);
 
                 if (GameManager.isOnline)

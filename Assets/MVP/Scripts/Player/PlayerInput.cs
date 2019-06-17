@@ -71,10 +71,10 @@ public class PlayerInput : Photon.PunBehaviour
             bool fire1 = Input.GetButton("Fire1");
             if (fire1 && player.currentWeapon.currentMag > 0 && player.currentWeapon.canShoot == true)
             {
-                player.currentWeapon.holdShoot = true;
+                //player.currentWeapon.holdShoot = true;
                 player.Attack();
             }
-            if (Input.GetButtonUp("Fire1")) { player.currentWeapon.holdShoot = false; }
+            //if (Input.GetButtonUp("Fire1")) { player.currentWeapon.holdShoot = false; }
 
             if (Input.GetKeyUp(aimKey)) player.Aim(false); 
             if (Input.GetKeyDown(aimKey)) player.Aim(true);

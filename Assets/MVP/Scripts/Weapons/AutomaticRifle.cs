@@ -53,7 +53,7 @@ public class AutomaticRifle : Weapon
 
                 }
             }
-
+            RecoilMethod();
             currentMag--;
 
             UpdateAmmoDisplay();

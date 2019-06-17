@@ -13,6 +13,7 @@ public class UIHandler : MonoBehaviour
     [HideInInspector] public ShotDirection shotDirection;
     [HideInInspector] public DeathMessage deathMessage;
     [HideInInspector] public HealthBar healthBar;
+    [HideInInspector] public CrossHairMover crosshairMover;
     public WeaponStatCompare weaponStatCompare;
     public Text ammoDisplay;
 
@@ -46,6 +47,7 @@ public class UIHandler : MonoBehaviour
         deathMessage = GetComponentInChildren<DeathMessage>();
         healthBar = GetComponentInChildren<HealthBar>();
         weaponStatCompare = GetComponentInChildren<WeaponStatCompare>();
+        crosshairMover = GetComponentInChildren<CrossHairMover>();
     }
 
     public void UpdateAmmoDisplay(int currentMag, int magSize, int currentReserves, int maxReserves)

@@ -1,26 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
+using NaughtyAttributes;
 
 [RequireComponent(typeof(LineRenderer))]
 public class Laser_rend : AI_Weapon
 {
-    LineRenderer lineRend;
-    public float distance;
-
-    public float width, error, laserDuration, chaseSpeed;
+    
+    public bool ShowLaserSpecs;
+    [ShowIf ("ShowLaserSpecs"), BoxGroup("Laser Specs")]
+    public float laserWidth, error, laserDuration, chaseSpeed, laserExtension, laserDamageRatePs;
+    [ShowIf("ShowLaserSpecs"), BoxGroup("Laser Specs")]
     public Transform target;
 
-    public float timer, damageTimer, laserDamageRatePs;
+    float timer, damageTimer;
+    LineRenderer lineRend;
 
-    // Start is called before the first frame update
-    [System.Obsolete]
+
     void Start()
     {
         lineRend = GetComponent<LineRenderer>();
         lineRend.enabled = false;
-        lineRend.startWidth = width;
+        lineRend.startWidth = laserWidth;
         lineRend.alignment = LineAlignment.View;
     }
 
@@ -28,7 +29,9 @@ public class Laser_rend : AI_Weapon
     {
         canShoot = false;
         attackTimer = 0;
+
         lineRend.SetPosition(0, transform.position);
+
         if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit))
         {
             if (hit.collider)
@@ -59,7 +62,14 @@ public class Laser_rend : AI_Weapon
 
 
         Vector3 newPosition = hitPoint + (Random.onUnitSphere * (1 / accuracy * 5));
-        lineRend.SetPosition(1, newPosition);
+
+        Vector3 initDir = (newPosition - transform.position).normalized;
+
+        //if(NavMesh.SamplePosition(newPosition, out NavMeshHit hot, 3, NavMesh.AllAreas))
+        //{
+        //    newPosition = hot.position;
+        //}
+        lineRend.SetPosition(1, newPosition + (initDir *laserExtension));
 
         while (timer < laserDuration)
         {
@@ -72,18 +82,19 @@ public class Laser_rend : AI_Weapon
 
             if (Physics.Raycast(transform.position, dir, out RaycastHit hit1, 500))
             {
-                Debug.Log("raycast hit: " + hit1.transform.name);
+                //Debug.Log("raycast hit: " + hit1.transform.name);
                 if (hit1.transform.name == target.transform.name)
                 {
                     Debug.Log("laser hit");
                     if (hit1.transform.GetComponent<Health>() && damageTimer <= 0)
                     {
-                        //hit1.transform.GetComponent<Health>().ChangeHealth(damage, transform.position, weaponElement);
+                        hit1.transform.GetComponent<Health>().ChangeHealth(damage, transform.position, weaponElement);
                         Debug.Log("laser dealt damage");
                         damageTimer = 1 / laserDamageRatePs;
                     }
                 }
             }
+
             Vector3 laserTipToTargetDir = (target.position - lineRend.GetPosition(1)).normalized;
             newPosition = Vector3.Lerp(lineRend.GetPosition(1), target.position + (laserTipToTargetDir * chaseSpeed), Time.deltaTime);
 

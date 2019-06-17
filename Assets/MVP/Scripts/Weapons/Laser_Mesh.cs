@@ -25,23 +25,23 @@ public class Laser_Mesh : AI_Weapon
     //    StopAllCoroutines();
     //    StartCoroutine(TrackingLaser());
     //}
-    IEnumerator HoldLaser()
-    {
-        while(holdShoot)
-        {
-            yield return null;
+    //IEnumerator HoldLaser()
+    //{
+    //    while(holdShoot)
+    //    {
+    //        yield return null;
 
-        }
-        List<Transform> beams = this.GetComponentsInChildren<Transform>().ToList();
-        beams.RemoveAt(0);
+    //    }
+    //    List<Transform> beams = this.GetComponentsInChildren<Transform>().ToList();
+    //    beams.RemoveAt(0);
      
-        for(int i = 0; i < beams.Count; i++)
-        {
+    //    for(int i = 0; i < beams.Count; i++)
+    //    {
             
-            Destroy(beams[i].gameObject);
-        }
-        bits = 0;
-    }
+    //        Destroy(beams[i].gameObject);
+    //    }
+    //    bits = 0;
+    //}
 
     public override void Attack()
     {

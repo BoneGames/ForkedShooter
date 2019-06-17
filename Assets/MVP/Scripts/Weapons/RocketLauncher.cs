@@ -70,6 +70,7 @@ public class RocketLauncher : Weapon
             shootPoint.rotation = AimAtCrosshair();
 
             newBullet.Fire(shootPoint.transform.forward + AccuracyOffset(accuracy));
+            RecoilMethod();
 
             currentMag--;
 

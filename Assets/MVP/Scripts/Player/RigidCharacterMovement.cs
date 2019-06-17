@@ -11,7 +11,7 @@ using NaughtyAttributes;
 public class RigidCharacterMovement : Photon.PunBehaviour
 {
     public bool showPlayerStats;
-    [ShowIf("showPlayerStats")] [BoxGroup("Player Stats")] public float playerSpeed = 5f, jumpHeight = 10f, crouchMultiplier = .8f, sprintMultiplier = 1.5f, aimLerpSpeed;
+    [ShowIf("showPlayerStats")] [BoxGroup("Player Stats")] public float playerSpeed = 5f, jumpHeight = 10f, crouchMultiplier = .8f, sprintMultiplier = 1.5f;
 
     public bool showPlayerStates;
     [ShowIf("showPlayerStates")] [BoxGroup("Player States")] public bool isCrouching = false, isSprinting = false, isJumping = false, isDead = false, isAiming = false;
@@ -20,7 +20,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
 
     public bool showImportantStuff;
     [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Rigidbody rigid;
-    [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public float rayDistance = 1f;
+    [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public float groundRayDistance = 1f;
     [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Camera myCamera;
     [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Transform myHand;
     [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Health myHealth;
@@ -31,15 +31,13 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public int currentWeaponIndex;
     [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public UIHandler UI;
 
-    private GameObject shootPoint;
     private bool weaponRotationThing = false;
     private Vector3 moveDirection;
     private Interactable interactObject;
     private float timeTillRespawn = 5;
-    private Vector3 handStartPos;
 
-    public List<Weapon> weaponIds = new List<Weapon>();
-    public float rayDist = 2;
+
+    public float inspectWeaponDist = 2;
 
     public LayerMask weaponPickup;
 
@@ -53,14 +51,8 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         weapons = GetComponentsInChildren<Weapon>();
     }
 
-    public void OnDrawGizmos()
-    {
-        //Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * 10, Color.blue, rayDist);
-    }
-
     void Start()
     {
-        handStartPos = myHand.localPosition;
         // Note (Manny): Since it's an internal function, call it on start internally
         SelectWeapon(currentWeaponIndex);
 
@@ -111,7 +103,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     void CompareWeapons()
     {
         RaycastHit hit;
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward * 10, out hit, rayDist, weaponPickup, QueryTriggerInteraction.Collide))
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward * 10, out hit, inspectWeaponDist, weaponPickup, QueryTriggerInteraction.Collide))
         {
             UniqueWeaponStats pickupStats = hit.transform.GetComponent<WeaponPickup>().stats;
             string pickupName = hit.transform.name.Replace("_Pickup", "");
@@ -182,7 +174,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
     {
         Ray groundRay = new Ray(transform.position, Vector3.down);
         RaycastHit hit;
-        if (Physics.Raycast(groundRay, out hit, rayDistance))
+        if (Physics.Raycast(groundRay, out hit, groundRayDistance))
         {
             if (hit.collider.tag == "OOB")
             {

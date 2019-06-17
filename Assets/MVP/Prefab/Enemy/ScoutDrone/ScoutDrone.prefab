@@ -2168,7 +2168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f92c5729542eb1c4db89be8699c54332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 100
+  damage: 5
   maxReserves: 30
   currentReserves: 100
   magSize: 100
@@ -2221,15 +2221,14 @@ MonoBehaviour:
   hitParticle: {fileID: 0}
   burstDelay: 0
   reloadTime: 0
-  distance: 0
-  width: 0.2
-  error: 0
+  ShowLaserSpecs: 1
+  laserWidth: 0.2
+  error: 5
   laserDuration: 2
   chaseSpeed: 5
+  laserExtension: 5
+  laserDamageRatePs: 3
   target: {fileID: 0}
-  timer: 0
-  damageTimer: 1
-  laserDamageRatePs: 5
 --- !u!1 &1966131457345112
 GameObject:
   m_ObjectHideFlags: 0

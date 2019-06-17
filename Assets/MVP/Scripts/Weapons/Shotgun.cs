@@ -19,6 +19,8 @@ public class Shotgun : Weapon
             {
                 isReloading = false;
             }
+            attackTimer = 0;
+            canShoot = false;
             //SpawnMuzzleFlash();
 
             currentMag--;
@@ -30,13 +32,14 @@ public class Shotgun : Weapon
             //OnFire();
 
             shootPoint.transform.rotation = AimAtCrosshair();
-
+           
             for (int i = 0; i < pellets; i++)
             {
                 Ray spreadRay = new Ray(shootPoint.transform.position, shootPoint.transform.forward + AccuracyOffset(accuracy));
                 RaycastBullet(spreadRay);
                 OnFire();
             }
+            RecoilMethod();
         }
         //if (currentMag <= 0)
         //{
