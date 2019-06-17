@@ -45,8 +45,9 @@ public class Laser_rend : AI_Weapon
 
 
 
-    public override void AiShoot(int _shots, Transform target)
+    public override void AiShoot(int _shots, Transform _target)
     {
+        target = _target;
         this.Attack();
     }
 

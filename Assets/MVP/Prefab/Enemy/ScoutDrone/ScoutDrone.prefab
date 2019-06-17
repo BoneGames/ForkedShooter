@@ -413,7 +413,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4228566872078592
 Transform:
   m_ObjectHideFlags: 0
@@ -639,7 +639,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1188078473502018}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 68685e1504e13284da7e0251dfa800fd, type: 3}
   m_Name: 
@@ -871,7 +871,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff828ec6eb5e64b4d95b42c10d0119d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 180
+  viewRadius: 30
   viewAngle: 120
   targetMask:
     serializedVersion: 2
@@ -2039,7 +2039,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4076797023168174}
   - component: {fileID: 5125664039883385301}
-  - component: {fileID: 646667167779302}
+  - component: {fileID: 7584893578523039193}
   m_Layer: 10
   m_Name: GUN
   m_TagString: Untagged
@@ -2068,7 +2068,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1952018030409084}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2078,7 +2078,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 63a24430ab308804ca54f309059aa0a4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2156,7 +2156,7 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!114 &646667167779302
+--- !u!114 &7584893578523039193
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2165,21 +2165,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1952018030409084}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d226a0cd5dd188542a7ffa0f36407276, type: 3}
+  m_Script: {fileID: 11500000, guid: f92c5729542eb1c4db89be8699c54332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 100
   maxReserves: 30
-  currentReserves: 0
-  magSize: 0
-  currentMag: 0
+  currentReserves: 100
+  magSize: 100
+  currentMag: 100
   accuracy: 1
   loudness: 0
   bulletDetectionRadius: 0
   scopeZoom: 75
   aimSpeed: 5
   reloadSpeed: 0
-  rateOfFire: 5
+  rateOfFire: 1
   startScopeZoom: 75
   weaponElement: 0
   ammoType: 0
@@ -2209,6 +2209,7 @@ MonoBehaviour:
   enemy:
     serializedVersion: 2
     m_Bits: 0
+  holdShoot: 0
   attackTimer: 0
   canShoot: 0
   isEquipped: 0
@@ -2220,6 +2221,15 @@ MonoBehaviour:
   hitParticle: {fileID: 0}
   burstDelay: 0
   reloadTime: 0
+  distance: 0
+  width: 0.2
+  error: 0
+  laserDuration: 2
+  chaseSpeed: 5
+  target: {fileID: 0}
+  timer: 0
+  damageTimer: 1
+  laserDamageRatePs: 5
 --- !u!1 &1966131457345112
 GameObject:
   m_ObjectHideFlags: 0

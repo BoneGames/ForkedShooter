@@ -50607,6 +50607,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ScoutDrone
       objectReference: {fileID: 0}
+    - target: {fileID: 1188078473502018, guid: 743310d68bad76e438b5ca22c733650d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4228566872078592, guid: 743310d68bad76e438b5ca22c733650d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -50650,11 +50654,6 @@ PrefabInstance:
     - target: {fileID: 4228566872078592, guid: 743310d68bad76e438b5ca22c733650d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114553284607818792, guid: 743310d68bad76e438b5ca22c733650d,
-        type: 3}
-      propertyPath: viewRadius
-      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 743310d68bad76e438b5ca22c733650d, type: 3}
