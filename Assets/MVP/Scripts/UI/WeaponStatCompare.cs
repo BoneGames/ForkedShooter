@@ -9,12 +9,11 @@ using System.Text;
 
 public class WeaponStatCompare : MonoBehaviour
 {
-    Dictionary<string, GameObject> statCompareField = new Dictionary<string, GameObject>();
     public GameObject textPrefab;
-    Text compareText;
-    public GameObject backdrop;
-    public float cellScaler;
-    float canvasScaler, xStretch;
+    public float scale;
+    Rect baseCanvas;
+    RectTransform rect;
+    public Image backdrop;
     public bool IsComparing
     {
         get
@@ -23,13 +22,12 @@ public class WeaponStatCompare : MonoBehaviour
         }
         set
         {
-            if(value != isComparing)
+            if (value != isComparing)
             {
                 isComparing = value;
-                if(!isComparing)
-                {
-                    EnableCompareText(isComparing);
-                }             
+
+                EnableCompareText(isComparing);
+
             }
         }
     }
@@ -39,45 +37,54 @@ public class WeaponStatCompare : MonoBehaviour
 
     private void Awake()
     {
+        rect = GetComponent<RectTransform>();
+        backdrop = GetComponent<Image>();
         layout = GetComponent<GridLayoutGroup>();
-        compareText = GetComponent<Text>();
-        canvasScaler = GetComponentInParent<Canvas>().GetComponent<RectTransform>().localScale.x;
+        baseCanvas = GetComponentInParent<Canvas>().GetComponent<RectTransform>().rect;
     }
 
     public void EnableCompareText(bool textActive)
     {
-        backdrop.SetActive(false);
-        foreach (var item in textObjects)
+        Debug.Log("enable ba");
+        backdrop.enabled = textActive;
+        if (!textActive)
         {
-            Destroy(item);
+            foreach (var item in textObjects)
+            {
+                Destroy(item);
+            }
         }
-        //compareText.enabled = textActive;
     }
 
     public void ShowStatComparison(UniqueWeaponStats _pickupStats, UniqueWeaponStats _currentStats)
     {
+        // enable backdrop
         IsComparing = true;
-        backdrop.SetActive(true);
+
+        // clear dictionary
         textObjects.Clear();
         textObjects.TrimExcess();
+
         // Create dictionary with: key(variable name) and Value 0: current stat, Value 1: pickup stat
         Dictionary<string, List<float>> weaponStatsCollated = CalculateStats(_pickupStats, _currentStats);
 
-        // Iterate through dictionary to fill instantiated text objects with correct display text
-
-        //compareText.GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width * 1/GetComponentInParent<Canvas>().transform.localScale.x, Screen.height * 1/GetComponentInParent<Canvas>().transform.localScale.y);
+        // create heading text boxes, set color and alignment
         NewText("", Color.black, true);
         NewText("Current", Color.black, false);
         NewText("Pickup", Color.black, false);
+
+        // initialize color variables to set text in foreach
         Color val0, val1;
+
+        // Iterate through dictionary to fill instantiated text objects with correct display text
         foreach (KeyValuePair<string, List<float>> statPair in weaponStatsCollated)
         {
-            if(statPair.Value[0] == statPair.Value[1])
+            if (statPair.Value[0] == statPair.Value[1])
             {
                 val0 = Color.black;
                 val1 = Color.black;
             }
-            else if(statPair.Value[0] > statPair.Value[1])
+            else if (statPair.Value[0] > statPair.Value[1])
             {
                 val0 = Color.green;
                 val1 = Color.red;
@@ -95,16 +102,20 @@ public class WeaponStatCompare : MonoBehaviour
             // pickup stats
             NewText(statPair.Value[1].ToString(), val1, false);
         }
-        Vector2 cellSize = new Vector2(Screen.width / layout.constraintCount, 
-                                       Screen.height / (textObjects.Count / layout.constraintCount)) 
-                                       * cellScaler * canvasScaler;
 
+        // Set This rect to desired size of whole canvas (scale value)
+        rect.sizeDelta = new Vector2(baseCanvas.width, baseCanvas.height) * scale;
+
+        // Set Cell size to 1/totalCells of the rect area
+        Vector2 cellSize = new Vector2(rect.sizeDelta.x / layout.constraintCount,
+                                       rect.sizeDelta.y / (textObjects.Count / layout.constraintCount));
         layout.cellSize = cellSize;
-        Vector2 cellDimensions = new Vector2(layout.constraintCount, (textObjects.Count / layout.constraintCount));
 
-      
-
-        backdrop.GetComponent<RectTransform>().sizeDelta = cellSize * cellDimensions;
+        // rest scale on cells (don't know why these change...)
+        for (int i = 0; i < textObjects.Count; i++)
+        {
+            textObjects[i].GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+        }
     }
 
     // create and fill text component on GO
@@ -156,7 +167,7 @@ public class WeaponStatCompare : MonoBehaviour
         foreach (var stat in weaponVariableNames)
         {
             // skip dictionary variable
-            if(stat == "baseStats")
+            if (stat == "baseStats")
             {
                 continue;
             }
@@ -166,7 +177,7 @@ public class WeaponStatCompare : MonoBehaviour
             key = AddSpacesAndCapitalize(key);
             // weapon stat base value (set in weapon inspector)
             float baseValue = _currentStats.baseStats[stat];
-            
+
             // FieldInfo reference to variable multipler in pickup object
             var multiplier_pick = _pickupStats.GetType().GetField(stat);
             // multiplied value
@@ -177,7 +188,7 @@ public class WeaponStatCompare : MonoBehaviour
             // multiplied value
             float finalValue_curr = baseValue * (float)multiplier_curr.GetValue(_currentStats);
 
-            if(key.Contains("max") || key.Contains("mag"))
+            if (key.Contains("max") || key.Contains("mag"))
             {
                 finalValue_curr = (float)Math.Round((double)finalValue_curr);
                 finalValue_pick = (float)Math.Round((double)finalValue_pick);
@@ -189,7 +200,7 @@ public class WeaponStatCompare : MonoBehaviour
             }
 
             // Add values to dictionary: Key, current val, pickup val
-            statsToReturn[key] = new List<float> { finalValue_curr, finalValue_pick};
+            statsToReturn[key] = new List<float> { finalValue_curr, finalValue_pick };
         }
         return statsToReturn;
     }
