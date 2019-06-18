@@ -4,10 +4,8 @@ using UnityEngine;
 
 using System.Linq;
 
-public class AutomaticRifle : Weapon
+public class Sniper : Weapon
 {
-    
-
     public override void Attack()
     {
 
@@ -16,14 +14,12 @@ public class AutomaticRifle : Weapon
             Ray ray = new Ray(shootPoint.position, shootPoint.transform.forward);
 
             SpawnMuzzleFlash();
-            
-            Debug.Log("Reset shoot Timer");
             attackTimer = 0;
-
             canShoot = false;
 
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
+                Debug.Log("sniper1");
                 BulletTrail(hit.point, hit.distance, weaponElement);
 
                 if (GameManager.isOnline)
@@ -51,9 +47,14 @@ public class AutomaticRifle : Weapon
 
                 }
             }
-            BulletTrail(shootPoint.transform.position + (shootPoint.transform.forward + AccuracyOffset(accuracy)) * 200, 200, weaponElement);
+            else
+            {
+                Debug.Log("sniper2");
+                BulletTrail(shootPoint.transform.position + (shootPoint.transform.forward + AccuracyOffset(accuracy)) * 200, 200, weaponElement);
+            }
             RecoilMethod();
             currentMag--;
+
             UpdateAmmoDisplay();
         }
         if (currentMag <= 0)

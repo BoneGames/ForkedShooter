@@ -57,7 +57,7 @@ public class Shotgun : Weapon
         RaycastHit hit;
         if (Physics.Raycast(bulletRay, out hit))
         {
-            BulletTrail(hit.point, hit.distance);
+            BulletTrail(hit.point, hit.distance, weaponElement);
             BulletAlert(transform.position, hit.point, loudness);
 
             if (hit.collider.CompareTag("Player"))
@@ -81,17 +81,8 @@ public class Shotgun : Weapon
         }
         else
         {
-            BulletTrail(shootPoint.transform.position + (shootPoint.transform.forward + AccuracyOffset(accuracy)) * 200, 200);
+            BulletTrail(shootPoint.transform.position + (shootPoint.transform.forward + AccuracyOffset(accuracy)) * 200, 200, weaponElement);
         }
-    }
-
-    void BulletTrail(Vector3 target, float distance)
-    {
-        GameObject bulletPath = Instantiate(lineRendPrefab, shootPoint.position, shootPoint.rotation);
-        bulletPath.transform.SetParent(null);
-        BulletPath script = bulletPath.GetComponent<BulletPath>();
-        script.target = target;
-        script.distance = distance;
     }
 
     public override void Reload()

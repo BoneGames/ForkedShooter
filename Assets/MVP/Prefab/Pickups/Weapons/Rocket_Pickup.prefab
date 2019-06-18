@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 6465479855710561323}
   m_LocalRotation: {x: 0, y: 0.85098076, z: 0, w: 0.52519685}
   m_LocalPosition: {x: 77.583, y: 9.150412, z: 84.885}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6464380665084039533}
   - {fileID: 1003119079912883048}
@@ -223,7 +223,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100000, guid: 56c1438281a3d5a4fa9b8fbaefdd626c, type: 3}
       propertyPath: m_Name
-      value: Launcher
+      value: Model
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 56c1438281a3d5a4fa9b8fbaefdd626c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -268,6 +268,18 @@ PrefabInstance:
     - target: {fileID: 400000, guid: 56c1438281a3d5a4fa9b8fbaefdd626c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 56c1438281a3d5a4fa9b8fbaefdd626c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 56c1438281a3d5a4fa9b8fbaefdd626c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 56c1438281a3d5a4fa9b8fbaefdd626c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56c1438281a3d5a4fa9b8fbaefdd626c, type: 3}
@@ -331,6 +343,10 @@ PrefabInstance:
     - target: {fileID: 4477603594265968, guid: ecbcf5f5cba24e84e9b492aa2bfc021b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4447142666517834, guid: ecbcf5f5cba24e84e9b492aa2bfc021b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ecbcf5f5cba24e84e9b492aa2bfc021b, type: 3}

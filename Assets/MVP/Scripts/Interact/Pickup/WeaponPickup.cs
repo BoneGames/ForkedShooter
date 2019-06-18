@@ -20,6 +20,7 @@ public class WeaponPickup : Pickup
         isRocket = name.Contains("Rocket") ? true : false;
 
         base.Awake();
+        //SetBeamScale();
 
         if(isRocket)
         {
@@ -28,16 +29,21 @@ public class WeaponPickup : Pickup
         }
         else
         {
-            rend = GetComponent<Renderer>();
+            rend = GetComponentInChildren<Renderer>();
             col = GetComponent<Collider>();
         }
-        
 
         if (stats == null)
         {
             stats = ScriptableObject.CreateInstance<UniqueWeaponStats>();
             stats.Init(statVariation);
         }
+    }
+
+    void SetBeamScale()
+    {
+        float xScale = 0.0175f/this.transform.localScale.x;
+        beam.transform.localScale = new Vector3(xScale, xScale * 100, xScale * 100);
     }
 
     private void Update()

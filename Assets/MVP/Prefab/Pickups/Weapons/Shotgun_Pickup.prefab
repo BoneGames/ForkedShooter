@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6465479855710561323
+--- !u!1 &4234684184728634082
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,51 +8,45 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6465479855710561325}
-  - component: {fileID: 6465479855710561324}
-  - component: {fileID: 6465479855710561327}
-  - component: {fileID: 6465479855710561326}
-  - component: {fileID: 6465479855710561321}
-  - component: {fileID: 6465479855710561320}
-  - component: {fileID: 6465479855710561330}
-  - component: {fileID: 6465479855710561331}
+  - component: {fileID: 3795589886362461879}
+  - component: {fileID: 7986366730854300732}
+  - component: {fileID: 4377002762381772441}
   m_Layer: 28
-  m_Name: Shotgun_Pickup
+  m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6465479855710561325
+--- !u!4 &3795589886362461879
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6465479855710561323}
-  m_LocalRotation: {x: 0, y: 0.85098076, z: 0, w: 0.52519685}
-  m_LocalPosition: {x: 77.583, y: 9.150412, z: 84.885}
+  m_GameObject: {fileID: 4234684184728634082}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.057, y: 0, z: 0}
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
-  m_Children:
-  - {fileID: 6464380665084039533}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 116.63701, z: 0}
---- !u!33 &6465479855710561324
+  m_Children: []
+  m_Father: {fileID: 6465479855710561325}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &7986366730854300732
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6465479855710561323}
+  m_GameObject: {fileID: 4234684184728634082}
   m_Mesh: {fileID: 4300000, guid: 2710311584f566443863a69398faa820, type: 3}
---- !u!23 &6465479855710561327
+--- !u!23 &4377002762381772441
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6465479855710561323}
+  m_GameObject: {fileID: 4234684184728634082}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -83,6 +77,43 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &6465479855710561323
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6465479855710561325}
+  - component: {fileID: 6465479855710561326}
+  - component: {fileID: 6465479855710561321}
+  - component: {fileID: 6465479855710561320}
+  - component: {fileID: 6465479855710561330}
+  - component: {fileID: 6465479855710561331}
+  m_Layer: 28
+  m_Name: Shotgun_Pickup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6465479855710561325
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6465479855710561323}
+  m_LocalRotation: {x: 0, y: 0.85098076, z: 0, w: 0.52519685}
+  m_LocalPosition: {x: 77.583, y: 9.150412, z: 84.885}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 6464380665084039533}
+  - {fileID: 3795589886362461879}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 116.63701, z: 0}
 --- !u!65 &6465479855710561326
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -314,6 +345,10 @@ PrefabInstance:
     - target: {fileID: 4477603594265968, guid: ecbcf5f5cba24e84e9b492aa2bfc021b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4447142666517834, guid: ecbcf5f5cba24e84e9b492aa2bfc021b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ecbcf5f5cba24e84e9b492aa2bfc021b, type: 3}

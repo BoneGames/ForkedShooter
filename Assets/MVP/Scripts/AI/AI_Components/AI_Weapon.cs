@@ -61,7 +61,7 @@ public class AI_Weapon : Weapon
             {
                 if (lineRendPrefab)
                 {
-                    BulletTrail(hit.point, hit.distance);
+                    BulletTrail(hit.point, hit.distance, weaponElement);
                 }
                 SpawnHitParticle(hit.point);
 
@@ -104,15 +104,6 @@ public class AI_Weapon : Weapon
             StartCoroutine(ReloadTimed());
             //StopCoroutine("Shoot");
         }
-    }
-
-    void BulletTrail(Vector3 _target, float _dist)
-    {
-        GameObject bulletPath = Instantiate(lineRendPrefab, shootPoint.position, shootPoint.rotation);
-        bulletPath.transform.SetParent(shootPoint);
-        BulletPath _bulletPath = bulletPath.GetComponent<BulletPath>();
-        _bulletPath.target = _target;
-        _bulletPath.distance = _dist;
     }
 
     void SpawnHitParticle(Vector3 hit)
