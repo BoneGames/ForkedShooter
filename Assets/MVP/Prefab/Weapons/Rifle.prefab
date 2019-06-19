@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 9134124741332158616}
   - component: {fileID: 9134124741328734392}
   - component: {fileID: 9134124741329734264}
-  - component: {fileID: 6433562745379396914}
   m_Layer: 0
   m_Name: Rifle
   m_TagString: Untagged
@@ -78,64 +77,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &6433562745379396914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9134124741331932344}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1802e62b889e99d4b8514c16236085e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 10
-  maxReserves: 30
-  currentReserves: 0
-  magSize: 0
-  currentMag: 0
-  accuracy: 4
-  loudness: 7
-  bulletDetectionRadius: 10
-  scopeZoom: 75
-  aimSpeed: 5
-  reloadSpeed: 2
-  rateOfFire: 5
-  startScopeZoom: 75
-  weaponElement: 0
-  ammoType: 2
-  projectile: {fileID: 0}
-  muzzle: {fileID: 0}
-  lineRendPrefab: {fileID: 1832311583618776, guid: 1cb6f47bab6be4ddc9cdc473d8b3c35a,
-    type: 3}
-  shootPoint: {fileID: 0}
-  aimShootPos: {fileID: 0}
-  hipShootPos: {fileID: 0}
-  aimOffset: {x: 0, y: 0, z: 0}
-  ammoDisplay: {fileID: 0}
-  UI: {fileID: 0}
-  pitchShifter: {fileID: 0}
-  audioWep: {fileID: 0}
-  sfx: []
-  onFire:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  elementColor: 1
-  normal: {r: 0, g: 0, b: 0, a: 0}
-  fire: {r: 0, g: 0, b: 0, a: 0}
-  water: {r: 0, g: 0, b: 0, a: 0}
-  grass: {r: 0, g: 0, b: 0, a: 0}
-  hitPoint: {x: 0, y: 0, z: 0}
-  enemy:
-    serializedVersion: 2
-    m_Bits: 0
-  holdShoot: 0
-  attackTimer: 0
-  canShoot: 0
-  isEquipped: 0
-  spawnWithUniqueStats: 0
-  uniqueStats: {fileID: 0}
-  statVariation: 0.2

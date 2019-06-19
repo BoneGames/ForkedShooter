@@ -17678,20 +17678,30 @@ PrefabInstance:
       propertyPath: UI
       value: 
       objectReference: {fileID: 143490476}
+    - target: {fileID: 5085694103335283752, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: ShowWeaponStats
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3445948959954238431, guid: d4959bfe9c2bdde4ba18947f246452be,
         type: 3}
       propertyPath: UI
       value: 
       objectReference: {fileID: 143490476}
+    - target: {fileID: 3445948959954238431, guid: d4959bfe9c2bdde4ba18947f246452be,
+        type: 3}
+      propertyPath: aimSpeed
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2100723906550382458, guid: d4959bfe9c2bdde4ba18947f246452be,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1027934922262135478, guid: d4959bfe9c2bdde4ba18947f246452be,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4959bfe9c2bdde4ba18947f246452be, type: 3}
