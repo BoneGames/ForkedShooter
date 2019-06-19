@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d226a0cd5dd188542a7ffa0f36407276, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowWeaponStats: 0
   damage: 10
   maxReserves: 500
   currentReserves: 500
@@ -157,6 +158,8 @@ MonoBehaviour:
   accuracy: 0.05
   loudness: 0
   bulletDetectionRadius: 0
+  recoil: 0
+  recoilRecoverMulti: 0
   scopeZoom: 75
   aimSpeed: 5
   reloadSpeed: 0
@@ -164,6 +167,7 @@ MonoBehaviour:
   startScopeZoom: 75
   weaponElement: 0
   ammoType: 0
+  ShowReferences: 0
   projectile: {fileID: 1874544804970178, guid: f5fad20bfebd88d46abe3e602f14fdaf, type: 3}
   muzzle: {fileID: 1474961396079312, guid: be8b1f9c695ca8643b2300413f47f0bb, type: 3}
   lineRendPrefab: {fileID: 1832311583618776, guid: 1cb6f47bab6be4ddc9cdc473d8b3c35a,
@@ -171,29 +175,30 @@ MonoBehaviour:
   shootPoint: {fileID: 4686679147568946}
   aimShootPos: {fileID: 0}
   hipShootPos: {fileID: 0}
-  aimOffset: {x: 0, y: 0, z: 0}
-  ammoDisplay: {fileID: 0}
   UI: {fileID: 0}
   pitchShifter: {fileID: 0}
   audioWep: {fileID: 0}
   sfx: []
+  hand: {fileID: 0}
+  ShowEvents: 0
   onFire:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  elementColor: 1
+  ShowElementColors: 0
   normal: {r: 0, g: 0, b: 0, a: 0}
   fire: {r: 0, g: 0, b: 0, a: 0}
   water: {r: 0, g: 0, b: 0, a: 0}
   grass: {r: 0, g: 0, b: 0, a: 0}
-  hitPoint: {x: 0, y: 0, z: 0}
   enemy:
     serializedVersion: 2
     m_Bits: 0
+  ShowShootRules: 0
   attackTimer: 0
   canShoot: 0
   isEquipped: 0
+  ShowUniqueStats: 0
   spawnWithUniqueStats: 0
   uniqueStats: {fileID: 0}
   statVariation: 0.2
@@ -228,7 +233,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4903510248585718
 Transform:
   m_ObjectHideFlags: 0
@@ -893,11 +898,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4903510248585718}
     m_Modifications:
-    - target: {fileID: 5263617853731347756, guid: 07cc0839b880907499deb00f3ad4c2ed,
-        type: 3}
-      propertyPath: m_Name
-      value: GuardShield
-      objectReference: {fileID: 0}
     - target: {fileID: 5263617853731347757, guid: 07cc0839b880907499deb00f3ad4c2ed,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -952,6 +952,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263617853731347756, guid: 07cc0839b880907499deb00f3ad4c2ed,
+        type: 3}
+      propertyPath: m_Name
+      value: GuardShield
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07cc0839b880907499deb00f3ad4c2ed, type: 3}

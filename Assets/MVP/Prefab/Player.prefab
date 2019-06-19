@@ -1465,8 +1465,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xSensitivity: 100
   ySensitivity: 100
-  minY: -60
-  maxY: 60
+  minY: -90
+  maxY: 90
   cursorVisible: 0
 --- !u!114 &114222838714082648
 MonoBehaviour:
@@ -1928,11 +1928,11 @@ MonoBehaviour:
   enemy:
     serializedVersion: 2
     m_Bits: 1024
-  ShowShootRules: 0
+  ShowShootRules: 1
   attackTimer: 0
   canShoot: 1
   isEquipped: 1
-  ShowUniqueStats: 0
+  ShowUniqueStats: 1
   spawnWithUniqueStats: 1
   uniqueStats: {fileID: 0}
   statVariation: 0.2
@@ -2255,12 +2255,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e33cec7809259c4aa405c0cb9f2264e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showPlayerStats: 0
+  showPlayerStats: 1
   playerSpeed: 5
   jumpHeight: 5
   crouchMultiplier: 0.5
   sprintMultiplier: 2
-  showPlayerStates: 0
+  showPlayerStates: 1
   isCrouching: 0
   isSprinting: 0
   isJumping: 0
@@ -2269,7 +2269,7 @@ MonoBehaviour:
   lastCheckpoint: {fileID: 0}
   showImportantStuff: 1
   rigid: {fileID: 54207557068954026}
-  groundRayDistance: 1
+  groundRayDistance: 1.1
   myCamera: {fileID: 20071795935591440}
   myHand: {fileID: 4571742149388566}
   myHealth: {fileID: 0}
@@ -2305,11 +2305,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 114131910670434340}
-  showMotionKeys: 0
+  showMotionKeys: 1
   sprintKey: 304
   crouchKey: 306
   jumpKey: 32
-  showGunKeys: 0
+  showGunKeys: 1
   shootKey: 323
   aimKey: 324
   reloadKey: 114
@@ -3144,11 +3144,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4571742149388566}
     m_Modifications:
-    - target: {fileID: 5085694103335283751, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
-        type: 3}
-      propertyPath: m_Name
-      value: AutoRifle
-      objectReference: {fileID: 0}
     - target: {fileID: 5887053491172282517, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3218,6 +3213,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 8.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5085694103335283751, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
+        type: 3}
+      propertyPath: m_Name
+      value: AutoRifle
+      objectReference: {fileID: 0}
+    - target: {fileID: 5085694103335283751, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
+        type: 3}
+      propertyPath: m_Layer
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 8373829857323183944, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
         type: 3}
@@ -3321,13 +3326,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8342620111334891356, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
         type: 3}
+      propertyPath: m_Layer
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 8342620111334891356, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
+        type: 3}
       propertyPath: m_Name
       value: AimPoint
       objectReference: {fileID: 0}
     - target: {fileID: 8457816829166932231, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
         type: 3}
+      propertyPath: m_Layer
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 8457816829166932231, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
+        type: 3}
       propertyPath: m_Name
       value: ShootPoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 1555302809541980186, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
+        type: 3}
+      propertyPath: m_Layer
+      value: 28
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08, type: 3}
@@ -3454,11 +3474,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4571742149388566}
     m_Modifications:
-    - target: {fileID: 5085694103335283751, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
-        type: 3}
-      propertyPath: m_Name
-      value: Sniper
-      objectReference: {fileID: 0}
     - target: {fileID: 5887053491172282517, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3529,6 +3544,16 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 8.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5085694103335283751, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
+        type: 3}
+      propertyPath: m_Name
+      value: Sniper
+      objectReference: {fileID: 0}
+    - target: {fileID: 5085694103335283751, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
+        type: 3}
+      propertyPath: m_Layer
+      value: 28
+      objectReference: {fileID: 0}
     - target: {fileID: 8373829857323183944, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -3574,13 +3599,27 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8342620111334891356, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
+        type: 3}
+      propertyPath: m_Layer
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 8457816829166932231, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
+        type: 3}
+      propertyPath: m_Layer
+      value: 28
+      objectReference: {fileID: 0}
     - target: {fileID: 1555302809540848666, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
         type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 4300000, guid: a5b96a48b44948841aefdc034684c465, type: 3}
-    m_RemovedComponents:
-    - {fileID: 3611885382802504080, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08, type: 3}
+    - target: {fileID: 1555302809541980186, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08,
+        type: 3}
+      propertyPath: m_Layer
+      value: 28
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f96f1b5ea0ba6c4781c468d0a3f0c08, type: 3}
 --- !u!4 &720652224896566216 stripped
 Transform:

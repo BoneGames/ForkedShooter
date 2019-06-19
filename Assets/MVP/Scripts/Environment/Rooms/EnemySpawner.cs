@@ -44,7 +44,7 @@ public class EnemySpawner : MonoBehaviour
         clone.transform.localScale = new Vector3(1, 1, 1);
 
         print(string.Format("The spawned enemy's name is {0}, they are parented to {1}, and their scale is {2}", clone.transform.name, clone.transform.parent, clone.transform.localScale));
-        
+
         clone.GetComponent<BehaviourAI>().waypointParent = waypointParent;
       }
       dronesSpawned = true;

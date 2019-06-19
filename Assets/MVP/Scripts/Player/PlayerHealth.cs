@@ -6,99 +6,99 @@ using NaughtyAttributes;
 
 public class PlayerHealth : Health
 {
-    PhotonView photonView;
-    string photonID;
+  PhotonView photonView;
+  string photonID;
 
-    public override void Start()
+  public override void Start()
+  {
+    base.Start();
+    shield = GetComponentInChildren<ShieldController>();
+    photonView = GetComponent<PhotonView>();
+    if (photonView)
     {
-        base.Start();
-        shield = GetComponentInChildren<ShieldController>();
-        photonView = GetComponent<PhotonView>();
-        if (photonView)
-        {
-            photonID = photonView.viewID.ToString().Substring(0, 1);
-            this.name = "Player_" + photonID;
-            FindObjectOfType<PhotonHealthMoniter>().Register(gameObject);
-        }
+      photonID = photonView.viewID.ToString().Substring(0, 1);
+      this.name = "Player_" + photonID;
+      FindObjectOfType<PhotonHealthMoniter>().Register(gameObject);
     }
+  }
 
-    // Takes damage from various bullet/projectile scripts and runs 'CheckDie()'.
-    [PunRPC]
-    public override void ChangeHealth(float _value, Vector3 _shotDir, Elements.Element ammoType)
+  // Takes damage from various bullet/projectile scripts and runs 'CheckDie()'.
+  [PunRPC]
+  public override void ChangeHealth(float _value, Vector3 _shotDir, Elements.Element ammoType)
+  {
+    if (currentShield > 0)
     {
-        if (currentShield > 0)
-        {
-            shield.gameObject.SetActive(true);
+      shield.gameObject.SetActive(true);
 
-            if (currentShield > _value)
-            {
-                currentShield -= _value;
-            }
-            else if (_value >= currentShield)
-            {
-                carryOnDmg = _value - currentShield;
-                currentShield -= _value;
-                currentHealth -= carryOnDmg;
+      if (currentShield > _value)
+      {
+        currentShield -= _value;
+      }
+      else if (_value >= currentShield)
+      {
+        carryOnDmg = _value - currentShield;
+        currentShield -= _value;
+        currentHealth -= carryOnDmg;
 
-                currentShield = currentShield < 0 ? 0 : currentShield;
+        currentShield = currentShield < 0 ? 0 : currentShield;
 
-                CheckDie();
-            }
-        }
-        else if (currentShield <= 0)
-        {
-            currentShield = 0;
-            shield.gameObject.SetActive(false);
-
-            if (currentHealth > 0)
-            {
-                currentHealth -= _value;
-
-                //print(_value > 0 ? string.Format("Health reduced by {0} and is now {1}", _value, currentHealth) : string.Format("Health healed by {0} and is now {1}", -_value, currentHealth));
-
-                if (currentHealth > maxHealth)
-                {
-                    currentHealth = maxHealth;
-                }
-
-                //If you're actually being damaged (negative means healing)
-                if (_value > 0)
-                {
-                    UI.shotDirection.ShotIndicator(_shotDir, ammoType);
-                }
-
-                CheckDie();
-            }
-        }
+        CheckDie();
+      }
     }
-
-
-    // Self explanatory.
-    public override void CheckDie()
+    else if (currentShield <= 0)
     {
-        updateHealthBarEvent.Invoke(currentHealth, maxHealth);
+      currentShield = 0;
+      shield.gameObject.SetActive(false);
 
-        if (currentHealth <= 0)
+      if (currentHealth > 0)
+      {
+        currentHealth -= _value;
+
+        //print(_value > 0 ? string.Format("Health reduced by {0} and is now {1}", _value, currentHealth) : string.Format("Health healed by {0} and is now {1}", -_value, currentHealth));
+
+        if (currentHealth > maxHealth)
         {
-            this.gameObject.GetComponent<RigidCharacterMovement>().StartCoroutine("Respawn");
-            base.CheckDie();
-            // show respawn text
-            UI.deathMessage.StartRespawnText();
+          currentHealth = maxHealth;
         }
-    }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        //If you're actually being damaged (negative means healing)
+        if (_value > 0)
+        {
+          UI.shotDirection.ShotIndicator(_shotDir, ammoType);
+        }
+
+        CheckDie();
+      }
+    }
+  }
+
+
+  // Self explanatory.
+  public override void CheckDie()
+  {
+    updateHealthBarEvent.Invoke(currentHealth, maxHealth);
+
+    if (currentHealth <= 0)
     {
-        //Send health data to network
-        if (stream.isWriting)
-        {
-            stream.SendNext(currentHealth);
-            //stream.SendNext()
-        }
-        // recieve health data from network (other player)
-        else if (stream.isReading)
-        {
-            currentHealth = (int)stream.ReceiveNext();
-        }
+      this.gameObject.GetComponent<RigidCharacterMovement>().StartCoroutine("Respawn");
+      base.CheckDie();
+      // show respawn text
+      UI.deathMessage.StartRespawnText();
     }
+  }
+
+  public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+  {
+    //Send health data to network
+    if (stream.isWriting)
+    {
+      stream.SendNext(currentHealth);
+      //stream.SendNext()
+    }
+    // recieve health data from network (other player)
+    else if (stream.isReading)
+    {
+      currentHealth = (int)stream.ReceiveNext();
+    }
+  }
 }

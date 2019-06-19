@@ -10,424 +10,423 @@ using NaughtyAttributes;
 // Note (Manny): To eliminate getting components, use PunBehaviour (I did it in PlayerInput as well)
 public class RigidCharacterMovement : Photon.PunBehaviour
 {
-    public bool showPlayerStats;
-    [ShowIf("showPlayerStats")] [BoxGroup("Player Stats")] public float playerSpeed = 5f, jumpHeight = 10f, crouchMultiplier = .8f, sprintMultiplier = 1.5f;
+  public bool showPlayerStats;
+  [ShowIf("showPlayerStats")] [BoxGroup("Player Stats")] public float playerSpeed = 5f, jumpHeight = 10f, crouchMultiplier = .8f, sprintMultiplier = 1.5f;
 
-    public bool showPlayerStates;
-    [ShowIf("showPlayerStates")] [BoxGroup("Player States")] public bool isCrouching = false, isSprinting = false, isJumping = false, isDead = false, isAiming = false;
+  public bool showPlayerStates;
+  [ShowIf("showPlayerStates")] [BoxGroup("Player States")] public bool isCrouching = false, isSprinting = false, isJumping = false, isDead = false, isAiming = false;
 
-    [BoxGroup("Checkpoints")] public Transform lastCheckpoint;
+  [BoxGroup("Checkpoints")] public Transform lastCheckpoint;
 
-    public bool showImportantStuff;
-    [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Rigidbody rigid;
-    [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public float groundRayDistance = 1f;
-    [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Camera myCamera;
-    [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Transform myHand;
-    [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Health myHealth;
-    [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Weapon[] weapons;
-    [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Weapon currentWeapon;
-    [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public GameObject[] pickups;
-    [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public bool rotateToMainCamera = false;
-    [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public int currentWeaponIndex;
-    [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public UIHandler UI;
+  public bool showImportantStuff;
+  [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Rigidbody rigid;
+  [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public float groundRayDistance = 1f;
+  [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Camera myCamera;
+  [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Transform myHand;
+  [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Health myHealth;
+  [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Weapon[] weapons;
+  [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public Weapon currentWeapon;
+  [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public GameObject[] pickups;
+  [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public bool rotateToMainCamera = false;
+  [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public int currentWeaponIndex;
+  [ShowIf("showImportantStuff")] [BoxGroup("Important Stuff")] public UIHandler UI;
 
-    private bool weaponRotationThing = false;
-    private Vector3 moveDirection;
-    private Interactable interactObject;
-    private float timeTillRespawn = 5;
-
-
-    public float inspectWeaponDist = 2;
-
-    public LayerMask weaponPickup;
+  private bool weaponRotationThing = false;
+  private Vector3 moveDirection;
+  private Interactable interactObject;
+  private float timeTillRespawn = 5;
 
 
-    #region Unity Events
-    void Awake()
+  public float inspectWeaponDist = 2;
+
+  public LayerMask weaponPickup;
+
+
+  #region Unity Events
+  void Awake()
+  {
+    rigid = GetComponent<Rigidbody>();
+    myHealth = GetComponent<PlayerHealth>();
+    UI = GameObject.FindGameObjectWithTag("UI").GetComponent<UIHandler>();
+    weapons = GetComponentsInChildren<Weapon>();
+  }
+
+  void Start()
+  {
+    // Note (Manny): Since it's an internal function, call it on start internally
+    SelectWeapon(currentWeaponIndex);
+
+    currentWeapon.UpdateAmmoDisplay();
+  }
+
+
+
+  void OnTriggerEnter(Collider other)
+  {
+    interactObject = other.GetComponent<Interactable>();
+
+    if (other.tag == "OOB")
     {
-        rigid = GetComponent<Rigidbody>();
-        myHealth = GetComponent<PlayerHealth>();
-        UI = GameObject.FindGameObjectWithTag("UI").GetComponent<UIHandler>();
-        weapons = GetComponentsInChildren<Weapon>();
+      //Respawn();
+    }
+    if (other.tag == "CheckPoint")
+    {
+      lastCheckpoint = other.gameObject.transform;
+    }
+  }
+  void OnTriggerExit(Collider other)
+  {
+    if (interactObject)
+    {
+      interactObject = null;
+      print("Should not be able to open");
+    }
+  }
+  void Update()
+  {
+    if (photonView != null)
+    {
+      // Only control this player if it owns it on the network
+      if (photonView.isMine)
+      {
+        PerformMotion();
+      }
+    }
+    else //we nust not have the Photon stuff in the scene, so we don't care about networking
+    {
+      PerformMotion();
     }
 
-    void Start()
-    {
-        // Note (Manny): Since it's an internal function, call it on start internally
-        SelectWeapon(currentWeaponIndex);
+    CompareWeapons();
+  }
 
-        currentWeapon.UpdateAmmoDisplay();
+  void CompareWeapons()
+  {
+    RaycastHit hit;
+    if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward * 10, out hit, inspectWeaponDist, weaponPickup, QueryTriggerInteraction.Collide))
+    {
+      UniqueWeaponStats pickupStats = hit.transform.GetComponent<WeaponPickup>().stats;
+      string pickupName = hit.transform.name.Replace("_Pickup", "");
+      foreach (var weapon in weapons)
+      {
+        if (weapon.name == pickupName && weapon.isEquipped && !UI.weaponStatCompare.IsComparing)
+        {
+          UniqueWeaponStats currentStats;
+          // If the weapon is spawned with unique stats
+          if (weapon.GetComponent<Weapon>().uniqueStats)
+          {
+            // get those stats
+            currentStats = weapon.GetComponent<Weapon>().uniqueStats;
+          }
+          else // create unique stats that mirror base stats
+          {
+            currentStats = ScriptableObject.CreateInstance<UniqueWeaponStats>();
+            currentStats.Init(0);
+          }
+
+          UI.weaponStatCompare.ShowStatComparison(pickupStats, currentStats);
+          return;
+        }
+      }
     }
-
-   
-
-    void OnTriggerEnter(Collider other)
+    else
     {
-        interactObject = other.GetComponent<Interactable>();
-
-        if (other.tag == "OOB")
-        {
-            //Respawn();
-        }
-        if (other.tag == "CheckPoint")
-        {
-            lastCheckpoint = other.gameObject.transform;
-        }
+      UI.weaponStatCompare.IsComparing = false;
     }
-    void OnTriggerExit(Collider other)
+  }
+
+  public void Aim(bool _isAiming)
+  {
+    Debug.Log("AIM: " + _isAiming);
+    // set script bool value from PLayerInput
+    isAiming = _isAiming;
+    // change weapon accuracy value
+    currentWeapon.OnAim(isAiming);
+    StopAllCoroutines();
+    // move hand to correct position
+    StartCoroutine(HandAimPos());
+  }
+
+  public IEnumerator HandAimPos()
+  {
+    // Set weapon Lerp destination
+    Vector3 endWeapon = isAiming ? currentWeapon.aimShootPos.localPosition : currentWeapon.hipShootPos.localPosition;
+    Vector3 startWeapon = myHand.transform.localPosition;
+
+    // Set view Lerp destination
+    float endView = isAiming ? currentWeapon.scopeZoom : currentWeapon.startScopeZoom;
+    float startView = myCamera.fieldOfView;
+
+    // Initiate Lerp
+    float timer = 0;
+    //myCamera.fieldOfView = currentWeapon.scopeZoom;
+    while (myHand.transform.localPosition != endWeapon)
     {
-        if (interactObject)
-        {
-            interactObject = null;
-            print("Should not be able to open");
-        }
+
+      timer += Time.deltaTime;
+      myHand.transform.localPosition = Vector3.Lerp(startWeapon, endWeapon, timer * currentWeapon.aimSpeed);
+      myCamera.fieldOfView = Mathf.Lerp(startView, endView, timer * currentWeapon.aimSpeed);
+      yield return null;
     }
-    void Update()
+  }
+
+  #endregion
+
+  #region Photon
+  // Note (Manny): Created an RPC call that sets the weapon index only.
+  [PunRPC]
+  public void SelectWeaponRPC(int index)
+  {
+    SelectWeapon(index);
+  }
+  #endregion
+
+  #region Internal
+  private bool IsGrounded()
+  {
+    Ray groundRay = new Ray(transform.position, Vector3.down);
+    RaycastHit hit;
+    if (Physics.Raycast(groundRay, out hit, groundRayDistance))
     {
-        if (photonView != null)
-        {
-            // Only control this player if it owns it on the network
-            if (photonView.isMine)
-            {
-                PerformMotion();
-            }
-        }
-        else //we nust not have the Photon stuff in the scene, so we don't care about networking
-        {
-            PerformMotion();
-        }
-
-        CompareWeapons();
-    }
-
-    void CompareWeapons()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward * 10, out hit, inspectWeaponDist, weaponPickup, QueryTriggerInteraction.Collide))
-        {
-            UniqueWeaponStats pickupStats = hit.transform.GetComponent<WeaponPickup>().stats;
-            string pickupName = hit.transform.name.Replace("_Pickup", "");
-            foreach (var weapon in weapons)
-            {
-                if (weapon.name == pickupName && weapon.isEquipped && !UI.weaponStatCompare.IsComparing)
-                {
-                    UniqueWeaponStats currentStats;
-                    // If the weapon is spawned with unique stats
-                    if (weapon.GetComponent<Weapon>().uniqueStats)
-                    {
-                        // get those stats
-                        currentStats = weapon.GetComponent<Weapon>().uniqueStats;
-                    }
-                    else // create unique stats that mirror base stats
-                    {
-                        currentStats = ScriptableObject.CreateInstance<UniqueWeaponStats>();
-                        currentStats.Init(0);
-                    }
-                    
-                    UI.weaponStatCompare.ShowStatComparison(pickupStats, currentStats);
-                    return;
-                }
-            }
-        }
-        else
-        {
-            UI.weaponStatCompare.IsComparing = false;
-        }
-    }
-
-    public void Aim(bool _isAiming)
-    {
-        Debug.Log("AIM: " + _isAiming);
-        // set script bool value from PLayerInput
-        isAiming = _isAiming;
-        // change weapon accuracy value
-        currentWeapon.OnAim(isAiming);
-        StopAllCoroutines();
-        // move hand to correct position
-        StartCoroutine(HandAimPos());
-    }
-
-    public IEnumerator HandAimPos()
-    {
-        // Set weapon Lerp destination
-        Vector3 endWeapon = isAiming ? currentWeapon.aimShootPos.localPosition : currentWeapon.hipShootPos.localPosition;
-        Vector3 startWeapon = myHand.transform.localPosition;
-
-        // Set view Lerp destination
-        float endView = isAiming ? currentWeapon.scopeZoom : currentWeapon.startScopeZoom;
-        float startView = myCamera.fieldOfView;
-
-        // Initiate Lerp
-        float timer = 0;
-        //myCamera.fieldOfView = currentWeapon.scopeZoom;
-        while (myHand.transform.localPosition != endWeapon)
-        {
-            
-            timer += Time.deltaTime;
-            myHand.transform.localPosition = Vector3.Lerp(startWeapon, endWeapon, timer * currentWeapon.aimSpeed);
-            myCamera.fieldOfView = Mathf.Lerp(startView, endView, timer * currentWeapon.aimSpeed);
-            yield return null;
-        }
-    }
-
-    #endregion
-
-    #region Photon
-    // Note (Manny): Created an RPC call that sets the weapon index only.
-    [PunRPC]
-    public void SelectWeaponRPC(int index)
-    {
-        SelectWeapon(index);
-    }
-    #endregion
-
-    #region Internal
-    private bool IsGrounded()
-    {
-        Ray groundRay = new Ray(transform.position, Vector3.down);
-        RaycastHit hit;
-        if (Physics.Raycast(groundRay, out hit, groundRayDistance))
-        {
-            if (hit.collider.tag == "OOB")
-            {
-                return false;
-            }
-            return true;
-        }
+      if (hit.collider.tag == "OOB")
+      {
         return false;
+      }
+      return true;
     }
-    private void PerformMotion()
+    return false;
+  }
+  private void PerformMotion()
+  {
+    Vector3 camEuler = Camera.main.transform.eulerAngles;
+
+    if (rotateToMainCamera)
     {
-        Vector3 camEuler = Camera.main.transform.eulerAngles;
-
-        if (rotateToMainCamera)
-        {
-            moveDirection = Quaternion.AngleAxis(camEuler.y, Vector3.up) * moveDirection;
-            if (isSprinting && !isCrouching)
-            {
-                moveDirection *= sprintMultiplier;
-            }
-            if (isCrouching)
-            {
-                moveDirection *= crouchMultiplier;
-            }
-            if (isAiming)
-            {
-                moveDirection *= crouchMultiplier;
-            }
-        }
-
-        Vector3 force = new Vector3(moveDirection.x, rigid.velocity.y, moveDirection.z);
-
-        if (isJumping && IsGrounded())
-        {
-            force.y = jumpHeight;
-            isJumping = false;
-        }
-
-        rigid.velocity = force;
-
-        Quaternion playerRotation = Quaternion.AngleAxis(camEuler.y, Vector3.up);
-        transform.rotation = playerRotation;
-
-        if (weaponRotationThing)
-        {
-            Quaternion weaponRotation = Quaternion.AngleAxis(camEuler.x, Vector3.right);
-            currentWeapon.transform.localRotation = weaponRotation;
-        }
+      moveDirection = Quaternion.AngleAxis(camEuler.y, Vector3.up) * moveDirection;
+      if (isSprinting && !isCrouching)
+      {
+        moveDirection *= sprintMultiplier;
+      }
+      if (isCrouching)
+      {
+        moveDirection *= crouchMultiplier;
+      }
+      if (isAiming)
+      {
+        moveDirection *= crouchMultiplier;
+      }
     }
 
-    public void DropWeapon()
+    Vector3 force = new Vector3(moveDirection.x, rigid.velocity.y, moveDirection.z);
+
+    if (isJumping && IsGrounded())
     {
-        if(currentWeapon)
-        {
-            currentWeapon.isEquipped = false;
-            
-            UniqueWeaponStats statsToDrop = currentWeapon.uniqueStats;
-            currentWeapon.ResetBaseWeaponStats(statsToDrop.baseStats);
-            GameObject droppedWeapon = Instantiate(pickups[currentWeaponIndex], transform.position + (transform.forward*2), Quaternion.identity);
-            droppedWeapon.name = droppedWeapon.name.Replace("(Clone)", "");
-            droppedWeapon.GetComponent<WeaponPickup>().stats = statsToDrop;
-            SelectWeapon(1);
-        }
+      force.y = jumpHeight;
+      isJumping = false;
     }
-    private void DisableAllWeapons()
+
+    rigid.velocity = force;
+
+    Quaternion playerRotation = Quaternion.AngleAxis(camEuler.y, Vector3.up);
+    transform.rotation = playerRotation;
+
+    if (weaponRotationThing)
     {
-        foreach (var weapon in weapons)
-        {
-            weapon.gameObject.SetActive(false);
-        }
+      Quaternion weaponRotation = Quaternion.AngleAxis(camEuler.x, Vector3.right);
+      currentWeapon.transform.localRotation = weaponRotation;
     }
-    private void SelectWeapon(int index)
+  }
+
+  public void DropWeapon()
+  {
+    if (currentWeapon)
     {
-        DisableAllWeapons();
+      currentWeapon.isEquipped = false;
 
-        // cycle through weapons until equipped weapon is selected
-        while(!weapons[index].isEquipped)
-        {
-            index++;
-            if(index >= weapons.Length)
-            {
-                Debug.Log(BaneTools.ColorString("You Have Not Equipped Any Of The Weapons! (is Equipped bool)", Color.red));
-                currentWeapon = null;
-                return;
-            }
-        }
-        currentWeapon = weapons[index];
-        currentWeapon.gameObject.SetActive(true);
-
-        // Note (Manny): Update it here for observers
-        currentWeaponIndex = index;
-        currentWeapon.UpdateAmmoDisplay();
+      UniqueWeaponStats statsToDrop = currentWeapon.uniqueStats;
+      currentWeapon.ResetBaseWeaponStats(statsToDrop.baseStats);
+      GameObject droppedWeapon = Instantiate(pickups[currentWeaponIndex], transform.position + (transform.forward * 2), Quaternion.identity);
+      droppedWeapon.name = droppedWeapon.name.Replace("(Clone)", "");
+      droppedWeapon.GetComponent<WeaponPickup>().stats = statsToDrop;
+      SelectWeapon(1);
     }
-    #endregion
-
-    #region External
-    // Controls
-    public void Move(float inputH, float inputV)
+  }
+  private void DisableAllWeapons()
+  {
+    foreach (var weapon in weapons)
     {
-        moveDirection = new Vector3(inputH, 0f, inputV);
-        moveDirection *= playerSpeed;
+      weapon.gameObject.SetActive(false);
     }
-    public void Jump()
+  }
+  private void SelectWeapon(int index)
+  {
+    DisableAllWeapons();
+
+    // cycle through weapons until equipped weapon is selected
+    while (!weapons[index].isEquipped)
     {
-        isJumping = true;
+      index++;
+      if (index >= weapons.Length)
+      {
+        Debug.Log(BaneTools.ColorString("You Have Not Equipped Any Of The Weapons! (is Equipped bool)", Color.red));
+        currentWeapon = null;
+        return;
+      }
     }
-    public void Crouch()
+    currentWeapon = weapons[index];
+    currentWeapon.gameObject.SetActive(true);
+
+    // Note (Manny): Update it here for observers
+    currentWeaponIndex = index;
+    currentWeapon.UpdateAmmoDisplay();
+  }
+  #endregion
+
+  #region External
+  // Controls
+  public void Move(float inputH, float inputV)
+  {
+    moveDirection = new Vector3(inputH, 0f, inputV);
+    moveDirection *= playerSpeed;
+  }
+  public void Jump()
+  {
+    isJumping = true;
+  }
+  public void Crouch()
+  {
+    isCrouching = !isCrouching;
+    if (isCrouching)
     {
-        isCrouching = !isCrouching;
-        if (isCrouching)
-        {
-            myCamera.transform.localPosition = new Vector3(0, 0f, 0);
-        }
-        else
-        {
-            myCamera.transform.localPosition = new Vector3(0, 0.5f, 0);
-        }
+      myCamera.transform.localPosition = new Vector3(0, 0f, 0);
     }
-    // Actions
-    public void Interact()
+    else
     {
-        if (interactObject)
-        {
-            interactObject.Interact();
-        }
+      myCamera.transform.localPosition = new Vector3(0, 0.5f, 0);
     }
-    public IEnumerator Respawn()
+  }
+  // Actions
+  public void Interact()
+  {
+    if (interactObject)
     {
-        isDead = true;
-        Aim(!isDead);
-
-        float fuck = timeTillRespawn;
-
-        for (int respawnTime = (int)timeTillRespawn; respawnTime > 0; respawnTime--)
-        {
-            yield return new WaitForSeconds(1);
-            timeTillRespawn--;
-        }
-        timeTillRespawn = fuck;
-
-        isDead = false;
-
-        if (lastCheckpoint)
-        {
-            transform.position = lastCheckpoint.position;
-        }
-        else
-        {
-            // gives sense of falling back into scene
-            transform.position += new Vector3(0, 5, 0);
-        }
-
-        Debug.Log("Player has died and respawned");
-        myHealth.currentHealth = myHealth.maxHealth;
-
-        //myHealth.healthBar.UpdateBar();
-        myHealth.updateHealthBarEvent.Invoke(myHealth.currentHealth, myHealth.maxHealth);
+      interactObject.Interact();
     }
-    public void FreeAmmo()
+  }
+  public IEnumerator Respawn()
+  {
+    isDead = true;
+    Aim(!isDead);
+
+    float fuck = timeTillRespawn;
+
+    for (int respawnTime = (int)timeTillRespawn; respawnTime > 0; respawnTime--)
     {
-        currentWeapon.currentReserves = 300;
-        currentWeapon.UpdateAmmoDisplay();
+      yield return new WaitForSeconds(1);
+      timeTillRespawn--;
     }
+    timeTillRespawn = fuck;
 
+    isDead = false;
 
-    // Combat
-    public void Attack()
+    if (lastCheckpoint)
     {
-        Debug.Log("attack");
-        currentWeapon.Attack();
-
-        // if (photonView)
-        // {
-        //     currentWeapon.isOnline = true;
-        // }
+      transform.position = lastCheckpoint.position;
     }
-    public void Reload()
+    else
     {
-        currentWeapon.Reload();
+      // gives sense of falling back into scene
+      transform.position += new Vector3(0, 5, 0);
     }
 
-    //public void Aim(bool _isAiming)
-    //{
-    //    isAiming = _isAiming;
-    //    if (_isAiming)
-    //    {
-    //        //myHand.localPosition = currentWeapon.aimPoint.localPosition;
-    //        currentWeapon.OnAim(isAiming);
-    //    }
-    //    else
-    //    {
-    //       // myHand.localPosition = handStartPos;
-    //        currentWeapon.OnAim(isAiming);
-    //    }
+    Debug.Log("Player has died and respawned");
+    myHealth.currentHealth = myHealth.maxHealth;
 
-    //    myCamera.fieldOfView = _isAiming ? currentWeapon.scopeZoom : 75;
-    //}
-    public void SwitchWeapon(int direction)
+    //myHealth.healthBar.UpdateBar();
+    myHealth.updateHealthBarEvent.Invoke(myHealth.currentHealth, myHealth.maxHealth);
+  }
+  public void FreeAmmo()
+  {
+    currentWeapon.currentReserves = 300;
+    currentWeapon.UpdateAmmoDisplay();
+  }
+
+  // Combat
+  public void Attack()
+  {
+    Debug.Log("attack");
+    currentWeapon.Attack();
+
+    // if (photonView)
+    // {
+    //     currentWeapon.isOnline = true;
+    // }
+  }
+  public void Reload()
+  {
+    currentWeapon.Reload();
+  }
+
+  //public void Aim(bool _isAiming)
+  //{
+  //    isAiming = _isAiming;
+  //    if (_isAiming)
+  //    {
+  //        //myHand.localPosition = currentWeapon.aimPoint.localPosition;
+  //        currentWeapon.OnAim(isAiming);
+  //    }
+  //    else
+  //    {
+  //       // myHand.localPosition = handStartPos;
+  //        currentWeapon.OnAim(isAiming);
+  //    }
+
+  //    myCamera.fieldOfView = _isAiming ? currentWeapon.scopeZoom : 75;
+  //}
+  public void SwitchWeapon(int direction)
+  {
+    currentWeaponIndex += direction;
+    if (currentWeaponIndex < 0)
     {
-        currentWeaponIndex += direction;
-        if (currentWeaponIndex < 0)
-        {
-            currentWeaponIndex = weapons.Length - 1;
-        }
-        if (currentWeaponIndex >= weapons.Length)
-        {
-            currentWeaponIndex = 0;
-        }
-        while (!weapons[currentWeaponIndex].isEquipped)
-        {
-            currentWeaponIndex += direction;
-            if (currentWeaponIndex < 0)
-            {
-                currentWeaponIndex = weapons.Length - 1;
-            }
-            if (currentWeaponIndex >= weapons.Length)
-            {
-                currentWeaponIndex = 0;
-            }
-        }
-
-        SelectWeapon(currentWeaponIndex);
-        currentWeapon.UpdateAmmoDisplay();
-
-        // Note (Manny): Send the index to every client
-        if (photonView)
-        {
-            photonView.RPC("SelectWeaponRPC", PhotonTargets.All, currentWeaponIndex);
-        }
+      currentWeaponIndex = weapons.Length - 1;
     }
-
-    public void DeathActions()
+    if (currentWeaponIndex >= weapons.Length)
     {
-        if (lastCheckpoint)
-        {
-            lastCheckpoint.GetComponent<CheckpointHandler>().ResetMyRoom();
-        }
-        else
-        {
-            //Start at the beginning again
-        }
+      currentWeaponIndex = 0;
     }
-    #endregion
+    while (!weapons[currentWeaponIndex].isEquipped)
+    {
+      currentWeaponIndex += direction;
+      if (currentWeaponIndex < 0)
+      {
+        currentWeaponIndex = weapons.Length - 1;
+      }
+      if (currentWeaponIndex >= weapons.Length)
+      {
+        currentWeaponIndex = 0;
+      }
+    }
+
+    SelectWeapon(currentWeaponIndex);
+    currentWeapon.UpdateAmmoDisplay();
+
+    // Note (Manny): Send the index to every client
+    if (photonView)
+    {
+      photonView.RPC("SelectWeaponRPC", PhotonTargets.All, currentWeaponIndex);
+    }
+  }
+
+  public void DeathActions()
+  {
+    if (lastCheckpoint)
+    {
+      lastCheckpoint.GetComponent<CheckpointHandler>().ResetMyRoom();
+    }
+    else
+    {
+      //Start at the beginning again
+    }
+  }
+  #endregion
 }
