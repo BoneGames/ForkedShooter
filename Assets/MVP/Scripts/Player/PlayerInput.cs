@@ -79,7 +79,7 @@ public class PlayerInput : Photon.PunBehaviour
       if (Input.GetKeyUp(aimKey)) player.Aim(false);
       if (Input.GetKeyDown(aimKey)) player.Aim(true);
       if (Input.GetKeyDown(reloadKey)) player.Reload();
-      if (Input.GetKeyDown(dropKey)) player.DropWeapon();
+      if (Input.GetKeyDown(dropKey)) player.DropWeapon(player.currentWeapon.indexID, false);
 
 
       float inputScroll = Input.GetAxisRaw("Mouse ScrollWheel");

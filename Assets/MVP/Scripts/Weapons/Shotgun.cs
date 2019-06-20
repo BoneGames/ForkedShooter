@@ -26,13 +26,11 @@ public class Shotgun : Weapon
             currentMag--;
             UpdateAmmoDisplay();
 
-            //audioWep.PlayOneShot(sfx[0]);
-            //pitchShifter.Tweet();
-
-            //OnFire();
-
             shootPoint.transform.rotation = AimAtCrosshair();
-           
+
+            if (UI.aimUi.recoilHeight != 0)
+                accuracy *= UI.aimUi.recoilHeight / 200;
+
             for (int i = 0; i < pellets; i++)
             {
                 Ray spreadRay = new Ray(shootPoint.transform.position, shootPoint.transform.forward + AccuracyOffset(accuracy));
@@ -41,10 +39,10 @@ public class Shotgun : Weapon
             }
             RecoilMethod();
         }
-        //if (currentMag <= 0)
-        //{
-        //  Reload();
-        //}
+        if (currentMag <= 0 && autoReload)
+        {
+            Reload();
+        }
     }
 
     public override Quaternion AimAtCrosshair()

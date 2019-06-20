@@ -38,12 +38,16 @@ public class BulletPath : MonoBehaviour
 
         startingAlphaKeys[0].alpha = 0.1f;
         startingAlphaKeys[0].time = 0f;
+
         startingAlphaKeys[1].alpha = 0.1f;
         startingAlphaKeys[1].time = 0.01f;
+
         startingAlphaKeys[2].alpha = 1f;
         startingAlphaKeys[2].time = 0.03f;
+
         startingAlphaKeys[3].alpha = 0f;
         startingAlphaKeys[3].time = 0.05f;
+
         startingAlphaKeys[4].alpha = 0f;
         startingAlphaKeys[4].time = 1f;
 

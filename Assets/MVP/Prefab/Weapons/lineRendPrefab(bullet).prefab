@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 120173999109982968}
   - component: {fileID: 114344104969114820}
   m_Layer: 28
-  m_Name: lineRendPrefab
+  m_Name: lineRendPrefab(bullet)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -141,4 +141,4 @@ MonoBehaviour:
   distance: 0
   resolution: 10
   bulletPathSpeed: 10
-  trailDuration: 100
+  trailDuration: 3

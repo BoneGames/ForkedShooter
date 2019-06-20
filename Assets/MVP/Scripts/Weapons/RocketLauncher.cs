@@ -12,16 +12,12 @@ public class RocketLauncher : Weapon
     public Transform rocketSpawn;
     Transform lookOrigin;
 
-    InsideCollider internalCheck;
 
     public override void Awake()
     {
         base.Awake();
-        lookOrigin = Camera.main.transform;
         //startRotation = spawnPoint.localRotation;
-        rocketSpawn = shootPoint;
-
-        internalCheck = rocketSpawn.GetComponent<InsideCollider>();
+        lookOrigin = Camera.main.transform;
     }
 
     public override void Attack()
@@ -30,7 +26,7 @@ public class RocketLauncher : Weapon
         if (currentMag > 0)
         {
 
-            bool insideMesh = internalCheck.InsideMesh(lookOrigin, shootPoint);
+            bool insideMesh = internalCheck.InsideMesh(Camera.main.transform, shootPoint);
             // if spawnPoint is inside mesh
             if (insideMesh)
             {
@@ -68,6 +64,8 @@ public class RocketLauncher : Weapon
             newBullet.damage = damage;
 
             shootPoint.rotation = AimAtCrosshair();
+
+          
 
             newBullet.Fire(shootPoint.transform.forward + AccuracyOffset(accuracy));
             RecoilMethod();

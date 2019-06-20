@@ -14,6 +14,7 @@ public class WeaponStatCompare : MonoBehaviour
     Rect baseCanvas;
     RectTransform rect;
     public Image backdrop;
+    public string switchPickupText;
     public bool IsComparing
     {
         get
@@ -101,16 +102,18 @@ public class WeaponStatCompare : MonoBehaviour
             // pickup stats
             NewText(statPair.Value[1].ToString(), val1, false);
         }
+        NewText("", Color.blue, false);
+        NewText(switchPickupText, Color.blue, false);
 
         // Set This rect to desired size of whole canvas (scale value)
         rect.sizeDelta = new Vector2(baseCanvas.width, baseCanvas.height) * scale;
 
         // Set Cell size to 1/totalCells of the rect area
         Vector2 cellSize = new Vector2(rect.sizeDelta.x / layout.constraintCount,
-                                       rect.sizeDelta.y / (textObjects.Count / layout.constraintCount));
+                                       rect.sizeDelta.y / ((textObjects.Count +1) / layout.constraintCount));
         layout.cellSize = cellSize;
 
-        // rest scale on cells (don't know why these change...)
+        // reset scale on cells (don't know why these change...)
         for (int i = 0; i < textObjects.Count; i++)
         {
             textObjects[i].GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
