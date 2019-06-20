@@ -43,16 +43,4 @@ public class CrossHairMover : MonoBehaviour
             yield return null;
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            for (int i = 0; i < cHairs.Length; i++)
-            {
-                cHairs[i].transform.position += directions[i];
-            }
-        }
-    }
 }

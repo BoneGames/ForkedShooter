@@ -36,7 +36,6 @@ public class RigidCharacterMovement : Photon.PunBehaviour
   private Interactable interactObject;
   private float timeTillRespawn = 5;
 
-
   public float inspectWeaponDist = 2;
 
   public LayerMask weaponPickup;
