@@ -2191,7 +2191,7 @@ MonoBehaviour:
   projectile: {fileID: 0}
   muzzle: {fileID: 0}
   lineRendPrefab: {fileID: 0}
-  shootPoint: {fileID: 0}
+  shootPoint: {fileID: 4076797023168174}
   aimShootPos: {fileID: 0}
   hipShootPos: {fileID: 0}
   UI: {fileID: 0}

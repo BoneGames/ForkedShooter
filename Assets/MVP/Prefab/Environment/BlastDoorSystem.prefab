@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2538621157611816264}
   - component: {fileID: 2538621157611816267}
   m_Layer: 0
-  m_Name: BlastDoorSystem 1
+  m_Name: BlastDoorSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -172,6 +172,7 @@ GameObject:
   - component: {fileID: 2553100662899624920}
   - component: {fileID: 2584272563192710208}
   - component: {fileID: 2539051501581770185}
+  - component: {fileID: 296874198085605969}
   m_Layer: 0
   m_Name: BlastDoor
   m_TagString: Untagged
@@ -270,3 +271,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!208 &296874198085605969
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2539051501581770184}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.423, y: 1.25, z: 1.25}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.25, z: 0}
+  m_TimeToStationary: 0.5
