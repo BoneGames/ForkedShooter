@@ -6,65 +6,75 @@ using System.Collections;
 [AddComponentMenu("FirstPerson/Camera - Mouse Look")]
 public class SingleMouseLook : MonoBehaviour
 {
-  #region Variables
-  [Header("Sensitivity")]
-  public float xSensitivity = 10f;
-  public float ySensitivity = 10f;
-  [Header("Y Rotation Clamp")]
-  public float minY = -60f;
-  public float maxY = 60f;
-  //we will have to invert our mouse position later to calculate our mouse look correctly
+    #region Variables
+    [Header("Sensitivity")]
+    public float xSensitivity = 10f;
+    public float ySensitivity = 10f;
+    [Header("Y Rotation Clamp")]
+    public float minY = -60f;
+    public float maxY = 60f;
+    //we will have to invert our mouse position later to calculate our mouse look correctly
 
-  public bool cursorVisible;
+    public bool cursorVisible;
 
-  private float rotationY;
-  private GameObject player;
-  private GameObject fpsCamera;
+    private float rotationY;
+    private GameObject player;
+    private GameObject fpsCamera;
 
-  #endregion
-  #region Start
-  void Start()
-  {
-    if (this.GetComponent<Rigidbody>())
+    #endregion
+    #region Start
+    void Start()
     {
-      this.GetComponent<Rigidbody>().freezeRotation = true;
-    }
-    player = GameObject.FindGameObjectWithTag("Player");
-    fpsCamera = GameObject.FindGameObjectWithTag("MainCamera");
-  }
-
-  #endregion
-  #region Update  
-  void Update()
-  {
-    player.transform.Rotate(0, Input.GetAxis("Mouse X") * xSensitivity * Time.deltaTime, 0);
-
-    rotationY += Input.GetAxis("Mouse Y") * ySensitivity * Time.deltaTime;
-    rotationY = Mathf.Clamp(rotationY, minY, maxY);
-
-    fpsCamera.transform.localEulerAngles = new Vector3(-rotationY, 0, 0);
-
-    if (Input.GetKeyDown(KeyCode.P))
-    {
-      cursorVisible = !cursorVisible;
-      ToggleCursor(cursorVisible);
+        if (this.GetComponent<Rigidbody>())
+        {
+            this.GetComponent<Rigidbody>().freezeRotation = true;
+        }
+        player = GameObject.FindGameObjectWithTag("Player");
+        fpsCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        ToggleCursor(cursorVisible);
     }
 
-
-  }
-
-  public void ToggleCursor(bool toggle)
-  {
-    if (toggle == true)
+    #endregion
+    #region Update  
+    void Update()
     {
-      Cursor.visible = true;
-      Cursor.lockState = CursorLockMode.None;
+        if (Input.GetKey(KeyCode.M))
+        {
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                xSensitivity = ySensitivity *= 1.1f;
+            }
+            else if (Input.GetKey(KeyCode.DownArrow))
+            {
+                xSensitivity = ySensitivity *= 0.9f;
+            }
+        }
+        player.transform.Rotate(0, Input.GetAxis("Mouse X") * xSensitivity * Time.deltaTime, 0);
+
+        rotationY += Input.GetAxis("Mouse Y") * ySensitivity * Time.deltaTime;
+        rotationY = Mathf.Clamp(rotationY, minY, maxY);
+
+        fpsCamera.transform.localEulerAngles = new Vector3(-rotationY, 0, 0);
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            cursorVisible = !cursorVisible;
+            ToggleCursor(cursorVisible);
+        }
     }
-    else
+
+    public void ToggleCursor(bool toggle)
     {
-      Cursor.visible = false;
-      Cursor.lockState = CursorLockMode.Locked;
+        if (toggle == true)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
-  }
 }
 #endregion

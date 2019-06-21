@@ -6,9 +6,9 @@ using NaughtyAttributes;
 [RequireComponent(typeof(LineRenderer))]
 public class Laser_rend : AI_Weapon
 {
-    
+
     public bool ShowLaserSpecs;
-    [ShowIf ("ShowLaserSpecs"), BoxGroup("Laser Specs")]
+    [ShowIf("ShowLaserSpecs"), BoxGroup("Laser Specs")]
     public float laserWidth, error, laserDuration, chaseSpeed, laserExtension, laserDamageRatePs;
     [ShowIf("ShowLaserSpecs"), BoxGroup("Laser Specs")]
     public Transform target;
@@ -69,7 +69,7 @@ public class Laser_rend : AI_Weapon
         //{
         //    newPosition = hot.position;
         //}
-        lineRend.SetPosition(1, newPosition + (initDir *laserExtension));
+        lineRend.SetPosition(1, newPosition + (initDir * laserExtension));
 
         while (timer < laserDuration)
         {
@@ -96,13 +96,26 @@ public class Laser_rend : AI_Weapon
             }
 
             Vector3 laserTipToTargetDir = (target.position - lineRend.GetPosition(1)).normalized;
-            newPosition = Vector3.Lerp(lineRend.GetPosition(1), target.position + (laserTipToTargetDir * chaseSpeed), Time.deltaTime);
+            newPosition = Vector3.Lerp(lineRend.GetPosition(1), target.position + (laserTipToTargetDir * chaseSpeed) + new Vector3(0,1,0) + ((target.position - transform.position).normalized * 2), Time.deltaTime);
 
             lineRend.SetPosition(1, newPosition);
             lineRend.SetPosition(0, transform.position);
+
+            if(Physics.Linecast(transform.position, newPosition, out RaycastHit hit))
+            {
+                if (hit.transform.tag != "Player")
+                {
+                    lineRend.enabled = false;
+                }
+                else
+                {
+                    lineRend.enabled = true;
+                }
+            }
+
             yield return null;
         }
-        lineRend.enabled = false;
+
     }
 }
 

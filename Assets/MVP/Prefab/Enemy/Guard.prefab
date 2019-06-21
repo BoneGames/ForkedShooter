@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c40633e44621e0f41a8e9375ecfcb18f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 50
+  viewRadius: 35
   viewAngle: 76
   targetMask:
     serializedVersion: 2
@@ -160,6 +160,7 @@ MonoBehaviour:
   bulletDetectionRadius: 0
   recoil: 0
   recoilRecoverMulti: 0
+  baseAccuracy: 0
   scopeZoom: 75
   aimSpeed: 5
   reloadSpeed: 0
@@ -198,10 +199,14 @@ MonoBehaviour:
   attackTimer: 0
   canShoot: 0
   isEquipped: 0
+  autoReload: 0
+  enemiesHearBullets: 0
   ShowUniqueStats: 0
   spawnWithUniqueStats: 0
   uniqueStats: {fileID: 0}
   statVariation: 0.2
+  indexID: 0
+  internalCheck: {fileID: 0}
   elementIndex: 0
   elementArray: 00000000010000000200000003000000
   hitParticle: {fileID: 1097464064478134, guid: 259a0b96acab2f749b11f8a6e18a8862,
@@ -533,7 +538,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   behaviours:
   - {fileID: 11400000, guid: 5cf8c586cf2b5164b828c32c75ad395b, type: 2}
-  - {fileID: 11400000, guid: ae4f7e57d3f31f94eb34f06cf9660cfc, type: 2}
+  - {fileID: 11400000, guid: 2dfefbad740bfca448668c6b141f21ea, type: 2}
   - {fileID: 11400000, guid: 6dfebb7011c20d747b98b855bbea7150, type: 2}
   - {fileID: 11400000, guid: 7bb7827383556054f81fb9b4ceb5bf74, type: 2}
 --- !u!1 &1503068766642988

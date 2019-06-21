@@ -163,8 +163,8 @@ public abstract class Weapon : MonoBehaviour
     public Quaternion GetRecoil()
     {
         float jump = UnityEngine.Random.Range(2, recoil * 4);
-        float swing = UnityEngine.Random.Range(-recoil/4, recoil/4);
-        Quaternion recoilAmount = Quaternion.Euler(-jump, swing, 0);
+        //float swing = UnityEngine.Random.Range(-recoil/4, recoil/4);
+        Quaternion recoilAmount = Quaternion.Euler(-jump, 0, 0);
         return recoilAmount;
     }
 

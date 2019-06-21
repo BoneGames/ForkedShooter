@@ -94,12 +94,10 @@ public class AI_FoV_Detection : MonoBehaviour
                 float dstToTarget = Vector3.Distance(transform.position, target.position);
 
                 // Long story short: 'if' the Physics.Raycast to find the player/target does NOT hit an obstruction (LayerMask obstacleMask)...
-                if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
+                if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget))
                 {
                     if (visibleTargets.Count > 0)
                     {
-
-
                         // sorting method so targets are in order of closeness
                         for (int x = 0; x < visibleTargets.Count; x++)
                         {

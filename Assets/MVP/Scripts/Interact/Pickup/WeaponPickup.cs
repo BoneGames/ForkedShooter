@@ -1,5 +1,6 @@
 ﻿using NaughtyAttributes;
 using UnityEngine;
+using System.Collections;
 
 public class WeaponPickup : Pickup
 {
@@ -14,6 +15,22 @@ public class WeaponPickup : Pickup
     public AudioClip pickupFX;
 
     public UniqueWeaponStats stats;
+
+    public void DisableColliderMethod()
+    {
+        StartCoroutine(DisableCollider());
+    }
+
+    IEnumerator DisableCollider()
+    {
+        // set layermaks to ignore raycast (basically not weapon pickup)
+        gameObject.layer = 2;
+
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+
+        gameObject.layer = 28;
+    }
     
     public override void Awake()
     {
