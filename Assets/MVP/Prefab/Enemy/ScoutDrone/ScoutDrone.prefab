@@ -407,6 +407,7 @@ GameObject:
   - component: {fileID: 4571701303490112056}
   - component: {fileID: 805260834465932743}
   - component: {fileID: 6138848832642700488}
+  - component: {fileID: 348260708182030164}
   m_Layer: 10
   m_Name: ScoutDrone
   m_TagString: Enemy
@@ -745,6 +746,20 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a2a64530bac9d8b448b03af9cea0559d, type: 2}
   - {fileID: 11400000, guid: 6dfebb7011c20d747b98b855bbea7150, type: 2}
   - {fileID: 11400000, guid: 7bb7827383556054f81fb9b4ceb5bf74, type: 2}
+--- !u!114 &348260708182030164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188078473502018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d62aedd9d7d1474f988c05d4340082e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 0}
+  ai: {fileID: 0}
 --- !u!1 &1216102068932778
 GameObject:
   m_ObjectHideFlags: 0
@@ -2179,6 +2194,7 @@ MonoBehaviour:
   bulletDetectionRadius: 0
   recoil: 0
   recoilRecoverMulti: 0
+  baseAccuracy: 0
   scopeZoom: 75
   aimSpeed: 5
   reloadSpeed: 0
@@ -2216,10 +2232,14 @@ MonoBehaviour:
   attackTimer: 0
   canShoot: 0
   isEquipped: 0
+  autoReload: 0
+  enemiesHearBullets: 0
   ShowUniqueStats: 0
   spawnWithUniqueStats: 0
   uniqueStats: {fileID: 0}
   statVariation: 0.2
+  indexID: 0
+  internalCheck: {fileID: 0}
   elementIndex: 0
   elementArray: 00000000010000000200000003000000
   hitParticle: {fileID: 0}

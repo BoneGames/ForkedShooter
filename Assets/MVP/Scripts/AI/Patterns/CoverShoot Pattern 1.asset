@@ -9,14 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc8bec939d27aa74eb1bb4778dc38ba0, type: 3}
-  m_Name: Patrol Pattern
+  m_Script: {fileID: 11500000, guid: 9c9a12db572fee64ab281b0ebfb0000f, type: 3}
+  m_Name: CoverShoot Pattern 1
   m_EditorClassIdentifier: 
-  isInteruptable: 1
-  notePrecedence: 0
+  isInteruptable: 0
+  notePrecedence: 1
   isRunning: 0
-  wayPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  waypointIndex: 0
+  playerChecks: 0

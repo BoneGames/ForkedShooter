@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d24320b6490b0a840b0a04090d351bbf, type: 3}
-  m_Name: Retreat Pattern
+  m_Script: {fileID: 11500000, guid: dc8bec939d27aa74eb1bb4778dc38ba0, type: 3}
+  m_Name: Patrol Pattern 1
   m_EditorClassIdentifier: 
-  interuptable: 0
+  isInteruptable: 1
+  notePrecedence: 0
   isRunning: 0
-  rotated: 0
+  wayPoints: []
+  waypointIndex: 0
