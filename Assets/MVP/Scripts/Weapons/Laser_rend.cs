@@ -115,7 +115,7 @@ public class Laser_rend : AI_Weapon
 
             yield return null;
         }
-
+        lineRend.enabled = false;
     }
 }
 

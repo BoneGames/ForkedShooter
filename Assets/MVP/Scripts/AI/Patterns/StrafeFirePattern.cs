@@ -9,7 +9,7 @@ public class StrafeFirePattern : Pattern
 {
     public float strafeLength;
     public float moveHeight;
-    float startHeight;
+    float startHeight = 3;
 
     public override void StartPatternWith(BehaviourAI ai, SenseMemoryFactory.SMData data)
     {
@@ -21,8 +21,6 @@ public class StrafeFirePattern : Pattern
         // tell ai to look at target
         ai.lookAtTarget = true;
 
-        startHeight = ai.model.position.y;
-
         StrafeCycle(ai, data);
     }
 
@@ -32,7 +30,7 @@ public class StrafeFirePattern : Pattern
         ai.playerTarget = data.targets[0];
         // get destination
         Vector3 moveTarget = ai.transform.position + Random.insideUnitSphere * strafeLength;
-
+        // choose closer strafe target each time
         while (Vector3.Distance(moveTarget, data.targets[0].position) > Vector3.Distance(ai.transform.position, data.targets[0].position))
         {
             moveTarget = ai.transform.position + Random.insideUnitSphere * strafeLength;

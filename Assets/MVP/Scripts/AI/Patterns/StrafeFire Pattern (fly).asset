@@ -15,5 +15,5 @@ MonoBehaviour:
   isInteruptable: 1
   notePrecedence: 0
   isRunning: 0
-  strafeLength: 0
+  strafeLength: 5
   moveHeight: 5

@@ -19,7 +19,7 @@ public class UIHandler : MonoBehaviour
 
     public GameObject healthBarPrefab;
 
-    public void SpawnEnemyHealthBar(Transform _enemy, Transform _viewPoint)
+    public void SpawnEnemyHealthBar(Transform _viewPoint, EnemyHealth _enemy)
     {
         // spawn health bar
         GameObject healthBarContainer = Instantiate(healthBarPrefab);
@@ -35,7 +35,7 @@ public class UIHandler : MonoBehaviour
 
         EnemyUIHealthBar script = healthBarContainer.GetComponentInChildren<EnemyUIHealthBar>();
         // set owner co-ordinate
-        script.enemyTarget = _enemy;
+        script.enemyTarget = _enemy.transform;
         // set look point for UI visibility
         script.viewPoint = _viewPoint;
         //healthBarDisplay = healthBarContainer.transform.GetChild(0).GetComponent<Image>();

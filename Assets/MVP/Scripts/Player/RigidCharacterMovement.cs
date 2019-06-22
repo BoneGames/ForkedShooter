@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 using Interactions;
 
@@ -62,12 +62,13 @@ public class RigidCharacterMovement : Photon.PunBehaviour
 
     public float inspectWeaponDist = 2;
 
-    public LayerMask weaponPickup;
+    public LayerMask weaponPickup, enemy;
 
 
     #region Unity Events
     void Awake()
     {
+        SetFirstCheckPoint();
         rigid = GetComponent<Rigidbody>();
         myHealth = GetComponent<PlayerHealth>();
         UI = GameObject.FindGameObjectWithTag("UI").GetComponent<UIHandler>();
@@ -81,6 +82,13 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         SelectWeapon(currentWeaponIndex);
 
         currentWeapon.UpdateAmmoDisplay();
+    }
+
+    void SetFirstCheckPoint()
+    {
+        GameObject startCheckPoint = new GameObject();
+        startCheckPoint.transform.position = transform.position;
+        lastCheckpoint = startCheckPoint.transform;
     }
 
     void SetWeaponIDs()
@@ -200,6 +208,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         IsAiming = _isAiming;
         // change weapon accuracy value
         currentWeapon.OnAim(isAiming);
+        if(!isDead)
         StopAllCoroutines();
         // move hand to correct position
         StartCoroutine(HandAimPos());
@@ -388,19 +397,31 @@ public class RigidCharacterMovement : Photon.PunBehaviour
             interactObject.Interact();
         }
     }
+
+    void RespawnCloseEnemies()
+    {
+        Collider[] closeEnemies = Physics.OverlapSphere(transform.position, 100, enemy);
+        foreach (Collider col in closeEnemies)
+        {
+            if(col.GetComponent<BehaviourAI>())
+            {
+            col.GetComponent<BehaviourAI>().RespawnFromStartPosition();
+                Debug.Log("got enemy: " + col.transform.name + " collider and called respawn method");
+            }
+            else
+            {
+                Debug.Log("could not get BehaviourAI script to respawn: " + col.transform.name);
+            }
+        }
+    }
     public IEnumerator Respawn()
     {
         isDead = true;
         Aim(!isDead);
+        RespawnCloseEnemies();
+       
+        yield return new WaitForSeconds(UI.deathMessage.textDuration);
 
-        float fuck = timeTillRespawn;
-
-        for (int respawnTime = (int)timeTillRespawn; respawnTime > 0; respawnTime--)
-        {
-            yield return new WaitForSeconds(1);
-            timeTillRespawn--;
-        }
-        timeTillRespawn = fuck;
 
         isDead = false;
 
@@ -410,6 +431,7 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         }
         else
         {
+            //NavMesh.SamplePosition()
             // gives sense of falling back into scene
             transform.position += new Vector3(0, 5, 0);
         }
@@ -417,7 +439,6 @@ public class RigidCharacterMovement : Photon.PunBehaviour
         Debug.Log("Player has died and respawned");
         myHealth.currentHealth = myHealth.maxHealth;
 
-        //myHealth.healthBar.UpdateBar();
         myHealth.updateHealthBarEvent.Invoke(myHealth.currentHealth, myHealth.maxHealth);
     }
     public void FreeAmmo()

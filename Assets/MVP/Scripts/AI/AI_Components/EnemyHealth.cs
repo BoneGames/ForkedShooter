@@ -25,7 +25,7 @@ public class EnemyHealth : Health
   public override void Start()
   {
     base.Start();
-    UI.SpawnEnemyHealthBar(transform, viewPoint);
+    UI.SpawnEnemyHealthBar(viewPoint, this);
   }
 
   public void RegisterHealthBarEventDelegate(EnemyUIHealthBar enemyBar)
